@@ -39,6 +39,30 @@
    słoniowa. Bez cieni material design, bez zaokrągleń > 3px.
    ========================================================= */
 
+/* Fallback fonty dopasowane metrycznie do Playfair Display 700 i
+   Cormorant Garamond 500 (realne wagi używane na tej stronie), żeby
+   zminimalizować przesunięcie układu (CLS) przy podmianie fontu systemowego
+   na webfont. Wartości policzone z prawdziwych metryk czcionek (fontTools:
+   xAvgCharWidth, ascent, descent z tabel OS/2 i hhea), nie zgadywane. */
+@font-face {
+  font-family: 'Playfair Display Fallback';
+  src: local('Georgia Bold'), local('Georgia');
+  font-weight: 700;
+  size-adjust: 116.14%;
+  ascent-override: 93.17%;
+  descent-override: 21.61%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Cormorant Garamond Fallback';
+  src: local('Georgia');
+  font-weight: 400 700;
+  size-adjust: 122.29%;
+  ascent-override: 75.56%;
+  descent-override: 23.47%;
+  line-gap-override: 0%;
+}
+
 :root {
   /* Kolory marki */
   --forest: #1F4A2E;
@@ -56,8 +80,8 @@
   --text: #1C1409;
 
   /* Typografia */
-  --f-display: "Playfair Display", serif;
-  --f-body: "Cormorant Garamond", serif;
+  --f-display: "Playfair Display", "Playfair Display Fallback", Georgia, serif;
+  --f-body: "Cormorant Garamond", "Cormorant Garamond Fallback", Georgia, serif;
 
   --radius: 2px;
 }
@@ -856,7 +880,7 @@ h1, h2, h3, h4 {
       <div class="o-miejscu__zdjecie ornament-corners">
         <picture>
           <source srcset="assets/img/zewnatrz.webp" type="image/webp">
-          <img src="assets/img/zewnatrz.jpg" alt="Historyczna fasada budynku dawnego Hotelu Klose, dziś Villa Bożena, otoczona lasem Karkonoszy" loading="lazy" width="1119" height="1400">
+          <img src="assets/img/zewnatrz.jpg" alt="Historyczna fasada budynku dawnego Hotelu Klose, dziś Villa Bożena, otoczona lasem Karkonoszy" loading="lazy" width="700" height="876">
         </picture>
       </div>
     </div>
@@ -1493,31 +1517,28 @@ h1, h2, h3, h4 {
       </div>
       <div class="galeria__siatka">
         <button class="galeria__element" type="button" data-alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą">
-          <img src="assets/img/golonka.webp" alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą" loading="lazy" width="1400" height="1400">
+          <img src="assets/img/golonka.webp" alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą" loading="lazy" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem">
-          <img src="assets/img/zeberka.webp" alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem" loading="lazy" width="1000" height="1000">
+          <img src="assets/img/zeberka.webp" alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem" loading="lazy" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli">
-          <img src="assets/img/pstrag.webp" alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli" loading="lazy" width="1000" height="1000">
+          <img src="assets/img/pstrag.webp" alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli" loading="lazy" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy">
-          <img src="assets/img/pierogi.webp" alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy" loading="lazy" width="1000" height="1000">
+          <img src="assets/img/pierogi.webp" alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy" loading="lazy" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem">
-          <img src="assets/img/hermelin.webp" alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem" loading="lazy" width="1000" height="1000">
+          <img src="assets/img/hermelin.webp" alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem" loading="lazy" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole">
-          <img src="assets/img/kielbasy.webp" alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole" loading="lazy" width="1000" height="1000">
-        </button>
-        <button class="galeria__element" type="button" data-alt="Fryty Wyszynkowe z trzema autorskimi dipami">
-          <img src="assets/img/frytki.webp" alt="Fryty Wyszynkowe z trzema autorskimi dipami" loading="lazy" width="1000" height="1000">
+          <img src="assets/img/kielbasy.webp" alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole" loading="lazy" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy">
-          <img src="assets/img/wszystkie-zupy.webp" alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy" loading="lazy" width="1000" height="1000">
+          <img src="assets/img/wszystkie-zupy.webp" alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy" loading="lazy" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Czekoladowy fondant z wiśniami i lodami waniliowymi">
-          <img src="assets/img/fondant.webp" alt="Czekoladowy fondant z wiśniami i lodami waniliowymi" loading="lazy" width="1000" height="1000">
+          <img src="assets/img/fondant.webp" alt="Czekoladowy fondant z wiśniami i lodami waniliowymi" loading="lazy" width="600" height="600">
         </button>
       </div>
     </div>
@@ -1581,6 +1602,108 @@ h1, h2, h3, h4 {
   </div>
 </div>
 
-<script src="script.js"></script>
+<!-- script.js zinline'owany - plik miał tylko 1,44 KiB, ale osobne żądanie
+     wydłużało łańcuch krytyczny. Plik źródłowy zostaje w repo jako punkt
+     edycji, strona już go nie ładuje jako osobny zasób. -->
+<script>
+// =========================================================
+// KARKONOSKI WYSZYNK — skrypty strony
+// Bez zewnętrznych bibliotek: hamburger, zakładki menu,
+// lekki lightbox galerii, rok w stopce.
+// =========================================================
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ---------- Hamburger nawigacji (mobile) ----------
+  var hamburger = document.getElementById('hamburger');
+  var linki = document.getElementById('linki-nawigacji');
+
+  if (hamburger && linki) {
+    hamburger.addEventListener('click', function () {
+      var otwarte = linki.classList.toggle('jest-otwarte');
+      hamburger.setAttribute('aria-expanded', otwarte ? 'true' : 'false');
+    });
+
+    // Zamknij menu po kliknięciu w link (mobile)
+    linki.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        linki.classList.remove('jest-otwarte');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // ---------- Zakładki kategorii menu ----------
+  var zakladki = document.querySelectorAll('.menu__zakladka');
+  var kategorie = document.querySelectorAll('.menu__kategoria');
+
+  zakladki.forEach(function (zakladka) {
+    zakladka.addEventListener('click', function () {
+      var idKategorii = zakladka.getAttribute('data-kategoria');
+
+      zakladki.forEach(function (z) {
+        z.classList.remove('jest-aktywna');
+        z.setAttribute('aria-selected', 'false');
+      });
+      zakladka.classList.add('jest-aktywna');
+      zakladka.setAttribute('aria-selected', 'true');
+
+      kategorie.forEach(function (kat) {
+        kat.classList.toggle('jest-aktywna', kat.id === idKategorii);
+      });
+    });
+  });
+
+  // ---------- Lightbox galerii (lekki, bez bibliotek) ----------
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightbox-img');
+  var lightboxOpis = document.getElementById('lightbox-opis');
+  var lightboxZamknij = document.getElementById('lightbox-zamknij');
+  var elementyGalerii = document.querySelectorAll('.galeria__element');
+
+  function otworzLightbox(element) {
+    var opis = element.getAttribute('data-alt');
+    var zdjecie = element.querySelector('img');
+    lightboxOpis.textContent = opis;
+    if (zdjecie) {
+      lightboxImg.src = zdjecie.src;
+      lightboxImg.alt = opis;
+      lightboxImg.style.display = 'block';
+    } else {
+      lightboxImg.style.display = 'none';
+    }
+    lightbox.classList.add('jest-otwarty');
+  }
+
+  function zamknijLightbox() {
+    lightbox.classList.remove('jest-otwarty');
+  }
+
+  elementyGalerii.forEach(function (element) {
+    element.addEventListener('click', function () {
+      otworzLightbox(element);
+    });
+  });
+
+  if (lightboxZamknij) {
+    lightboxZamknij.addEventListener('click', zamknijLightbox);
+  }
+  if (lightbox) {
+    lightbox.addEventListener('click', function (event) {
+      if (event.target === lightbox) zamknijLightbox();
+    });
+  }
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') zamknijLightbox();
+  });
+
+  // ---------- Aktualny rok w stopce ----------
+  var rokStopki = document.getElementById('rok-stopki');
+  if (rokStopki) {
+    rokStopki.textContent = new Date().getFullYear();
+  }
+
+});
+</script>
 </body>
 </html>

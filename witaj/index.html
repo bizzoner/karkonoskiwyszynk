@@ -23,6 +23,40 @@
 <style>
   /* Cała stylistyka inline - strona ma wstać na słabym 3G w górach,
      bez dodatkowego żądania do arkusza stylów. */
+
+  /* Fallback fonty dopasowane metrycznie do realnie użytych wag na tej
+     stronie (Playfair 900 w h1, Playfair 700 w nagłówku zamknięcia,
+     Cormorant 400 jako dominująca waga body), żeby zminimalizować CLS
+     przy podmianie fontu systemowego na webfont. Wartości policzone
+     z prawdziwych metryk czcionek (fontTools), nie zgadywane. */
+  @font-face {
+    font-family: 'Playfair 900 Fallback';
+    src: local('Georgia Bold'), local('Georgia');
+    font-weight: 900;
+    size-adjust: 119.65%;
+    ascent-override: 90.43%;
+    descent-override: 20.98%;
+    line-gap-override: 0%;
+  }
+  @font-face {
+    font-family: 'Playfair 700 Fallback';
+    src: local('Georgia Bold'), local('Georgia');
+    font-weight: 700;
+    size-adjust: 116.14%;
+    ascent-override: 93.17%;
+    descent-override: 21.61%;
+    line-gap-override: 0%;
+  }
+  @font-face {
+    font-family: 'Cormorant Fallback';
+    src: local('Georgia');
+    font-weight: 400 700;
+    size-adjust: 121.61%;
+    ascent-override: 75.98%;
+    descent-override: 23.60%;
+    line-gap-override: 0%;
+  }
+
   :root {
     --forest: #1F4A2E;
     --gold: #9B7A1A;
@@ -31,8 +65,8 @@
     --brown: #2E1F0E;
     --ivory: #F5EDD8;
     --text: #1C1409;
-    --f-display: "Playfair Display", serif;
-    --f-body: "Cormorant Garamond", serif;
+    --f-display: "Playfair Display", "Playfair 900 Fallback", "Playfair 700 Fallback", Georgia, serif;
+    --f-body: "Cormorant Garamond", "Cormorant Fallback", Georgia, serif;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
