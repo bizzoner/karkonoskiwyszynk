@@ -99,7 +99,33 @@
     display: block;
     width: 128px;
     height: auto;
-    margin: 0 auto 1.8rem;
+    margin: 0 auto 1rem;
+  }
+
+  /* Przełącznik języka - JS podmienia tekst w miejscu, bez zmiany URL
+     (link na ulotce/ekspozytorze jest drukowany na sztywno). */
+  .jezyk-przelacznik {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0 0 1.8rem;
+  }
+  .jezyk-przelacznik button {
+    background: none;
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    color: var(--brown);
+    font-family: var(--f-body);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+    cursor: pointer;
+  }
+  .jezyk-przelacznik button.jest-aktywny {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: var(--ivory);
   }
 
   section { animation: pojawienie 0.6s ease-out both; }
@@ -279,85 +305,86 @@
 <div class="wrap">
 
   <img class="logo-top" src="../assets/img/logo.svg" alt="Karkonoski Wyszynk">
+  <div class="jezyk-przelacznik" role="group" aria-label="Wybór języka"></div>
 
   <!-- 1. POWITANIE -->
   <section>
-    <h1>Dziękujemy, że tu zajrzałeś!</h1>
-    <p>My już czekamy - z dobrym jadłem, lanym Pilsnerem prosto z beczki i stolikiem, przy którym zmęczenie po szlaku mija szybciej, niż myślisz.</p>
+    <h1 data-i18n="g_h1">Dziękujemy, że tu zajrzałeś!</h1>
+    <p data-i18n="g_powitanie">My już czekamy - z dobrym jadłem, lanym Pilsnerem prosto z beczki i stolikiem, przy którym zmęczenie po szlaku mija szybciej, niż myślisz.</p>
   </section>
 
   <!-- 2. O MIEJSCU -->
   <section class="zajawka">
-    <p>Karkonoski Wyszynk to karczma w standardzie restauracyjnym na parterze Villa Bożena, w samym sercu Szklarskiej Poręby. Golonka pieczona godzinami, ręcznie lepione pierogi, czeska kulajda i smažený sýr - duża dawka swojskiego jadła z pogranicza.</p>
+    <p data-i18n="g_zajawka">Karkonoski Wyszynk to karczma w standardzie restauracyjnym na parterze Villa Bożena, w samym sercu Szklarskiej Poręby. Golonka pieczona godzinami, ręcznie lepione pierogi, czeska kulajda i smažený sýr - duża dawka swojskiego jadła z pogranicza.</p>
   </section>
 
   <!-- 3. OFERTA POWITALNA -->
   <section class="oferta">
     <div class="oferta__ikona" aria-hidden="true">🍺</div>
-    <h2>A teraz to, po co przyszedłeś</h2>
-    <p>Powiedz obsłudze hasło:</p>
+    <h2 data-i18n="g_oferta_h2">A teraz to, po co przyszedłeś</h2>
+    <p data-i18n="g_oferta_p1">Powiedz obsłudze hasło:</p>
     <p class="oferta__haslo">DUCH GÓR</p>
-    <p>a do dowolnego dania głównego dostaniesz małe piwo za 8 zł.</p>
-    <p class="oferta__dopisek">Oferta dla gości Villa Bożena i OW Sudety. Dotyczy piwa 0,3 l do dowolnego dania głównego.</p>
+    <p data-i18n="g_oferta_p2">a do dowolnego dania głównego dostaniesz małe piwo za 8 zł.</p>
+    <p class="oferta__dopisek" data-i18n="g_oferta_dopisek">Oferta dla gości Villa Bożena i OW Sudety. Dotyczy piwa 0,3 l do dowolnego dania głównego.</p>
   </section>
 
   <!-- 4. WIZYTÓWKA GOOGLE -->
-  <a class="btn-google" href="https://maps.app.goo.gl/kVQdiEnwsCUPiVY69" target="_blank" rel="noopener">Zobacz nas w Google</a>
+  <a class="btn-google" href="https://maps.app.goo.gl/kVQdiEnwsCUPiVY69" target="_blank" rel="noopener" data-i18n="g_google">Zobacz nas w Google</a>
 
   <!-- 5. WYCIĄG Z MENU -->
   <section class="menu">
-    <h2>Co polecamy po całym dniu na szlaku</h2>
-    <p class="menu__wstep">Fragment naszej karty - kilka pozycji, które polecamy najczęściej.</p>
+    <h2 data-i18n="g_menu_h2">Co polecamy po całym dniu na szlaku</h2>
+    <p class="menu__wstep" data-i18n="g_menu_wstep">Fragment naszej karty - kilka pozycji, które polecamy najczęściej.</p>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Golonka Piwowara <span style="font-weight:400;font-size:0.85rem;">(800g-1,2kg)</span></span>
-        <span class="danie__opis">biesiadna, z chrupiącą skórką, chrzanem i musztardą</span>
+        <span class="danie__nazwa" data-i18n="g_d1_n">Golonka Piwowara <span style="font-weight:400;font-size:0.85rem;">(800g-1,2kg)</span></span>
+        <span class="danie__opis" data-i18n="g_d1_o">biesiadna, z chrupiącą skórką, chrzanem i musztardą</span>
       </div>
       <span class="danie__cena">84 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Pierogi z Jeleniem <span style="font-weight:400;font-size:0.85rem;">(8 szt.)</span></span>
-        <span class="danie__opis">ręcznie lepione, z sosem na ciemnym piwie i karmelizowaną cebulą</span>
+        <span class="danie__nazwa" data-i18n="g_d2_n">Pierogi z Jeleniem <span style="font-weight:400;font-size:0.85rem;" data-i18n="g_d2_gram">(8 szt.)</span></span>
+        <span class="danie__opis" data-i18n="g_d2_o">ręcznie lepione, z sosem na ciemnym piwie i karmelizowaną cebulą</span>
       </div>
       <span class="danie__cena">58 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Kulajda</span>
-        <span class="danie__opis">czeska zupa ze śmietaną, leśnymi grzybami i jajkiem</span>
+        <span class="danie__nazwa" data-i18n="g_d3_n">Kulajda</span>
+        <span class="danie__opis" data-i18n="g_d3_o">czeska zupa ze śmietaną, leśnymi grzybami i jajkiem</span>
       </div>
       <span class="danie__cena">26 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Żebra z Pieca Wyszynkowego</span>
-        <span class="danie__opis">marynowane w pilznerze, pieczone do miękkości, z sosem chrzanowym</span>
+        <span class="danie__nazwa" data-i18n="g_d4_n">Żebra z Pieca Wyszynkowego</span>
+        <span class="danie__opis" data-i18n="g_d4_o">marynowane w pilznerze, pieczone do miękkości, z sosem chrzanowym</span>
       </div>
       <span class="danie__cena">68 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Smažený sýr po czesku</span>
-        <span class="danie__opis">w chrupiącej panierce, z sosem tatarskim i frytkami</span>
+        <span class="danie__nazwa" data-i18n="g_d5_n">Smažený sýr po czesku</span>
+        <span class="danie__opis" data-i18n="g_d5_o">w chrupiącej panierce, z sosem tatarskim i frytkami</span>
       </div>
       <span class="danie__cena">59 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Karkonoski strudel</span>
-        <span class="danie__opis">na ciepło, z nadzieniem jabłkowo-żurawinowym i lodami</span>
+        <span class="danie__nazwa" data-i18n="g_d6_n">Karkonoski strudel</span>
+        <span class="danie__opis" data-i18n="g_d6_o">na ciepło, z nadzieniem jabłkowo-żurawinowym i lodami</span>
       </div>
       <span class="danie__cena">26 zł</span>
     </div>
 
-    <a class="link-menu" href="/#menu">Zobacz pełne menu →</a>
+    <a class="link-menu" href="/#menu" data-i18n="g_link_menu">Zobacz pełne menu →</a>
 
     <div class="mini-galeria">
       <img src="../assets/img/golonka.webp" alt="Golonka Piwowara na drewnianej desce" loading="lazy" width="300" height="300">
@@ -369,9 +396,9 @@
 
   <!-- 6. JAK TRAFIĆ -->
   <section class="trasa">
-    <h2>Jak trafić</h2>
-    <p class="trasa__sciezka"><strong>Nocujesz w Villa Bożena?</strong> Masz najbliżej, jak się da - jesteśmy na parterze.</p>
-    <p class="trasa__sciezka"><strong>Nocujesz w OW Sudety?</strong> Czeka Cię przyjemny spacer - ul. Jedności Narodowej 18. <a class="link-trasa" href="https://www.google.com/maps/dir/?api=1&destination=ul.+Jedno%C5%9Bci+Narodowej+18%2C+Szklarska+Por%C4%99ba" target="_blank" rel="noopener">Prowadź mnie →</a></p>
+    <h2 data-i18n="g_trasa_h2">Jak trafić</h2>
+    <p class="trasa__sciezka"><strong data-i18n="g_trasa_p1_strong">Nocujesz w Villa Bożena?</strong> <span data-i18n="g_trasa_p1_rest">Masz najbliżej, jak się da - jesteśmy na parterze.</span></p>
+    <p class="trasa__sciezka"><strong data-i18n="g_trasa_p2_strong">Nocujesz w OW Sudety?</strong> <span data-i18n="g_trasa_p2_rest">Czeka Cię przyjemny spacer - ul. Jedności Narodowej 18.</span> <a class="link-trasa" href="https://www.google.com/maps/dir/?api=1&destination=ul.+Jedno%C5%9Bci+Narodowej+18%2C+Szklarska+Por%C4%99ba" target="_blank" rel="noopener" data-i18n="g_trasa_link">Prowadź mnie →</a></p>
   </section>
 
   <!-- 7. ZDJĘCIE -->
@@ -382,8 +409,8 @@
 
   <!-- 8. ZAMKNIĘCIE -->
   <section class="zamkniecie">
-    <h2>Do zobaczenia. Stolik i zimne piwo już czekają.</h2>
-    <p class="zamkniecie__dane">ul. Jedności Narodowej 18 · parter Villa Bożena</p>
+    <h2 data-i18n="g_zamkniecie_h2">Do zobaczenia. Stolik i zimne piwo już czekają.</h2>
+    <p class="zamkniecie__dane" data-i18n="g_adres">ul. Jedności Narodowej 18 · parter Villa Bożena</p>
   </section>
 
 </div>
@@ -397,5 +424,204 @@
   odczytane automatycznie przez GA4 bez dodatkowego kodu. Nie dodawaj
   żadnego JS na tej stronie bez potrzeby - ma zostać maksymalnie lekka.
 -->
+<script>
+// i18n - przelacznik jezyka PL/EN/DE/CZ, bez zmiany URL (link na
+// ekspozytorze hotelowym jest drukowany na sztywno). Wspolny klucz
+// localStorage z reszta serwisu, wiec wybor jezyka przenosi sie
+// miedzy stronami. Haslo DUCH GOR celowo NIE jest tlumaczone -
+// to fraza do wypowiedzenia obsludze, musi zostac po polsku.
+var I18N_DANE = {
+  "pl": {
+    "g_h1": "Dziękujemy, że tu zajrzałeś!",
+    "g_powitanie": "My już czekamy - z dobrym jadłem, lanym Pilsnerem prosto z beczki i stolikiem, przy którym zmęczenie po szlaku mija szybciej, niż myślisz.",
+    "g_zajawka": "Karkonoski Wyszynk to karczma w standardzie restauracyjnym na parterze Villa Bożena, w samym sercu Szklarskiej Poręby. Golonka pieczona godzinami, ręcznie lepione pierogi, czeska kulajda i smažený sýr - duża dawka swojskiego jadła z pogranicza.",
+    "g_oferta_h2": "A teraz to, po co przyszedłeś",
+    "g_oferta_p1": "Powiedz obsłudze hasło:",
+    "g_oferta_p2": "a do dowolnego dania głównego dostaniesz małe piwo za 8 zł.",
+    "g_oferta_dopisek": "Oferta dla gości Villa Bożena i OW Sudety. Dotyczy piwa 0,3 l do dowolnego dania głównego.",
+    "g_google": "Zobacz nas w Google",
+    "g_menu_h2": "Co polecamy po całym dniu na szlaku",
+    "g_menu_wstep": "Fragment naszej karty - kilka pozycji, które polecamy najczęściej.",
+    "g_d1_n": "Golonka Piwowara",
+    "g_d1_o": "biesiadna, z chrupiącą skórką, chrzanem i musztardą",
+    "g_d2_n": "Pierogi z Jeleniem",
+    "g_d2_o": "ręcznie lepione, z sosem na ciemnym piwie i karmelizowaną cebulą",
+    "g_d2_gram": "(8 szt.)",
+    "g_d3_n": "Kulajda",
+    "g_d3_o": "czeska zupa ze śmietaną, leśnymi grzybami i jajkiem",
+    "g_d4_n": "Żebra z Pieca Wyszynkowego",
+    "g_d4_o": "marynowane w pilznerze, pieczone do miękkości, z sosem chrzanowym",
+    "g_d5_n": "Smažený sýr po czesku",
+    "g_d5_o": "w chrupiącej panierce, z sosem tatarskim i frytkami",
+    "g_d6_n": "Karkonoski strudel",
+    "g_d6_o": "na ciepło, z nadzieniem jabłkowo-żurawinowym i lodami",
+    "g_link_menu": "Zobacz pełne menu →",
+    "g_trasa_h2": "Jak trafić",
+    "g_trasa_p1_strong": "Nocujesz w Villa Bożena?",
+    "g_trasa_p1_rest": "Masz najbliżej, jak się da - jesteśmy na parterze.",
+    "g_trasa_p2_strong": "Nocujesz w OW Sudety?",
+    "g_trasa_p2_rest": "Czeka Cię przyjemny spacer - ul. Jedności Narodowej 18.",
+    "g_trasa_link": "Prowadź mnie →",
+    "g_zamkniecie_h2": "Do zobaczenia. Stolik i zimne piwo już czekają.",
+    "g_adres": "ul. Jedności Narodowej 18 · parter Villa Bożena"
+  },
+  "en": {
+    "g_h1": "Thank you for stopping by!",
+    "g_powitanie": "We're already waiting - with good food, draft Pilsner straight from the barrel, and a table where the tiredness from the trail fades faster than you'd think.",
+    "g_zajawka": "Karkonoski Wyszynk is a restaurant-standard tavern on the ground floor of Villa Bożena, right in the heart of Szklarska Poręba. Slow-roasted pork knuckle, hand-folded pierogi, Czech kulajda soup and smažený sýr - a hearty helping of borderland home cooking.",
+    "g_oferta_h2": "And now, what you came for",
+    "g_oferta_p1": "Tell the staff the password:",
+    "g_oferta_p2": "and you'll get a small beer for 8 zł with any main course.",
+    "g_oferta_dopisek": "Offer for guests of Villa Bożena and OW Sudety. Applies to 0.3 l of beer with any main course.",
+    "g_google": "Find us on Google",
+    "g_menu_h2": "What we recommend after a day on the trail",
+    "g_menu_wstep": "A slice of our menu - a few dishes we recommend most.",
+    "g_d1_n": "Brewer's Pork Knuckle",
+    "g_d1_o": "feast-worthy, with crispy crackling, horseradish and mustard",
+    "g_d2_n": "Venison Pierogi",
+    "g_d2_o": "hand-folded, with a dark beer sauce and caramelised onion",
+    "g_d2_gram": "(8 pcs)",
+    "g_d3_n": "Kulajda",
+    "g_d3_o": "Czech cream soup with wild mushrooms and egg",
+    "g_d4_n": "Ribs from the Wyszynk Oven",
+    "g_d4_o": "marinated in Pilsner, roasted until tender, with horseradish sauce",
+    "g_d5_n": "Czech-style Smažený sýr",
+    "g_d5_o": "crispy battered, with tartar sauce and fries",
+    "g_d6_n": "Karkonoski Strudel",
+    "g_d6_o": "served warm, with apple-cranberry filling and ice cream",
+    "g_link_menu": "See the full menu →",
+    "g_trasa_h2": "Getting here",
+    "g_trasa_p1_strong": "Staying at Villa Bożena?",
+    "g_trasa_p1_rest": "You're as close as it gets - we're right downstairs.",
+    "g_trasa_p2_strong": "Staying at OW Sudety?",
+    "g_trasa_p2_rest": "A pleasant walk awaits - ul. Jedności Narodowej 18.",
+    "g_trasa_link": "Get directions →",
+    "g_zamkniecie_h2": "See you soon. Your table and a cold beer are waiting.",
+    "g_adres": "ul. Jedności Narodowej 18 · ground floor, Villa Bożena"
+  },
+  "de": {
+    "g_h1": "Danke, dass Sie vorbeischauen!",
+    "g_powitanie": "Wir warten schon - mit gutem Essen, gezapftem Pilsner frisch vom Fass und einem Tisch, an dem die Müdigkeit von der Wanderung schneller vergeht, als Sie denken.",
+    "g_zajawka": "Der Karkonoski Wyszynk ist ein Wirtshaus im Restaurant-Standard im Erdgeschoss der Villa Bożena, mitten im Herzen von Szklarska Poręba. Stundenlang gebratenes Eisbein, handgeformte Piroggen, tschechische Kulajda-Suppe und Smažený sýr - eine große Portion herzhafter Grenzland-Hausmannskost.",
+    "g_oferta_h2": "Und jetzt das, weswegen Sie gekommen sind",
+    "g_oferta_p1": "Sagen Sie dem Personal das Passwort:",
+    "g_oferta_p2": "und Sie erhalten zu jedem Hauptgericht ein kleines Bier für 8 zł.",
+    "g_oferta_dopisek": "Angebot für Gäste der Villa Bożena und OW Sudety. Gilt für 0,3 l Bier zu jedem Hauptgericht.",
+    "g_google": "Auf Google ansehen",
+    "g_menu_h2": "Das empfehlen wir nach einem Tag auf dem Wanderweg",
+    "g_menu_wstep": "Ein Ausschnitt unserer Speisekarte - einige unserer beliebtesten Gerichte.",
+    "g_d1_n": "Brauer-Eisbein",
+    "g_d1_o": "festlich, mit knuspriger Schwarte, Meerrettich und Senf",
+    "g_d2_n": "Piroggen mit Hirsch",
+    "g_d2_o": "handgeformt, mit dunkler Biersauce und karamellisierten Zwiebeln",
+    "g_d2_gram": "(8 Stk.)",
+    "g_d3_n": "Kulajda",
+    "g_d3_o": "tschechische Rahmsuppe mit Waldpilzen und Ei",
+    "g_d4_n": "Rippchen aus dem Wyszynk-Ofen",
+    "g_d4_o": "mariniert in Pilsner, zart gebraten, mit Meerrettichsauce",
+    "g_d5_n": "Smažený sýr auf tschechische Art",
+    "g_d5_o": "knusprig paniert, mit Tatarsauce und Pommes",
+    "g_d6_n": "Karkonoski-Strudel",
+    "g_d6_o": "warm serviert, mit Apfel-Preiselbeer-Füllung und Eis",
+    "g_link_menu": "Zur vollständigen Speisekarte →",
+    "g_trasa_h2": "So finden Sie uns",
+    "g_trasa_p1_strong": "Übernachten Sie in der Villa Bożena?",
+    "g_trasa_p1_rest": "Näher geht's nicht - wir sind direkt im Erdgeschoss.",
+    "g_trasa_p2_strong": "Übernachten Sie im OW Sudety?",
+    "g_trasa_p2_rest": "Ein angenehmer Spaziergang erwartet Sie - ul. Jedności Narodowej 18.",
+    "g_trasa_link": "Route anzeigen →",
+    "g_zamkniecie_h2": "Bis gleich. Ihr Tisch und ein kaltes Bier warten schon.",
+    "g_adres": "ul. Jedności Narodowej 18 · Erdgeschoss, Villa Bożena"
+  },
+  "cs": {
+    "g_h1": "Děkujeme, že jste se zastavili!",
+    "g_powitanie": "Už na vás čekáme - s dobrým jídlem, čepovaným Pilsnerem přímo ze sudu a stolem, u kterého únava z trasy zmizí rychleji, než si myslíte.",
+    "g_zajawka": "Karkonoski Wyszynk je krčma v restauračním standardu v přízemí Villa Bożena, přímo v srdci Szklarské Poręby. Hodiny pečené vepřové koleno, ručně lepené pirohy, česká kulajda a smažený sýr - pořádná dávka pohraničního domácího jídla.",
+    "g_oferta_h2": "A teď to, kvůli čemu jste přišli",
+    "g_oferta_p1": "Řekněte obsluze heslo:",
+    "g_oferta_p2": "a ke každému hlavnímu jídlu dostanete malé pivo za 8 zł.",
+    "g_oferta_dopisek": "Nabídka pro hosty Villa Bożena a OW Sudety. Platí pro 0,3 l piva ke každému hlavnímu jídlu.",
+    "g_google": "Podívejte se na nás na Google",
+    "g_menu_h2": "Co doporučujeme po celém dni na trase",
+    "g_menu_wstep": "Výřez z naší nabídky - několik položek, které doporučujeme nejčastěji.",
+    "g_d1_n": "Pivovarské koleno",
+    "g_d1_o": "hodovní, s křupavou kůrčičkou, křenem a hořčicí",
+    "g_d2_n": "Pirohy s jelenem",
+    "g_d2_o": "ručně lepené, s omáčkou z tmavého piva a karamelizovanou cibulí",
+    "g_d2_gram": "(8 ks)",
+    "g_d3_n": "Kulajda",
+    "g_d3_o": "česká smetanová polévka s lesními houbami a vejcem",
+    "g_d4_n": "Žebra z Wyszynkové pece",
+    "g_d4_o": "marinovaná v plzeňském pivu, pečená do měkka, s křenovou omáčkou",
+    "g_d5_n": "Smažený sýr po česku",
+    "g_d5_o": "v křupavé strouhance, s tatarskou omáčkou a hranolky",
+    "g_d6_n": "Karkonoský štrúdl",
+    "g_d6_o": "podávaný teplý, s jablečno-brusinkovou náplní a zmrzlinou",
+    "g_link_menu": "Zobrazit celé menu →",
+    "g_trasa_h2": "Jak se k nám dostat",
+    "g_trasa_p1_strong": "Ubytováni ve Villa Bożena?",
+    "g_trasa_p1_rest": "Blíž to nejde - jsme hned v přízemí.",
+    "g_trasa_p2_strong": "Ubytováni v OW Sudety?",
+    "g_trasa_p2_rest": "Čeká vás příjemná procházka - ul. Jedności Narodowej 18.",
+    "g_trasa_link": "Navigovat →",
+    "g_zamkniecie_h2": "Brzy na viděnou. Váš stůl a studené pivo už čekají.",
+    "g_adres": "ul. Jedności Narodowej 18 · přízemí, Villa Bożena"
+  }
+};
+
+(function () {
+  var JEZYKI = ['pl', 'en', 'de', 'cs'];
+  var ETYKIETY = { pl: 'PL', en: 'EN', de: 'DE', cs: 'CZ' };
+
+  function pobierzJezyk() {
+    var zapisany = localStorage.getItem('wyszynk_jezyk');
+    return JEZYKI.indexOf(zapisany) !== -1 ? zapisany : 'pl';
+  }
+
+  function zastosujTlumaczenia(jezyk) {
+    var slownik = I18N_DANE[jezyk] || I18N_DANE.pl;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var klucz = el.getAttribute('data-i18n');
+      var tekst = slownik[klucz];
+      if (tekst === undefined) return;
+      if (el.childNodes.length && el.childNodes[0].nodeType === Node.TEXT_NODE) {
+        var potrzebnaSpacja = el.childNodes.length > 1;
+        el.childNodes[0].textContent = tekst + (potrzebnaSpacja ? ' ' : '');
+      } else {
+        el.textContent = tekst;
+      }
+    });
+    document.documentElement.setAttribute('lang', jezyk === 'cs' ? 'cs' : jezyk);
+    document.querySelectorAll('.jezyk-przelacznik button').forEach(function (btn) {
+      var aktywny = btn.getAttribute('data-jezyk') === jezyk;
+      btn.classList.toggle('jest-aktywny', aktywny);
+      btn.setAttribute('aria-pressed', aktywny ? 'true' : 'false');
+    });
+  }
+
+  function ustawJezyk(jezyk) {
+    if (JEZYKI.indexOf(jezyk) === -1) jezyk = 'pl';
+    localStorage.setItem('wyszynk_jezyk', jezyk);
+    zastosujTlumaczenia(jezyk);
+  }
+
+  function zbudujPrzelacznik(kontener) {
+    JEZYKI.forEach(function (jezyk) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = ETYKIETY[jezyk];
+      btn.setAttribute('data-jezyk', jezyk);
+      btn.setAttribute('aria-pressed', 'false');
+      btn.addEventListener('click', function () { ustawJezyk(jezyk); });
+      kontener.appendChild(btn);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.jezyk-przelacznik').forEach(zbudujPrzelacznik);
+    zastosujTlumaczenia(pobierzJezyk());
+  });
+})();
+</script>
 </body>
 </html>

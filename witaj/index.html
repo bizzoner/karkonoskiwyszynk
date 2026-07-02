@@ -100,7 +100,33 @@
     display: block;
     width: 128px;
     height: auto;
-    margin: 0 auto 1.8rem;
+    margin: 0 auto 1rem;
+  }
+
+  /* Przełącznik języka - JS podmienia tekst w miejscu, bez zmiany URL
+     (link na ulotce/ekspozytorze jest drukowany na sztywno). */
+  .jezyk-przelacznik {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0 0 1.8rem;
+  }
+  .jezyk-przelacznik button {
+    background: none;
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    color: var(--brown);
+    font-family: var(--f-body);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+    cursor: pointer;
+  }
+  .jezyk-przelacznik button.jest-aktywny {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: var(--ivory);
   }
 
   section { animation: pojawienie 0.6s ease-out both; }
@@ -281,84 +307,85 @@
 <div class="wrap">
 
   <img class="logo-top" src="../assets/img/logo.svg" alt="Karkonoski Wyszynk">
+  <div class="jezyk-przelacznik" role="group" aria-label="Wybór języka"></div>
 
   <!-- 1. POWITANIE -->
   <section>
-    <h1>Witaj, Wędrowcze!</h1>
-    <p>Stoisz właśnie przed ponad stuletnią willą, która na parterze skrywa Karkonoski Wyszynk - karczmę w standardzie restauracyjnym z dobrym jadłem, czeskim piwem z beczki i atmosferą, dzięki której chce się do nas wracać.</p>
+    <h1 data-i18n="w_h1">Witaj, Wędrowcze!</h1>
+    <p data-i18n="w_powitanie">Stoisz właśnie przed ponad stuletnią willą, która na parterze skrywa Karkonoski Wyszynk - karczmę w standardzie restauracyjnym z dobrym jadłem, czeskim piwem z beczki i atmosferą, dzięki której chce się do nas wracać.</p>
   </section>
 
   <!-- 2. ZAJAWKA -->
   <section class="zajawka">
-    <p>Lany Pilsner Urquell, golonka pieczona godzinami, ręcznie lepione pierogi, pieczyste, smażony ser - innymi słowy duża dawka swojskiego jadła. Brzmi dobrze? Bo smakuje jeszcze lepiej.</p>
+    <p data-i18n="w_zajawka">Lany Pilsner Urquell, golonka pieczona godzinami, ręcznie lepione pierogi, pieczyste, smażony ser - innymi słowy duża dawka swojskiego jadła. Brzmi dobrze? Bo smakuje jeszcze lepiej.</p>
   </section>
 
   <!-- 3. OFERTA POWITALNA -->
   <section class="oferta">
     <div class="oferta__ikona" aria-hidden="true">🍺</div>
-    <h2>Na dobry początek</h2>
-    <p>Powiedz obsłudze hasło, a do dowolnego dania głównego dostaniesz mały lany Pilsner Urquell z beczki lub kieliszek prosecco za 8 zł.</p>
+    <h2 data-i18n="w_oferta_h2">Na dobry początek</h2>
+    <p data-i18n="w_oferta_tekst">Powiedz obsłudze hasło, a do dowolnego dania głównego dostaniesz mały lany Pilsner Urquell z beczki lub kieliszek prosecco za 8 zł.</p>
     <p class="oferta__haslo">PRZYSŁAŁ NAS<br>LICZYRZEPA</p>
-    <p class="oferta__dopisek">Oferta na start. Dotyczy piwa 0,3 l lub kieliszka prosecco (150 ml) do dowolnego dania głównego.</p>
+    <p class="oferta__dopisek" data-i18n="w_oferta_dopisek">Oferta na start. Dotyczy piwa 0,3 l lub kieliszka prosecco (150 ml) do dowolnego dania głównego.</p>
   </section>
 
   <!-- 4. WIZYTÓWKA GOOGLE -->
-  <a class="btn-google" href="https://maps.app.goo.gl/kVQdiEnwsCUPiVY69" target="_blank" rel="noopener">Zobacz nas w Google</a>
+  <a class="btn-google" href="https://maps.app.goo.gl/kVQdiEnwsCUPiVY69" target="_blank" rel="noopener" data-i18n="w_google">Zobacz nas w Google</a>
 
   <!-- 5. WYCIĄG Z MENU -->
   <section class="menu">
-    <h2>Co dziś polecamy</h2>
-    <p class="menu__wstep">Fragment naszej karty - kilka pozycji, które polecamy najczęściej.</p>
+    <h2 data-i18n="w_menu_h2">Co dziś polecamy</h2>
+    <p class="menu__wstep" data-i18n="w_menu_wstep">Fragment naszej karty - kilka pozycji, które polecamy najczęściej.</p>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Golonka Piwowara <span style="font-weight:400;font-size:0.85rem;">(800g-1,2kg)</span></span>
-        <span class="danie__opis">biesiadna, z chrupiącą skórką, chrzanem i musztardą</span>
+        <span class="danie__nazwa" data-i18n="w_d1_n">Golonka Piwowara <span style="font-weight:400;font-size:0.85rem;">(800g-1,2kg)</span></span>
+        <span class="danie__opis" data-i18n="w_d1_o">biesiadna, z chrupiącą skórką, chrzanem i musztardą</span>
       </div>
       <span class="danie__cena">84 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Pierogi z Jeleniem <span style="font-weight:400;font-size:0.85rem;">(8 szt.)</span></span>
-        <span class="danie__opis">ręcznie lepione, z sosem na ciemnym piwie i karmelizowaną cebulą</span>
+        <span class="danie__nazwa" data-i18n="w_d2_n">Pierogi z Jeleniem <span style="font-weight:400;font-size:0.85rem;" data-i18n="w_d2_gram">(8 szt.)</span></span>
+        <span class="danie__opis" data-i18n="w_d2_o">ręcznie lepione, z sosem na ciemnym piwie i karmelizowaną cebulą</span>
       </div>
       <span class="danie__cena">58 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Kulajda</span>
-        <span class="danie__opis">czeska zupa ze śmietaną, leśnymi grzybami i jajkiem</span>
+        <span class="danie__nazwa" data-i18n="w_d3_n">Kulajda</span>
+        <span class="danie__opis" data-i18n="w_d3_o">czeska zupa ze śmietaną, leśnymi grzybami i jajkiem</span>
       </div>
       <span class="danie__cena">26 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Żebra z Pieca Wyszynkowego</span>
-        <span class="danie__opis">marynowane w pilznerze, pieczone do miękkości, z sosem chrzanowym</span>
+        <span class="danie__nazwa" data-i18n="w_d4_n">Żebra z Pieca Wyszynkowego</span>
+        <span class="danie__opis" data-i18n="w_d4_o">marynowane w pilznerze, pieczone do miękkości, z sosem chrzanowym</span>
       </div>
       <span class="danie__cena">68 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Smažený sýr po czesku</span>
-        <span class="danie__opis">w chrupiącej panierce, z sosem tatarskim i frytkami</span>
+        <span class="danie__nazwa" data-i18n="w_d5_n">Smažený sýr po czesku</span>
+        <span class="danie__opis" data-i18n="w_d5_o">w chrupiącej panierce, z sosem tatarskim i frytkami</span>
       </div>
       <span class="danie__cena">59 zł</span>
     </div>
 
     <div class="danie">
       <div class="danie__tresc">
-        <span class="danie__nazwa">Karkonoski strudel</span>
-        <span class="danie__opis">na ciepło, z nadzieniem jabłkowo-żurawinowym i lodami</span>
+        <span class="danie__nazwa" data-i18n="w_d6_n">Karkonoski strudel</span>
+        <span class="danie__opis" data-i18n="w_d6_o">na ciepło, z nadzieniem jabłkowo-żurawinowym i lodami</span>
       </div>
       <span class="danie__cena">26 zł</span>
     </div>
 
-    <a class="link-menu" href="/#menu">Zobacz pełne menu →</a>
+    <a class="link-menu" href="/#menu" data-i18n="w_link_menu">Zobacz pełne menu →</a>
 
     <div class="mini-galeria">
       <img src="../assets/img/golonka.webp" alt="Golonka Piwowara na drewnianej desce" loading="lazy" width="300" height="300">
@@ -376,8 +403,8 @@
 
   <!-- 7. ZAMKNIĘCIE -->
   <section class="zamkniecie">
-    <h2>Wejdź. Stolik czeka bliżej, niż myślisz.</h2>
-    <p class="zamkniecie__dane">ul. Jedności Narodowej 18 · parter Villa Bożena</p>
+    <h2 data-i18n="w_zamkniecie_h2">Wejdź. Stolik czeka bliżej, niż myślisz.</h2>
+    <p class="zamkniecie__dane" data-i18n="w_adres">ul. Jedności Narodowej 18 · parter Villa Bożena</p>
   </section>
 
 </div>
@@ -391,5 +418,176 @@
   dodatkowego kodu. Nie dodawaj żadnego JS na tej stronie bez potrzeby -
   ma zostać maksymalnie lekka na słabym zasięgu.
 -->
+<script>
+// i18n - przelacznik jezyka PL/EN/DE/CZ, bez zmiany URL (link na
+// ulotce/ekspozytorze jest drukowany na sztywno). Wspolny klucz
+// localStorage z reszta serwisu, wiec wybor jezyka przenosi sie
+// miedzy stronami. Haslo LICZYRZEPA celowo NIE jest tlumaczone -
+// to fraza do wypowiedzenia obsludze, musi zostac po polsku.
+var I18N_DANE = {
+  "pl": {
+    "w_h1": "Witaj, Wędrowcze!",
+    "w_powitanie": "Stoisz właśnie przed ponad stuletnią willą, która na parterze skrywa Karkonoski Wyszynk - karczmę w standardzie restauracyjnym z dobrym jadłem, czeskim piwem z beczki i atmosferą, dzięki której chce się do nas wracać.",
+    "w_zajawka": "Lany Pilsner Urquell, golonka pieczona godzinami, ręcznie lepione pierogi, pieczyste, smażony ser - innymi słowy duża dawka swojskiego jadła. Brzmi dobrze? Bo smakuje jeszcze lepiej.",
+    "w_oferta_h2": "Na dobry początek",
+    "w_oferta_tekst": "Powiedz obsłudze hasło, a do dowolnego dania głównego dostaniesz mały lany Pilsner Urquell z beczki lub kieliszek prosecco za 8 zł.",
+    "w_oferta_dopisek": "Oferta na start. Dotyczy piwa 0,3 l lub kieliszka prosecco (150 ml) do dowolnego dania głównego.",
+    "w_google": "Zobacz nas w Google",
+    "w_menu_h2": "Co dziś polecamy",
+    "w_menu_wstep": "Fragment naszej karty - kilka pozycji, które polecamy najczęściej.",
+    "w_d1_n": "Golonka Piwowara",
+    "w_d1_o": "biesiadna, z chrupiącą skórką, chrzanem i musztardą",
+    "w_d2_n": "Pierogi z Jeleniem",
+    "w_d2_o": "ręcznie lepione, z sosem na ciemnym piwie i karmelizowaną cebulą",
+    "w_d2_gram": "(8 szt.)",
+    "w_d3_n": "Kulajda",
+    "w_d3_o": "czeska zupa ze śmietaną, leśnymi grzybami i jajkiem",
+    "w_d4_n": "Żebra z Pieca Wyszynkowego",
+    "w_d4_o": "marynowane w pilznerze, pieczone do miękkości, z sosem chrzanowym",
+    "w_d5_n": "Smažený sýr po czesku",
+    "w_d5_o": "w chrupiącej panierce, z sosem tatarskim i frytkami",
+    "w_d6_n": "Karkonoski strudel",
+    "w_d6_o": "na ciepło, z nadzieniem jabłkowo-żurawinowym i lodami",
+    "w_link_menu": "Zobacz pełne menu →",
+    "w_zamkniecie_h2": "Wejdź. Stolik czeka bliżej, niż myślisz.",
+    "w_adres": "ul. Jedności Narodowej 18 · parter Villa Bożena"
+  },
+  "en": {
+    "w_h1": "Welcome, Wanderer!",
+    "w_powitanie": "You're standing right in front of a villa over a century old, which on its ground floor hides the Karkonoski Wyszynk - a restaurant-standard tavern with good food, Czech draft beer, and an atmosphere that makes you want to come back.",
+    "w_zajawka": "Draft Pilsner Urquell, slow-roasted pork knuckle, hand-folded pierogi, roasts, fried cheese - in other words, a hearty helping of home-style food. Sounds good? It tastes even better.",
+    "w_oferta_h2": "For a good start",
+    "w_oferta_tekst": "Tell the staff the password, and you'll get a small draft Pilsner Urquell from the barrel or a glass of prosecco for 8 zł with any main course.",
+    "w_oferta_dopisek": "Starter offer. Applies to 0.3 l of beer or a glass of prosecco (150 ml) with any main course.",
+    "w_google": "Find us on Google",
+    "w_menu_h2": "Today's recommendations",
+    "w_menu_wstep": "A slice of our menu - a few dishes we recommend most.",
+    "w_d1_n": "Brewer's Pork Knuckle",
+    "w_d1_o": "feast-worthy, with crispy crackling, horseradish and mustard",
+    "w_d2_n": "Venison Pierogi",
+    "w_d2_o": "hand-folded, with a dark beer sauce and caramelised onion",
+    "w_d2_gram": "(8 pcs)",
+    "w_d3_n": "Kulajda",
+    "w_d3_o": "Czech cream soup with wild mushrooms and egg",
+    "w_d4_n": "Ribs from the Wyszynk Oven",
+    "w_d4_o": "marinated in Pilsner, roasted until tender, with horseradish sauce",
+    "w_d5_n": "Czech-style Smažený sýr",
+    "w_d5_o": "crispy battered, with tartar sauce and fries",
+    "w_d6_n": "Karkonoski Strudel",
+    "w_d6_o": "served warm, with apple-cranberry filling and ice cream",
+    "w_link_menu": "See the full menu →",
+    "w_zamkniecie_h2": "Come in. Your table is closer than you think.",
+    "w_adres": "ul. Jedności Narodowej 18 · ground floor, Villa Bożena"
+  },
+  "de": {
+    "w_h1": "Willkommen, Wanderer!",
+    "w_powitanie": "Sie stehen genau vor einer über hundert Jahre alten Villa, die in ihrem Erdgeschoss den Karkonoski Wyszynk verbirgt - ein Wirtshaus im Restaurant-Standard mit gutem Essen, tschechischem Bier vom Fass und einer Atmosphäre, die zum Wiederkommen einlädt.",
+    "w_zajawka": "Gezapftes Pilsner Urquell, stundenlang gebratenes Eisbein, handgeformte Piroggen, Braten, gebackener Käse - kurz gesagt, eine große Portion Hausmannskost. Klingt gut? Es schmeckt noch besser.",
+    "w_oferta_h2": "Für einen guten Start",
+    "w_oferta_tekst": "Sagen Sie dem Personal das Passwort und Sie erhalten zu jedem Hauptgericht ein kleines gezapftes Pilsner Urquell vom Fass oder ein Glas Prosecco für 8 zł.",
+    "w_oferta_dopisek": "Einstiegsangebot. Gilt für 0,3 l Bier oder ein Glas Prosecco (150 ml) zu jedem Hauptgericht.",
+    "w_google": "Auf Google ansehen",
+    "w_menu_h2": "Heute empfehlen wir",
+    "w_menu_wstep": "Ein Ausschnitt unserer Speisekarte - einige unserer beliebtesten Gerichte.",
+    "w_d1_n": "Brauer-Eisbein",
+    "w_d1_o": "festlich, mit knuspriger Schwarte, Meerrettich und Senf",
+    "w_d2_n": "Piroggen mit Hirsch",
+    "w_d2_o": "handgeformt, mit dunkler Biersauce und karamellisierten Zwiebeln",
+    "w_d2_gram": "(8 Stk.)",
+    "w_d3_n": "Kulajda",
+    "w_d3_o": "tschechische Rahmsuppe mit Waldpilzen und Ei",
+    "w_d4_n": "Rippchen aus dem Wyszynk-Ofen",
+    "w_d4_o": "mariniert in Pilsner, zart gebraten, mit Meerrettichsauce",
+    "w_d5_n": "Smažený sýr auf tschechische Art",
+    "w_d5_o": "knusprig paniert, mit Tatarsauce und Pommes",
+    "w_d6_n": "Karkonoski-Strudel",
+    "w_d6_o": "warm serviert, mit Apfel-Preiselbeer-Füllung und Eis",
+    "w_link_menu": "Zur vollständigen Speisekarte →",
+    "w_zamkniecie_h2": "Kommen Sie herein. Ihr Tisch ist näher, als Sie denken.",
+    "w_adres": "ul. Jedności Narodowej 18 · Erdgeschoss, Villa Bożena"
+  },
+  "cs": {
+    "w_h1": "Vítej, poutníku!",
+    "w_powitanie": "Stojíte právě před více než stoletou vilou, která ve svém přízemí skrývá Karkonoski Wyszynk - krčmu v restauračním standardu s dobrým jídlem, českým pivem z sudu a atmosférou, díky které se sem chce vracet.",
+    "w_zajawka": "Čepovaný Pilsner Urquell, hodiny pečené vepřové koleno, ručně lepené pirohy, pečeně, smažený sýr - jinými slovy pořádná dávka domácího jídla. Zní to dobře? Chutná to ještě lépe.",
+    "w_oferta_h2": "Na dobrý začátek",
+    "w_oferta_tekst": "Řekněte obsluze heslo a ke každému hlavnímu jídlu dostanete malý čepovaný Pilsner Urquell ze sudu nebo skleničku prosecca za 8 zł.",
+    "w_oferta_dopisek": "Úvodní nabídka. Platí pro 0,3 l piva nebo skleničku prosecca (150 ml) ke každému hlavnímu jídlu.",
+    "w_google": "Podívejte se na nás na Google",
+    "w_menu_h2": "Co dnes doporučujeme",
+    "w_menu_wstep": "Výřez z naší nabídky - několik položek, které doporučujeme nejčastěji.",
+    "w_d1_n": "Pivovarské koleno",
+    "w_d1_o": "hodovní, s křupavou kůrčičkou, křenem a hořčicí",
+    "w_d2_n": "Pirohy s jelenem",
+    "w_d2_o": "ručně lepené, s omáčkou z tmavého piva a karamelizovanou cibulí",
+    "w_d2_gram": "(8 ks)",
+    "w_d3_n": "Kulajda",
+    "w_d3_o": "česká smetanová polévka s lesními houbami a vejcem",
+    "w_d4_n": "Žebra z Wyszynkové pece",
+    "w_d4_o": "marinovaná v plzeňském pivu, pečená do měkka, s křenovou omáčkou",
+    "w_d5_n": "Smažený sýr po česku",
+    "w_d5_o": "v křupavé strouhance, s tatarskou omáčkou a hranolky",
+    "w_d6_n": "Karkonoský štrúdl",
+    "w_d6_o": "podávaný teplý, s jablečno-brusinkovou náplní a zmrzlinou",
+    "w_link_menu": "Zobrazit celé menu →",
+    "w_zamkniecie_h2": "Pojďte dál. Váš stůl je blíž, než si myslíte.",
+    "w_adres": "ul. Jedności Narodowej 18 · přízemí, Villa Bożena"
+  }
+};
+
+(function () {
+  var JEZYKI = ['pl', 'en', 'de', 'cs'];
+  var ETYKIETY = { pl: 'PL', en: 'EN', de: 'DE', cs: 'CZ' };
+
+  function pobierzJezyk() {
+    var zapisany = localStorage.getItem('wyszynk_jezyk');
+    return JEZYKI.indexOf(zapisany) !== -1 ? zapisany : 'pl';
+  }
+
+  function zastosujTlumaczenia(jezyk) {
+    var slownik = I18N_DANE[jezyk] || I18N_DANE.pl;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var klucz = el.getAttribute('data-i18n');
+      var tekst = slownik[klucz];
+      if (tekst === undefined) return;
+      if (el.childNodes.length && el.childNodes[0].nodeType === Node.TEXT_NODE) {
+        var potrzebnaSpacja = el.childNodes.length > 1;
+        el.childNodes[0].textContent = tekst + (potrzebnaSpacja ? ' ' : '');
+      } else {
+        el.textContent = tekst;
+      }
+    });
+    document.documentElement.setAttribute('lang', jezyk === 'cs' ? 'cs' : jezyk);
+    document.querySelectorAll('.jezyk-przelacznik button').forEach(function (btn) {
+      var aktywny = btn.getAttribute('data-jezyk') === jezyk;
+      btn.classList.toggle('jest-aktywny', aktywny);
+      btn.setAttribute('aria-pressed', aktywny ? 'true' : 'false');
+    });
+  }
+
+  function ustawJezyk(jezyk) {
+    if (JEZYKI.indexOf(jezyk) === -1) jezyk = 'pl';
+    localStorage.setItem('wyszynk_jezyk', jezyk);
+    zastosujTlumaczenia(jezyk);
+  }
+
+  function zbudujPrzelacznik(kontener) {
+    JEZYKI.forEach(function (jezyk) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = ETYKIETY[jezyk];
+      btn.setAttribute('data-jezyk', jezyk);
+      btn.setAttribute('aria-pressed', 'false');
+      btn.addEventListener('click', function () { ustawJezyk(jezyk); });
+      kontener.appendChild(btn);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.jezyk-przelacznik').forEach(zbudujPrzelacznik);
+    zastosujTlumaczenia(pobierzJezyk());
+  });
+})();
+</script>
 </body>
 </html>
