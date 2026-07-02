@@ -302,6 +302,11 @@ h1, h2, h3, h4 {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.nawigacja__prawa {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
 .nawigacja__linki {
   display: flex;
   gap: 2rem;
@@ -356,6 +361,7 @@ h1, h2, h3, h4 {
 
 .nawigacja__hamburger {
   display: none;
+  flex-shrink: 0;
   background: none;
   border: 1px solid var(--gold-light);
   border-radius: var(--radius);
@@ -373,7 +379,10 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 860px) {
+  .nawigacja__prawa { gap: 0.5rem; }
   .nawigacja__hamburger { display: flex; }
+  .jezyk-przelacznik { gap: 0.25rem; }
+  .jezyk-przelacznik button { padding: 0.25rem 0.4rem; font-size: 0.66rem; }
   .nawigacja__linki {
     position: absolute;
     top: 100%;
@@ -392,10 +401,6 @@ h1, h2, h3, h4 {
     padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(232, 196, 90, 0.12);
     width: 100%;
-  }
-  .jezyk-przelacznik {
-    padding: 1rem 1.5rem;
-    justify-content: flex-start;
   }
 }
 
@@ -912,17 +917,19 @@ h1, h2, h3, h4 {
       <img src="assets/img/logo.svg" alt="Karkonoski Wyszynk" class="logo-img logo-img--nav" width="140" height="73" loading="eager">
       <span data-i18n="ui_tagline">Szklarska Poręba · od 1892</span>
     </a>
-    <button class="nawigacja__hamburger" id="hamburger" aria-label="Otwórz menu nawigacji" aria-expanded="false" aria-controls="linki-nawigacji">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nawigacja__linki" id="linki-nawigacji">
-      <li><a href="#o-miejscu" data-i18n="ui_nav_o_nas">O nas</a></li>
-      <li><a href="#pilsner" data-i18n="ui_nav_pilsner">Pilsner</a></li>
-      <li><a href="#menu" data-i18n="ui_nav_menu">Menu</a></li>
-      <li><a href="#galeria" data-i18n="ui_nav_galeria">Galeria</a></li>
-      <li><a href="#kontakt" data-i18n="ui_nav_kontakt">Kontakt</a></li>
-      <li class="jezyk-przelacznik" role="group" aria-label="Wybór języka"></li>
-    </ul>
+    <div class="nawigacja__prawa">
+      <ul class="nawigacja__linki" id="linki-nawigacji">
+        <li><a href="#o-miejscu" data-i18n="ui_nav_o_nas">O nas</a></li>
+        <li><a href="#pilsner" data-i18n="ui_nav_pilsner">Pilsner</a></li>
+        <li><a href="#menu" data-i18n="ui_nav_menu">Menu</a></li>
+        <li><a href="#galeria" data-i18n="ui_nav_galeria">Galeria</a></li>
+        <li><a href="#kontakt" data-i18n="ui_nav_kontakt">Kontakt</a></li>
+      </ul>
+      <div class="jezyk-przelacznik" role="group" aria-label="Wybór języka"></div>
+      <button class="nawigacja__hamburger" id="hamburger" aria-label="Otwórz menu nawigacji" aria-expanded="false" aria-controls="linki-nawigacji">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
