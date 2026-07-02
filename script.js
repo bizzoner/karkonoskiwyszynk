@@ -1,5 +1,5 @@
 // =========================================================
-// WYSZYNK KARKONOSKI — skrypty strony
+// KARKONOSKI WYSZYNK — skrypty strony
 // Bez zewnętrznych bibliotek: hamburger, zakładki menu,
 // lekki lightbox galerii, rok w stopce.
 // =========================================================
