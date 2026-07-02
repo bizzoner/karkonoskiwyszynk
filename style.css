@@ -152,6 +152,28 @@ h1, h2, h3, h4 {
   border-color: var(--gold-lighter);
 }
 
+/* Przycisk do wizytówki Google - godziny, telefon i opinie żyją tam,
+   nie duplikujemy ich na stronie. */
+.btn-google {
+  display: inline-block;
+  font-family: var(--f-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  color: var(--forest);
+  background: var(--ivory);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.6rem;
+  margin-top: 0.5rem;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.btn-google:hover {
+  background: var(--ivory-dark);
+  border-color: var(--gold-light);
+}
+
 /* ---------- Nawigacja ---------- */
 .naglowek {
   position: sticky;
