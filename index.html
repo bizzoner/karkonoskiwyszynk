@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wyszynk Karkonoski - Karczma piwna | Szklarska Poręba</title>
+<meta name="description" content="Wyszynk Karkonoski w Szklarskiej Porębie: golonka, ręcznie lepione pierogi i lany, niepasteryzowany Pilsner Urquell z beczki w historycznym budynku z 1892 roku.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Wyszynk Karkonoski - Karczma piwna | Szklarska Poręba">
+<meta property="og:description" content="Kuchnia pogranicza karkonosko-czesko-śląskiego i lany Pilsner Urquell z beczki. Historyczny budynek z 1892 roku, parter Villa Bożena.">
+<meta property="og:type" content="restaurant">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:image" content="assets/img/golonka.jpg">
+
+<!-- Fonty: preconnect dla wydajności -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Dane strukturalne Schema.org dla restauracji -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Wyszynk Karkonoski",
+  "servesCuisine": ["Kuchnia karkonoska", "Kuchnia czeska", "Kuchnia śląska"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ul. Jedności Narodowej 18",
+    "addressLocality": "Szklarska Poręba",
+    "addressCountry": "PL"
+  },
+  "telephone": "TU_WSTAW_TELEFON",
+  "email": "TU_WSTAW_EMAIL",
+  "description": "Karczma piwna w standardzie restauracyjnym w historycznym budynku z 1892 roku. Kuchnia pogranicza karkonosko-czesko-śląskiego i lany, niepasteryzowany Pilsner Urquell z beczki.",
+  "priceRange": "$$"
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#tresc">Przejdź do treści</a>
+
+<!-- ============ NAWIGACJA ============ -->
+<header class="naglowek">
+  <div class="container nawigacja">
+    <a href="#" class="nawigacja__logo">
+      <img src="assets/img/logo.svg" alt="Wyszynk Karkonoski" class="logo-img logo-img--nav" width="140" height="73" loading="eager">
+      <span>Szklarska Poręba · od 1892</span>
+    </a>
+    <button class="nawigacja__hamburger" id="hamburger" aria-label="Otwórz menu nawigacji" aria-expanded="false" aria-controls="linki-nawigacji">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nawigacja__linki" id="linki-nawigacji">
+      <li><a href="#o-miejscu">O nas</a></li>
+      <li><a href="#pilsner">Pilsner</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="tresc">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <!-- PLACEHOLDER: zdjęcie ciepłego, żarówkowego wnętrza karczmy z beczką piwa, docelowo tło pod tym divem -->
+    <div class="hero__tlo-placeholder" aria-hidden="true"></div>
+    <div class="hero__tresc">
+      <p class="eyebrow hero__eyebrow">Szklarska Poręba · od 1892</p>
+      <h1 class="hero__tytul">
+        <img src="assets/img/logo.svg" alt="Wyszynk Karkonoski" class="logo-img logo-img--hero" width="360" height="189" loading="eager">
+      </h1>
+      <p class="hero__haslo">Karkonosze na talerzu i w kuflu</p>
+      <div class="hero__cta">
+        <a href="#menu" class="btn btn--primary">Zobacz menu</a>
+        <a href="#kontakt" class="btn btn--ghost">Jak trafić</a>
+      </div>
+    </div>
+    <span class="hero__strzalka" aria-hidden="true"></span>
+  </section>
+
+  <!-- ============ O MIEJSCU ============ -->
+  <section class="sekcja" id="o-miejscu">
+    <div class="container o-miejscu">
+      <div class="o-miejscu__tekst">
+        <span class="eyebrow">Historia</span>
+        <h2 class="sekcja__tytul">Karczma z urodzenia, nie z konceptu</h2>
+        <p>Ten budynek gościł podróżnych, zanim ktokolwiek wymyślił słowo gastronomia. Powstał w 1892 roku jako Hotel Klose i przez ponad sto lat był miejscem, w którym Karkonosze spotykały się przy stole.</p>
+        <p>Dziś wracamy do tej tradycji. Wyszynk to dawne określenie miejsca, gdzie podawano trunki i jedzenie - lokalne centrum życia. Nie udajemy karczmy. Jesteśmy nią z urodzenia.</p>
+      </div>
+      <div class="o-miejscu__zdjecie ornament-corners">
+        <!-- PLACEHOLDER: historyczna fasada budynku Hotel Klose / Villa Bożena, ujęcie z zewnątrz -->
+        Zdjęcie: fasada budynku, dawny Hotel Klose, 1892
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PILSNER URQUELL ============ -->
+  <section class="sekcja sekcja--ciemna" id="pilsner">
+    <div class="container">
+      <div class="sekcja__naglowek">
+        <span class="eyebrow">Rzemiosło nalewania</span>
+        <h2 class="sekcja__tytul">Lany Pilsner Urquell prosto z beczki</h2>
+      </div>
+      <p class="pilsner__intro">Serwujemy wyłącznie niepasteryzowanego Pilsnera Urquell, nalewanego zgodnie z czeską sztuką tankowania. To rzemiosło wymagające cierpliwości i wprawy - efektem jest piwo o pełni smaku, jakiej nie osiągnie się z butelki.</p>
+      <p class="pilsner__cennik">0,5 l — 20 zł &nbsp;·&nbsp; 0,3 l — 17 zł</p>
+      <div class="pilsner__karty">
+        <div class="pilsner-karta">
+          <h3>Hladinka</h3>
+          <p>Klasyczne nalanie z kremową, gęstą pianą - podstawowy i najczęściej wybierany sposób podania.</p>
+        </div>
+        <div class="pilsner-karta">
+          <h3>Šnyt</h3>
+          <p>Mniej piwa, więcej piany - lżejsza porcja idealna na krótką przerwę między daniami.</p>
+        </div>
+        <div class="pilsner-karta">
+          <h3>Mlíko</h3>
+          <p>Mleczne nalanie samej piany - aksamitny akcent na zakończenie wieczoru.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MENU ============ -->
+  <section class="sekcja menu" id="menu">
+    <div class="container">
+      <div class="sekcja__naglowek">
+        <span class="eyebrow">Kuchnia pogranicza</span>
+        <h2 class="sekcja__tytul">Menu</h2>
+      </div>
+
+      <!-- Zakładki kategorii menu, przełączane przez script.js -->
+      <div class="menu__zakladki" role="tablist" aria-label="Kategorie menu">
+        <button class="menu__zakladka jest-aktywna" role="tab" aria-selected="true" data-kategoria="zupy">Zupy</button>
+        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="zakaski">Zakąski z Wyszynku</button>
+        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="pierogi">Pierogi lepione w Wyszynku</button>
+        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="dania-glowne">Dania główne</button>
+        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="desery">Desery</button>
+        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="dzieci">Dla Małych Wędrowców</button>
+        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="piwo">Piwo</button>
+        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="napoje">Napoje</button>
+        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="alkohole">Alkohole</button>
+      </div>
+
+      <!-- ZUPY -->
+      <div class="menu__kategoria jest-aktywna" id="zupy" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Zupy</p>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Wyszynkowy rosół z gęsi i kury <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis">Esencjonalny rosół, długo gotowany na gęsi i kurze, podawany z domowymi szpeclami, marchwią i świeżą natką pietruszki.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Kulajda <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">26 zł</span>
+          </div>
+          <p class="danie__opis">Tradycyjna czeska zupa na śmietanie z leśnymi grzybami, ziemniakami, koperkiem i jajkiem.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Żur śląski <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">28 zł</span>
+          </div>
+          <p class="danie__opis">Przygotowywany na swojskim zakwasie, z białą kiełbasą, wędzonym boczkiem, jajkiem i domowym pieczywem.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Karkonoska kwaśnica <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis">Gotowana na wędzonym żeberku, ze swojskiej kiszonej kapusty i aromatycznych przypraw, podawana z wiejskim chlebem.</p>
+        </div>
+      </div>
+
+      <!-- ZAKĄSKI Z WYSZYNKU -->
+      <div class="menu__kategoria" id="zakaski" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Zakąski z Wyszynku</p>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pieczony Hermelín z żurawiną i czosnkiem <span class="danie__gramatura">(245g)</span></h4>
+            <span class="danie__cena">32 zł</span>
+          </div>
+          <p class="danie__opis">Czeski klasyk w gorącej odsłonie. Ser pleśniowy zapiekany ze świeżym czosnkiem i słodką żurawiną, podawany na rozgrzanej żeliwnej patelni w towarzystwie piwnego precla.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Patelnia kiełbas pieczonych w ciemnym piwie <span class="danie__gramatura">(260g)</span></h4>
+            <span class="danie__cena">36 zł</span>
+          </div>
+          <p class="danie__opis">Kompozycja regionalnych, krojonych kiełbas zapiekanych w gęstym sosie na bazie ciemnego piwa, musztardy i karmelizowanej cebuli, podawana prosto z pieca na żeliwnej patelni.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Piwny precel z ciepłym sosem serowym <span class="danie__gramatura">(185g)</span></h4>
+            <span class="danie__cena">30 zł</span>
+          </div>
+          <p class="danie__opis">Chrupiący, świeżo wypiekany precel piwny, serwowany z gęstym, aksamitnym i ciepłym sosem z kilku rodzajów sera.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Fryty Wyszynkowe z zestawem dipów</h4>
+          </div>
+          <p class="danie__opis">Grubo ciosane, chrupiące frytki podawane w koszyczku, serwowane z trzema autorskimi sosami: czosnkowym, piwno-miodowo-musztardowym oraz ketchupem curry.</p>
+          <ul class="danie__warianty">
+            <li><span>Klasyczne (350g)</span><span>26 zł</span></li>
+            <li><span>Serowe (370g)</span><span>29 zł</span></li>
+            <li><span>Na bogato (390g)</span><span>32 zł</span></li>
+          </ul>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Domowy chleb ze swojskim smalcem <span class="danie__gramatura">(350g)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis">Pajda chrupiącego chleba razowego naszego wypieku, podawana ze swojskim smalcem oraz ogórkiem małosolnym.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Chrupiące krążki cebulowe <span class="danie__gramatura">(250g)</span></h4>
+            <span class="danie__cena">25 zł</span>
+          </div>
+          <p class="danie__opis">Złociste krążki słodkiej cebuli w puszystej panierce z nutą piwa, podawane z domowym sosem piwno-musztardowo-miodowym.</p>
+        </div>
+      </div>
+
+      <!-- PIEROGI LEPIONE W WYSZYNKU -->
+      <div class="menu__kategoria" id="pierogi" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Pierogi lepione w Wyszynku</p>
+        <p class="menu__kategoria-wstep">Lepione ręcznie, każdego dnia. Regionalna wizytówka naszej kuchni.</p>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pierogi z Jeleniem <span class="danie__gramatura">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">58 zł</span>
+          </div>
+          <p class="danie__opis">Ręcznie lepione pierogi z pieczonym mięsem jelenia, podawane z wyrazistym sosem na bazie ciemnego piwa, musztardy i karmelizowanej cebuli.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pierogi z Gęsiną <span class="danie__gramatura">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">46 zł</span>
+          </div>
+          <p class="danie__opis">Pierogi wypełnione aromatyczną gęsiną, polane masłem i podawane z konfiturą żurawinową.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pierogi ruskie z twarogiem Sudeckim <span class="danie__gramatura">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">39 zł</span>
+          </div>
+          <p class="danie__opis">Tradycyjne pierogi z ziemniakami i regionalnym twarogiem sudeckim, podawane z kwaśną śmietaną oraz chrupiącą okrasą z boczku i cebulki.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pierogi z wędzonym serem górskim i pieczarkami <span class="danie__gramatura">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">48 zł</span>
+          </div>
+          <p class="danie__opis">Pierogi ze smażonymi pieczarkami i lokalnym serem wędzonym, polane masłem i podawane z sosem czosnkowo-koperkowym.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Karkonoski Mix Pierogów <span class="danie__odznaka">Polecane</span> <span class="danie__gramatura">(450g)</span></h4>
+            <span class="danie__cena">50 zł</span>
+          </div>
+          <p class="danie__opis">Kompozycja po 2 sztuki pierogów: z jeleniem, gęsiną, twarogiem Sudeckim oraz wędzonym serem górskim. Podawane z trzema klasycznymi dodatkami: żurawiną, śmietaną i chrupiącą okrasą.</p>
+        </div>
+      </div>
+
+      <!-- DANIA GŁÓWNE -->
+      <div class="menu__kategoria" id="dania-glowne" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Dania główne</p>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pieczeń piwna z knedlami <span class="danie__gramatura">(500g)</span></h4>
+            <span class="danie__cena">58 zł</span>
+          </div>
+          <p class="danie__opis">Soczysta szynka wieprzowa, wolno pieczona w jasnym sosie własnym z nutą piwa, podawana z tradycyjnymi czeskimi knedlami bułczanymi oraz zasmażaną kiszoną kapustą z dodatkiem kminku i miodu.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Golonka Piwowara <span class="danie__odznaka">Danie flagowe</span> <span class="danie__gramatura">(ok. 1000g)</span></h4>
+            <span class="danie__cena">84 zł</span>
+          </div>
+          <p class="danie__opis">Solidna porcja biesiadnej golonki wieprzowej z chrupiącą skórką, podawana z ostrym chrzanem, musztardą, zasmażaną kiszoną kapustą z kminkiem i miodem oraz ciemnym domowym chlebem.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Gulasz Sudecki z kluskami śląskimi <span class="danie__gramatura">(550g)</span></h4>
+            <span class="danie__cena">60 zł</span>
+          </div>
+          <p class="danie__opis">Długo duszony, esencjonalny gulasz wołowo-wieprzowy z dodatkiem aromatycznych, suszonych podgrzybków, podawany z domowymi kluskami śląskimi i piórkami czerwonej cebuli.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Żebra z Pieca Wyszynkowego <span class="danie__odznaka">Danie flagowe</span> <span class="danie__gramatura">(800g)</span></h4>
+            <span class="danie__cena">68 zł</span>
+          </div>
+          <p class="danie__opis">Kruche żeberka wieprzowe marynowane w piwie pilzneńskim i pieczone do miękkości, serwowane z pieczonymi ziemniakami z rozmarynem, sosem chrzanowym i domowymi piklami.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Tradycyjny schabowy z kością <span class="danie__gramatura">(500g)</span></h4>
+            <span class="danie__cena">59 zł</span>
+          </div>
+          <p class="danie__opis">Soczysty, gruby kotlet schabowy smażony tradycyjnie na smalcu, podawany z gotowanymi ziemniakami z koperkiem i białą kapustą zasmażaną.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Klopsy w sosie kaparowym <span class="danie__gramatura">(480g)</span></h4>
+            <span class="danie__cena">62 zł</span>
+          </div>
+          <p class="danie__opis">Delikatne klopsiki z indyka w aksamitnym sosie kaparowym, przygotowywane według dawnego przepisu z pogranicza, podawane z tłuczonymi ziemniakami.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pstrąg Podgórzyński z pieca <span class="danie__gramatura">(800g)</span></h4>
+            <span class="danie__cena">69 zł</span>
+          </div>
+          <p class="danie__opis">Świeży pstrąg z lokalnej, karkonoskiej hodowli, pieczony w całości i podawany z naszym rzemieślniczym masłem z sardeli oraz świeżymi ziołami, w zestawie z pieczonymi ziemniakami i chrupiącą surówką coleslaw.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Smažený sýr <span class="danie__gramatura">(480g)</span></h4>
+            <span class="danie__cena">59 zł</span>
+          </div>
+          <p class="danie__opis">Klasyka gatunku. Wyrazisty ser Edam w piwnej chrupiącej panierce, podawany z gęstym, domowym sosem tatarskim i grubo krojonymi frytkami.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Grillowana pierś kurczaka ze szparagami <span class="danie__odznaka">Danie sezonowe</span> <span class="danie__gramatura">(550g)</span></h4>
+            <span class="danie__cena">62 zł</span>
+          </div>
+          <p class="danie__opis">Soczysta pierś kurczaka z grilla, serwowana z kremowym sosem śmietanowym z parmezanem, zielonymi szparagami i pieczonymi ziemniakami z rozmarynem.</p>
+        </div>
+      </div>
+
+      <!-- DESERY -->
+      <div class="menu__kategoria" id="desery" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Desery</p>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Karkonoski strudel z jabłkami i żurawiną <span class="danie__gramatura">(180g)</span></h4>
+            <span class="danie__cena">26 zł</span>
+          </div>
+          <p class="danie__opis">Podawany na ciepło z puszystą bitą śmietaną i lodami waniliowymi.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Czekoladowy fondant z wiśniami <span class="danie__gramatura">(220g)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis">Gorące czekoladowe wnętrze, podane z gałką lodów waniliowych i wiśniami.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Sezonowe pierogi na słodko z naszej stolnicy <span class="danie__gramatura">(300g)</span></h4>
+            <span class="danie__cena">cena sezonowa</span>
+          </div>
+          <p class="danie__opis">Ręcznie lepione pierogi z ciasta według tradycyjnej receptury, wypełnione świeżymi owocami sezonowymi, podawane ze słodką śmietaną. O aktualnie dostępny smak zapytaj obsługę.</p>
+        </div>
+      </div>
+
+      <!-- MENU DLA MAŁYCH WĘDROWCÓW -->
+      <div class="menu__kategoria" id="dzieci" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Menu dla Małych Wędrowców</p>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Rosołek z kluseczkami <span class="danie__gramatura">(200ml)</span></h4>
+            <span class="danie__cena">20 zł</span>
+          </div>
+          <p class="danie__opis">Mniejsza porcja naszego esencjonalnego rosołu z gęsi i kury, podawana z domowymi szpeclami i słodką marchewką.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Złocisty kurczak z frytkami <span class="danie__gramatura">(250g)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis">Delikatna, grillowana pierś z kurczaka, podawana z grubo krojonymi frytkami oraz surówką sezonową.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pulpety z indyka w łagodnym sosie <span class="danie__gramatura">(250g)</span></h4>
+            <span class="danie__cena">34 zł</span>
+          </div>
+          <p class="danie__opis">Lekkie i delikatne klopsiki z indyka podawane w kremowym sosie własnym, serwowane z puszystymi, tłuczonymi ziemniakami.</p>
+        </div>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Małe pierogi dla łasucha <span class="danie__gramatura">(4 szt. / 200g)</span></h4>
+            <span class="danie__cena">22 zł</span>
+          </div>
+          <p class="danie__opis">Porcja dopasowana do mniejszego apetytu. Do wyboru: tradycyjne pierogi ruskie z sudeckim twarogiem ze śmietaną lub ręcznie lepione pierogi ze świeżymi owocami sezonowymi i słodką śmietaną.</p>
+        </div>
+      </div>
+
+      <!-- PIWO -->
+      <div class="menu__kategoria" id="piwo" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Piwo</p>
+
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Lany Pilsner Urquell prosto z beczki</h4>
+          </div>
+          <p class="danie__opis">Klasyczne czeskie piwo lane prosto z beczki.</p>
+          <ul class="danie__warianty">
+            <li><span>0,5 l</span><span>20 zł</span></li>
+            <li><span>0,3 l</span><span>17 zł</span></li>
+          </ul>
+        </div>
+
+        <p class="menu__podnaglowek">Piwo butelkowe</p>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Książęce złote pszeniczne <span class="danie__gramatura">(4,9% · 0,5l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Książęce IPA <span class="danie__gramatura">(5,4% · 0,5l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Książęce lager miodowy <span class="danie__gramatura">(4,5% · 0,5l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Kozel jasny <span class="danie__gramatura">(4,6% · 0,5l)</span></h4>
+            <span class="danie__cena">16 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Kozel ciemny <span class="danie__gramatura">(3,8% · 0,5l)</span></h4>
+            <span class="danie__cena">16 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Lech smakowy <span class="danie__gramatura">(4% · 0,5l)</span></h4>
+            <span class="danie__cena">15 zł</span>
+          </div>
+        </div>
+
+        <p class="menu__podnaglowek">Piwo bezalkoholowe</p>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Książęce złote pszeniczne <span class="danie__gramatura">(0% · 0,5l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Książęce IPA <span class="danie__gramatura">(0% · 0,5l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Kozel jasny <span class="danie__gramatura">(0% · 0,5l)</span></h4>
+            <span class="danie__cena">16 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Lech lager jasny <span class="danie__gramatura">(0% · 0,5l)</span></h4>
+            <span class="danie__cena">15 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Lech smakowy <span class="danie__gramatura">(0% · 0,33l)</span></h4>
+            <span class="danie__cena">13 zł</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAPOJE -->
+      <div class="menu__kategoria" id="napoje" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Napoje</p>
+
+        <p class="menu__podnaglowek">Napoje gorące</p>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Kawa czarna <span class="danie__gramatura">(100ml)</span></h4>
+            <span class="danie__cena">10 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Kawa z mlekiem <span class="danie__gramatura">(120ml)</span></h4>
+            <span class="danie__cena">12 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Herbata w dzbanku <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">15 zł</span>
+          </div>
+          <p class="danie__opis">Czarna · Earl Grey · Zielona · Miętowa · Biała · Owoce leśne · Malinowa.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Rozgrzewająca domowa herbata zimowa <span class="danie__gramatura">(300ml)</span></h4>
+            <span class="danie__cena">25 zł</span>
+          </div>
+          <p class="danie__opis">Zapytaj obsługę, jaką dziś polecamy.</p>
+        </div>
+
+        <p class="menu__podnaglowek">Grzane trunki</p>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Grzane wino z pomarańczą i goździkami <span class="danie__gramatura">(13,5% · 250ml)</span></h4>
+            <span class="danie__cena">22 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Grzane wino bezalkoholowe <span class="danie__gramatura">(0% · 250ml)</span></h4>
+            <span class="danie__cena">25 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Grzane białe wino z miodem, cynamonem i jabłkiem <span class="danie__gramatura">(11,5% · 250ml)</span></h4>
+            <span class="danie__cena">25 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Grzany Aperol <span class="danie__gramatura">(10% · 250ml)</span></h4>
+            <span class="danie__cena">28 zł</span>
+          </div>
+          <p class="danie__opis">Białe wino, likier Aperol, pomarańcza i laska cynamonu.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Grzany miód pitny Trójniak Staropolski <span class="danie__gramatura">(13% · 250ml)</span></h4>
+            <span class="danie__cena">26 zł</span>
+          </div>
+          <p class="danie__opis">Z jabłkiem i gwiazdką anyżu.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Grzane piwo <span class="danie__gramatura">(5,2% · 500ml)</span></h4>
+            <span class="danie__cena">27 zł</span>
+          </div>
+          <p class="danie__opis">Z sokiem imbirowym, malinowym lub miodem i przyprawami korzennymi. Wersja bezalkoholowa - 30 zł.</p>
+        </div>
+
+        <p class="menu__podnaglowek">Napoje zimne</p>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Soki świeżo wyciskane <span class="danie__gramatura">(300ml)</span></h4>
+            <span class="danie__cena">24 zł</span>
+          </div>
+          <p class="danie__opis">Pomarańczowy · Jabłkowy · Mix.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Domowe herbaty mrożone <span class="danie__gramatura">(300ml)</span></h4>
+            <span class="danie__cena">20 zł</span>
+          </div>
+          <p class="danie__opis">Klasyczna · Zielona · Malinowa.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Lemoniady domowe <span class="danie__gramatura">(300ml)</span></h4>
+            <span class="danie__cena">24 zł</span>
+          </div>
+          <p class="danie__opis">Klasyczna cytrynowa lub z owocami sezonowymi - zapytaj obsługę.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Woda mineralna gazowana lub niegazowana <span class="danie__gramatura">(330 / 700ml)</span></h4>
+            <span class="danie__cena">8 / 12 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Napoje gazowane <span class="danie__gramatura">(200ml)</span></h4>
+            <span class="danie__cena">10 zł</span>
+          </div>
+          <p class="danie__opis">Pepsi · Pepsi MAX · Mirinda · 7up.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Lipton Ice Tea <span class="danie__gramatura">(200ml)</span></h4>
+            <span class="danie__cena">10 zł</span>
+          </div>
+          <p class="danie__opis">Brzoskwiniowa · Klasyczna.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Soki <span class="danie__gramatura">(200ml)</span></h4>
+            <span class="danie__cena">10 zł</span>
+          </div>
+          <p class="danie__opis">Pomarańczowy · Jabłkowy.</p>
+        </div>
+      </div>
+
+      <!-- ALKOHOLE -->
+      <div class="menu__kategoria" id="alkohole" role="tabpanel">
+        <p class="menu__kategoria-naglowek">Alkohole</p>
+
+        <p class="menu__podnaglowek">Szprycery <span style="text-transform:none;letter-spacing:0;font-weight:500;">(300ml / 1l)</span></p>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Hugo Spritz <span class="danie__gramatura">(5%)</span></h4>
+            <span class="danie__cena">26 / 74 zł</span>
+          </div>
+          <p class="danie__opis">Prosecco, woda gazowana, syrop z kwiatów czarnego bzu, limonka.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Pink Prosecco <span class="danie__gramatura">(5%)</span></h4>
+            <span class="danie__cena">26 / 74 zł</span>
+          </div>
+          <p class="danie__opis">Prosecco, purée malinowe, woda gazowana.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Aperol Spritz <span class="danie__gramatura">(8%)</span></h4>
+            <span class="danie__cena">28 / 85 zł</span>
+          </div>
+          <p class="danie__opis">Prosecco, likier Aperol, woda gazowana, pomarańcza.</p>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Lemon Bianco Spritz <span class="danie__gramatura">(12%)</span></h4>
+            <span class="danie__cena">28 / 85 zł</span>
+          </div>
+          <p class="danie__opis">Prosecco, Martini Bianco, sok z cytryny, syrop cukrowy.</p>
+        </div>
+
+        <p class="menu__podnaglowek">Prosecco <span style="text-transform:none;letter-spacing:0;font-weight:500;">(10,5%)</span></p>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Karafka 1 l</h4>
+            <span class="danie__cena">75 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Karafka 0,5 l</h4>
+            <span class="danie__cena">40 zł</span>
+          </div>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Kieliszek 150 ml</h4>
+            <span class="danie__cena">16 zł</span>
+          </div>
+        </div>
+
+        <p class="menu__podnaglowek">Wina domu</p>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Czerwone wytrawne, hiszpańskie <span class="danie__gramatura">(12,5%)</span></h4>
+          </div>
+          <p class="danie__opis">Wyraziste, o intensywnych nutach jeżyn i ciemnych jagód.</p>
+          <ul class="danie__warianty">
+            <li><span>Karafka 1 l</span><span>75 zł</span></li>
+            <li><span>Karafka 0,5 l</span><span>40 zł</span></li>
+            <li><span>Kieliszek 150 ml</span><span>16 zł</span></li>
+          </ul>
+        </div>
+        <div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa">Białe wytrawne, hiszpańskie <span class="danie__gramatura">(11,5%)</span></h4>
+          </div>
+          <p class="danie__opis">Delikatne, z wyczuwalnymi aromatami bananów i jabłek.</p>
+          <ul class="danie__warianty">
+            <li><span>Karafka 1 l</span><span>75 zł</span></li>
+            <li><span>Karafka 0,5 l</span><span>40 zł</span></li>
+            <li><span>Kieliszek 150 ml</span><span>16 zł</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ GALERIA ============ -->
+  <section class="sekcja" id="galeria">
+    <div class="container">
+      <div class="sekcja__naglowek">
+        <span class="eyebrow">Klimat Wyszynku</span>
+        <h2 class="sekcja__tytul">Galeria</h2>
+      </div>
+      <div class="galeria__siatka">
+        <button class="galeria__element" type="button" data-alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą">
+          <img src="assets/img/golonka.jpg" alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą" loading="lazy" width="700" height="700">
+        </button>
+        <button class="galeria__element" type="button" data-alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem">
+          <img src="assets/img/zeberka.jpg" alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem" loading="lazy" width="700" height="700">
+        </button>
+        <button class="galeria__element" type="button" data-alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli">
+          <img src="assets/img/pstrag.jpg" alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli" loading="lazy" width="700" height="700">
+        </button>
+        <button class="galeria__element" type="button" data-alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy">
+          <img src="assets/img/pierogi.jpg" alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy" loading="lazy" width="700" height="700">
+        </button>
+        <button class="galeria__element" type="button" data-alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem">
+          <img src="assets/img/hermelin.jpg" alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem" loading="lazy" width="700" height="700">
+        </button>
+        <button class="galeria__element" type="button" data-alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole">
+          <img src="assets/img/kielbasy.jpg" alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole" loading="lazy" width="700" height="700">
+        </button>
+        <button class="galeria__element" type="button" data-alt="Fryty Wyszynkowe z trzema autorskimi dipami">
+          <img src="assets/img/frytki.jpg" alt="Fryty Wyszynkowe z trzema autorskimi dipami" loading="lazy" width="700" height="700">
+        </button>
+        <button class="galeria__element" type="button" data-alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy">
+          <img src="assets/img/wszystkie-zupy.jpg" alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy" loading="lazy" width="700" height="700">
+        </button>
+        <button class="galeria__element" type="button" data-alt="Czekoladowy fondant z wiśniami i lodami waniliowymi">
+          <img src="assets/img/fondant.jpg" alt="Czekoladowy fondant z wiśniami i lodami waniliowymi" loading="lazy" width="700" height="700">
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOKALIZACJA I KONTAKT ============ -->
+  <section class="sekcja" id="kontakt">
+    <div class="container">
+      <div class="sekcja__naglowek">
+        <span class="eyebrow">Odwiedź nas</span>
+        <h2 class="sekcja__tytul">Lokalizacja i kontakt</h2>
+      </div>
+      <div class="kontakt">
+        <div class="kontakt__blok">
+          <h3>Adres</h3>
+          <p>ul. Jedności Narodowej 18<br>58-580 Szklarska Poręba<br>Parter Villa Bożena</p>
+
+          <h3>Godziny otwarcia</h3>
+          <p>
+            Pon–Czw: TU_WSTAW_GODZINY<br>
+            Pt–Sob: TU_WSTAW_GODZINY<br>
+            Niedziela: TU_WSTAW_GODZINY
+          </p>
+
+          <h3>Telefon</h3>
+          <p><a href="tel:TU_WSTAW_TELEFON">TU_WSTAW_TELEFON</a></p>
+
+          <h3>E-mail</h3>
+          <p><a href="mailto:TU_WSTAW_EMAIL">TU_WSTAW_EMAIL</a></p>
+        </div>
+        <div class="kontakt__mapa">
+          <!-- Osadzona mapa Google - podmień src na docelowy adres lokalu -->
+          <iframe
+            title="Mapa dojazdu do Wyszynku Karkonoskiego"
+            src="https://www.google.com/maps?q=Jedno%C5%9Bci%20Narodowej%2018%2C%20Szklarska%20Por%C4%99ba&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        <p class="kontakt__nota">Nocujesz w Villa Bożena? Wyszynk masz na parterze.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ STOPKA ============ -->
+<footer class="stopka">
+  <div class="container">
+    <img src="assets/img/logo.svg" alt="Wyszynk Karkonoski" class="logo-img logo-img--footer stopka__logo" width="160" height="84" loading="lazy">
+    <p class="stopka__haslo">Wracajcie na golonkę, pierogi i dobrze nalane piwo - z Karkonoszy, od 1892.</p>
+    <div class="stopka__social">
+      <a href="#" target="_blank" rel="noopener">Facebook</a>
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <span class="stopka__handle">@wyszynkkarkonoski</span>
+    </div>
+    <p class="stopka__copy">&copy; <span id="rok-stopki">2026</span> Wyszynk Karkonoski. Wszelkie prawa zastrzeżone.</p>
+    <p class="stopka__copy">Villa Bożena · Relaxtour</p>
+  </div>
+</footer>
+
+<!-- Lightbox galerii -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox__tresc">
+    <button class="lightbox__zamknij" id="lightbox-zamknij" aria-label="Zamknij podgląd zdjęcia">&times;</button>
+    <img id="lightbox-img" src="" alt="">
+    <p id="lightbox-opis"></p>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
