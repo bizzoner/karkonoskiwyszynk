@@ -11,14 +11,770 @@
 <meta property="og:description" content="Kuchnia pogranicza karkonosko-czesko-śląskiego i lany Pilsner Urquell z beczki. Historyczny budynek z 1892 roku, parter Villa Bożena.">
 <meta property="og:type" content="restaurant">
 <meta property="og:locale" content="pl_PL">
-<meta property="og:image" content="assets/img/golonka.jpg">
+<!-- TODO: potwierdź finalną domenę produkcyjną - poniższe URL-e zakładają
+     karkonoskiwyszynk.pl. Podmień, jeśli domena jest inna. -->
+<meta property="og:url" content="https://karkonoskiwyszynk.pl/">
+<meta property="og:image" content="https://karkonoskiwyszynk.pl/assets/img/golonka.jpg">
 
-<!-- Fonty: preconnect dla wydajności -->
+<!-- Fonty: nieblokujące ładowanie (preload + media=print trick), wagi
+     przycięte do realnie użytych na tej stronie (zweryfikowane przez
+     getComputedStyle na całym DOM, łącznie z ukrytymi zakładkami menu):
+     Playfair Display 700 (bez 900 - w hero jest logo SVG, nie tekst),
+     Cormorant Garamond 500/600/700 + kursywa 500 (danie__opis, zajawki). -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap"></noscript>
 
-<link rel="stylesheet" href="style.css">
+<!-- style.css zinline'owany poniżej (4,4 KiB - poniżej progu, gdzie osobne
+     żądanie ma sens; inline eliminuje render-blocking request). Plik
+     źródłowy style.css zostaje w repo jako punkt edycji, ale strona go
+     już nie ładuje jako osobny zasób. -->
+<style>
+/* =========================================================
+   KARKONOSKI WYSZYNK — arkusz stylów
+   Estetyka starej etykiety browarnianej: zieleń, złoto, kość
+   słoniowa. Bez cieni material design, bez zaokrągleń > 3px.
+   ========================================================= */
+
+:root {
+  /* Kolory marki */
+  --forest: #1F4A2E;
+  --forest-light: #2D6B42;
+  --forest-lighter: #3D8A56;
+  --gold: #9B7A1A;
+  --gold-dark: #826414; /* WCAG AA (4.76:1) na tle --ivory - do tekstu, nie do obramowań */
+  --gold-light: #C49A22;
+  --gold-lighter: #E8C45A;
+  --brown: #2E1F0E;
+  --wood: #5C3D1E;
+  --ivory: #F5EDD8;
+  --ivory-alt: #EDE0C4;
+  --ivory-dark: #DFD0A8;
+  --text: #1C1409;
+
+  /* Typografia */
+  --f-display: "Playfair Display", serif;
+  --f-body: "Cormorant Garamond", serif;
+
+  --radius: 2px;
+}
+
+/* ---------- Reset podstawowy ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--text);
+  font-family: var(--f-body);
+  font-weight: 500;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, h4 {
+  font-family: var(--f-display);
+  color: var(--forest);
+  margin: 0 0 0.5em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Ukrywanie dla czytników ekranu, widoczne przy fokusie (skip link) */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: 1rem;
+  background: var(--forest);
+  color: var(--ivory);
+  padding: 0.6rem 1rem;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 1rem; }
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Etykieta w stylu kapitalik: uppercase, szeroki tracking */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--f-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.68rem;
+  color: var(--gold-dark);
+}
+/* Na ciemnym tle --gold-dark byłby nieczytelny - użyj jaśniejszej wersji */
+.sekcja--ciemna .eyebrow { color: var(--gold-lighter); }
+
+/* Cienki złoty separator z ornamentem centralnym */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.divider--center { justify-content: center; }
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--gold-light);
+  max-width: 90px;
+}
+.divider__mark {
+  width: 6px; height: 6px;
+  transform: rotate(45deg);
+  background: var(--gold-light);
+  flex-shrink: 0;
+}
+
+/* Ornamenty narożne — cienkie linie w rogach sekcji/kart */
+.ornament-corners {
+  position: relative;
+}
+.ornament-corners::before,
+.ornament-corners::after {
+  content: "";
+  position: absolute;
+  width: 22px; height: 22px;
+  border: 1px solid var(--gold-light);
+  opacity: 0.65;
+}
+.ornament-corners::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+.ornament-corners::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+/* ---------- Przyciski ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--f-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.85rem;
+  padding: 0.85rem 1.9rem;
+  border: 1px solid var(--gold-light);
+  border-radius: var(--radius);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.btn--primary {
+  background: var(--gold-light);
+  color: var(--brown);
+}
+.btn--primary:hover { background: var(--gold-lighter); }
+.btn--ghost {
+  color: var(--ivory);
+  border-color: rgba(232, 196, 90, 0.6);
+}
+.btn--ghost:hover {
+  background: rgba(232, 196, 90, 0.12);
+  border-color: var(--gold-lighter);
+}
+
+/* Przycisk do wizytówki Google - godziny, telefon i opinie żyją tam,
+   nie duplikujemy ich na stronie. */
+.btn-google {
+  display: inline-block;
+  font-family: var(--f-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  color: var(--forest);
+  background: var(--ivory);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.6rem;
+  margin-top: 0.5rem;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.btn-google:hover {
+  background: var(--ivory-dark);
+  border-color: var(--gold-light);
+}
+
+/* ---------- Nawigacja ---------- */
+.naglowek {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: rgba(31, 74, 46, 0.96);
+  border-bottom: 1px solid rgba(232, 196, 90, 0.25);
+}
+.nawigacja {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+.nawigacja__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+.nawigacja__logo span {
+  font-family: var(--f-body);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  font-size: 0.68rem;
+  color: var(--gold-lighter);
+}
+
+/* Prawdziwe logo marki (SVG, jednokolorowe) - rozjaśnione do kości
+   słoniowej filtrem, aby czytelnie odcinało się na ciemnych tłach */
+.logo-img {
+  filter: brightness(0) invert(1);
+  width: auto;
+}
+.logo-img--nav { height: 34px; }
+.logo-img--hero { width: min(360px, 68vw); height: auto; margin: 0 auto; }
+.logo-img--footer { height: 52px; margin: 0 auto; }
+.nawigacja__linki {
+  display: flex;
+  gap: 2rem;
+}
+.nawigacja__linki a {
+  font-family: var(--f-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  color: var(--ivory-alt);
+  padding: 0.3rem 0;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.nawigacja__linki a:hover,
+.nawigacja__linki a:focus-visible {
+  color: var(--gold-lighter);
+  border-bottom-color: var(--gold-lighter);
+}
+.nawigacja__hamburger {
+  display: none;
+  background: none;
+  border: 1px solid var(--gold-light);
+  border-radius: var(--radius);
+  width: 42px; height: 38px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.nawigacja__hamburger span {
+  width: 20px; height: 2px;
+  background: var(--gold-lighter);
+  display: block;
+}
+
+@media (max-width: 860px) {
+  .nawigacja__hamburger { display: flex; }
+  .nawigacja__linki {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--forest);
+    flex-direction: column;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-bottom: 1px solid rgba(232, 196, 90, 0.25);
+  }
+  .nawigacja__linki.jest-otwarte { max-height: 420px; }
+  .nawigacja__linki a {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(232, 196, 90, 0.12);
+    width: 100%;
+  }
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--ivory);
+  background: linear-gradient(180deg, rgba(28, 20, 9, 0.55), rgba(31, 74, 46, 0.82)), var(--forest);
+}
+.hero__tlo-placeholder {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--forest);
+}
+/* PLACEHOLDER ZDJĘCIA: ciepłe, klimatyczne wnętrze karczmy z lampami,
+   drewnianymi belkami i widoczną beczką z Pilsnerem w tle */
+.hero__tresc {
+  max-width: 720px;
+  padding: 6rem 1.5rem;
+}
+.hero__eyebrow {
+  color: var(--gold-lighter);
+  margin-bottom: 1.2rem;
+}
+.hero__tytul {
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--ivory);
+  margin-bottom: 0.9rem;
+}
+.hero__haslo {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  color: var(--ivory-alt);
+  margin-bottom: 2.5rem;
+}
+.hero__cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero__strzalka {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 46px;
+  background: linear-gradient(180deg, transparent, var(--gold-lighter));
+}
+.hero__strzalka::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 7px; height: 7px;
+  border-right: 1px solid var(--gold-lighter);
+  border-bottom: 1px solid var(--gold-lighter);
+}
+
+/* ---------- Sekcje ogólne ---------- */
+.sekcja { padding: 6rem 0; }
+.sekcja--ciemna {
+  background: var(--forest);
+  color: var(--ivory-alt);
+}
+.sekcja--ciemna h2 { color: var(--ivory); }
+.sekcja__naglowek {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 3rem;
+}
+.sekcja__tytul { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+
+/* ---------- O MIEJSCU ---------- */
+.o-miejscu {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+.o-miejscu__zdjecie {
+  background: var(--ivory-dark);
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--gold-light);
+  overflow: hidden;
+}
+.o-miejscu__zdjecie img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.o-miejscu__tekst .eyebrow { margin-bottom: 1rem; display: block; }
+.o-miejscu__tekst p { font-size: 1.2rem; }
+
+@media (min-width: 860px) {
+  .o-miejscu { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- PILSNER ---------- */
+.pilsner__intro {
+  max-width: 680px;
+  margin: 0 auto 1.2rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+.pilsner__cennik {
+  text-align: center;
+  color: var(--gold-lighter);
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 0 0 3rem;
+}
+.pilsner__karty {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .pilsner__karty { grid-template-columns: repeat(3, 1fr); }
+}
+.pilsner-karta {
+  border: 1px solid rgba(232, 196, 90, 0.4);
+  padding: 2rem 1.6rem;
+  text-align: center;
+  background: rgba(245, 237, 216, 0.03);
+}
+.pilsner-karta h3 {
+  color: var(--gold-lighter);
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+.pilsner-karta p {
+  margin: 0;
+  color: var(--ivory-alt);
+  font-size: 1.05rem;
+}
+
+/* ---------- MENU ---------- */
+.menu { background: var(--ivory); }
+.menu__zakladki {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+.menu__zakladka {
+  background: transparent;
+  border: 1px solid var(--gold-light);
+  border-radius: var(--radius);
+  padding: 0.55rem 1.1rem;
+  font-family: var(--f-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.74rem;
+  color: var(--wood);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.menu__zakladka.jest-aktywna,
+.menu__zakladka:hover {
+  background: var(--forest);
+  color: var(--ivory);
+  border-color: var(--forest);
+}
+
+.menu__kategoria {
+  display: none;
+  max-width: 820px;
+  margin: 0 auto;
+}
+.menu__kategoria.jest-aktywna { display: block; }
+.menu__kategoria-naglowek {
+  text-align: center;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--f-body);
+  margin-bottom: 0.5rem;
+}
+.menu__kategoria-wstep {
+  text-align: center;
+  font-style: italic;
+  color: var(--wood);
+  margin-bottom: 2rem;
+}
+.menu__podnaglowek {
+  color: var(--forest);
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  font-family: var(--f-body);
+  margin: 2.2rem 0 0.4rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--gold-light);
+}
+.menu__podnaglowek:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+.danie {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--ivory-dark);
+}
+.danie:last-child { border-bottom: none; }
+.danie__glowna {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0.3rem 1rem;
+}
+.danie__nazwa {
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--forest);
+  margin: 0;
+  min-width: 0;
+}
+.danie__gramatura {
+  font-weight: 500;
+  color: var(--wood);
+  font-size: 0.95rem;
+}
+.danie__cena {
+  font-family: var(--f-display);
+  font-weight: 700;
+  color: var(--gold-dark);
+  font-size: 1.15rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.danie__odznaka {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-family: var(--f-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.6rem;
+  color: var(--brown);
+  background: var(--gold-lighter);
+  padding: 0.15rem 0.45rem;
+  vertical-align: middle;
+  border-radius: var(--radius);
+}
+.danie__opis {
+  font-style: italic;
+  color: var(--wood);
+  margin: 0.35rem 0 0;
+  font-size: 1.02rem;
+}
+.danie__warianty {
+  margin-top: 0.5rem;
+  padding-left: 0;
+}
+.danie__warianty li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 1rem;
+  color: var(--text);
+  padding: 0.15rem 0;
+}
+.danie__warianty li span:last-child {
+  font-family: var(--f-display);
+  font-weight: 700;
+  color: var(--gold-dark);
+  white-space: nowrap;
+}
+
+/* ---------- GALERIA ---------- */
+.galeria__siatka {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 700px) {
+  .galeria__siatka { grid-template-columns: repeat(4, 1fr); }
+}
+.galeria__element {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--ivory-dark);
+  border: 1px solid var(--gold-light);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  width: 100%;
+  display: block;
+}
+.galeria__element img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.galeria__element-tekst {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--wood);
+}
+.galeria__element::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--brown);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.galeria__element:hover::after,
+.galeria__element:focus-visible::after { opacity: 0.18; }
+
+/* Lightbox lekki, bez bibliotek */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 20, 9, 0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+.lightbox.jest-otwarty { display: flex; }
+.lightbox__tresc {
+  background: var(--ivory-dark);
+  max-width: 640px;
+  width: 100%;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  font-style: italic;
+  color: var(--wood);
+  border: 1px solid var(--gold-light);
+  position: relative;
+}
+.lightbox__zamknij {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.8rem;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--wood);
+  cursor: pointer;
+  line-height: 1;
+  z-index: 1;
+}
+#lightbox-img {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: cover;
+  border: 1px solid var(--gold-light);
+  margin-bottom: 1rem;
+}
+
+/* ---------- LOKALIZACJA / KONTAKT ---------- */
+.kontakt {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 860px) {
+  .kontakt { grid-template-columns: 1fr 1fr; }
+}
+.kontakt__blok h3 {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--gold-dark);
+  margin-bottom: 0.4rem;
+}
+.kontakt__blok p { margin: 0 0 1.6rem; }
+.kontakt__telefon {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--forest);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.kontakt__telefon:hover,
+.kontakt__telefon:focus-visible {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+.kontakt__mapa {
+  border: 1px solid var(--gold-light);
+  min-height: 340px;
+}
+.kontakt__mapa iframe { width: 100%; height: 100%; min-height: 340px; border: 0; display: block; }
+.kontakt__nota {
+  margin-top: 2.5rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--ivory-dark);
+  font-style: italic;
+  font-size: 1.15rem;
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+/* ---------- STOPKA ---------- */
+.stopka {
+  background: var(--brown);
+  color: var(--ivory-alt);
+  padding: 3rem 0 2rem;
+  text-align: center;
+}
+.stopka__logo { margin-bottom: 1.2rem; }
+.stopka__haslo {
+  font-style: italic;
+  font-size: 1.1rem;
+  max-width: 480px;
+  margin: 0 auto 1.6rem;
+  color: var(--ivory-alt);
+}
+.stopka__social {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.stopka__social a {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+}
+.stopka__social a:hover { border-bottom-color: var(--gold-lighter); color: var(--gold-lighter); }
+.stopka__handle {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-lighter);
+}
+.stopka__copy {
+  font-size: 0.85rem;
+  color: rgba(237, 224, 196, 0.6);
+  margin: 0.3rem 0;
+}
+</style>
 
 <!-- Dane strukturalne Schema.org dla restauracji -->
 <script type="application/ld+json">
@@ -35,7 +791,11 @@
   },
   "telephone": "+48793066186",
   "description": "Karczma piwna w standardzie restauracyjnym w historycznym budynku z 1892 roku. Kuchnia pogranicza karkonosko-czesko-śląskiego i lany, niepasteryzowany Pilsner Urquell z beczki.",
-  "priceRange": "$$"
+  "priceRange": "$$",
+  "sameAs": [
+    "https://www.instagram.com/karkonoskiwyszynk/",
+    "https://maps.app.goo.gl/kVQdiEnwsCUPiVY69"
+  ]
 }
 </script>
 </head>
@@ -72,7 +832,7 @@
     <div class="hero__tresc">
       <p class="eyebrow hero__eyebrow">Szklarska Poręba · od 1892</p>
       <h1 class="hero__tytul">
-        <img src="assets/img/logo.svg" alt="Karkonoski Wyszynk" class="logo-img logo-img--hero" width="360" height="189" loading="eager">
+        <img src="assets/img/logo.svg" alt="Karkonoski Wyszynk" class="logo-img logo-img--hero" width="360" height="189" loading="eager" fetchpriority="high">
       </h1>
       <p class="hero__haslo">Karkonosze na talerzu i w kuflu</p>
       <div class="hero__cta">
@@ -89,11 +849,14 @@
       <div class="o-miejscu__tekst">
         <span class="eyebrow">Historia</span>
         <h2 class="sekcja__tytul">Karczma z urodzenia, nie z konceptu</h2>
-        <p>Ten budynek gościł podróżnych, zanim ktokolwiek wymyślił słowo gastronomia. Powstał w 1892 roku jako Hotel Klose i przez ponad sto lat był miejscem, w którym Karkonosze spotykały się przy stole.</p>
-        <p>Dziś wracamy do tej tradycji. Wyszynk to dawne określenie miejsca, gdzie podawano trunki i jedzenie - lokalne centrum życia. Nie udajemy karczmy. Jesteśmy nią z urodzenia.</p>
+        <p>Ten budynek stoi tu od 1892 roku - powstał jako Hotel Klose i od pierwszego dnia witał podróżnych zmierzających w Karkonosze. Dziś, na jego parterze, wracamy do tamtej roli: zamiast pokoi mamy dla Państwa dobrze zastawiony stół.</p>
+        <p>Wyszynk to dawne określenie miejsca, gdzie podawano trunki i jedzenie - lokalne centrum życia. Dokładnie tym chcemy być: miejscem kuchni karkonosko-czesko-śląskiego pogranicza, prostego dobrego jedzenia i chwili oddechu po dniu spędzonym w górach. Nie udajemy karczmy. Jesteśmy nią z urodzenia.</p>
       </div>
       <div class="o-miejscu__zdjecie ornament-corners">
-        <img src="assets/img/zewnatrz.jpg" alt="Historyczna fasada budynku dawnego Hotelu Klose, dziś Villa Bożena, otoczona lasem Karkonoszy" loading="lazy">
+        <picture>
+          <source srcset="assets/img/zewnatrz.webp" type="image/webp">
+          <img src="assets/img/zewnatrz.jpg" alt="Historyczna fasada budynku dawnego Hotelu Klose, dziś Villa Bożena, otoczona lasem Karkonoszy" loading="lazy" width="1119" height="1400">
+        </picture>
       </div>
     </div>
   </section>
@@ -105,7 +868,7 @@
         <span class="eyebrow">Rzemiosło nalewania</span>
         <h2 class="sekcja__tytul">Lany Pilsner Urquell prosto z beczki</h2>
       </div>
-      <p class="pilsner__intro">Serwujemy wyłącznie niepasteryzowanego Pilsnera Urquell, nalewanego zgodnie z czeską sztuką tankowania. To rzemiosło wymagające cierpliwości i wprawy - efektem jest piwo o pełni smaku, jakiej nie osiągnie się z butelki.</p>
+      <p class="pilsner__intro">Serwujemy wyłącznie niepasteryzowany Pilsner Urquell, nalewany zgodnie z czeską sztuką tankowania. To rzemiosło wymagające cierpliwości i wprawy - efektem jest piwo o pełni smaku, jakiej nie osiągnie się z butelki.</p>
       <p class="pilsner__cennik">0,5 l — 20 zł &nbsp;·&nbsp; 0,3 l — 17 zł</p>
       <div class="pilsner__karty">
         <div class="pilsner-karta">
@@ -147,7 +910,7 @@
 
       <!-- ZUPY -->
       <div class="menu__kategoria jest-aktywna" id="zupy" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Zupy</p>
+        <h3 class="menu__kategoria-naglowek">Zupy</h3>
 
         <div class="danie">
           <div class="danie__glowna">
@@ -184,7 +947,7 @@
 
       <!-- ZAKĄSKI Z WYSZYNKU -->
       <div class="menu__kategoria" id="zakaski" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Zakąski z Wyszynku</p>
+        <h3 class="menu__kategoria-naglowek">Zakąski z Wyszynku</h3>
 
         <div class="danie">
           <div class="danie__glowna">
@@ -241,7 +1004,7 @@
 
       <!-- PIEROGI LEPIONE W WYSZYNKU -->
       <div class="menu__kategoria" id="pierogi" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Pierogi lepione w Wyszynku</p>
+        <h3 class="menu__kategoria-naglowek">Pierogi lepione w Wyszynku</h3>
         <p class="menu__kategoria-wstep">Lepione ręcznie, każdego dnia. Regionalna wizytówka naszej kuchni.</p>
 
         <div class="danie">
@@ -287,7 +1050,7 @@
 
       <!-- DANIA GŁÓWNE -->
       <div class="menu__kategoria" id="dania-glowne" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Dania główne</p>
+        <h3 class="menu__kategoria-naglowek">Dania główne</h3>
 
         <div class="danie">
           <div class="danie__glowna">
@@ -364,7 +1127,7 @@
 
       <!-- DESERY -->
       <div class="menu__kategoria" id="desery" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Desery</p>
+        <h3 class="menu__kategoria-naglowek">Desery</h3>
 
         <div class="danie">
           <div class="danie__glowna">
@@ -393,7 +1156,7 @@
 
       <!-- MENU DLA MAŁYCH WĘDROWCÓW -->
       <div class="menu__kategoria" id="dzieci" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Menu dla Małych Wędrowców</p>
+        <h3 class="menu__kategoria-naglowek">Menu dla Małych Wędrowców</h3>
 
         <div class="danie">
           <div class="danie__glowna">
@@ -430,7 +1193,7 @@
 
       <!-- PIWO -->
       <div class="menu__kategoria" id="piwo" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Piwo</p>
+        <h3 class="menu__kategoria-naglowek">Piwo</h3>
 
         <div class="danie">
           <div class="danie__glowna">
@@ -443,7 +1206,7 @@
           </ul>
         </div>
 
-        <p class="menu__podnaglowek">Piwo butelkowe</p>
+        <h3 class="menu__podnaglowek">Piwo butelkowe</h3>
         <div class="danie">
           <div class="danie__glowna">
             <h4 class="danie__nazwa">Książęce złote pszeniczne <span class="danie__gramatura">(4,9% · 0,5l)</span></h4>
@@ -481,7 +1244,7 @@
           </div>
         </div>
 
-        <p class="menu__podnaglowek">Piwo bezalkoholowe</p>
+        <h3 class="menu__podnaglowek">Piwo bezalkoholowe</h3>
         <div class="danie">
           <div class="danie__glowna">
             <h4 class="danie__nazwa">Książęce złote pszeniczne <span class="danie__gramatura">(0% · 0,5l)</span></h4>
@@ -516,9 +1279,9 @@
 
       <!-- NAPOJE -->
       <div class="menu__kategoria" id="napoje" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Napoje</p>
+        <h3 class="menu__kategoria-naglowek">Napoje</h3>
 
-        <p class="menu__podnaglowek">Napoje gorące</p>
+        <h3 class="menu__podnaglowek">Napoje gorące</h3>
         <div class="danie">
           <div class="danie__glowna">
             <h4 class="danie__nazwa">Kawa czarna <span class="danie__gramatura">(100ml)</span></h4>
@@ -546,7 +1309,7 @@
           <p class="danie__opis">Zapytaj obsługę, jaką dziś polecamy.</p>
         </div>
 
-        <p class="menu__podnaglowek">Grzane trunki</p>
+        <h3 class="menu__podnaglowek">Grzane trunki</h3>
         <div class="danie">
           <div class="danie__glowna">
             <h4 class="danie__nazwa">Grzane wino z pomarańczą i goździkami <span class="danie__gramatura">(13,5% · 250ml)</span></h4>
@@ -587,7 +1350,7 @@
           <p class="danie__opis">Z sokiem imbirowym, malinowym lub miodem i przyprawami korzennymi. Wersja bezalkoholowa - 30 zł.</p>
         </div>
 
-        <p class="menu__podnaglowek">Napoje zimne</p>
+        <h3 class="menu__podnaglowek">Napoje zimne</h3>
         <div class="danie">
           <div class="danie__glowna">
             <h4 class="danie__nazwa">Soki świeżo wyciskane <span class="danie__gramatura">(300ml)</span></h4>
@@ -640,9 +1403,9 @@
 
       <!-- ALKOHOLE -->
       <div class="menu__kategoria" id="alkohole" role="tabpanel">
-        <p class="menu__kategoria-naglowek">Alkohole</p>
+        <h3 class="menu__kategoria-naglowek">Alkohole</h3>
 
-        <p class="menu__podnaglowek">Szprycery <span style="text-transform:none;letter-spacing:0;font-weight:500;">(300ml / 1l)</span></p>
+        <h3 class="menu__podnaglowek">Szprycery <span style="text-transform:none;letter-spacing:0;font-weight:500;">(300ml / 1l)</span></h3>
         <div class="danie">
           <div class="danie__glowna">
             <h4 class="danie__nazwa">Hugo Spritz <span class="danie__gramatura">(5%)</span></h4>
@@ -672,7 +1435,7 @@
           <p class="danie__opis">Prosecco, Martini Bianco, sok z cytryny, syrop cukrowy.</p>
         </div>
 
-        <p class="menu__podnaglowek">Prosecco <span style="text-transform:none;letter-spacing:0;font-weight:500;">(10,5%)</span></p>
+        <h3 class="menu__podnaglowek">Prosecco <span style="text-transform:none;letter-spacing:0;font-weight:500;">(10,5%)</span></h3>
         <div class="danie">
           <div class="danie__glowna">
             <h4 class="danie__nazwa">Karafka 1 l</h4>
@@ -692,7 +1455,7 @@
           </div>
         </div>
 
-        <p class="menu__podnaglowek">Wina domu</p>
+        <h3 class="menu__podnaglowek">Wina domu</h3>
         <div class="danie">
           <div class="danie__glowna">
             <h4 class="danie__nazwa">Czerwone wytrawne, hiszpańskie <span class="danie__gramatura">(12,5%)</span></h4>
@@ -729,31 +1492,31 @@
       </div>
       <div class="galeria__siatka">
         <button class="galeria__element" type="button" data-alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą">
-          <img src="assets/img/golonka.jpg" alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą" loading="lazy" width="700" height="700">
+          <img src="assets/img/golonka.webp" alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą" loading="lazy" width="1400" height="1400">
         </button>
         <button class="galeria__element" type="button" data-alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem">
-          <img src="assets/img/zeberka.jpg" alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem" loading="lazy" width="700" height="700">
+          <img src="assets/img/zeberka.webp" alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem" loading="lazy" width="1000" height="1000">
         </button>
         <button class="galeria__element" type="button" data-alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli">
-          <img src="assets/img/pstrag.jpg" alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli" loading="lazy" width="700" height="700">
+          <img src="assets/img/pstrag.webp" alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli" loading="lazy" width="1000" height="1000">
         </button>
         <button class="galeria__element" type="button" data-alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy">
-          <img src="assets/img/pierogi.jpg" alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy" loading="lazy" width="700" height="700">
+          <img src="assets/img/pierogi.webp" alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy" loading="lazy" width="1000" height="1000">
         </button>
         <button class="galeria__element" type="button" data-alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem">
-          <img src="assets/img/hermelin.jpg" alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem" loading="lazy" width="700" height="700">
+          <img src="assets/img/hermelin.webp" alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem" loading="lazy" width="1000" height="1000">
         </button>
         <button class="galeria__element" type="button" data-alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole">
-          <img src="assets/img/kielbasy.jpg" alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole" loading="lazy" width="700" height="700">
+          <img src="assets/img/kielbasy.webp" alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole" loading="lazy" width="1000" height="1000">
         </button>
         <button class="galeria__element" type="button" data-alt="Fryty Wyszynkowe z trzema autorskimi dipami">
-          <img src="assets/img/frytki.jpg" alt="Fryty Wyszynkowe z trzema autorskimi dipami" loading="lazy" width="700" height="700">
+          <img src="assets/img/frytki.webp" alt="Fryty Wyszynkowe z trzema autorskimi dipami" loading="lazy" width="1000" height="1000">
         </button>
         <button class="galeria__element" type="button" data-alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy">
-          <img src="assets/img/wszystkie-zupy.jpg" alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy" loading="lazy" width="700" height="700">
+          <img src="assets/img/wszystkie-zupy.webp" alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy" loading="lazy" width="1000" height="1000">
         </button>
         <button class="galeria__element" type="button" data-alt="Czekoladowy fondant z wiśniami i lodami waniliowymi">
-          <img src="assets/img/fondant.jpg" alt="Czekoladowy fondant z wiśniami i lodami waniliowymi" loading="lazy" width="700" height="700">
+          <img src="assets/img/fondant.webp" alt="Czekoladowy fondant z wiśniami i lodami waniliowymi" loading="lazy" width="1000" height="1000">
         </button>
       </div>
     </div>
@@ -771,7 +1534,10 @@
           <h3>Adres</h3>
           <p>ul. Jedności Narodowej 18<br>58-580 Szklarska Poręba<br>Parter Villa Bożena</p>
 
-          <!-- Godziny otwarcia, telefon i opinie celowo nie są tu duplikowane -
+          <h3>Rezerwacje</h3>
+          <p><a class="kontakt__telefon" href="tel:+48793066186">793 066 186</a></p>
+
+          <!-- Godziny otwarcia i opinie celowo nie są tu duplikowane -
                źródłem prawdy jest wizytówka Google (zawsze aktualna). -->
           <a class="btn-google" href="https://maps.app.goo.gl/kVQdiEnwsCUPiVY69" target="_blank" rel="noopener">Zobacz nas w Google</a>
         </div>
@@ -797,9 +1563,8 @@
     <img src="assets/img/logo.svg" alt="Karkonoski Wyszynk" class="logo-img logo-img--footer stopka__logo" width="160" height="84" loading="lazy">
     <p class="stopka__haslo">Wracajcie na golonkę, pierogi i dobrze nalane piwo - z Karkonoszy, od 1892.</p>
     <div class="stopka__social">
-      <a href="#" target="_blank" rel="noopener">Facebook</a>
-      <a href="#" target="_blank" rel="noopener">Instagram</a>
-      <span class="stopka__handle">@wyszynkkarkonoski</span>
+      <a href="https://www.instagram.com/karkonoskiwyszynk/" target="_blank" rel="noopener">Instagram</a>
+      <span class="stopka__handle">@karkonoskiwyszynk</span>
     </div>
     <p class="stopka__copy">&copy; <span id="rok-stopki">2026</span> Karkonoski Wyszynk. Wszelkie prawa zastrzeżone.</p>
     <p class="stopka__copy">Villa Bożena · Relaxtour</p>
@@ -810,7 +1575,7 @@
 <div class="lightbox" id="lightbox">
   <div class="lightbox__tresc">
     <button class="lightbox__zamknij" id="lightbox-zamknij" aria-label="Zamknij podgląd zdjęcia">&times;</button>
-    <img id="lightbox-img" src="" alt="">
+    <img id="lightbox-img" alt="">
     <p id="lightbox-opis"></p>
   </div>
 </div>

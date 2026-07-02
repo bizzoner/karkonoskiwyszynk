@@ -11,9 +11,15 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Wróciłeś ze szlaku? Karkonoski Wyszynk czeka - lany Pilsner Urquell, golonka i pierogi na parterze Villa Bożena.">
 
+<!-- Fonty: nieblokujące ładowanie, wagi przycięte do realnie użytych na
+     tej stronie (zweryfikowane przez getComputedStyle na całym DOM):
+     Playfair Display 700 (+kursywa, nagłówek zamknięcia)/900,
+     Cormorant Garamond 400/600 (+kursywa oba) i 700 (pogrubienie <strong>). -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"></noscript>
 
 <style>
   /* Cała stylistyka inline - strona ma wstać na słabym 3G w górach,
@@ -21,6 +27,7 @@
   :root {
     --forest: #1F4A2E;
     --gold: #9B7A1A;
+    --gold-dark: #826414; /* WCAG AA (4.76:1) na tle --ivory - do tekstu */
     --gold-light: #E8C45A;
     --brown: #2E1F0E;
     --ivory: #F5EDD8;
@@ -53,6 +60,15 @@
   }
   h1 { font-size: 2rem; font-weight: 900; }
   p { margin: 0 0 1rem; }
+
+  /* Logo marki na samym szczycie - pierwszy sygnał, że to na pewno ta
+     restauracja. Ciemnozielone SVG, tło strony jasne - bez inwersji. */
+  .logo-top {
+    display: block;
+    width: 128px;
+    height: auto;
+    margin: 0 auto 1.8rem;
+  }
 
   section { animation: pojawienie 0.6s ease-out both; }
   @keyframes pojawienie {
@@ -117,7 +133,15 @@
   }
 
   /* 5. Menu */
-  .menu h2 { font-size: 1.4rem; text-align: center; }
+  .menu h2 { font-size: 1.4rem; text-align: center; margin-bottom: 0.4rem; }
+  .menu__wstep {
+    text-align: center;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--brown);
+    opacity: 0.8;
+    margin: 0 0 1.4rem;
+  }
   .danie {
     display: flex;
     justify-content: space-between;
@@ -143,7 +167,7 @@
   .danie__cena {
     font-family: var(--f-display);
     font-weight: 700;
-    color: var(--gold);
+    color: var(--gold-dark);
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -155,6 +179,22 @@
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+
+  /* Mini-galeria pod menu - krótki, lekki podgląd dań na talerzu */
+  .mini-galeria {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin: 1.6rem 0 0;
+  }
+  .mini-galeria img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    display: block;
   }
 
   /* 6. Jak trafić - dwie ścieżki, zależnie od obiektu noclegowego */
@@ -206,6 +246,8 @@
 <body>
 <div class="wrap">
 
+  <img class="logo-top" src="../assets/img/logo.svg" alt="Karkonoski Wyszynk">
+
   <!-- 1. POWITANIE -->
   <section>
     <h1>Dziękujemy, że tu zajrzałeś!</h1>
@@ -233,11 +275,12 @@
   <!-- 5. WYCIĄG Z MENU -->
   <section class="menu">
     <h2>Co polecamy po całym dniu na szlaku</h2>
+    <p class="menu__wstep">Fragment naszej karty - kilka pozycji, które polecamy najczęściej.</p>
 
     <div class="danie">
       <div class="danie__tresc">
         <span class="danie__nazwa">Golonka Piwowara <span style="font-weight:400;font-size:0.85rem;">(800g-1,2kg)</span></span>
-        <span class="danie__opis">biesiadna, z chrupiącą skórką</span>
+        <span class="danie__opis">biesiadna, z chrupiącą skórką, chrzanem i musztardą</span>
       </div>
       <span class="danie__cena">84 zł</span>
     </div>
@@ -245,7 +288,7 @@
     <div class="danie">
       <div class="danie__tresc">
         <span class="danie__nazwa">Pierogi z Jeleniem <span style="font-weight:400;font-size:0.85rem;">(8 szt.)</span></span>
-        <span class="danie__opis">z sosem na ciemnym piwie</span>
+        <span class="danie__opis">ręcznie lepione, z sosem na ciemnym piwie i karmelizowaną cebulą</span>
       </div>
       <span class="danie__cena">58 zł</span>
     </div>
@@ -253,7 +296,7 @@
     <div class="danie">
       <div class="danie__tresc">
         <span class="danie__nazwa">Kulajda</span>
-        <span class="danie__opis">czeska zupa ze śmietaną i grzybami</span>
+        <span class="danie__opis">czeska zupa ze śmietaną, leśnymi grzybami i jajkiem</span>
       </div>
       <span class="danie__cena">26 zł</span>
     </div>
@@ -261,7 +304,7 @@
     <div class="danie">
       <div class="danie__tresc">
         <span class="danie__nazwa">Żebra z Pieca Wyszynkowego</span>
-        <span class="danie__opis">marynowane w pilznerze</span>
+        <span class="danie__opis">marynowane w pilznerze, pieczone do miękkości, z sosem chrzanowym</span>
       </div>
       <span class="danie__cena">68 zł</span>
     </div>
@@ -269,7 +312,7 @@
     <div class="danie">
       <div class="danie__tresc">
         <span class="danie__nazwa">Smažený sýr po czesku</span>
-        <span class="danie__opis">z sosem tatarskim i frytkami</span>
+        <span class="danie__opis">w chrupiącej panierce, z sosem tatarskim i frytkami</span>
       </div>
       <span class="danie__cena">59 zł</span>
     </div>
@@ -277,12 +320,19 @@
     <div class="danie">
       <div class="danie__tresc">
         <span class="danie__nazwa">Karkonoski strudel</span>
-        <span class="danie__opis">na ciepło, z lodami</span>
+        <span class="danie__opis">na ciepło, z nadzieniem jabłkowo-żurawinowym i lodami</span>
       </div>
       <span class="danie__cena">26 zł</span>
     </div>
 
     <a class="link-menu" href="/#menu">Zobacz pełne menu →</a>
+
+    <div class="mini-galeria">
+      <img src="../assets/img/golonka.webp" alt="Golonka Piwowara na drewnianej desce" loading="lazy" width="300" height="300">
+      <img src="../assets/img/pierogi.webp" alt="Ręcznie lepione pierogi z Wyszynku" loading="lazy" width="300" height="300">
+      <img src="../assets/img/zeberka.webp" alt="Żebra z Pieca Wyszynkowego" loading="lazy" width="300" height="300">
+      <img src="../assets/img/fondant.webp" alt="Deser na talerzu z lodami" loading="lazy" width="300" height="300">
+    </div>
   </section>
 
   <!-- 6. JAK TRAFIĆ -->
@@ -293,7 +343,10 @@
   </section>
 
   <!-- 7. ZDJĘCIE -->
-  <img class="zdjecie" src="../assets/img/wnetrze.jpg" alt="Wnętrze Karkonoskiego Wyszynku - ciepłe światło, drewno, nakryte stoły" loading="lazy">
+  <picture>
+    <source srcset="../assets/img/wnetrze.webp" type="image/webp">
+    <img class="zdjecie" src="../assets/img/wnetrze.jpg" alt="Wnętrze Karkonoskiego Wyszynku - ciepłe światło, drewno, nakryte stoły" loading="lazy">
+  </picture>
 
   <!-- 8. ZAMKNIĘCIE -->
   <section class="zamkniecie">
