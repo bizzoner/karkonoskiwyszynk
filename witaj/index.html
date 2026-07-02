@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Witaj, Wędrowcze! - Wyszynk Karkonoski</title>
+
+<!-- Strona docelowa kodu QR przed lokalem - nie ma być indeksowana ani
+     linkowana z nawigacji głównej strony. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Stoisz przed Wyszynkiem Karkonoskim. Wejdź - lany Pilsner Urquell, golonka i pierogi czekają.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+
+<style>
+  /* Cała stylistyka inline - strona ma wstać na słabym 3G w górach,
+     bez dodatkowego żądania do arkusza stylów. */
+  :root {
+    --forest: #1F4A2E;
+    --gold: #9B7A1A;
+    --gold-light: #E8C45A;
+    --brown: #2E1F0E;
+    --ivory: #F5EDD8;
+    --text: #1C1409;
+    --f-display: "Playfair Display", serif;
+    --f-body: "Cormorant Garamond", serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ivory);
+    color: var(--text);
+    font-family: var(--f-body);
+    font-weight: 400;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 2.2rem 1.4rem 3rem;
+  }
+  h1, h2 {
+    font-family: var(--f-display);
+    color: var(--forest);
+    margin: 0 0 0.6em;
+    line-height: 1.15;
+  }
+  h1 { font-size: 2rem; font-weight: 900; }
+  p { margin: 0 0 1rem; }
+
+  section { animation: pojawienie 0.6s ease-out both; }
+  @keyframes pojawienie {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    section { animation: none; }
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 2rem 0;
+  }
+  .divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+  .divider__mark {
+    width: 6px; height: 6px;
+    background: var(--gold-light);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* 2. Zajawka */
+  .zajawka {
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--brown);
+  }
+
+  /* 3. Oferta powitalna - największy kontrast na stronie */
+  .oferta {
+    background: var(--forest);
+    border: 1px solid var(--gold-light);
+    border-radius: 3px;
+    padding: 1.8rem 1.4rem;
+    text-align: center;
+    color: var(--ivory);
+  }
+  .oferta__ikona { font-size: 1.8rem; margin-bottom: 0.4rem; }
+  .oferta h2 { color: var(--gold-light); font-size: 1.3rem; margin-bottom: 0.7rem; }
+  .oferta p { color: #EDE0C4; font-size: 1.05rem; margin-bottom: 1.1rem; }
+  .oferta__haslo {
+    font-family: var(--f-display);
+    font-weight: 900;
+    color: var(--gold-light);
+    letter-spacing: 0.06em;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin: 0 0 0.8rem;
+  }
+  .oferta__dopisek {
+    font-size: 0.82rem;
+    color: rgba(237, 224, 196, 0.75);
+    margin: 0;
+  }
+
+  /* 4. Przycisk Google */
+  .btn-google {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-family: var(--f-body);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+    color: var(--forest);
+    background: var(--ivory);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    padding: 0.95rem 1rem;
+    margin: 0.4rem 0 2rem;
+  }
+
+  /* 5. Menu */
+  .menu h2 { font-size: 1.4rem; text-align: center; }
+  .danie {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(46, 31, 14, 0.15);
+  }
+  .danie:last-of-type { border-bottom: none; }
+  .danie__tresc { min-width: 0; }
+  .danie__nazwa {
+    font-family: var(--f-body);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--forest);
+    display: block;
+  }
+  .danie__opis {
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--brown);
+  }
+  .danie__cena {
+    font-family: var(--f-display);
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .link-menu {
+    display: block;
+    text-align: center;
+    margin-top: 1.2rem;
+    color: var(--forest);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* 6. Zdjęcie - placeholder */
+  .zdjecie {
+    aspect-ratio: 4 / 3;
+    background: #DFD0A8;
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem;
+    text-align: center;
+    font-style: italic;
+    color: var(--brown);
+    font-size: 0.95rem;
+    margin: 2rem 0;
+  }
+
+  /* 7. Zamknięcie */
+  .zamkniecie { text-align: center; }
+  .zamkniecie h2 {
+    font-size: 1.6rem;
+    font-style: italic;
+    font-weight: 700;
+  }
+  .zamkniecie__dane {
+    font-size: 0.95rem;
+    color: var(--brown);
+    margin-top: 1rem;
+  }
+  .zamkniecie__dane a { color: var(--forest); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1. POWITANIE -->
+  <section>
+    <h1>Witaj, Wędrowcze!</h1>
+    <p>Stoisz właśnie przed ponad stuletnią willą, która na parterze skrywa Wyszynk Karkonoski - karczmę w standardzie restauracyjnym z dobrym jadłem, czeskim piwem z beczki i atmosferą, dzięki której chce się do nas wracać.</p>
+  </section>
+
+  <!-- 2. ZAJAWKA -->
+  <section class="zajawka">
+    <p>Lany Pilsner Urquell, golonka pieczona godzinami, ręcznie lepione pierogi, pieczyste, smażony ser - innymi słowy duża dawka swojskiego jadła. Brzmi dobrze? Bo smakuje jeszcze lepiej.</p>
+  </section>
+
+  <!-- 3. OFERTA POWITALNA -->
+  <section class="oferta">
+    <div class="oferta__ikona" aria-hidden="true">🍺</div>
+    <h2>Na dobry początek</h2>
+    <p>Powiedz obsłudze hasło, a do dowolnego dania głównego dostaniesz małe piwo za dyszkę.</p>
+    <p class="oferta__haslo">PRZYSŁAŁ NAS<br>LICZYRZEPA</p>
+    <p class="oferta__dopisek">Oferta na start. Dotyczy piwa 0,3 l do dowolnego dania głównego.</p>
+  </section>
+
+  <!-- 4. WIZYTÓWKA GOOGLE -->
+  <a class="btn-google" href="TU_WSTAW_LINK_WIZYTOWKI_GOOGLE" target="_blank" rel="noopener">Zobacz nas w Google</a>
+
+  <!-- 5. WYCIĄG Z MENU -->
+  <section class="menu">
+    <h2>Co dziś polecamy</h2>
+
+    <div class="danie">
+      <div class="danie__tresc">
+        <span class="danie__nazwa">Golonka Piwowara <span style="font-weight:400;font-size:0.85rem;">(800g-1,2kg)</span></span>
+        <span class="danie__opis">biesiadna, z chrupiącą skórką</span>
+      </div>
+      <span class="danie__cena">84 zł</span>
+    </div>
+
+    <div class="danie">
+      <div class="danie__tresc">
+        <span class="danie__nazwa">Pierogi z Jeleniem <span style="font-weight:400;font-size:0.85rem;">(8 szt.)</span></span>
+        <span class="danie__opis">z sosem na ciemnym piwie</span>
+      </div>
+      <span class="danie__cena">58 zł</span>
+    </div>
+
+    <div class="danie">
+      <div class="danie__tresc">
+        <span class="danie__nazwa">Kulajda</span>
+        <span class="danie__opis">czeska zupa ze śmietaną i grzybami</span>
+      </div>
+      <span class="danie__cena">26 zł</span>
+    </div>
+
+    <div class="danie">
+      <div class="danie__tresc">
+        <span class="danie__nazwa">Żebra z Pieca Wyszynkowego</span>
+        <span class="danie__opis">marynowane w pilznerze</span>
+      </div>
+      <span class="danie__cena">68 zł</span>
+    </div>
+
+    <div class="danie">
+      <div class="danie__tresc">
+        <span class="danie__nazwa">Smažený sýr po czesku</span>
+        <span class="danie__opis">z sosem tatarskim i frytkami</span>
+      </div>
+      <span class="danie__cena">59 zł</span>
+    </div>
+
+    <div class="danie">
+      <div class="danie__tresc">
+        <span class="danie__nazwa">Karkonoski strudel</span>
+        <span class="danie__opis">na ciepło, z lodami</span>
+      </div>
+      <span class="danie__cena">26 zł</span>
+    </div>
+
+    <a class="link-menu" href="/#menu">Zobacz pełne menu →</a>
+  </section>
+
+  <!-- 6. ZDJĘCIE -->
+  <!-- PLACEHOLDER ZDJĘCIA: wnętrze Wyszynku Karkonoskiego - ciepłe światło,
+       drewno, nakryte stoły. Podmień div poniżej na <img src="..." alt="wnętrze
+       Wyszynku Karkonoskiego - ciepłe światło, drewno, nakryte stoły" loading="lazy" width="…" height="…">
+       Trzymaj plik jak najlżejszy - to jedyne zdjęcie na tej stronie. -->
+  <div class="zdjecie" role="img" aria-label="wnętrze Wyszynku Karkonoskiego - ciepłe światło, drewno, nakryte stoły">
+    Zdjęcie: wnętrze Wyszynku - ciepłe światło, drewno, nakryte stoły
+  </div>
+
+  <!-- 7. ZAMKNIĘCIE -->
+  <section class="zamkniecie">
+    <h2>Wejdź. Stolik czeka bliżej, niż myślisz.</h2>
+    <p class="zamkniecie__dane">
+      ul. Jedności Narodowej 18 · parter Villa Bożena<br>
+      <a href="tel:TU_WSTAW_TELEFON">TU_WSTAW_TELEFON</a>
+    </p>
+  </section>
+
+</div>
+
+<!--
+  ANALITYKA
+  Strona jest celem QR z kodowaniem ?utm_source=qr-front&utm_medium=offline.
+  Projekt nie ma obecnie wpiętej analityki (brak GA4/Meta Pixel w script.js
+  głównej strony). Gdy się pojawi, wklej snippet tutaj, przed </body> -
+  parametry UTM w URL zostaną odczytane automatycznie przez GA4 bez
+  dodatkowego kodu. Nie dodawaj żadnego JS na tej stronie bez potrzeby -
+  ma zostać maksymalnie lekka na słabym zasięgu.
+-->
+</body>
+</html>
