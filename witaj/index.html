@@ -176,20 +176,15 @@
     text-underline-offset: 3px;
   }
 
-  /* 6. Zdjęcie - placeholder */
+  /* 6. Zdjęcie */
   .zdjecie {
+    width: 100%;
     aspect-ratio: 4 / 3;
+    object-fit: cover;
     background: #DFD0A8;
     border: 1px solid var(--gold);
     border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.2rem;
-    text-align: center;
-    font-style: italic;
-    color: var(--brown);
-    font-size: 0.95rem;
+    display: block;
     margin: 2rem 0;
   }
 
@@ -226,13 +221,13 @@
   <section class="oferta">
     <div class="oferta__ikona" aria-hidden="true">🍺</div>
     <h2>Na dobry początek</h2>
-    <p>Powiedz obsłudze hasło, a do dowolnego dania głównego dostaniesz małe piwo za dyszkę.</p>
+    <p>Powiedz obsłudze hasło, a do dowolnego dania głównego dostaniesz mały lany Pilsner Urquell z beczki lub kieliszek prosecco za 8 zł.</p>
     <p class="oferta__haslo">PRZYSŁAŁ NAS<br>LICZYRZEPA</p>
-    <p class="oferta__dopisek">Oferta na start. Dotyczy piwa 0,3 l do dowolnego dania głównego.</p>
+    <p class="oferta__dopisek">Oferta na start. Dotyczy piwa 0,3 l lub kieliszka prosecco (150 ml) do dowolnego dania głównego.</p>
   </section>
 
   <!-- 4. WIZYTÓWKA GOOGLE -->
-  <a class="btn-google" href="TU_WSTAW_LINK_WIZYTOWKI_GOOGLE" target="_blank" rel="noopener">Zobacz nas w Google</a>
+  <a class="btn-google" href="https://maps.app.goo.gl/kVQdiEnwsCUPiVY69" target="_blank" rel="noopener">Zobacz nas w Google</a>
 
   <!-- 5. WYCIĄG Z MENU -->
   <section class="menu">
@@ -290,13 +285,7 @@
   </section>
 
   <!-- 6. ZDJĘCIE -->
-  <!-- PLACEHOLDER ZDJĘCIA: wnętrze Wyszynku Karkonoskiego - ciepłe światło,
-       drewno, nakryte stoły. Podmień div poniżej na <img src="..." alt="wnętrze
-       Wyszynku Karkonoskiego - ciepłe światło, drewno, nakryte stoły" loading="lazy" width="…" height="…">
-       Trzymaj plik jak najlżejszy - to jedyne zdjęcie na tej stronie. -->
-  <div class="zdjecie" role="img" aria-label="wnętrze Wyszynku Karkonoskiego - ciepłe światło, drewno, nakryte stoły">
-    Zdjęcie: wnętrze Wyszynku - ciepłe światło, drewno, nakryte stoły
-  </div>
+  <img class="zdjecie" src="../assets/img/wnetrze.jpg" alt="Wnętrze Wyszynku Karkonoskiego - ciepłe światło, drewniany strop, nakryte stoły" loading="lazy">
 
   <!-- 7. ZAMKNIĘCIE -->
   <section class="zamkniecie">
