@@ -1,0 +1,9 @@
+# Karkonoski Wyszynk
+User-agent: *
+Allow: /
+
+# Strony docelowe QR - oznaczone noindex, trzymamy je też poza crawlem
+Disallow: /witaj
+Disallow: /gosc
+
+Sitemap: https://karkonoskiwyszynk.pl/sitemap.xml
