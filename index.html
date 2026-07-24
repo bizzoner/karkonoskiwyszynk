@@ -28,6 +28,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap"></noscript>
 
+<!-- Zdjęcie tła hero jest ładowane z CSS (background-image), więc przeglądarka
+     odkrywa je późno - preload przyspiesza pierwszy paint sekcji hero. -->
+<link rel="preload" as="image" href="assets/img/wnetrze.webp" type="image/webp">
+
 <!-- style.css zinline'owany poniżej (4,4 KiB - poniżej progu, gdzie osobne
      żądanie ma sens; inline eliminuje render-blocking request). Plik
      źródłowy style.css zostaje w repo jako punkt edycji, ale strona go
@@ -404,6 +408,71 @@ h1, h2, h3, h4 {
   }
 }
 
+/* Przycisk rezerwacji w nagłówku - najważniejsza akcja zawsze pod ręką.
+   Na desktopie w pasku nawigacji; na mobile ukryty, bo tę rolę przejmuje
+   przyklejony pasek na dole ekranu (.pasek-mobilny). */
+.naglowek__cta {
+  display: inline-block;
+  flex-shrink: 0;
+  font-family: var(--f-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  color: var(--brown);
+  background: var(--gold-light);
+  border: 1px solid var(--gold-light);
+  border-radius: var(--radius);
+  padding: 0.5rem 1.05rem;
+  transition: background 0.2s ease;
+}
+.naglowek__cta:hover,
+.naglowek__cta:focus-visible { background: var(--gold-lighter); }
+
+/* Przyklejony pasek akcji na mobile - telefon i dojazd pod kciukiem.
+   Domyślnie ukryty, pokazywany tylko na wąskich ekranach. */
+.pasek-mobilny { display: none; }
+
+@media (max-width: 860px) {
+  .naglowek__cta { display: none; }
+  .pasek-mobilny {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 490;
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(31, 74, 46, 0.98);
+    border-top: 1px solid rgba(232, 196, 90, 0.3);
+  }
+  .pasek-mobilny__btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-family: var(--f-body);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.82rem;
+    padding: 0.8rem 0.5rem;
+    border-radius: var(--radius);
+  }
+  .pasek-mobilny__btn--primary {
+    background: var(--gold-light);
+    color: var(--brown);
+    border: 1px solid var(--gold-light);
+  }
+  .pasek-mobilny__btn--ghost {
+    color: var(--ivory);
+    border: 1px solid rgba(232, 196, 90, 0.6);
+  }
+  /* Miejsce na pasek, żeby nie zasłaniał stopki */
+  body { padding-bottom: 4.25rem; }
+}
+
 /* ---------- HERO ---------- */
 .hero {
   position: relative;
@@ -415,14 +484,24 @@ h1, h2, h3, h4 {
   color: var(--ivory);
   background: linear-gradient(180deg, rgba(28, 20, 9, 0.55), rgba(31, 74, 46, 0.82)), var(--forest);
 }
+/* Tło hero: klimatyczne wnętrze karczmy przyciemnione gradientem, żeby
+   logo i tekst (kość słoniowa) zachowały pełny kontrast. Gradient jest
+   pierwszą warstwą (na wierzchu), zdjęcie drugą. webp z fallbackiem jpg. */
 .hero__tlo-placeholder {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--forest);
+  background-color: var(--forest);
+  background-image:
+    linear-gradient(180deg, rgba(28, 20, 9, 0.55), rgba(31, 74, 46, 0.82)),
+    url("assets/img/wnetrze.webp");
+  background-image:
+    linear-gradient(180deg, rgba(28, 20, 9, 0.55), rgba(31, 74, 46, 0.82)),
+    image-set(url("assets/img/wnetrze.webp") type("image/webp"), url("assets/img/wnetrze.jpg") type("image/jpeg"));
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
-/* PLACEHOLDER ZDJĘCIA: ciepłe, klimatyczne wnętrze karczmy z lampami,
-   drewnianymi belkami i widoczną beczką z Pilsnerem w tle */
 .hero__tresc {
   max-width: 720px;
   padding: 6rem 1.5rem;
@@ -936,6 +1015,7 @@ h1, h2, h3, h4 {
         <li><a href="#kontakt" data-i18n="ui_nav_kontakt">Kontakt</a></li>
       </ul>
       <div class="jezyk-przelacznik" role="group" aria-label="Wybór języka"></div>
+      <a class="naglowek__cta" href="tel:+48793066186" data-i18n="ui_nav_rezerwuj">Rezerwuj</a>
       <button class="nawigacja__hamburger" id="hamburger" aria-label="Otwórz menu nawigacji" aria-expanded="false" aria-controls="linki-nawigacji">
         <span></span><span></span><span></span>
       </button>
@@ -956,8 +1036,8 @@ h1, h2, h3, h4 {
       </h1>
       <p class="hero__haslo" data-i18n="hero_haslo">Karkonosze na talerzu i w kuflu</p>
       <div class="hero__cta">
-        <a href="#menu" class="btn btn--primary" data-i18n="hero_cta1">Zobacz menu</a>
-        <a href="#kontakt" class="btn btn--ghost" data-i18n="hero_cta2">Jak trafić</a>
+        <a href="tel:+48793066186" class="btn btn--primary" data-i18n="hero_cta_rezerwuj">Zarezerwuj stolik</a>
+        <a href="#menu" class="btn btn--ghost" data-i18n="hero_cta1">Zobacz menu</a>
       </div>
     </div>
     <span class="hero__strzalka" aria-hidden="true"></span>
@@ -1696,6 +1776,16 @@ h1, h2, h3, h4 {
   </div>
 </footer>
 
+<!-- Przyklejony pasek akcji na mobile: telefon (rezerwacja) + dojazd -->
+<div class="pasek-mobilny" role="group" aria-label="Szybki kontakt">
+  <a class="pasek-mobilny__btn pasek-mobilny__btn--primary" href="tel:+48793066186">
+    <span aria-hidden="true">📞</span><span data-i18n="bar_zadzwon">Zadzwoń</span>
+  </a>
+  <a class="pasek-mobilny__btn pasek-mobilny__btn--ghost" href="https://maps.app.goo.gl/kVQdiEnwsCUPiVY69" target="_blank" rel="noopener">
+    <span aria-hidden="true">📍</span><span data-i18n="bar_dojazd">Dojazd</span>
+  </a>
+</div>
+
 <!-- Lightbox galerii -->
 <div class="lightbox" id="lightbox">
   <div class="lightbox__tresc">
@@ -1886,6 +1976,10 @@ var I18N_DANE = {
     "hero_haslo": "Karkonosze na talerzu i w kuflu",
     "hero_cta1": "Zobacz menu",
     "hero_cta2": "Jak trafić",
+    "hero_cta_rezerwuj": "Zarezerwuj stolik",
+    "ui_nav_rezerwuj": "Rezerwuj",
+    "bar_zadzwon": "Zadzwoń",
+    "bar_dojazd": "Dojazd",
     "om_eyebrow": "Historia",
     "om_tytul": "Karczma z urodzenia, nie z konceptu",
     "om_p1": "Ten budynek stoi tu od 1892 roku - powstał jako Hotel Klose i od pierwszego dnia witał podróżnych zmierzających w Karkonosze. Dziś, na jego parterze, wracamy do tamtej roli: zamiast pokoi mamy dla Państwa dobrze zastawiony stół.",
@@ -2082,6 +2176,10 @@ var I18N_DANE = {
     "hero_haslo": "The Karkonosze Mountains, on your plate and in your glass",
     "hero_cta1": "See the menu",
     "hero_cta2": "Find us",
+    "hero_cta_rezerwuj": "Book a table",
+    "ui_nav_rezerwuj": "Book",
+    "bar_zadzwon": "Call",
+    "bar_dojazd": "Directions",
     "om_eyebrow": "History",
     "om_tytul": "A tavern by birth, not by concept",
     "om_p1": "This building has stood here since 1892 - built as Hotel Klose, welcoming travellers heading into the Karkonosze Mountains from day one. Today, on its ground floor, we return to that role: instead of rooms, we offer you a well-laid table.",
@@ -2278,6 +2376,10 @@ var I18N_DANE = {
     "hero_haslo": "Das Riesengebirge auf dem Teller und im Krug",
     "hero_cta1": "Speisekarte ansehen",
     "hero_cta2": "So finden Sie uns",
+    "hero_cta_rezerwuj": "Tisch reservieren",
+    "ui_nav_rezerwuj": "Reservieren",
+    "bar_zadzwon": "Anrufen",
+    "bar_dojazd": "Anfahrt",
     "om_eyebrow": "Geschichte",
     "om_tytul": "Ein Wirtshaus aus Berufung, nicht aus Konzept",
     "om_p1": "Dieses Gebäude steht seit 1892 hier - erbaut als Hotel Klose, empfing es vom ersten Tag an Reisende auf dem Weg ins Riesengebirge. Heute, in seinem Erdgeschoss, kehren wir zu dieser Rolle zurück: statt Zimmern bieten wir Ihnen einen gut gedeckten Tisch.",
@@ -2474,6 +2576,10 @@ var I18N_DANE = {
     "hero_haslo": "Krkonoše na talíři i v půllitru",
     "hero_cta1": "Zobrazit menu",
     "hero_cta2": "Jak se k nám dostat",
+    "hero_cta_rezerwuj": "Rezervovat stůl",
+    "ui_nav_rezerwuj": "Rezervovat",
+    "bar_zadzwon": "Zavolat",
+    "bar_dojazd": "Trasa",
     "om_eyebrow": "Historie",
     "om_tytul": "Krčma rodem, ne konceptem",
     "om_p1": "Tato budova zde stojí od roku 1892 - vznikla jako Hotel Klose a od prvního dne vítala poutníky mířící do Krkonoš. Dnes, v jejím přízemí, se vracíme k té roli: místo pokojů pro vás máme dobře prostřený stůl.",
