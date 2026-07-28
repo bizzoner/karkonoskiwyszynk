@@ -960,6 +960,11 @@ h1, h2, h3, h4 {
   color: rgba(237, 224, 196, 0.6);
   margin: 0.3rem 0;
 }
+.kontakt__godz-nota {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-top: -0.4rem;
+}
 </style>
 
 <!-- Dane strukturalne Schema.org dla restauracji -->
@@ -967,15 +972,23 @@ h1, h2, h3, h4 {
 {
   "@context": "https://schema.org",
   "@type": "Restaurant",
+  "@id": "https://karkonoskiwyszynk.pl/#restauracja",
   "name": "Karkonoski Wyszynk",
+  "alternateName": "Karkonoski Wyszynk - karczma piwna",
   "url": "https://karkonoskiwyszynk.pl/",
-  "image": "https://karkonoskiwyszynk.pl/assets/img/golonka.jpg",
+  "image": [
+    "https://karkonoskiwyszynk.pl/assets/img/golonka.jpg",
+    "https://karkonoskiwyszynk.pl/assets/img/zewnatrz.jpg",
+    "https://karkonoskiwyszynk.pl/assets/img/pierogi.webp"
+  ],
+  "logo": "https://karkonoskiwyszynk.pl/assets/img/logokrzywe.svg",
   "hasMenu": "https://karkonoskiwyszynk.pl/#menu",
-  "servesCuisine": ["Kuchnia karkonoska", "Kuchnia czeska", "Kuchnia śląska"],
+  "servesCuisine": ["Kuchnia karkonoska", "Kuchnia czeska", "Kuchnia śląska", "Kuchnia polska"],
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "ul. Jedności Narodowej 18",
     "addressLocality": "Szklarska Poręba",
+    "addressRegion": "dolnośląskie",
     "postalCode": "58-580",
     "addressCountry": "PL"
   },
@@ -985,9 +998,45 @@ h1, h2, h3, h4 {
     "latitude": 50.8277442,
     "longitude": 15.5196436
   },
+  "hasMap": "https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9",
   "telephone": "+48793066186",
-  "description": "Restauracja i karczma piwna w standardzie restauracyjnym w historycznym budynku z 1892 roku w Szklarskiej Porębie. Kuchnia pogranicza karkonosko-czesko-śląskiego i lany Pilsner Urquell z beczki.",
+  "description": "Restauracja i karczma piwna w historycznym budynku z 1892 roku w Szklarskiej Porębie. Kuchnia pogranicza karkonosko-czesko-śląskiego i lany Pilsner Urquell z beczki.",
+  "foundingDate": "1892",
   "priceRange": "$$",
+  "currenciesAccepted": "PLN",
+  "paymentAccepted": "Gotówka, karta płatnicza, BLIK",
+  "acceptsReservations": "True",
+  "publicAccess": true,
+  "knowsLanguage": ["pl", "cs", "de", "en"],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
+      "opens": "12:00",
+      "closes": "21:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Friday", "Saturday"],
+      "opens": "12:00",
+      "closes": "22:00"
+    }
+  ],
+  "containedInPlace": {
+    "@type": "LodgingBusiness",
+    "name": "Villa Bożena",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ul. Jedności Narodowej 18",
+      "addressLocality": "Szklarska Poręba",
+      "postalCode": "58-580",
+      "addressCountry": "PL"
+    }
+  },
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "Relax-Tour Sp. z o.o."
+  },
   "sameAs": [
     "https://www.instagram.com/karkonoskiwyszynk/",
     "https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9"
@@ -1047,10 +1096,11 @@ h1, h2, h3, h4 {
   <section class="sekcja" id="o-miejscu">
     <div class="container o-miejscu">
       <div class="o-miejscu__tekst">
-        <span class="eyebrow" data-i18n="om_eyebrow">Historia</span>
-        <h2 class="sekcja__tytul" data-i18n="om_tytul">Karczma z urodzenia, nie z konceptu</h2>
-        <p data-i18n="om_p1">Ten budynek stoi tu od 1892 roku - powstał jako Hotel Klose i od pierwszego dnia witał podróżnych zmierzających w Karkonosze. Dziś, na jego parterze, wracamy do tamtej roli: zamiast pokoi mamy dla Państwa dobrze zastawiony stół.</p>
-        <p data-i18n="om_p2">Wyszynk to dawne określenie miejsca, gdzie podawano trunki i jedzenie - lokalne centrum życia. Dokładnie tym chcemy być: miejscem kuchni karkonosko-czesko-śląskiego pogranicza, prostego dobrego jedzenia i chwili oddechu po dniu spędzonym w górach. Nie udajemy karczmy. Jesteśmy nią z urodzenia.</p>
+        <span class="eyebrow" data-i18n="om_eyebrow">Od 1892 roku</span>
+        <h2 class="sekcja__tytul" data-i18n="om_tytul">Miejsce, do którego schodzi się z gór</h2>
+        <p data-i18n="om_p1">Szrenica, Śnieżne Kotły, Wodospad Kamieńczyka - wszystkie te szlaki mają wspólne zakończenie: moment, w którym można zdjąć plecak, usiąść i poczekać na gorący talerz.</p>
+        <p data-i18n="om_p2">Ten budynek robi to od 1892 roku. Powstał jako Hotel Klose i od pierwszego dnia przyjmował podróżnych zmierzających w Karkonosze. Dziś na jego parterze podajemy kuchnię pogranicza karkonosko-czesko-śląskiego: rosół z gęsi i kury, kwaśnicę na wędzonym żeberku, ręcznie lepione pierogi i golonkę z chrupiącą skórką. Do tego Pilsner Urquell prosto z beczki, nalewany zgodnie z czeską szkołą.</p>
+        <p data-i18n="om_p3">Wyszynk to dawna nazwa miejsca, wokół którego kręciło się życie okolicy. Nie wymyślaliśmy go na nowo - wróciliśmy do roli, którą ten dom pełnił od początku. Nad nami wciąż są pokoje: Villa Bożena przyjmuje gości tak jak ponad sto trzydzieści lat temu.</p>
       </div>
       <div class="o-miejscu__zdjecie ornament-corners">
         <picture>
@@ -1742,8 +1792,12 @@ h1, h2, h3, h4 {
           <h3 data-i18n="kon_rez_label">Rezerwacje</h3>
           <p><a class="kontakt__telefon" href="tel:+48793066186">793 066 186</a></p>
 
-          <!-- Godziny otwarcia i opinie celowo nie są tu duplikowane -
-               źródłem prawdy jest wizytówka Google (zawsze aktualna). -->
+          <h3 data-i18n="kon_godz_label">Godziny otwarcia</h3>
+          <p>
+            <span data-i18n="kon_godz_1">Niedziela - czwartek: 12:00 - 21:00</span><br>
+            <span data-i18n="kon_godz_2">Piątek i sobota: 12:00 - 22:00</span>
+          </p>
+          <p class="kontakt__godz-nota" data-i18n="kon_godz_nota">Aktualne godziny zawsze na naszej wizytówce Google.</p>
           <a class="btn-google" href="https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9" target="_blank" rel="noopener" data-i18n="kon_google">Zobacz nas w Google</a>
         </div>
         <div class="kontakt__mapa">
@@ -1980,10 +2034,11 @@ var I18N_DANE = {
     "ui_nav_rezerwuj": "Rezerwuj",
     "bar_zadzwon": "Zadzwoń",
     "bar_dojazd": "Dojazd",
-    "om_eyebrow": "Historia",
-    "om_tytul": "Karczma z urodzenia, nie z konceptu",
-    "om_p1": "Ten budynek stoi tu od 1892 roku - powstał jako Hotel Klose i od pierwszego dnia witał podróżnych zmierzających w Karkonosze. Dziś, na jego parterze, wracamy do tamtej roli: zamiast pokoi mamy dla Państwa dobrze zastawiony stół.",
-    "om_p2": "Wyszynk to dawne określenie miejsca, gdzie podawano trunki i jedzenie - lokalne centrum życia. Dokładnie tym chcemy być: miejscem kuchni karkonosko-czesko-śląskiego pogranicza, prostego dobrego jedzenia i chwili oddechu po dniu spędzonym w górach. Nie udajemy karczmy. Jesteśmy nią z urodzenia.",
+    "om_eyebrow": "Od 1892 roku",
+    "om_tytul": "Miejsce, do którego schodzi się z gór",
+    "om_p1": "Szrenica, Śnieżne Kotły, Wodospad Kamieńczyka - wszystkie te szlaki mają wspólne zakończenie: moment, w którym można zdjąć plecak, usiąść i poczekać na gorący talerz.",
+    "om_p2": "Ten budynek robi to od 1892 roku. Powstał jako Hotel Klose i od pierwszego dnia przyjmował podróżnych zmierzających w Karkonosze. Dziś na jego parterze podajemy kuchnię pogranicza karkonosko-czesko-śląskiego: rosół z gęsi i kury, kwaśnicę na wędzonym żeberku, ręcznie lepione pierogi i golonkę z chrupiącą skórką. Do tego Pilsner Urquell prosto z beczki, nalewany zgodnie z czeską szkołą.",
+    "om_p3": "Wyszynk to dawna nazwa miejsca, wokół którego kręciło się życie okolicy. Nie wymyślaliśmy go na nowo - wróciliśmy do roli, którą ten dom pełnił od początku. Nad nami wciąż są pokoje: Villa Bożena przyjmuje gości tak jak ponad sto trzydzieści lat temu.",
     "pil_eyebrow": "Rzemiosło nalewania",
     "pil_tytul": "Lany Pilsner Urquell prosto z beczki",
     "pil_intro": "Serwujemy Pilsner Urquell nalewany zgodnie z czeską tradycją. To rzemiosło wymagające cierpliwości i wprawy - efektem jest piwo o pełni smaku, jakiej nie osiągnie się z butelki.",
@@ -1998,6 +2053,10 @@ var I18N_DANE = {
     "kon_tytul": "Lokalizacja i kontakt",
     "kon_adres_label": "Adres",
     "kon_rez_label": "Rezerwacje",
+    "kon_godz_label": "Godziny otwarcia",
+    "kon_godz_1": "Niedziela - czwartek: 12:00 - 21:00",
+    "kon_godz_2": "Piątek i sobota: 12:00 - 22:00",
+    "kon_godz_nota": "Aktualne godziny zawsze na naszej wizytówce Google.",
     "kon_google": "Zobacz nas w Google",
     "kon_nota": "Nocujesz w Villa Bożena? Wyszynk masz na parterze.",
     "foot_haslo": "Wracajcie na golonkę, pierogi i dobrze nalane piwo - z Karkonoszy, od 1892.",
@@ -2180,10 +2239,11 @@ var I18N_DANE = {
     "ui_nav_rezerwuj": "Book",
     "bar_zadzwon": "Call",
     "bar_dojazd": "Directions",
-    "om_eyebrow": "History",
-    "om_tytul": "A tavern by birth, not by concept",
-    "om_p1": "This building has stood here since 1892 - built as Hotel Klose, welcoming travellers heading into the Karkonosze Mountains from day one. Today, on its ground floor, we return to that role: instead of rooms, we offer you a well-laid table.",
-    "om_p2": "Wyszynk is an old word for a place serving drinks and food - a local hub of life. That's exactly what we want to be: a place of Karkonosze-Czech-Silesian borderland cuisine, simple good food, and a moment to catch your breath after a day in the mountains. We're not pretending to be a tavern. We are one by birth.",
+    "om_eyebrow": "Since 1892",
+    "om_tytul": "The place you come down to",
+    "om_p1": "Szrenica, Śnieżne Kotły, the Kamieńczyk Waterfall - every one of these trails ends the same way: the moment you can drop your backpack, sit down and wait for a hot plate of food.",
+    "om_p2": "This house has been doing exactly that since 1892. It was built as Hotel Klose and welcomed travellers heading into the Karkonosze Mountains from its very first day. Today, on its ground floor, we serve the cuisine of the Karkonosze-Czech-Silesian borderland: goose and chicken broth, kwaśnica soup simmered on smoked ribs, hand-made pierogi and pork knuckle with crisp crackling. Alongside it, Pilsner Urquell straight from the barrel, poured the Czech way.",
+    "om_p3": "Wyszynk is an old word for the place local life revolved around. We did not reinvent it - we returned to the role this house has played from the start. The rooms are still upstairs: Villa Bożena welcomes guests just as it did over a hundred and thirty years ago.",
     "pil_eyebrow": "The craft of pouring",
     "pil_tytul": "Draft Pilsner Urquell, straight from the barrel",
     "pil_intro": "We serve Pilsner Urquell poured according to Czech tapping tradition. It's a craft that demands patience and skill - the result is a beer with a fullness of flavour you simply can't get from a bottle.",
@@ -2201,6 +2261,10 @@ var I18N_DANE = {
     "kon_tytul": "Location & contact",
     "kon_adres_label": "Address",
     "kon_rez_label": "Reservations",
+    "kon_godz_label": "Opening hours",
+    "kon_godz_1": "Sunday - Thursday: 12:00 - 21:00",
+    "kon_godz_2": "Friday and Saturday: 12:00 - 22:00",
+    "kon_godz_nota": "Current hours are always on our Google listing.",
     "kon_google": "Find us on Google",
     "kon_nota": "Staying at Villa Bożena? The Wyszynk is right downstairs.",
     "foot_haslo": "Come back for pork knuckle, pierogi and a well-poured beer - from the Karkonosze Mountains, since 1892.",
@@ -2380,10 +2444,11 @@ var I18N_DANE = {
     "ui_nav_rezerwuj": "Reservieren",
     "bar_zadzwon": "Anrufen",
     "bar_dojazd": "Anfahrt",
-    "om_eyebrow": "Geschichte",
-    "om_tytul": "Ein Wirtshaus aus Berufung, nicht aus Konzept",
-    "om_p1": "Dieses Gebäude steht seit 1892 hier - erbaut als Hotel Klose, empfing es vom ersten Tag an Reisende auf dem Weg ins Riesengebirge. Heute, in seinem Erdgeschoss, kehren wir zu dieser Rolle zurück: statt Zimmern bieten wir Ihnen einen gut gedeckten Tisch.",
-    "om_p2": "Wyszynk ist ein altes Wort für einen Ort, an dem Getränke und Speisen serviert wurden - ein lokaler Lebensmittelpunkt. Genau das wollen wir sein: ein Ort der Küche des Riesengebirge-Böhmen-Schlesien-Grenzlandes, einfachen guten Essens und eines Moments zum Durchatmen nach einem Tag in den Bergen. Wir tun nicht nur so, als wären wir ein Wirtshaus. Wir sind es von Geburt an.",
+    "om_eyebrow": "Seit 1892",
+    "om_tytul": "Der Ort, zu dem man von den Bergen herabsteigt",
+    "om_p1": "Szrenica, Śnieżne Kotły, der Zackelfall - all diese Wege enden gleich: mit dem Moment, in dem man den Rucksack abstellt, sich setzt und auf einen warmen Teller wartet.",
+    "om_p2": "Dieses Haus tut das seit 1892. Es entstand als Hotel Klose und empfing vom ersten Tag an Reisende auf dem Weg ins Riesengebirge. Heute servieren wir in seinem Erdgeschoss die Küche des Grenzlandes zwischen Riesengebirge, Böhmen und Schlesien: Gänse-Hühner-Brühe, Kwaśnica auf geräucherter Rippe, handgemachte Piroggen und Eisbein mit knuspriger Kruste. Dazu Pilsner Urquell frisch vom Fass, nach böhmischer Schule gezapft.",
+    "om_p3": "Wyszynk ist ein altes Wort für den Ort, um den sich das Leben der Gegend drehte. Wir haben ihn nicht neu erfunden - wir sind zu der Rolle zurückgekehrt, die dieses Haus von Anfang an hatte. Die Zimmer liegen weiterhin über uns: Villa Bożena empfängt Gäste wie vor über hundertdreißig Jahren.",
     "pil_eyebrow": "Die Kunst des Zapfens",
     "pil_tytul": "Gezapftes Pilsner Urquell, frisch vom Fass",
     "pil_intro": "Wir servieren Pilsner Urquell, gezapft nach tschechischer Zapftradition. Es ist ein Handwerk, das Geduld und Können erfordert - das Ergebnis ist ein Bier mit einer Geschmacksfülle, die man aus der Flasche einfach nicht bekommt.",
@@ -2401,6 +2466,10 @@ var I18N_DANE = {
     "kon_tytul": "Lage & Kontakt",
     "kon_adres_label": "Adresse",
     "kon_rez_label": "Reservierungen",
+    "kon_godz_label": "Öffnungszeiten",
+    "kon_godz_1": "Sonntag - Donnerstag: 12:00 - 21:00",
+    "kon_godz_2": "Freitag und Samstag: 12:00 - 22:00",
+    "kon_godz_nota": "Aktuelle Öffnungszeiten immer in unserem Google-Profil.",
     "kon_google": "Auf Google ansehen",
     "kon_nota": "Übernachten Sie in der Villa Bożena? Der Wyszynk liegt direkt im Erdgeschoss.",
     "foot_haslo": "Kommen Sie wieder für Eisbein, Piroggen und ein gut gezapftes Bier - aus dem Riesengebirge, seit 1892.",
@@ -2580,10 +2649,11 @@ var I18N_DANE = {
     "ui_nav_rezerwuj": "Rezervovat",
     "bar_zadzwon": "Zavolat",
     "bar_dojazd": "Trasa",
-    "om_eyebrow": "Historie",
-    "om_tytul": "Krčma rodem, ne konceptem",
-    "om_p1": "Tato budova zde stojí od roku 1892 - vznikla jako Hotel Klose a od prvního dne vítala poutníky mířící do Krkonoš. Dnes, v jejím přízemí, se vracíme k té roli: místo pokojů pro vás máme dobře prostřený stůl.",
-    "om_p2": "Wyszynk je staré označení místa, kde se podávaly nápoje a jídlo - místní centrum života. Přesně tím chceme být: místem kuchyně krkonošsko-česko-slezského pohraničí, prostého dobrého jídla a chvíle oddechu po dni stráveném v horách. Nepředstíráme, že jsme krčma. Jsme jí rodem.",
+    "om_eyebrow": "Od roku 1892",
+    "om_tytul": "Místo, kam se sestupuje z hor",
+    "om_p1": "Szrenica, Sněžné jámy, vodopád Kamieńczyk - všechny tyto cesty končí stejně: chvílí, kdy si můžete odložit batoh, sednout si a počkat na horký talíř.",
+    "om_p2": "Tato budova to dělá od roku 1892. Vznikla jako Hotel Klose a od prvního dne vítala poutníky mířící do Krkonoš. Dnes v jejím přízemí podáváme kuchyni krkonošsko-česko-slezského pohraničí: husí a slepičí vývar, kwaśnicu na uzeném žebru, ručně dělané pirohy a vepřové koleno s křupavou kůrčičkou. K tomu Pilsner Urquell přímo ze sudu, čepovaný podle české školy.",
+    "om_p3": "Wyszynk je staré označení místa, kolem kterého se točil život okolí. Nevymýšleli jsme ho znovu - vrátili jsme se k roli, kterou tento dům plnil od začátku. Pokoje jsou stále nad námi: Villa Bożena vítá hosty jako před více než sto třiceti lety.",
     "pil_eyebrow": "Umění čepování",
     "pil_tytul": "Čepovaný Pilsner Urquell přímo ze sudu",
     "pil_intro": "Podáváme Pilsner Urquell čepovaný podle české tradice. Je to řemeslo vyžadující trpělivost a zručnost - výsledkem je pivo s plností chuti, jakou z lahve prostě nedostanete.",
@@ -2601,6 +2671,10 @@ var I18N_DANE = {
     "kon_tytul": "Poloha a kontakt",
     "kon_adres_label": "Adresa",
     "kon_rez_label": "Rezervace",
+    "kon_godz_label": "Otevírací doba",
+    "kon_godz_1": "Neděle - čtvrtek: 12:00 - 21:00",
+    "kon_godz_2": "Pátek a sobota: 12:00 - 22:00",
+    "kon_godz_nota": "Aktuální otevírací dobu najdete vždy na našem profilu Google.",
     "kon_google": "Podívejte se na nás na Google",
     "kon_nota": "Ubytováni ve Villa Bożena? Wyszynk máte hned v přízemí.",
     "foot_haslo": "Vraťte se na koleno, pirohy a dobře natočené pivo - z Krkonoš, od roku 1892.",
