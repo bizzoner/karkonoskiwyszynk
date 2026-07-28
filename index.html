@@ -241,6 +241,18 @@ h1, h2, h3, h4 {
   background: var(--ivory-dark);
   border-color: var(--gold-light);
 }
+.btn-google--opinie {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn-google__ikona {
+  width: 1.05em;
+  height: 1.05em;
+  fill: var(--gold);
+  flex-shrink: 0;
+}
 
 /* ---------- Nawigacja ---------- */
 .naglowek {
@@ -435,6 +447,12 @@ h1, h2, h3, h4 {
 /* Przyklejony pasek akcji na mobile - telefon i dojazd pod kciukiem.
    Domyślnie ukryty, pokazywany tylko na wąskich ekranach. */
 .pasek-mobilny { display: none; }
+.pasek-mobilny__ikona {
+  width: 1.05em;
+  height: 1.05em;
+  fill: currentColor;
+  flex-shrink: 0;
+}
 
 @media (max-width: 860px) {
   .naglowek__cta { display: none; }
@@ -1825,6 +1843,10 @@ h1, h2, h3, h4 {
           </p>
           <p class="kontakt__godz-nota" data-i18n="kon_godz_nota">Aktualne godziny zawsze na naszej wizytówce Google.</p>
           <a class="btn-google" href="https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9" target="_blank" rel="noopener" data-i18n="kon_google">Zobacz nas w Google</a>
+          <a class="btn-google btn-google--opinie" href="https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9" target="_blank" rel="noopener">
+            <svg class="btn-google__ikona" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.7 1.4 6.8L12 17.8 5.9 21.3l1.4-6.8L2.2 9.7l6.9-.7L12 2z"/></svg>
+            <span data-i18n="kon_opinie">Zobacz opinie</span>
+          </a>
         </div>
         <div class="kontakt__mapa">
           <!-- Osadzona mapa Google - podmień src na docelowy adres lokalu -->
@@ -1859,10 +1881,10 @@ h1, h2, h3, h4 {
 <!-- Przyklejony pasek akcji na mobile: telefon (rezerwacja) + dojazd -->
 <div class="pasek-mobilny" role="group" aria-label="Szybki kontakt">
   <a class="pasek-mobilny__btn pasek-mobilny__btn--primary" href="tel:+48793066186">
-    <span aria-hidden="true">📞</span><span data-i18n="bar_zadzwon">Zadzwoń</span>
+    <svg class="pasek-mobilny__ikona" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg><span data-i18n="bar_zadzwon">Zadzwoń</span>
   </a>
   <a class="pasek-mobilny__btn pasek-mobilny__btn--ghost" href="https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9" target="_blank" rel="noopener">
-    <span aria-hidden="true">📍</span><span data-i18n="bar_dojazd">Dojazd</span>
+    <svg class="pasek-mobilny__ikona" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span data-i18n="bar_dojazd">Dojazd</span>
   </a>
 </div>
 
@@ -2085,6 +2107,7 @@ var I18N_DANE = {
     "kon_godz_3": "Niedziela: 12:00 - 18:00",
     "kon_godz_nota": "Aktualne godziny zawsze na naszej wizytówce Google.",
     "kon_google": "Zobacz nas w Google",
+    "kon_opinie": "Zobacz opinie",
     "kon_nota": "Nocujesz w Villa Bożena? Wyszynk masz na parterze.",
     "foot_haslo": "Wracajcie na golonkę, pierogi i dobrze nalane piwo - z Karkonoszy, od 1892.",
     "foot_prawa": "Wszelkie prawa zastrzeżone.",
@@ -2294,6 +2317,7 @@ var I18N_DANE = {
     "kon_godz_3": "Sunday: 12:00 - 18:00",
     "kon_godz_nota": "Current hours are always on our Google listing.",
     "kon_google": "Find us on Google",
+    "kon_opinie": "Read reviews",
     "kon_nota": "Staying at Villa Bożena? The Wyszynk is right downstairs.",
     "foot_haslo": "Come back for pork knuckle, pierogi and a well-poured beer - from the Karkonosze Mountains, since 1892.",
     "foot_prawa": "All rights reserved.",
@@ -2500,6 +2524,7 @@ var I18N_DANE = {
     "kon_godz_3": "Sonntag: 12:00 - 18:00",
     "kon_godz_nota": "Aktuelle Öffnungszeiten immer in unserem Google-Profil.",
     "kon_google": "Auf Google ansehen",
+    "kon_opinie": "Bewertungen ansehen",
     "kon_nota": "Übernachten Sie in der Villa Bożena? Der Wyszynk liegt direkt im Erdgeschoss.",
     "foot_haslo": "Kommen Sie wieder für Eisbein, Piroggen und ein gut gezapftes Bier - aus dem Riesengebirge, seit 1892.",
     "foot_prawa": "Alle Rechte vorbehalten.",
@@ -2706,6 +2731,7 @@ var I18N_DANE = {
     "kon_godz_3": "Neděle: 12:00 - 18:00",
     "kon_godz_nota": "Aktuální otevírací dobu najdete vždy na našem profilu Google.",
     "kon_google": "Podívejte se na nás na Google",
+    "kon_opinie": "Zobrazit recenze",
     "kon_nota": "Ubytováni ve Villa Bożena? Wyszynk máte hned v přízemí.",
     "foot_haslo": "Vraťte se na koleno, pirohy a dobře natočené pivo - z Krkonoš, od roku 1892.",
     "foot_prawa": "Všechna práva vyhrazena.",
