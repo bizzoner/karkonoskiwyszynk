@@ -1011,15 +1011,21 @@ h1, h2, h3, h4 {
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
       "opens": "12:00",
-      "closes": "21:00"
+      "closes": "20:00"
     },
     {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Friday", "Saturday"],
       "opens": "12:00",
-      "closes": "22:00"
+      "closes": "21:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Sunday"],
+      "opens": "12:00",
+      "closes": "18:00"
     }
   ],
   "containedInPlace": {
@@ -1794,8 +1800,9 @@ h1, h2, h3, h4 {
 
           <h3 data-i18n="kon_godz_label">Godziny otwarcia</h3>
           <p>
-            <span data-i18n="kon_godz_1">Niedziela - czwartek: 12:00 - 21:00</span><br>
-            <span data-i18n="kon_godz_2">Piątek i sobota: 12:00 - 22:00</span>
+            <span data-i18n="kon_godz_1">Poniedziałek - czwartek: 12:00 - 20:00</span><br>
+            <span data-i18n="kon_godz_2">Piątek i sobota: 12:00 - 21:00</span><br>
+            <span data-i18n="kon_godz_3">Niedziela: 12:00 - 18:00</span>
           </p>
           <p class="kontakt__godz-nota" data-i18n="kon_godz_nota">Aktualne godziny zawsze na naszej wizytówce Google.</p>
           <a class="btn-google" href="https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9" target="_blank" rel="noopener" data-i18n="kon_google">Zobacz nas w Google</a>
@@ -2054,8 +2061,9 @@ var I18N_DANE = {
     "kon_adres_label": "Adres",
     "kon_rez_label": "Rezerwacje",
     "kon_godz_label": "Godziny otwarcia",
-    "kon_godz_1": "Niedziela - czwartek: 12:00 - 21:00",
-    "kon_godz_2": "Piątek i sobota: 12:00 - 22:00",
+    "kon_godz_1": "Poniedziałek - czwartek: 12:00 - 20:00",
+    "kon_godz_2": "Piątek i sobota: 12:00 - 21:00",
+    "kon_godz_3": "Niedziela: 12:00 - 18:00",
     "kon_godz_nota": "Aktualne godziny zawsze na naszej wizytówce Google.",
     "kon_google": "Zobacz nas w Google",
     "kon_nota": "Nocujesz w Villa Bożena? Wyszynk masz na parterze.",
@@ -2262,8 +2270,9 @@ var I18N_DANE = {
     "kon_adres_label": "Address",
     "kon_rez_label": "Reservations",
     "kon_godz_label": "Opening hours",
-    "kon_godz_1": "Sunday - Thursday: 12:00 - 21:00",
-    "kon_godz_2": "Friday and Saturday: 12:00 - 22:00",
+    "kon_godz_1": "Monday - Thursday: 12:00 - 20:00",
+    "kon_godz_2": "Friday and Saturday: 12:00 - 21:00",
+    "kon_godz_3": "Sunday: 12:00 - 18:00",
     "kon_godz_nota": "Current hours are always on our Google listing.",
     "kon_google": "Find us on Google",
     "kon_nota": "Staying at Villa Bożena? The Wyszynk is right downstairs.",
@@ -2467,8 +2476,9 @@ var I18N_DANE = {
     "kon_adres_label": "Adresse",
     "kon_rez_label": "Reservierungen",
     "kon_godz_label": "Öffnungszeiten",
-    "kon_godz_1": "Sonntag - Donnerstag: 12:00 - 21:00",
-    "kon_godz_2": "Freitag und Samstag: 12:00 - 22:00",
+    "kon_godz_1": "Montag - Donnerstag: 12:00 - 20:00",
+    "kon_godz_2": "Freitag und Samstag: 12:00 - 21:00",
+    "kon_godz_3": "Sonntag: 12:00 - 18:00",
     "kon_godz_nota": "Aktuelle Öffnungszeiten immer in unserem Google-Profil.",
     "kon_google": "Auf Google ansehen",
     "kon_nota": "Übernachten Sie in der Villa Bożena? Der Wyszynk liegt direkt im Erdgeschoss.",
@@ -2672,8 +2682,9 @@ var I18N_DANE = {
     "kon_adres_label": "Adresa",
     "kon_rez_label": "Rezervace",
     "kon_godz_label": "Otevírací doba",
-    "kon_godz_1": "Neděle - čtvrtek: 12:00 - 21:00",
-    "kon_godz_2": "Pátek a sobota: 12:00 - 22:00",
+    "kon_godz_1": "Pondělí - čtvrtek: 12:00 - 20:00",
+    "kon_godz_2": "Pátek a sobota: 12:00 - 21:00",
+    "kon_godz_3": "Neděle: 12:00 - 18:00",
     "kon_godz_nota": "Aktuální otevírací dobu najdete vždy na našem profilu Google.",
     "kon_google": "Podívejte se na nás na Google",
     "kon_nota": "Ubytováni ve Villa Bożena? Wyszynk máte hned v přízemí.",
