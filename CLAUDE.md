@@ -5,23 +5,21 @@ Zero frameworków, zero zależności, zero build stepu. Czysty HTML + CSS + wani
 
 ---
 
-## 1. NAJWAŻNIEJSZE: pliki `.css` i `.js` w repo NIE są tym, co działa
+## 1. Cały CSS i JS strony głównej siedzi w `index.html`
 
-`index.html` ma **zinline'owane kopie** `style.css` i `script.js` wewnątrz
-`<style>` i `<script>`. Przeglądarka **nie ładuje** osobnych plików — nie ma do
-nich żadnego `<link>` ani `<script src>`. Zrobiono to celowo (oba pliki były
-poniżej progu, gdzie osobne żądanie kosztuje więcej niż oszczędza).
+Nie ma osobnego `style.css` ani `script.js` — style są w `<style>` (ok. 1000
+linii, zaraz po `<head>`), skrypty w `<script>` przed `</body>`. Tak ma być:
+to praktycznie strona jednopodstronowa, więc nie ma drugiego dokumentu, który
+skorzystałby ze wspólnego cache'u, a inline usuwa render-blocking request.
 
-**Konsekwencja: każdą zmianę CSS/JS nanosisz w DWÓCH miejscach.**
-`index.html` jest tym, co widzi użytkownik — jeśli naniesiesz tylko do
-`style.css`, zmiana nie zadziała i nikt tego od razu nie zauważy.
+**Nie twórz `style.css` ani `script.js` „dla porządku".** Leżały tam do
+2026-07-29 jako rzekome „punkty edycji", nikt ich nie ładował, i przez to
+rozjechały się z rzeczywistą treścią o 222 linie — brakowało w nich metryk
+fallbacku fontów, animacji logo w hero i przycisku opinii Google. Zostały
+usunięte właśnie dlatego, że zwodziły. Jedno źródło prawdy = `index.html`.
 
-**Te pliki już się rozjechały.** Stan na 2026-07-29: inline w `index.html` ma
-większe fonty menu niż `style.css` (`.danie__nazwa` 1.35rem vs 1.2rem,
-`.danie__cena` 1.3 vs 1.15, `.danie__opis` 1.18 vs 1.02). Nigdy nie zakładaj,
-że `style.css` odzwierciedla stronę na żywo — sprawdź inline.
-
-Podstrony `/witaj/` i `/gosc/` mają własne, niezależne style inline.
+Podstrony `/witaj/` i `/gosc/` mają własne, niezależne style i skrypty inline —
+też w całości w swoich `index.html`.
 
 ---
 

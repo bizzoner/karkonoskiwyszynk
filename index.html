@@ -34,10 +34,15 @@
 <link rel="preload" as="image" href="assets/img/wnetrze-desktop.webp" type="image/webp" media="(min-width: 861px)">
 <link rel="preload" as="image" href="assets/img/wnetrze-mobile.webp" type="image/webp" media="(max-width: 860px)">
 
-<!-- style.css zinline'owany poniżej (4,4 KiB - poniżej progu, gdzie osobne
-     żądanie ma sens; inline eliminuje render-blocking request). Plik
-     źródłowy style.css zostaje w repo jako punkt edycji, ale strona go
-     już nie ładuje jako osobny zasób. -->
+<!-- JEDYNE zrodlo stylow tej strony. CSS jest tutaj, a nie w osobnym
+     pliku, bo to praktycznie strona jednopodstronowa - nie ma drugiego
+     dokumentu, ktory skorzystalby ze wspolnego cache'u, a inline usuwa
+     render-blocking request.
+
+     Do 2026-07-29 obok lezal style.css opisany jako "punkt edycji". Nie
+     byl nim: nikt go nie ladowal, a jego tresc rozjechala sie z ta o 222
+     linie (metryki fallbacku fontow, animacja logo, przycisk opinii).
+     Zostal usuniety, zeby nie zwodzil. Nie odtwarzaj go - edytuj tutaj. -->
 <style>
 /* =========================================================
    KARKONOSKI WYSZYNK — arkusz stylów
@@ -1946,9 +1951,9 @@ h1, h2, h3, h4 {
   </div>
 </div>
 
-<!-- script.js zinline'owany - plik miał tylko 1,44 KiB, ale osobne żądanie
-     wydłużało łańcuch krytyczny. Plik źródłowy zostaje w repo jako punkt
-     edycji, strona już go nie ładuje jako osobny zasób. -->
+<!-- JEDYNE zrodlo skryptow tej strony - patrz komentarz przy <style>.
+     Osobny script.js zostal usuniety 2026-07-29 z tego samego powodu:
+     nikt go nie ladowal, a byl mylacy. Edytuj tutaj. -->
 <script>
 // =========================================================
 // i18n - przelacznik jezyka PL/EN/DE/CZ, bez zmiany URL (linki QR
