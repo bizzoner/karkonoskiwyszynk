@@ -495,12 +495,26 @@ h1, h2, h3, h4 {
 }
 .danie:last-child { border-bottom: none; }
 .danie__glowna {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: 0.3rem 1rem;
+  display: flex;
+  /* flex-end, nie baseline: przy zawinięciu nazwy do dwóch linii cena i leader
+     mają zostać przy ostatniej linii, a nie przy pierwszej. */
+  align-items: flex-end;
+  gap: 0 0.6rem;
+}
+/* Kropkowany złoty leader między nazwą a ceną - konwencja drukowanej karty.
+   Wyrównany do dołu wiersza, więc przy zawijaniu nazwy siada przy ostatniej
+   linii, a nie przy pierwszej. */
+.danie__glowna::before {
+  content: "";
+  order: 2;
+  flex: 1 0 1rem;
+  align-self: flex-end;
+  margin-bottom: 0.35rem;
+  border-bottom: 1px dotted var(--gold-light);
 }
 .danie__nazwa {
+  order: 1;
+  flex: 0 1 auto;
   font-family: var(--f-body);
   font-weight: 600;
   font-size: 1.2rem;
@@ -514,10 +528,12 @@ h1, h2, h3, h4 {
   font-size: 0.95rem;
 }
 .danie__cena {
+  order: 3;
   font-family: var(--f-display);
   font-weight: 700;
   color: var(--gold-dark);
   font-size: 1.15rem;
+  line-height: 1.2;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -547,17 +563,42 @@ h1, h2, h3, h4 {
 }
 .danie__warianty li {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  align-items: flex-end;
+  gap: 0 0.6rem;
   font-size: 1rem;
   color: var(--text);
   padding: 0.15rem 0;
 }
+/* Ten sam leader co w wierszu dania, tylko delikatniejszy */
+.danie__warianty li::before {
+  content: "";
+  order: 2;
+  flex: 1 0 1rem;
+  align-self: flex-end;
+  margin-bottom: 0.3rem;
+  border-bottom: 1px dotted var(--ivory-dark);
+}
+.danie__warianty li > span:first-child {
+  order: 1;
+  flex: 0 1 auto;
+  min-width: 0;
+}
 .danie__warianty li span:last-child {
+  order: 3;
+  flex: 0 0 auto;
   font-family: var(--f-display);
   font-weight: 700;
   color: var(--gold-dark);
   white-space: nowrap;
+}
+
+/* Na wąskich ekranach nazwa zajmuje niemal całą szerokość i z leadera zostaje
+   kilkukropkowy kikut - lepiej go wtedy nie pokazywać wcale. */
+@media (max-width: 700px) {
+  .danie__glowna::before,
+  .danie__warianty li::before { display: none; }
+  .danie__glowna,
+  .danie__warianty li { justify-content: space-between; }
 }
 
 /* ---------- GALERIA ---------- */
