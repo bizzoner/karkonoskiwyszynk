@@ -1230,21 +1230,24 @@ h1, h2, h3, h4 {
         <h2 class="sekcja__tytul" data-i18n="menu_tytul">Menu</h2>
       </div>
 
-      <!-- Zakładki kategorii menu, przełączane przez script.js -->
+      <!-- Zakładki kategorii menu. Wzorzec ARIA tablist: kazda zakladka ma
+           aria-controls wskazujace panel, panel ma aria-labelledby wskazujace
+           zakladke, a tabindex jest "wedrujacy" - w tab-orderze siedzi tylko
+           zakladka aktywna, po reszcie chodzi sie strzalkami. -->
       <div class="menu__zakladki" role="tablist" aria-label="Kategorie menu">
-        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="zupy" data-i18n="c1">Zupy</button>
-        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="zakaski" data-i18n="c2">Zakąski z Wyszynku</button>
-        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="pierogi" data-i18n="c3">Pierogi lepione w Wyszynku</button>
-        <button class="menu__zakladka jest-aktywna" role="tab" aria-selected="true" data-kategoria="dania-glowne" data-i18n="c4">Dania główne</button>
-        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="desery" data-i18n="c5">Desery</button>
-        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="dzieci" data-i18n="c6_tab">Dla Małych Wędrowców</button>
-        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="piwo" data-i18n="c7">Piwo</button>
-        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="napoje" data-i18n="c8">Napoje</button>
-        <button class="menu__zakladka" role="tab" aria-selected="false" data-kategoria="alkohole" data-i18n="c9">Alkohole</button>
+        <button class="menu__zakladka" role="tab" id="tab-zupy" aria-controls="zupy" aria-selected="false" tabindex="-1" data-kategoria="zupy" data-i18n="c1">Zupy</button>
+        <button class="menu__zakladka" role="tab" id="tab-zakaski" aria-controls="zakaski" aria-selected="false" tabindex="-1" data-kategoria="zakaski" data-i18n="c2">Zakąski z Wyszynku</button>
+        <button class="menu__zakladka" role="tab" id="tab-pierogi" aria-controls="pierogi" aria-selected="false" tabindex="-1" data-kategoria="pierogi" data-i18n="c3">Pierogi lepione w Wyszynku</button>
+        <button class="menu__zakladka jest-aktywna" role="tab" id="tab-dania-glowne" aria-controls="dania-glowne" aria-selected="true" tabindex="0" data-kategoria="dania-glowne" data-i18n="c4">Dania główne</button>
+        <button class="menu__zakladka" role="tab" id="tab-desery" aria-controls="desery" aria-selected="false" tabindex="-1" data-kategoria="desery" data-i18n="c5">Desery</button>
+        <button class="menu__zakladka" role="tab" id="tab-dzieci" aria-controls="dzieci" aria-selected="false" tabindex="-1" data-kategoria="dzieci" data-i18n="c6_tab">Dla Małych Wędrowców</button>
+        <button class="menu__zakladka" role="tab" id="tab-piwo" aria-controls="piwo" aria-selected="false" tabindex="-1" data-kategoria="piwo" data-i18n="c7">Piwo</button>
+        <button class="menu__zakladka" role="tab" id="tab-napoje" aria-controls="napoje" aria-selected="false" tabindex="-1" data-kategoria="napoje" data-i18n="c8">Napoje</button>
+        <button class="menu__zakladka" role="tab" id="tab-alkohole" aria-controls="alkohole" aria-selected="false" tabindex="-1" data-kategoria="alkohole" data-i18n="c9">Alkohole</button>
       </div>
 
       <!-- ZUPY -->
-      <div class="menu__kategoria" id="zupy" role="tabpanel">
+      <div class="menu__kategoria" id="zupy" role="tabpanel" aria-labelledby="tab-zupy" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c1">Zupy</h3>
 
         <div class="danie">
@@ -1281,7 +1284,7 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- ZAKĄSKI Z WYSZYNKU -->
-      <div class="menu__kategoria" id="zakaski" role="tabpanel">
+      <div class="menu__kategoria" id="zakaski" role="tabpanel" aria-labelledby="tab-zakaski" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c2">Zakąski z Wyszynku</h3>
 
         <div class="danie">
@@ -1338,7 +1341,7 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- PIEROGI LEPIONE W WYSZYNKU -->
-      <div class="menu__kategoria" id="pierogi" role="tabpanel">
+      <div class="menu__kategoria" id="pierogi" role="tabpanel" aria-labelledby="tab-pierogi" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c3">Pierogi lepione w Wyszynku</h3>
         <p class="menu__kategoria-wstep" data-i18n="wstep_5">Lepione ręcznie, każdego dnia. Regionalna wizytówka naszej kuchni.</p>
 
@@ -1392,7 +1395,7 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- DANIA GŁÓWNE -->
-      <div class="menu__kategoria jest-aktywna" id="dania-glowne" role="tabpanel">
+      <div class="menu__kategoria jest-aktywna" id="dania-glowne" role="tabpanel" aria-labelledby="tab-dania-glowne" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c4">Dania główne</h3>
 
         <div class="danie">
@@ -1469,7 +1472,7 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- DESERY -->
-      <div class="menu__kategoria" id="desery" role="tabpanel">
+      <div class="menu__kategoria" id="desery" role="tabpanel" aria-labelledby="tab-desery" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c5">Desery</h3>
 
         <div class="danie">
@@ -1498,7 +1501,7 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- MENU DLA MAŁYCH WĘDROWCÓW -->
-      <div class="menu__kategoria" id="dzieci" role="tabpanel">
+      <div class="menu__kategoria" id="dzieci" role="tabpanel" aria-labelledby="tab-dzieci" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c6">Menu dla Małych Wędrowców</h3>
 
         <div class="danie">
@@ -1535,7 +1538,7 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- PIWO -->
-      <div class="menu__kategoria" id="piwo" role="tabpanel">
+      <div class="menu__kategoria" id="piwo" role="tabpanel" aria-labelledby="tab-piwo" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c7">Piwo</h3>
 
         <div class="danie">
@@ -1621,7 +1624,7 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- NAPOJE -->
-      <div class="menu__kategoria" id="napoje" role="tabpanel">
+      <div class="menu__kategoria" id="napoje" role="tabpanel" aria-labelledby="tab-napoje" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c8">Napoje</h3>
 
         <h3 class="menu__podnaglowek" data-i18n="s3">Napoje gorące</h3>
@@ -1745,7 +1748,7 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- ALKOHOLE -->
-      <div class="menu__kategoria" id="alkohole" role="tabpanel">
+      <div class="menu__kategoria" id="alkohole" role="tabpanel" aria-labelledby="tab-alkohole" tabindex="0">
         <h3 class="menu__kategoria-naglowek" data-i18n="c9">Alkohole</h3>
 
         <h3 class="menu__podnaglowek" data-i18n="s7">Szprycery <span style="text-transform:none;letter-spacing:0;font-weight:500;">(300ml / 1l)</span></h3>
@@ -1931,10 +1934,14 @@ h1, h2, h3, h4 {
 </div>
 
 <!-- Lightbox galerii -->
-<div class="lightbox" id="lightbox">
+<!-- Lightbox jako modal: role=dialog + aria-modal chowaja przed czytnikiem
+     ekranu tresc pod spodem, aria-labelledby wskazuje na opis zdjecia.
+     Obrazek nie ma atrybutu src dopoki nie zostanie otwarty - stad hidden,
+     zeby pusty <img> nie byl w drzewie jako uszkodzona grafika. -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-opis">
   <div class="lightbox__tresc">
     <button class="lightbox__zamknij" id="lightbox-zamknij" aria-label="Zamknij podgląd zdjęcia">&times;</button>
-    <img id="lightbox-img" alt="">
+    <img id="lightbox-img" alt="" hidden>
     <p id="lightbox-opis"></p>
   </div>
 </div>
@@ -2119,7 +2126,6 @@ var I18N_DANE = {
     "ui_nav_kontakt": "Kontakt",
     "hero_haslo": "Karkonosze na talerzu i w kuflu",
     "hero_cta1": "Zobacz menu",
-    "hero_cta2": "Jak trafić",
     "hero_cta_rezerwuj": "Zarezerwuj stolik",
     "ui_nav_rezerwuj": "Rezerwuj",
     "bar_zadzwon": "Zadzwoń",
@@ -2326,7 +2332,6 @@ var I18N_DANE = {
     "ui_nav_kontakt": "Contact",
     "hero_haslo": "The Karkonosze Mountains, on your plate and in your glass",
     "hero_cta1": "See the menu",
-    "hero_cta2": "Find us",
     "hero_cta_rezerwuj": "Book a table",
     "ui_nav_rezerwuj": "Book",
     "bar_zadzwon": "Call",
@@ -2533,7 +2538,6 @@ var I18N_DANE = {
     "ui_nav_kontakt": "Kontakt",
     "hero_haslo": "Das Riesengebirge auf dem Teller und im Krug",
     "hero_cta1": "Speisekarte ansehen",
-    "hero_cta2": "So finden Sie uns",
     "hero_cta_rezerwuj": "Tisch reservieren",
     "ui_nav_rezerwuj": "Reservieren",
     "bar_zadzwon": "Anrufen",
@@ -2740,7 +2744,6 @@ var I18N_DANE = {
     "ui_nav_kontakt": "Kontakt",
     "hero_haslo": "Krkonoše na talíři i v půllitru",
     "hero_cta1": "Zobrazit menu",
-    "hero_cta2": "Jak se k nám dostat",
     "hero_cta_rezerwuj": "Rezervovat stůl",
     "ui_nav_rezerwuj": "Rezervovat",
     "bar_zadzwon": "Zavolat",
@@ -2868,20 +2871,45 @@ document.addEventListener('DOMContentLoaded', function () {
   var zakladki = document.querySelectorAll('.menu__zakladka');
   var kategorie = document.querySelectorAll('.menu__kategoria');
 
-  zakladki.forEach(function (zakladka) {
+  function aktywujZakladke(zakladka, przeniesFokus) {
+    var idKategorii = zakladka.getAttribute('data-kategoria');
+
+    zakladki.forEach(function (z) {
+      var jest = z === zakladka;
+      z.classList.toggle('jest-aktywna', jest);
+      z.setAttribute('aria-selected', jest ? 'true' : 'false');
+      // Wedrujacy tabindex: w tab-orderze siedzi tylko zakladka aktywna,
+      // zeby Tab przeskakiwal caly pasek, a nie 9 przyciskow po kolei.
+      z.setAttribute('tabindex', jest ? '0' : '-1');
+    });
+
+    kategorie.forEach(function (kat) {
+      kat.classList.toggle('jest-aktywna', kat.id === idKategorii);
+    });
+
+    if (przeniesFokus) zakladka.focus();
+  }
+
+  zakladki.forEach(function (zakladka, indeks) {
     zakladka.addEventListener('click', function () {
-      var idKategorii = zakladka.getAttribute('data-kategoria');
+      aktywujZakladke(zakladka, false);
+    });
 
-      zakladki.forEach(function (z) {
-        z.classList.remove('jest-aktywna');
-        z.setAttribute('aria-selected', 'false');
-      });
-      zakladka.classList.add('jest-aktywna');
-      zakladka.setAttribute('aria-selected', 'true');
-
-      kategorie.forEach(function (kat) {
-        kat.classList.toggle('jest-aktywna', kat.id === idKategorii);
-      });
+    // Nawigacja strzalkami wymagana przez wzorzec ARIA tablist.
+    zakladka.addEventListener('keydown', function (event) {
+      var cel = null;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        cel = zakladki[(indeks + 1) % zakladki.length];
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        cel = zakladki[(indeks - 1 + zakladki.length) % zakladki.length];
+      } else if (event.key === 'Home') {
+        cel = zakladki[0];
+      } else if (event.key === 'End') {
+        cel = zakladki[zakladki.length - 1];
+      }
+      if (!cel) return;
+      event.preventDefault();
+      aktywujZakladke(cel, true);
     });
   });
 
@@ -2892,22 +2920,38 @@ document.addEventListener('DOMContentLoaded', function () {
   var lightboxZamknij = document.getElementById('lightbox-zamknij');
   var elementyGalerii = document.querySelectorAll('.galeria__element');
 
+  // Element, do ktorego wracamy fokusem po zamknieciu modala.
+  var fokusPrzedLightboxem = null;
+
   function otworzLightbox(element) {
     var opis = element.getAttribute('data-alt');
     var zdjecie = element.querySelector('img');
+    fokusPrzedLightboxem = element;
     lightboxOpis.textContent = opis;
     if (zdjecie) {
       lightboxImg.src = zdjecie.src;
       lightboxImg.alt = opis;
-      lightboxImg.style.display = 'block';
+      lightboxImg.hidden = false;
     } else {
-      lightboxImg.style.display = 'none';
+      lightboxImg.removeAttribute('src');
+      lightboxImg.alt = '';
+      lightboxImg.hidden = true;
     }
     lightbox.classList.add('jest-otwarty');
+    // Blokada przewijania tla - bez tego strona pod overlayem scrolluje sie
+    // razem z gestem na modalu.
+    document.body.style.overflow = 'hidden';
+    lightboxZamknij.focus();
   }
 
   function zamknijLightbox() {
+    if (!lightbox.classList.contains('jest-otwarty')) return;
     lightbox.classList.remove('jest-otwarty');
+    document.body.style.overflow = '';
+    if (fokusPrzedLightboxem) {
+      fokusPrzedLightboxem.focus();
+      fokusPrzedLightboxem = null;
+    }
   }
 
   elementyGalerii.forEach(function (element) {
@@ -2922,6 +2966,14 @@ document.addEventListener('DOMContentLoaded', function () {
   if (lightbox) {
     lightbox.addEventListener('click', function (event) {
       if (event.target === lightbox) zamknijLightbox();
+    });
+    // Pulapka fokusu: jedyny fokusowalny element w modalu to przycisk
+    // zamkniecia, wiec Tab i Shift+Tab maja na nim zostac.
+    lightbox.addEventListener('keydown', function (event) {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        lightboxZamknij.focus();
+      }
     });
   }
   document.addEventListener('keydown', function (event) {
