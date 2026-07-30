@@ -30,9 +30,11 @@
 
 <!-- Zdjęcie tła hero jest ładowane z CSS (background-image), więc przeglądarka
      odkrywa je późno - preload przyspiesza pierwszy paint sekcji hero.
-     Osobny plik dla desktopu (poziomy) i mobile (pionowy), próg 860px. -->
-<link rel="preload" as="image" href="assets/img/wnetrze-desktop.webp" type="image/webp" media="(min-width: 861px)">
-<link rel="preload" as="image" href="assets/img/wnetrze-mobile.webp" type="image/webp" media="(max-width: 860px)">
+     Osobny plik dla desktopu (poziomy) i mobile (pionowy), próg 860px.
+     fetchpriority=high, bo to element LCP - bez tego preload ma priorytet
+     zwykly i konkuruje z arkuszem fontow z Google Fonts. -->
+<link rel="preload" as="image" href="assets/img/wnetrze-desktop.webp" type="image/webp" media="(min-width: 861px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/wnetrze-mobile.webp" type="image/webp" media="(max-width: 860px)" fetchpriority="high">
 
 <!-- JEDYNE zrodlo stylow tej strony. CSS jest tutaj, a nie w osobnym
      pliku, bo to praktycznie strona jednopodstronowa - nie ma drugiego
