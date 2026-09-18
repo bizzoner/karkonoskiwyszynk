@@ -138,3 +138,14 @@ ukrytym panelu zwróci 0. Najpierw aktywuj kategorię, potem przewijaj.
 <!-- Uzgodniona animacja otwarcia: logo odsłaniane od środka (1,15 s),
      tło delikatnie oddalane (1,7 s), jeden przebieg. Tekst i CTA stale widoczne.
      Animacje tylko dla prefers-reduced-motion: no-preference. -->
+
+## 8. Historia domu i restauracji
+
+Właściciel potwierdził: **budynek z 1892, Karkonoski Wyszynk od 2026**.
+`Restaurant.foundingDate` dotyczy restauracji (2026), nigdy roku budowy.
+Nie sugeruj nieprzerwanej działalności obecnego Wyszynku od XIX wieku.
+`/historia/` ma własne style i tłumaczenia inline PL/EN/DE/CS; korzysta z tego
+samego klucza localStorage co główna. Treść polska jest dostępna bez JS.
+Źródła i ustalenia: `docs/historia/research-i-struktura.md`.
+Prawa do pocztówki: `assets/img/hotel-schenkenstein-archiwum.md`.
+Osobne URL-e wersji językowych pozostają zadaniem na kolejny etap SEO.
