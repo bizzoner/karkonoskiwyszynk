@@ -54,6 +54,18 @@ leader w menu (`align-items: flex-end`, nie `baseline`).
 
 ## 3. Menu — struktura i i18n
 
+Menu WWW ma 10 kategorii: wszystkie dania główne są w jednym panelu.
+Do 700 px kategorie wybiera się przez natywny `#menu-kategoria`, powyżej
+przez zakładki. Oba widoki synchronizuje `aktywujZakladke`. Krótkie etykiety
+przycisków mają osobne klucze `tab_*`; nagłówki paneli zachowują pełne nazwy.
+Zmiana kategorii na telefonie przewija do początku `#menu`, nie do przyklejonego
+selektora. Nie przywracaj podziału karty A4 ani stylów druku na stronie WWW.
+
+Tekst złoty na papierze używa `--gold-dark: #7A5F12` (5,18:1 na `--ivory`).
+`--gold` i jaśniejsze złoto służą do dekoracji lub do tekstu na ciemnym tle.
+Opisy dań mają krój prosty, kursywa pozostaje we wstępach i sygnaturach.
+Wyniki kontroli układu i kontrastu są w `docs/audyt-ui.md`.
+
 ```
 .menu__zakladka[data-kategoria]   → przełącznik kategorii
 .menu__kategoria#<id>             → panel; UKRYTY dopóki nie ma .jest-aktywna
@@ -123,3 +135,6 @@ polskich znaków: *„Dodaj kropkowany zloty leader w wierszach menu"*.
 
 Kategorie menu są `display: none` bez `.jest-aktywna`, więc `scrollIntoView` na
 ukrytym panelu zwróci 0. Najpierw aktywuj kategorię, potem przewijaj.
+<!-- Uzgodniona animacja otwarcia: logo odsłaniane od środka (1,15 s),
+     tło delikatnie oddalane (1,7 s), jeden przebieg. Tekst i CTA stale widoczne.
+     Animacje tylko dla prefers-reduced-motion: no-preference. -->

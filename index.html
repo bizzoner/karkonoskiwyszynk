@@ -82,7 +82,7 @@
   --forest-light: #2D6B42;
   --forest-lighter: #3D8A56;
   --gold: #9B7A1A;
-  --gold-dark: #826414; /* WCAG AA (4.76:1) na tle --ivory - do tekstu, nie do obramowań */
+  --gold-dark: #7A5F12; /* Ciemne zloto do tekstu na jasnym papierze. */
   --gold-light: #C49A22;
   --gold-lighter: #E8C45A;
   --brown: #2E1F0E;
@@ -101,7 +101,7 @@
 
 /* ---------- Reset podstawowy ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 body {
   margin: 0;
   background: var(--ivory);
@@ -266,7 +266,7 @@ h1, h2, h3, h4 {
   position: sticky;
   top: 0;
   z-index: 500;
-  background: rgba(31, 74, 46, 0.96);
+  background: var(--forest);
   border-bottom: 1px solid rgba(232, 196, 90, 0.25);
 }
 .nawigacja {
@@ -301,32 +301,9 @@ h1, h2, h3, h4 {
   width: min(360px, 68vw);
   height: auto;
   margin: 0 auto;
-  /* Góra wyrasta zza horyzontu: clip-path odsłania od podstawy ku
-     szczytowi, opacity i lekki ruch w górę dopełniają efekt wynurzania
-     się. Czysty CSS na elemencie już w DOM - nie opóźnia wykrycia LCP. */
-  animation: gora-wyrasta 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both;
 }
 .logo-img--footer { height: 52px; margin: 0 auto; }
 
-@keyframes gora-wyrasta {
-  0% {
-    clip-path: inset(100% 0 0 0);
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  60% {
-    opacity: 1;
-  }
-  100% {
-    clip-path: inset(0 0 0 0);
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes hero-fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 .nawigacja__prawa {
   display: flex;
   align-items: center;
@@ -503,11 +480,12 @@ h1, h2, h3, h4 {
 /* ---------- HERO ---------- */
 .hero {
   position: relative;
+  overflow: clip;
   /* isolation tworzy własny kontekst stackingu, żeby tło z z-index:-1
      (.hero__tlo-placeholder ze zdjęciem) malowało się NAD tłem sekcji,
      a nie za nim. Bez tego zdjęcie chowa się pod gradientem .hero. */
   isolation: isolate;
-  min-height: 100svh;
+  min-height: min(720px, calc(100svh - var(--header-height, 90px)));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -524,10 +502,10 @@ h1, h2, h3, h4 {
   z-index: -1;
   background-color: var(--forest);
   background-image:
-    linear-gradient(180deg, rgba(28, 20, 9, 0.40), rgba(31, 74, 46, 0.72)),
+    linear-gradient(rgba(46, 31, 14, 0.72), rgba(46, 31, 14, 0.72)),
     url("assets/img/wnetrze-desktop.webp");
   background-image:
-    linear-gradient(180deg, rgba(28, 20, 9, 0.40), rgba(31, 74, 46, 0.72)),
+    linear-gradient(rgba(46, 31, 14, 0.72), rgba(46, 31, 14, 0.72)),
     image-set(url("assets/img/wnetrze-desktop.webp") type("image/webp"), url("assets/img/wnetrze-desktop.jpg") type("image/jpeg"));
   background-size: cover;
   background-position: center center;
@@ -538,10 +516,10 @@ h1, h2, h3, h4 {
 @media (max-width: 860px) {
   .hero__tlo-placeholder {
     background-image:
-      linear-gradient(180deg, rgba(28, 20, 9, 0.40), rgba(31, 74, 46, 0.72)),
+      linear-gradient(rgba(46, 31, 14, 0.72), rgba(46, 31, 14, 0.72)),
       url("assets/img/wnetrze-mobile.webp");
     background-image:
-      linear-gradient(180deg, rgba(28, 20, 9, 0.40), rgba(31, 74, 46, 0.72)),
+      linear-gradient(rgba(46, 31, 14, 0.72), rgba(46, 31, 14, 0.72)),
       image-set(url("assets/img/wnetrze-mobile.webp") type("image/webp"), url("assets/img/wnetrze-mobile.jpg") type("image/jpeg"));
   }
 }
@@ -552,8 +530,6 @@ h1, h2, h3, h4 {
 .hero__eyebrow {
   color: var(--gold-lighter);
   margin-bottom: 1.2rem;
-  /* Wjeżdża po górze - sekwencja czyta się jako jedna scena */
-  animation: hero-fade-in 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) 0.9s both;
 }
 .hero__tytul {
   font-size: clamp(2.4rem, 6vw, 4.4rem);
@@ -569,14 +545,12 @@ h1, h2, h3, h4 {
   font-size: clamp(1.1rem, 2.2vw, 1.5rem);
   color: var(--ivory-alt);
   margin-bottom: 2.5rem;
-  animation: hero-fade-in 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) 1.1s both;
 }
 .hero__cta {
   display: flex;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
-  animation: hero-fade-in 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 1.3s both;
 }
 .hero__strzalka {
   position: absolute;
@@ -598,12 +572,21 @@ h1, h2, h3, h4 {
   border-bottom: 1px solid var(--gold-lighter);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .logo-img--hero,
-  .hero__eyebrow,
-  .hero__haslo,
-  .hero__cta {
-    animation: none;
+/* Jednorazowe odsloniecie szyldu; tekst i przyciski pozostaja widoczne. */
+@keyframes szyld-odsloniecie {
+  from { clip-path: inset(0 50%); transform: scale(0.97); }
+  to { clip-path: inset(0); transform: scale(1); }
+}
+@keyframes wnetrze-otwarcie {
+  from { transform: scale(1.045); }
+  to { transform: scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .logo-img--hero {
+    animation: szyld-odsloniecie 1.15s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  .hero__tlo-placeholder {
+    animation: wnetrze-otwarcie 1.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
   }
 }
 
@@ -631,7 +614,7 @@ h1, h2, h3, h4 {
 }
 .o-miejscu__zdjecie {
   background: var(--ivory-dark);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 3;
   border: 1px solid var(--gold-light);
   overflow: hidden;
 }
@@ -639,6 +622,7 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 65%;
   display: block;
 }
 .o-miejscu__tekst .eyebrow { margin-bottom: 1rem; display: block; }
@@ -816,7 +800,7 @@ h1, h2, h3, h4 {
   border-radius: var(--radius);
 }
 .danie__opis {
-  font-style: italic;
+  font-style: normal;
   color: var(--wood);
   margin: 0.35rem 0 0;
   font-size: 1.18rem;
@@ -955,7 +939,7 @@ h1, h2, h3, h4 {
 #lightbox-img {
   width: 100%;
   max-height: 60vh;
-  object-fit: cover;
+  object-fit: contain;
   border: 1px solid var(--gold-light);
   margin-bottom: 1rem;
 }
@@ -1051,6 +1035,127 @@ h1, h2, h3, h4 {
   opacity: 0.75;
   margin-top: -0.4rem;
 }
+/* Oznaczenia aktualnej karty — pozostala stylistyka WWW bez zmian. */
+.danie--wyroznione { position: relative; padding-left: 16px; }
+.danie--wyroznione::after {
+  content: ""; position: absolute; left: 0; top: 12px; bottom: 12px;
+  width: 3px; border-radius: 2px; background: var(--gold);
+}
+.danie__oznaczenia { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 9px; }
+.danie__znacznik {
+  display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px;
+  border: 1px solid var(--gold); color: var(--gold-dark); font-size: 0.8125rem;
+  font-weight: 600; letter-spacing: 0.2em; line-height: 1.5;
+}
+.danie__sygnatura { color: var(--gold-dark); font-size: 1rem; font-style: italic; }
+.danie__zegar {
+  display: inline-block; position: relative; width: 12px; height: 12px;
+  flex: 0 0 12px; border: 1px solid currentColor; border-radius: 50%;
+}
+.danie__zegar::before {
+  content: ""; position: absolute; left: 4px; top: 2px;
+  width: 3px; height: 4px; border-left: 1px solid; border-bottom: 1px solid;
+}
+.danie__warianty .danie__wariant-opis { font-size: 0.95rem; font-style: italic; padding-top: 0; }
+.danie__warianty .danie__wariant-opis::before { content: none; }
+.danie__warianty li.danie__wariant-opis > span { color: var(--wood); font-family: var(--f-body); font-weight: 500; white-space: normal; flex: 1 1 auto; }
+.danie__ceny-wina { font-style: italic; color: var(--gold-dark); margin-top: 6px; }
+.danie__ceny-wina > span, .piwo-flagowe .pilsner__cennik > span { white-space: nowrap; }
+.piwo-flagowe { position: relative; border: 1px solid var(--gold); margin-top: 28px; padding: 26px 22px 18px; text-align: center; }
+.piwo-flagowe__etykieta { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); padding: 0 10px; background: var(--ivory); color: var(--gold-dark); white-space: normal; font-style: italic; }
+.piwo-flagowe__marka { font-family: var(--f-display); color: var(--forest); font-size: 26px; }
+.piwo-flagowe .danie__opis { margin: 8px auto; }
+.piwo-flagowe .pilsner__cennik { margin: 10px 0 0; color: var(--gold-dark); font-size: 1.35rem; }
+
+
+/* Czytelnosc i nawigacja WWW — bez zmiany estetyki karty. */
+.jezyk-przelacznik button, .menu__zakladka { transition: border-color 0.2s ease; }
+html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
+.sekcja { scroll-margin-top: 8px; }
+:where(a, button, select, summary):focus-visible { outline: 2px solid var(--gold-dark); outline-offset: 4px; }
+:where(.naglowek, .hero, .sekcja--ciemna, .stopka, .pasek-mobilny) :where(a, button, summary):focus-visible { outline-color: var(--gold-lighter); }
+.eyebrow { font-size: 0.8125rem; letter-spacing: 0.16em; }
+.hero__eyebrow { color: var(--ivory); }
+.hero__tresc { padding: 4rem 1.5rem; }
+.hero__haslo { font-size: clamp(1.25rem, 2.2vw, 1.5rem); color: var(--ivory); }
+.hero .btn--ghost { background: var(--forest); border-color: var(--ivory); }
+.btn, .btn-google { font-size: 0.9375rem; min-height: 44px; }
+.nawigacja { gap: 12px; }
+.nawigacja__prawa { gap: 1rem; }
+.nawigacja__linki { gap: 1.25rem; }
+.nawigacja__linki a { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.875rem; }
+.nawigacja__logo span { font-size: 0.8125rem; }
+.logo-img--nav { width: 104px; height: auto; }
+.logo-img--footer { width: 160px; height: auto; }
+.jezyk-przelacznik button { min-width: 32px; min-height: 44px; padding: 4px; font-size: 0.875rem; border-color: var(--gold-lighter); }
+.jezyk-przelacznik button.jest-aktywny:hover, .jezyk-przelacznik button.jest-aktywny:focus-visible { color: var(--brown); }
+.nawigacja__hamburger { width: 44px; height: 44px; }
+.naglowek__cta { font-size: 0.875rem; min-height: 44px; display: inline-flex; align-items: center; }
+.o-miejscu { gap: 2rem; }
+.o-miejscu__zdjecie { width: 100%; }
+.o-miejscu__zdjecie picture { display: block; width: 100%; height: 100%; }
+.o-miejscu__tekst p { line-height: 1.55; }
+.o-miejscu__historia summary { color: var(--gold-dark); cursor: pointer; min-height: 44px; padding: 8px 0; text-decoration: underline; text-underline-offset: 4px; }
+.o-miejscu__historia p { max-width: 65ch; }
+.menu__zakladki { gap: 8px; margin-bottom: 2rem; }
+.menu__zakladka { min-height: 44px; font-size: 0.875rem; padding: 8px 14px; border-color: var(--gold-dark); }
+.menu__kategoria-naglowek { font-size: 1.25rem; }
+.menu__wybor { display: none; }
+.danie__nazwa { font-size: 1.4375rem; line-height: 1.25; }
+.danie__gramatura { font-size: 1rem; font-style: italic; }
+.danie__opis { max-width: 68ch; font-size: 1.1875rem; line-height: 1.55; }
+.danie__warianty .danie__wariant-opis { font-size: 1.0625rem; line-height: 1.5; }
+.danie__glowna:not(:has(.danie__cena))::before { content: none; }
+.piwo-flagowe__etykieta { width: max-content; max-width: calc(100% - 24px); font-size: 1rem; line-height: 1.35; }
+.piwo-flagowe { padding-top: 32px; }
+.piwo-flagowe .danie__opis { font-style: italic; }
+.kontakt__godz-nota { opacity: 1; font-size: 1rem; color: var(--wood); }
+.stopka__copy { color: var(--ivory-alt); font-size: 0.9375rem; }
+.stopka__social a, .stopka__handle { font-size: 0.875rem; }
+.stopka__social a { display: inline-flex; align-items: center; min-height: 44px; }
+.pasek-mobilny__btn { font-size: 0.9375rem; min-height: 44px; }
+.lightbox { padding: 16px; }
+.lightbox__tresc { max-height: calc(100dvh - 32px); overflow-y: auto; padding: 3.5rem 1.25rem 1.25rem; }
+.lightbox__zamknij { width: 44px; height: 44px; font-family: var(--f-body); }
+@media (min-width: 1100px) {
+  .menu__zakladki { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 1050px; margin-inline: auto; }
+}
+@media (min-width: 861px) and (max-width: 1050px) {
+  .nawigacja__logo span { display: none; }
+  .nawigacja__prawa, .nawigacja__linki { gap: 0.75rem; }
+  .naglowek__cta { padding-inline: 10px; }
+}
+@media (max-width: 860px) {
+  .container { padding-inline: 16px; }
+  .nawigacja__logo span, .naglowek__cta { display: none; }
+  .nawigacja { gap: 8px; }
+  .nawigacja__prawa { gap: 8px; }
+  .jezyk-przelacznik { gap: 4px; }
+  .jezyk-przelacznik button { min-width: 28px; }
+  .hero { min-height: min(680px, calc(100svh - var(--header-height, 74px) - 76px)); }
+  .hero__tresc { padding: 3rem 1rem; }
+  .hero__cta .btn { padding-inline: 1.25rem; }
+  .o-miejscu__zdjecie { max-height: 320px; }
+  .o-miejscu__historia p { font-size: 1.125rem; }
+  .pilsner-karta { padding: 1.5rem; }
+  body { padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 700px) {
+  .menu__zakladki { display: none; }
+  .menu__wybor { display: grid; gap: 4px; position: sticky; top: var(--header-height, 74px); z-index: 10; background: var(--ivory); padding: 8px 0 12px; margin-bottom: 20px; border-bottom: 1px solid var(--gold); }
+  .menu__wybor label { font-size: 1rem; color: var(--wood); }
+  .menu__wybor select { width: 100%; min-width: 0; min-height: 48px; padding: 8px 12px; border: 1px solid var(--gold-dark); border-radius: 2px; font: 600 1.125rem var(--f-body); color: var(--forest); background: var(--ivory); }
+  .menu .sekcja__naglowek { margin-bottom: 1.5rem; }
+  .danie__nazwa { font-size: 1.375rem; }
+  .danie__opis { font-size: 1.125rem; }
+  .danie__cena { font-size: 1.25rem; }
+  .danie__glowna { gap: 12px; }
+  .piwo-flagowe { padding-inline: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 </style>
 
 <!-- Dane strukturalne Schema.org dla restauracji -->
@@ -1150,8 +1255,8 @@ h1, h2, h3, h4 {
     <div class="nawigacja__prawa">
       <ul class="nawigacja__linki" id="linki-nawigacji">
         <li><a href="#o-miejscu" data-i18n="ui_nav_o_nas">O nas</a></li>
-        <li><a href="#pilsner" data-i18n="ui_nav_pilsner">Pilsner</a></li>
         <li><a href="#menu" data-i18n="ui_nav_menu">Menu</a></li>
+        <li><a href="#pilsner" data-i18n="ui_nav_pilsner">Pilsner</a></li>
         <li><a href="#galeria" data-i18n="ui_nav_galeria">Galeria</a></li>
         <li><a href="#kontakt" data-i18n="ui_nav_kontakt">Kontakt</a></li>
       </ul>
@@ -1177,8 +1282,8 @@ h1, h2, h3, h4 {
       </h1>
       <p class="hero__haslo" data-i18n="hero_haslo">Karkonosze na talerzu i w kuflu</p>
       <div class="hero__cta">
-        <a href="tel:+48793066186" class="btn btn--primary" data-i18n="hero_cta_rezerwuj">Zarezerwuj stolik</a>
-        <a href="#menu" class="btn btn--ghost" data-i18n="hero_cta1">Zobacz menu</a>
+        <a href="#menu" class="btn btn--primary" data-i18n="hero_cta1">Zobacz menu</a>
+        <a href="tel:+48793066186" class="btn btn--ghost" data-i18n="hero_cta_rezerwuj">Zarezerwuj stolik</a>
       </div>
     </div>
     <span class="hero__strzalka" aria-hidden="true"></span>
@@ -1191,8 +1296,10 @@ h1, h2, h3, h4 {
         <span class="eyebrow" data-i18n="om_eyebrow">Od 1892 roku</span>
         <h2 class="sekcja__tytul" data-i18n="om_tytul">Miejsce, do którego schodzi się z gór</h2>
         <p data-i18n="om_p1">Szrenica, Śnieżne Kotły, Wodospad Kamieńczyka - wszystkie te szlaki mają wspólne zakończenie: moment, w którym można zdjąć plecak, usiąść i poczekać na gorący talerz.</p>
+        <details class="o-miejscu__historia"><summary data-i18n="om_historia">Poznaj historię Wyszynku</summary>
         <p data-i18n="om_p2">Ten budynek robi to od 1892 roku. Powstał jako Hotel Klose i od pierwszego dnia przyjmował podróżnych zmierzających w Karkonosze. Dziś na jego parterze podajemy kuchnię pogranicza karkonosko-czesko-śląskiego: rosół z gęsi i kury, kwaśnicę na wędzonym żeberku, ręcznie lepione pierogi i golonkę z chrupiącą skórką. Do tego Pilsner Urquell prosto z beczki, nalewany zgodnie z czeską szkołą.</p>
         <p data-i18n="om_p3">Wyszynk to dawna nazwa miejsca, wokół którego kręciło się życie okolicy. Nie wymyślaliśmy go na nowo - wróciliśmy do roli, którą ten dom pełnił od początku. Nad nami wciąż są pokoje: Villa Bożena przyjmuje gości tak jak ponad sto trzydzieści lat temu.</p>
+        </details>
       </div>
       <div class="o-miejscu__zdjecie ornament-corners">
         <picture>
@@ -1200,6 +1307,568 @@ h1, h2, h3, h4 {
           <img src="assets/img/zewnatrz.jpg" alt="Historyczna fasada budynku dawnego Hotelu Klose, dziś Villa Bożena, otoczona lasem Karkonoszy" loading="lazy" width="700" height="876">
         </picture>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ MENU ============ -->
+  <section class="sekcja menu" id="menu">
+    <div class="container">
+      <div class="sekcja__naglowek">
+        <span class="eyebrow" data-i18n="menu_eyebrow">Kuchnia pogranicza</span>
+        <h2 class="sekcja__tytul" data-i18n="menu_tytul">Menu</h2>
+      </div>
+
+      <!-- Zakładki kategorii menu. Wzorzec ARIA tablist: kazda zakladka ma
+           aria-controls wskazujace panel, panel ma aria-labelledby wskazujace
+           zakladke, a tabindex jest "wedrujacy" - w tab-orderze siedzi tylko
+           zakladka aktywna, po reszcie chodzi sie strzalkami. -->
+      <div class="menu__wybor"><label for="menu-kategoria" data-i18n="menu_wybierz">Wybierz kategorię</label><select id="menu-kategoria"><option value="zupy" data-i18n="c1">Zupy</option><option value="zakaski" data-i18n="tab_zakaski">Zakąski</option><option value="dania-glowne" data-i18n="c4" selected>Dania Główne</option><option value="pierogi" data-i18n="tab_pierogi">Pierogi</option><option value="desery" data-i18n="c5">Desery</option><option value="dzieci" data-i18n="tab_dzieci">Dla dzieci</option><option value="piwo" data-i18n="c7">Piwo</option><option value="napoje" data-i18n="c_gorace">Napoje gorące</option><option value="napoje-zimne" data-i18n="c_zimne">Napoje zimne</option><option value="alkohole" data-i18n="c9">Alkohole</option></select></div>
+<div class="menu__zakladki" role="tablist" aria-label="Kategorie menu">
+<button class="menu__zakladka" role="tab" id="tab-zupy" aria-controls="zupy" aria-selected="false" tabindex="-1" data-kategoria="zupy" data-i18n="c1">Zupy</button>
+<button class="menu__zakladka" role="tab" id="tab-zakaski" aria-controls="zakaski" aria-selected="false" tabindex="-1" data-kategoria="zakaski" data-i18n="tab_zakaski">Zakąski</button>
+<button class="menu__zakladka jest-aktywna" role="tab" id="tab-dania-glowne" aria-controls="dania-glowne" aria-selected="true" tabindex="0" data-kategoria="dania-glowne" data-i18n="c4">Dania Główne</button>
+<button class="menu__zakladka" role="tab" id="tab-pierogi" aria-controls="pierogi" aria-selected="false" tabindex="-1" data-kategoria="pierogi" data-i18n="tab_pierogi">Pierogi</button>
+<button class="menu__zakladka" role="tab" id="tab-desery" aria-controls="desery" aria-selected="false" tabindex="-1" data-kategoria="desery" data-i18n="c5">Desery</button>
+<button class="menu__zakladka" role="tab" id="tab-dzieci" aria-controls="dzieci" aria-selected="false" tabindex="-1" data-kategoria="dzieci" data-i18n="tab_dzieci">Dla dzieci</button>
+<button class="menu__zakladka" role="tab" id="tab-piwo" aria-controls="piwo" aria-selected="false" tabindex="-1" data-kategoria="piwo" data-i18n="c7">Piwo</button>
+<button class="menu__zakladka" role="tab" id="tab-napoje" aria-controls="napoje" aria-selected="false" tabindex="-1" data-kategoria="napoje" data-i18n="c_gorace">Napoje gorące</button>
+<button class="menu__zakladka" role="tab" id="tab-napoje-zimne" aria-controls="napoje-zimne" aria-selected="false" tabindex="-1" data-kategoria="napoje-zimne" data-i18n="c_zimne">Napoje zimne</button>
+<button class="menu__zakladka" role="tab" id="tab-alkohole" aria-controls="alkohole" aria-selected="false" tabindex="-1" data-kategoria="alkohole" data-i18n="c9">Alkohole</button>
+</div>
+
+<div class="menu__kategoria" id="zupy" role="tabpanel" aria-labelledby="tab-zupy" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c1">Zupy</h3>
+<div class="danie danie--wyroznione"><div class="danie__glowna"><h4 class="danie__nazwa" data-i18n="d71_n">Aksamitny krem z dyni <span class="danie__gramatura">(350ml)</span></h4><span class="danie__cena">27 zł</span></div><p class="danie__opis" data-i18n="d120_o">Kremowa, rozgrzewająca zupa ze świeżej dyni, doprawiona ostrym, świeżym imbirem, podawana z chrupiącymi, ziołowymi grzankami, prażonymi pestkami dyni i aksamitną, słodką śmietanką. Idealna na karkonoskie chłody!</p><div class="danie__oznaczenia"><span class="danie__znacznik"><span class="danie__zegar" aria-hidden="true"></span><span class="" data-i18n="tag_sezon">DANIE SEZONOWE</span></span><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d1_n">Wyszynkowy rosół z gęsi i kury <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d70_o">Esencjonalny rosół, długo gotowany na gęsi i kurze, podawany z domowymi szpeclami, marchwią i świeżą natką pietruszki.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d2_n">Kulajda <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">26 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d71_o">Tradycyjna czeska zupa na śmietanie z leśnymi grzybami, ziemniakami, koperkiem i jajkiem.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d3_n">Żur śląski <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">28 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d72_o">Przygotowywany na swojskim zakwasie, z białą kiełbasą, wędzonym boczkiem, jajkiem i domowym pieczywem.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d4_n">Karkonoska kwaśnica <span class="danie__gramatura">(350ml)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d73_o">Gotowana na wędzonym żeberku, ze swojskiej kiszonej kapusty i aromatycznych przypraw, podawana z wiejskim chlebem.</p>
+        </div>
+</div>
+
+<div class="menu__kategoria" id="zakaski" role="tabpanel" aria-labelledby="tab-zakaski" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c2">Zakąski z Wyszynku</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d5_n">Pieczony Hermelín z żurawiną i czosnkiem <span class="danie__gramatura">(245g)</span></h4>
+            <span class="danie__cena">32 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d74_o">Czeski klasyk w gorącej odsłonie. Ser pleśniowy zapiekany ze świeżym czosnkiem i słodką żurawiną, podawany na rozgrzanej żeliwnej patelni w towarzystwie piwnego precla.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d6_n">Patelnia kiełbas pieczonych w ciemnym piwie <span class="danie__gramatura">(260g)</span></h4>
+            <span class="danie__cena">36 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d75_o">Kompozycja regionalnych, krojonych kiełbas zapiekanych w gęstym sosie na bazie ciemnego piwa, musztardy i karmelizowanej cebuli, podawana prosto z pieca na żeliwnej patelni.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d7_n">Piwny precel z ciepłym sosem serowym <span class="danie__gramatura">(185g)</span></h4>
+            <span class="danie__cena">30 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d76_o">Chrupiący, świeżo wypiekany precel piwny, serwowany z gęstym, aksamitnym i ciepłym sosem z kilku rodzajów sera.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d9_n">Domowy chleb ze swojskim smalcem <span class="danie__gramatura">(350g)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d78_o">Chrupiący chleb razowy naszego wypieku, z domowym smalcem z długo wytapianego, wędzonego boczku z cebulą i swojskim ogórkiem małosolnym.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d10_n">Chrupiące krążki cebulowe <span class="danie__gramatura">(250g)</span></h4>
+            <span class="danie__cena">25 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d79_o">Złociste krążki słodkiej cebuli w puszystej panierce z nutą piwa, podawane z domowym sosem piwno-musztardowo-miodowym.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d8_n">Fryty Wyszynkowe z zestawem dipów</h4>
+          </div>
+          <p class="danie__opis" data-i18n="d77_o">Grubo krojone, chrupiące frytki, serwowane z trzema autorskimi sosami: czosnkowym, piwno-miodowo-musztardowym oraz ketchupem curry. Do wyboru w jednej z trzech wersji:</p>
+          <ul class="danie__warianty">
+            <li><span data-i18n="war_11">Klasyczne (350g)</span><span>26 zł</span></li><li class="danie__wariant-opis"><span class="" data-i18n="fryt_klasyczne">Z solą morską.</span></li>
+            <li><span data-i18n="war_12">Serowe (370g)</span><span>29 zł</span></li><li class="danie__wariant-opis"><span class="" data-i18n="fryt_serowe">Z tartym serem cheddar i świeżym szczypiorkiem.</span></li>
+            <li><span data-i18n="war_13">Na bogato (390g)</span><span>32 zł</span></li><li class="danie__wariant-opis"><span class="" data-i18n="fryt_bogato">Z tartym serem cheddar, chrupiącym bekonem i świeżym szczypiorkiem.</span></li>
+          </ul>
+        </div>
+</div>
+
+<div class="menu__kategoria jest-aktywna" id="dania-glowne" role="tabpanel" aria-labelledby="tab-dania-glowne" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c4">Dania Główne</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d16_n">Pieczeń piwna z knedlami <span class="danie__gramatura">(500g)</span></h4>
+            <span class="danie__cena">58 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d85_o">Soczysta szynka wieprzowa, wolno pieczona w jasnym sosie własnym z nutą piwa, podawana z tradycyjnymi, czeskimi knedlami bułczanymi oraz zasmażaną, kiszoną kapustą z dodatkiem kminku i miodu.</p>
+        </div>
+<div class="danie danie--wyroznione">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d17_n">Golonka Piwowara <span class="danie__gramatura" data-i18n="gram_golonka">(ok. 1000g)</span></h4>
+            <span class="danie__cena">84 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d86_o">Solidna porcja biesiadnej golonki wieprzowej z chrupiącą skórką, podawana z ostrym chrzanem, musztardą, zasmażaną kiszoną kapustą z kminkiem i miodem oraz ciemnym domowym chlebem.</p>
+        <div class="danie__oznaczenia"><span class="danie__sygnatura" data-i18n="sig_flagowe">◆ Danie flagowe</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d18_n">Gulasz Sudecki z kluskami śląskimi <span class="danie__gramatura">(550g)</span></h4>
+            <span class="danie__cena">60 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d87_o">Długo duszony, esencjonalny gulasz wołowo-wieprzowy z dodatkiem aromatycznych, suszonych podgrzybków, podawany z domowymi kluskami śląskimi i świeżą czerwoną cebulą.</p>
+        </div>
+<div class="danie danie--wyroznione">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d19_n">Żeberka z Pieca Wyszynkowego <span class="danie__gramatura">(800g)</span></h4>
+            <span class="danie__cena">68 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d88_o">Kruche żeberka wieprzowe marynowane w piwie Pilsner Urquell i pieczone do miękkości, serwowane z pieczonymi ziemniakami z rozmarynem, sosem chrzanowym i domowymi piklami.</p>
+        <div class="danie__oznaczenia"><span class="danie__sygnatura" data-i18n="sig_flagowe">◆ Danie flagowe</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d20_n">Tradycyjny schabowy z kością <span class="danie__gramatura">(500g)</span></h4>
+            <span class="danie__cena">59 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d89_o">Soczysty, gruby kotlet schabowy smażony tradycyjnie na smalcu, podawany z gotowanymi ziemniakami z koperkiem i białą kapustą zasmażaną.</p>
+        </div>
+
+<div class="danie danie--wyroznione"><div class="danie__glowna"><h4 class="danie__nazwa" data-i18n="d72_n">Kluski z pieczonej dyni w sosie borowikowym <span class="danie__gramatura">(430g)</span></h4><span class="danie__cena">52 zł</span></div><p class="danie__opis" data-i18n="d121_o">Ręcznie robione, bezglutenowe kluski z pieczonej dyni, z aromatycznym sosem borowikowym i wędzoną kozią ricottą z Łomnicy.</p><div class="danie__oznaczenia"><span class="danie__znacznik"><span class="danie__zegar" aria-hidden="true"></span><span class="" data-i18n="tag_sezon">DANIE SEZONOWE</span></span><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span><span class="danie__znacznik" data-i18n="tag_gluten">BEZ GLUTENU</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d21_n">Klopsy z indyka w sosie kaparowym <span class="danie__gramatura">(480g)</span></h4>
+            <span class="danie__cena">62 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d90_o">Delikatne klopsy z indyka w aksamitnym sosie kaparowym, serwowane na kremowym puree ziemniaczanym.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d22_n">Pstrąg Podgórzyński z pieca z masłem z sardeli <span class="danie__gramatura">(800g)</span></h4>
+            <span class="danie__cena">69 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d91_o">Świeży pstrąg z lokalnej, karkonoskiej hodowli, pieczony w całości i podawany z naszym rzemieślniczym masłem z sardeli, smażonymi ziemniakami i chrupiącą surówką coleslaw.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d23_n">Smažený sýr <span class="danie__gramatura">(480g)</span></h4>
+            <span class="danie__cena">59 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d92_o">Klasyka gatunku. Wyrazisty ser Edam w piwnej chrupiącej panierce, podawany z domowym sosem tatarskim i grubo krojonymi frytkami.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie danie--wyroznione">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d24_n">Grillowana pierś kurczaka z sosem miodowo-musztardowym <span class="danie__gramatura">(500g)</span></h4>
+            <span class="danie__cena">62 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d93_o">Soczysta pierś kurczaka z grilla, z sosem miodowo-musztardowym, podawana ze świeżą sałatką z rukoli, papryki i pieczonej dyni, z domowym dressingiem.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik"><span class="danie__zegar" aria-hidden="true"></span><span class="" data-i18n="tag_sezon">DANIE SEZONOWE</span></span></div>
+        </div>
+</div>
+
+<div class="menu__kategoria" id="pierogi" role="tabpanel" aria-labelledby="tab-pierogi" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c3">Pierogi lepione w Wyszynku</h3>
+<p class="menu__kategoria-wstep" data-i18n="wstep_5">Wszystkie nasze pierogi lepimy ręcznie każdego dnia — to regionalna wizytówka Wyszynku.</p>
+<div class="danie danie--wyroznione">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d70_n">Pierogi z pieczoną dynią i soczewicą <span class="danie__gramatura" data-i18n="gram_6">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">45 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d119_o">Ręcznie lepione pierogi z autorskiego ciasta dyniowego, nadziewane aromatycznym farszem z pieczonej dyni i soczewicy, podawane z borowikami duszonymi z cebulą.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik"><span class="danie__zegar" aria-hidden="true"></span><span class="" data-i18n="tag_sezon">DANIE SEZONOWE</span></span><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d11_n">Pierogi z Jeleniem <span class="danie__gramatura" data-i18n="gram_6">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">58 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d80_o">Ręcznie lepione pierogi z pieczonym mięsem jelenia, podawane z wyrazistym sosem na bazie ciemnego piwa, musztardy i karmelizowanej cebuli.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d12_n">Pierogi z Gęsiną <span class="danie__gramatura" data-i18n="gram_7">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">46 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d81_o">Pierogi wypełnione aromatyczną gęsiną, polane masłem i podawane z konfiturą żurawinową.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d13_n">Pierogi ruskie z twarogiem Sudeckim <span class="danie__gramatura" data-i18n="gram_8">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">39 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d82_o">Tradycyjne pierogi z ziemniakami i regionalnym twarogiem sudeckim, podawane z kwaśną śmietaną oraz chrupiącą okrasą z boczku i cebulki.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d14_n">Pierogi z wędzonym serem górskim i pieczarkami <span class="danie__gramatura" data-i18n="gram_9">(8 szt. / 400g)</span></h4>
+            <span class="danie__cena">48 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d83_o">Pierogi ze smażonymi pieczarkami i lokalnym serem wędzonym, polane masłem i podawane z sosem czosnkowo-koperkowym.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik" data-i18n="tag_vege">VEGE</span></div>
+        </div>
+<div class="danie danie--wyroznione">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d15_n">Karkonoski Mix Pierogów <span class="danie__gramatura">(450g)</span></h4>
+            <span class="danie__cena">50 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d84_o">Kompozycja po 2 sztuki pierogów: z jeleniem, gęsiną, twarogiem Sudeckim oraz wędzonym serem górskim. Podawane z trzema klasycznymi dodatkami: żurawiną, śmietaną i chrupiącą okrasą.</p>
+        <div class="danie__oznaczenia"><span class="danie__sygnatura" data-i18n="sig_polecane">◆ Polecane</span></div>
+        </div>
+</div>
+
+<div class="menu__kategoria" id="desery" role="tabpanel" aria-labelledby="tab-desery" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c5">Desery</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d25_n">Karkonoski strudel z jabłkami i żurawiną <span class="danie__gramatura">(220g)</span></h4>
+            <span class="danie__cena">26 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d94_o">Złocisty strudel z aromatycznym nadzieniem jabłkowo-żurawinowym, podawany na ciepło z lodami waniliowymi i puszystą bitą śmietaną.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d26_n">Czekoladowy fondant z wiśniami <span class="danie__gramatura">(220g)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d95_o">Gorący fondant czekoladowy z płynnym sercem, podawany z lodami waniliowymi i wiśniami.</p>
+        </div>
+<div class="danie danie--wyroznione">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d27_n">Sezonowe pierogi na słodko z jagodami <span class="danie__gramatura">(300g)</span></h4>
+            <span class="danie__cena">38 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d96_o">Ręcznie lepione pierogi z ciasta według tradycyjnej receptury, wypełnione świeżymi leśnymi jagodami, podawane ze słodką śmietaną.</p>
+        <div class="danie__oznaczenia"><span class="danie__znacznik"><span class="danie__zegar" aria-hidden="true"></span><span class="" data-i18n="tag_sezon">DANIE SEZONOWE</span></span></div>
+        </div>
+</div>
+
+<div class="menu__kategoria" id="dzieci" role="tabpanel" aria-labelledby="tab-dzieci" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c6">Menu dla Małych Wędrowców</h3>
+<p class="menu__kategoria-wstep" data-i18n="wstep_dzieci">Mniejsze porcje dla najmłodszych wędrowców po Karkonoszach.</p>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d28_n">Rosołek z kluseczkami <span class="danie__gramatura">(200ml)</span></h4>
+            <span class="danie__cena">20 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d97_o">Mniejsza porcja naszego esencjonalnego rosołu z gęsi i kury, podawana z domowymi szpeclami i słodką marchewką.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d29_n">Złocisty kurczak z frytkami <span class="danie__gramatura">(250g)</span></h4>
+            <span class="danie__cena">29 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d98_o">Delikatna, grillowana pierś z kurczaka, podawana z grubo krojonymi frytkami oraz surówką sezonową.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d30_n">Pulpety z indyka w łagodnym sosie <span class="danie__gramatura">(250g)</span></h4>
+            <span class="danie__cena">34 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d99_o">Lekkie i delikatne klopsiki z indyka podawane w kremowym sosie własnym, serwowane z puszystymi, tłuczonymi ziemniakami.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d31_n">Małe pierogi dla łasucha <span class="danie__gramatura" data-i18n="gram_10">(4 szt. / 200g)</span></h4>
+            <span class="danie__cena">22 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d100_o">Porcja dopasowana do mniejszego apetytu. Do wyboru: tradycyjne pierogi ruskie z sudeckim twarogiem ze śmietaną lub ręcznie lepione pierogi na słodko z leśnymi jagodami i słodką śmietaną.</p>
+        </div>
+</div>
+
+<div class="menu__kategoria menu__kategoria--napoje" id="piwo" role="tabpanel" aria-labelledby="tab-piwo" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c7">Piwo</h3><div class="piwo-flagowe"><span class="piwo-flagowe__etykieta" data-i18n="sig_piwo">◆ Piwo flagowe Wyszynku</span><p class="eyebrow" data-i18n="piwo_eyebrow">LANE PROSTO Z BECZKI</p><h4 class="piwo-flagowe__marka">Pilsner Urquell</h4><p class="danie__opis" data-i18n="d101_o">Serce naszego wyszynku — oryginalny czeski leżak z Pilzna o gęstej, kremowej pianie i pełnej goryczce chmielu żateckiego.</p><p class="pilsner__cennik"><span>0,5 l — 20 zł</span> · <span>0,3 l — 17 zł</span></p></div>
+<h3 class="menu__podnaglowek" data-i18n="s1">Piwo butelkowe</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d33_n">Książęce złote pszeniczne <span class="danie__gramatura">(4,9% · 0,5 l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d34_n">Książęce IPA <span class="danie__gramatura">(5,4% · 0,5 l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d35_n">Książęce lager miodowy <span class="danie__gramatura">(4,5% · 0,5 l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d36_n">Kozel jasny <span class="danie__gramatura">(4,6% · 0,5 l)</span></h4>
+            <span class="danie__cena">16 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d37_n">Kozel ciemny <span class="danie__gramatura">(3,8% · 0,5 l)</span></h4>
+            <span class="danie__cena">16 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d38_n">Lech smakowy <span class="danie__gramatura">(4% · 0,5 l)</span></h4>
+            <span class="danie__cena">15 zł</span>
+          </div>
+        </div>
+<h3 class="menu__podnaglowek" data-i18n="s2">Piwo bezalkoholowe</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d39_n">Książęce złote pszeniczne <span class="danie__gramatura">(0% · 0,5 l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d40_n">Książęce IPA <span class="danie__gramatura">(0% · 0,5 l)</span></h4>
+            <span class="danie__cena">18 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d41_n">Kozel jasny <span class="danie__gramatura">(0% · 0,5 l)</span></h4>
+            <span class="danie__cena">16 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d42_n">Lech lager jasny <span class="danie__gramatura">(0% · 0,5 l)</span></h4>
+            <span class="danie__cena">15 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d43_n">Lech smakowy <span class="danie__gramatura">(0% · 0,33 l)</span></h4>
+            <span class="danie__cena">13 zł</span>
+          </div>
+        </div>
+</div>
+
+<div class="menu__kategoria menu__kategoria--napoje" id="napoje" role="tabpanel" aria-labelledby="tab-napoje" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c_gorace">Napoje gorące</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d44_n">Kawa czarna <span class="danie__gramatura">(100 ml)</span></h4>
+            <span class="danie__cena">10 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d45_n">Kawa z mlekiem <span class="danie__gramatura">(120 ml)</span></h4>
+            <span class="danie__cena">12 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d46_n">Herbata w dzbanku <span class="danie__gramatura">(350 ml)</span></h4>
+            <span class="danie__cena">15 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d102_o">Czarna · Earl Grey · Zielona · Miętowa · Biała · Owoce leśne · Malinowa.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d47_n">Rozgrzewająca domowa herbata zimowa <span class="danie__gramatura">(300 ml)</span></h4>
+            <span class="danie__cena">25 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d103_o">Zapytaj obsługę, jaką dziś polecamy.</p>
+        </div>
+<h3 class="menu__podnaglowek" data-i18n="s4">Grzane trunki</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d48_n">Grzane wino z pomarańczą i goździkami <span class="danie__gramatura">(13,5% · 250 ml)</span></h4>
+            <span class="danie__cena">22 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d49_n">Grzane wino bezalkoholowe <span class="danie__gramatura">(0% · 250 ml)</span></h4>
+            <span class="danie__cena">25 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d50_n">Grzane białe wino z miodem, cynamonem i jabłkiem <span class="danie__gramatura">(11,5% · 250 ml)</span></h4>
+            <span class="danie__cena">25 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d51_n">Grzany Aperol <span class="danie__gramatura">(10% · 250 ml)</span></h4>
+            <span class="danie__cena">28 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d104_o">Białe wino, likier Aperol, pomarańcza i laska cynamonu.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d52_n">Grzany miód pitny Trójniak Staropolski <span class="danie__gramatura">(13% · 250 ml)</span></h4>
+            <span class="danie__cena">26 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d105_o">Z jabłkiem i gwiazdką anyżu.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d53_n">Grzane piwo <span class="danie__gramatura">(5,2% · 500 ml)</span></h4>
+            <span class="danie__cena">27 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d106_o">Z sokiem imbirowym, malinowym lub miodem i przyprawami korzennymi. Wersja bezalkoholowa — 30 zł.</p>
+        </div>
+</div>
+
+<div class="menu__kategoria menu__kategoria--napoje" id="napoje-zimne" role="tabpanel" aria-labelledby="tab-napoje-zimne" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c_zimne">Napoje zimne</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d54_n">Soki świeżo wyciskane <span class="danie__gramatura">(300 ml)</span></h4>
+            <span class="danie__cena">24 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d107_o">Pomarańczowy · Jabłkowy · Mix.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d55_n">Domowe herbaty mrożone <span class="danie__gramatura">(300 ml)</span></h4>
+            <span class="danie__cena">20 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d108_o">Klasyczna · Zielona · Malinowa.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d56_n">Lemoniady domowe <span class="danie__gramatura">(300 ml)</span></h4>
+            <span class="danie__cena">24 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d109_o">Klasyczna cytrynowa lub z owocami sezonowymi — zapytaj obsługę.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d57_n">Woda mineralna gazowana lub niegazowana <span class="danie__gramatura">(330 / 700 ml)</span></h4>
+            <span class="danie__cena">8 / 12 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d58_n">Napoje gazowane <span class="danie__gramatura">(200 ml)</span></h4>
+            <span class="danie__cena">10 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d110_o">Pepsi · Pepsi MAX · Mirinda · 7up.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d59_n">Lipton Ice Tea <span class="danie__gramatura">(200 ml)</span></h4>
+            <span class="danie__cena">10 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d111_o">Brzoskwiniowa · Klasyczna.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d60_n">Soki <span class="danie__gramatura">(200 ml)</span></h4>
+            <span class="danie__cena">10 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d112_o">Pomarańczowy · Jabłkowy.</p>
+        </div>
+</div>
+
+<div class="menu__kategoria menu__kategoria--napoje" id="alkohole" role="tabpanel" aria-labelledby="tab-alkohole" tabindex="0">
+<h3 class="menu__kategoria-naglowek" data-i18n="c9">Alkohole</h3>
+<h3 class="menu__podnaglowek" data-i18n="s7">Szprycery <span class="danie__gramatura">(300 ml / 1 l)</span></h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d61_n">Hugo Spritz <span class="danie__gramatura">(5%)</span></h4>
+            <span class="danie__cena">26 / 74 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d113_o">Prosecco, woda gazowana, syrop z kwiatów czarnego bzu, limonka.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d62_n">Pink Prosecco <span class="danie__gramatura">(5%)</span></h4>
+            <span class="danie__cena">26 / 74 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d114_o">Prosecco, purée malinowe, woda gazowana.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d63_n">Aperol Spritz <span class="danie__gramatura">(8%)</span></h4>
+            <span class="danie__cena">28 / 85 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d115_o">Prosecco, likier Aperol, woda gazowana, pomarańcza.</p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d64_n">Lemon Bianco Spritz <span class="danie__gramatura">(12%)</span></h4>
+            <span class="danie__cena">28 / 85 zł</span>
+          </div>
+          <p class="danie__opis" data-i18n="d116_o">Prosecco, Martini Bianco, sok z cytryny, syrop cukrowy.</p>
+        </div>
+<h3 class="menu__podnaglowek" data-i18n="s8">Prosecco <span class="danie__gramatura">(10,5%)</span></h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d65_n">Karafka 1 l</h4>
+            <span class="danie__cena">75 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d66_n">Karafka 0,5 l</h4>
+            <span class="danie__cena">40 zł</span>
+          </div>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d67_n">Kieliszek 150 ml</h4>
+            <span class="danie__cena">16 zł</span>
+          </div>
+        </div>
+<h3 class="menu__podnaglowek" data-i18n="s6">Wina domu</h3>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d68_n">Czerwone wytrawne, hiszpańskie <span class="danie__gramatura">(12,5%)</span></h4>
+          </div>
+          <p class="danie__opis" data-i18n="d117_o">Wyraziste, o intensywnych nutach jeżyn i ciemnych jagód.</p>
+          <p class="danie__ceny-wina"><span><span data-i18n="war_16">Karafka 1 l</span> — 75 zł</span> · <span>0,5 l — 40 zł</span> · <span><span data-i18n="war_18">Kieliszek 150 ml</span> — 16 zł</span></p>
+        </div>
+<div class="danie">
+          <div class="danie__glowna">
+            <h4 class="danie__nazwa" data-i18n="d69_n">Białe wytrawne, hiszpańskie <span class="danie__gramatura">(11,5%)</span></h4>
+          </div>
+          <p class="danie__opis" data-i18n="d118_o">Delikatne, z wyczuwalnymi aromatami bananów i jabłek.</p>
+          <p class="danie__ceny-wina"><span><span data-i18n="war_16">Karafka 1 l</span> — 75 zł</span> · <span>0,5 l — 40 zł</span> · <span><span data-i18n="war_18">Kieliszek 150 ml</span> — 16 zł</span></p>
+        </div>
+</div>
+
     </div>
   </section>
 
@@ -1226,613 +1895,6 @@ h1, h2, h3, h4 {
           <p data-i18n="pil_p3">Mleczne nalanie samej piany - aksamitny akcent na zakończenie wieczoru.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ============ MENU ============ -->
-  <section class="sekcja menu" id="menu">
-    <div class="container">
-      <div class="sekcja__naglowek">
-        <span class="eyebrow" data-i18n="menu_eyebrow">Kuchnia pogranicza</span>
-        <h2 class="sekcja__tytul" data-i18n="menu_tytul">Menu</h2>
-      </div>
-
-      <!-- Zakładki kategorii menu. Wzorzec ARIA tablist: kazda zakladka ma
-           aria-controls wskazujace panel, panel ma aria-labelledby wskazujace
-           zakladke, a tabindex jest "wedrujacy" - w tab-orderze siedzi tylko
-           zakladka aktywna, po reszcie chodzi sie strzalkami. -->
-      <div class="menu__zakladki" role="tablist" aria-label="Kategorie menu">
-        <button class="menu__zakladka" role="tab" id="tab-zupy" aria-controls="zupy" aria-selected="false" tabindex="-1" data-kategoria="zupy" data-i18n="c1">Zupy</button>
-        <button class="menu__zakladka" role="tab" id="tab-zakaski" aria-controls="zakaski" aria-selected="false" tabindex="-1" data-kategoria="zakaski" data-i18n="c2">Zakąski z Wyszynku</button>
-        <button class="menu__zakladka" role="tab" id="tab-pierogi" aria-controls="pierogi" aria-selected="false" tabindex="-1" data-kategoria="pierogi" data-i18n="c3">Pierogi lepione w Wyszynku</button>
-        <button class="menu__zakladka jest-aktywna" role="tab" id="tab-dania-glowne" aria-controls="dania-glowne" aria-selected="true" tabindex="0" data-kategoria="dania-glowne" data-i18n="c4">Dania główne</button>
-        <button class="menu__zakladka" role="tab" id="tab-desery" aria-controls="desery" aria-selected="false" tabindex="-1" data-kategoria="desery" data-i18n="c5">Desery</button>
-        <button class="menu__zakladka" role="tab" id="tab-dzieci" aria-controls="dzieci" aria-selected="false" tabindex="-1" data-kategoria="dzieci" data-i18n="c6_tab">Dla Małych Wędrowców</button>
-        <button class="menu__zakladka" role="tab" id="tab-piwo" aria-controls="piwo" aria-selected="false" tabindex="-1" data-kategoria="piwo" data-i18n="c7">Piwo</button>
-        <button class="menu__zakladka" role="tab" id="tab-napoje" aria-controls="napoje" aria-selected="false" tabindex="-1" data-kategoria="napoje" data-i18n="c8">Napoje</button>
-        <button class="menu__zakladka" role="tab" id="tab-alkohole" aria-controls="alkohole" aria-selected="false" tabindex="-1" data-kategoria="alkohole" data-i18n="c9">Alkohole</button>
-      </div>
-
-      <!-- ZUPY -->
-      <div class="menu__kategoria" id="zupy" role="tabpanel" aria-labelledby="tab-zupy" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c1">Zupy</h3>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d1_n">Wyszynkowy rosół z gęsi i kury <span class="danie__gramatura">(350ml)</span></h4>
-            <span class="danie__cena">29 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d70_o">Esencjonalny rosół, długo gotowany na gęsi i kurze, podawany z domowymi szpeclami, marchwią i świeżą natką pietruszki.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d2_n">Kulajda <span class="danie__gramatura">(350ml)</span></h4>
-            <span class="danie__cena">26 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d71_o">Tradycyjna czeska zupa na śmietanie z leśnymi grzybami, ziemniakami, koperkiem i jajkiem.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d3_n">Żur śląski <span class="danie__gramatura">(350ml)</span></h4>
-            <span class="danie__cena">28 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d72_o">Przygotowywany na swojskim zakwasie, z białą kiełbasą, wędzonym boczkiem, jajkiem i domowym pieczywem.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d4_n">Karkonoska kwaśnica <span class="danie__gramatura">(350ml)</span></h4>
-            <span class="danie__cena">29 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d73_o">Gotowana na wędzonym żeberku, ze swojskiej kiszonej kapusty i aromatycznych przypraw, podawana z wiejskim chlebem.</p>
-        </div>
-      </div>
-
-      <!-- ZAKĄSKI Z WYSZYNKU -->
-      <div class="menu__kategoria" id="zakaski" role="tabpanel" aria-labelledby="tab-zakaski" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c2">Zakąski z Wyszynku</h3>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d5_n">Pieczony Hermelín z żurawiną i czosnkiem <span class="danie__gramatura">(245g)</span></h4>
-            <span class="danie__cena">32 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d74_o">Czeski klasyk w gorącej odsłonie. Ser pleśniowy zapiekany ze świeżym czosnkiem i słodką żurawiną, podawany na rozgrzanej żeliwnej patelni w towarzystwie piwnego precla.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d6_n">Patelnia kiełbas pieczonych w ciemnym piwie <span class="danie__gramatura">(260g)</span></h4>
-            <span class="danie__cena">36 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d75_o">Kompozycja regionalnych, krojonych kiełbas zapiekanych w gęstym sosie na bazie ciemnego piwa, musztardy i karmelizowanej cebuli, podawana prosto z pieca na żeliwnej patelni.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d7_n">Piwny precel z ciepłym sosem serowym <span class="danie__gramatura">(185g)</span></h4>
-            <span class="danie__cena">30 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d76_o">Chrupiący, świeżo wypiekany precel piwny, serwowany z gęstym, aksamitnym i ciepłym sosem z kilku rodzajów sera.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d8_n">Fryty Wyszynkowe z zestawem dipów</h4>
-          </div>
-          <p class="danie__opis" data-i18n="d77_o">Grubo ciosane, chrupiące frytki podawane w koszyczku, serwowane z trzema autorskimi sosami: czosnkowym, piwno-miodowo-musztardowym oraz ketchupem curry.</p>
-          <ul class="danie__warianty">
-            <li><span data-i18n="war_11">Klasyczne (350g)</span><span>26 zł</span></li>
-            <li><span data-i18n="war_12">Serowe (370g)</span><span>29 zł</span></li>
-            <li><span data-i18n="war_13">Na bogato (390g)</span><span>32 zł</span></li>
-          </ul>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d9_n">Domowy chleb ze swojskim smalcem <span class="danie__gramatura">(350g)</span></h4>
-            <span class="danie__cena">29 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d78_o">Pajda chrupiącego chleba razowego naszego wypieku, podawana ze swojskim smalcem oraz ogórkiem małosolnym.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d10_n">Chrupiące krążki cebulowe <span class="danie__gramatura">(250g)</span></h4>
-            <span class="danie__cena">25 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d79_o">Złociste krążki słodkiej cebuli w puszystej panierce z nutą piwa, podawane z domowym sosem piwno-musztardowo-miodowym.</p>
-        </div>
-      </div>
-
-      <!-- PIEROGI LEPIONE W WYSZYNKU -->
-      <div class="menu__kategoria" id="pierogi" role="tabpanel" aria-labelledby="tab-pierogi" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c3">Pierogi lepione w Wyszynku</h3>
-        <p class="menu__kategoria-wstep" data-i18n="wstep_5">Lepione ręcznie, każdego dnia. Regionalna wizytówka naszej kuchni.</p>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d11_n">Pierogi z Jeleniem <span class="danie__gramatura" data-i18n="gram_6">(8 szt. / 400g)</span></h4>
-            <span class="danie__cena">58 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d80_o">Ręcznie lepione pierogi z pieczonym mięsem jelenia, podawane z wyrazistym sosem na bazie ciemnego piwa, musztardy i karmelizowanej cebuli.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d12_n">Pierogi z Gęsiną <span class="danie__gramatura" data-i18n="gram_7">(8 szt. / 400g)</span></h4>
-            <span class="danie__cena">46 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d81_o">Pierogi wypełnione aromatyczną gęsiną, polane masłem i podawane z konfiturą żurawinową.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d13_n">Pierogi ruskie z twarogiem Sudeckim <span class="danie__gramatura" data-i18n="gram_8">(8 szt. / 400g)</span></h4>
-            <span class="danie__cena">39 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d82_o">Tradycyjne pierogi z ziemniakami i regionalnym twarogiem sudeckim, podawane z kwaśną śmietaną oraz chrupiącą okrasą z boczku i cebulki.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d14_n">Pierogi z wędzonym serem górskim i pieczarkami <span class="danie__gramatura" data-i18n="gram_9">(8 szt. / 400g)</span></h4>
-            <span class="danie__cena">48 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d83_o">Pierogi ze smażonymi pieczarkami i lokalnym serem wędzonym, polane masłem i podawane z sosem czosnkowo-koperkowym.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d15_n">Karkonoski Mix Pierogów <span class="danie__odznaka" data-i18n="badge_1">Polecane</span> <span class="danie__gramatura">(450g)</span></h4>
-            <span class="danie__cena">50 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d84_o">Kompozycja po 2 sztuki pierogów: z jeleniem, gęsiną, twarogiem Sudeckim oraz wędzonym serem górskim. Podawane z trzema klasycznymi dodatkami: żurawiną, śmietaną i chrupiącą okrasą.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d70_n">Sezonowe pierogi na słono z naszej stolnicy <span class="danie__gramatura">(400g)</span></h4>
-            <span class="danie__cena">cena sezonowa</span>
-          </div>
-          <p class="danie__opis" data-i18n="d119_o">Ręcznie lepione pierogi z ciasta według tradycyjnej receptury, wypełnione sezonowym farszem z lokalnych produktów. O aktualnie dostępny smak zapytaj obsługę.</p>
-        </div>
-      </div>
-
-      <!-- DANIA GŁÓWNE -->
-      <div class="menu__kategoria jest-aktywna" id="dania-glowne" role="tabpanel" aria-labelledby="tab-dania-glowne" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c4">Dania główne</h3>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d16_n">Pieczeń piwna z knedlami <span class="danie__gramatura">(500g)</span></h4>
-            <span class="danie__cena">58 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d85_o">Soczysta szynka wieprzowa, wolno pieczona w jasnym sosie własnym z nutą piwa, podawana z tradycyjnymi czeskimi knedlami bułczanymi oraz zasmażaną kiszoną kapustą z dodatkiem kminku i miodu.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d17_n">Golonka Piwowara <span class="danie__odznaka" data-i18n="badge_2">Danie flagowe</span> <span class="danie__gramatura">(ok. 1000g)</span></h4>
-            <span class="danie__cena">84 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d86_o">Solidna porcja biesiadnej golonki wieprzowej z chrupiącą skórką, podawana z ostrym chrzanem, musztardą, zasmażaną kiszoną kapustą z kminkiem i miodem oraz ciemnym domowym chlebem.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d18_n">Gulasz Sudecki z kluskami śląskimi <span class="danie__gramatura">(550g)</span></h4>
-            <span class="danie__cena">60 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d87_o">Długo duszony, esencjonalny gulasz wołowo-wieprzowy z dodatkiem aromatycznych, suszonych podgrzybków, podawany z domowymi kluskami śląskimi i piórkami czerwonej cebuli.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d19_n">Żebra z Pieca Wyszynkowego <span class="danie__odznaka" data-i18n="badge_3">Danie flagowe</span> <span class="danie__gramatura">(800g)</span></h4>
-            <span class="danie__cena">68 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d88_o">Kruche żeberka wieprzowe marynowane w piwie pilzneńskim i pieczone do miękkości, serwowane z pieczonymi ziemniakami z rozmarynem, sosem chrzanowym i domowymi piklami.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d20_n">Tradycyjny schabowy z kością <span class="danie__gramatura">(500g)</span></h4>
-            <span class="danie__cena">59 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d89_o">Soczysty, gruby kotlet schabowy smażony tradycyjnie na smalcu, podawany z gotowanymi ziemniakami z koperkiem i białą kapustą zasmażaną.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d21_n">Klopsy w sosie kaparowym <span class="danie__gramatura">(480g)</span></h4>
-            <span class="danie__cena">62 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d90_o">Delikatne klopsiki z indyka w aksamitnym sosie kaparowym, przygotowywane według dawnego przepisu z pogranicza, podawane z tłuczonymi ziemniakami.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d22_n">Pstrąg Podgórzyński z pieca <span class="danie__gramatura">(800g)</span></h4>
-            <span class="danie__cena">69 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d91_o">Świeży pstrąg z lokalnej, karkonoskiej hodowli, pieczony w całości i podawany z naszym rzemieślniczym masłem z sardeli oraz świeżymi ziołami, w zestawie z pieczonymi ziemniakami i chrupiącą surówką coleslaw.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d23_n">Smažený sýr <span class="danie__gramatura">(480g)</span></h4>
-            <span class="danie__cena">59 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d92_o">Klasyka gatunku. Wyrazisty ser Edam w piwnej chrupiącej panierce, podawany z gęstym, domowym sosem tatarskim i grubo krojonymi frytkami.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d24_n">Grillowana pierś kurczaka z sosem kurkowym <span class="danie__odznaka" data-i18n="badge_4">Danie sezonowe</span> <span class="danie__gramatura">(550g)</span></h4>
-            <span class="danie__cena">62 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d93_o">Soczysta pierś kurczaka z grilla, serwowana z wyrazistym sosem kurkowym, sałatką ze świeżych warzyw i pieczonymi ziemniakami z rozmarynem.</p>
-        </div>
-      </div>
-
-      <!-- DESERY -->
-      <div class="menu__kategoria" id="desery" role="tabpanel" aria-labelledby="tab-desery" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c5">Desery</h3>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d25_n">Karkonoski strudel z jabłkami i żurawiną <span class="danie__gramatura">(180g)</span></h4>
-            <span class="danie__cena">26 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d94_o">Podawany na ciepło z puszystą bitą śmietaną i lodami waniliowymi.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d26_n">Czekoladowy fondant z wiśniami <span class="danie__gramatura">(220g)</span></h4>
-            <span class="danie__cena">29 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d95_o">Gorące czekoladowe wnętrze, podane z gałką lodów waniliowych i wiśniami.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d27_n">Sezonowe pierogi na słodko z naszej stolnicy <span class="danie__gramatura">(300g)</span></h4>
-            <span class="danie__cena">cena sezonowa</span>
-          </div>
-          <p class="danie__opis" data-i18n="d96_o">Ręcznie lepione pierogi z ciasta według tradycyjnej receptury, wypełnione świeżymi owocami sezonowymi, podawane ze słodką śmietaną. O aktualnie dostępny smak zapytaj obsługę.</p>
-        </div>
-      </div>
-
-      <!-- MENU DLA MAŁYCH WĘDROWCÓW -->
-      <div class="menu__kategoria" id="dzieci" role="tabpanel" aria-labelledby="tab-dzieci" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c6">Menu dla Małych Wędrowców</h3>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d28_n">Rosołek z kluseczkami <span class="danie__gramatura">(200ml)</span></h4>
-            <span class="danie__cena">20 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d97_o">Mniejsza porcja naszego esencjonalnego rosołu z gęsi i kury, podawana z domowymi szpeclami i słodką marchewką.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d29_n">Złocisty kurczak z frytkami <span class="danie__gramatura">(250g)</span></h4>
-            <span class="danie__cena">29 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d98_o">Delikatna, grillowana pierś z kurczaka, podawana z grubo krojonymi frytkami oraz surówką sezonową.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d30_n">Pulpety z indyka w łagodnym sosie <span class="danie__gramatura">(250g)</span></h4>
-            <span class="danie__cena">34 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d99_o">Lekkie i delikatne klopsiki z indyka podawane w kremowym sosie własnym, serwowane z puszystymi, tłuczonymi ziemniakami.</p>
-        </div>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d31_n">Małe pierogi dla łasucha <span class="danie__gramatura" data-i18n="gram_10">(4 szt. / 200g)</span></h4>
-            <span class="danie__cena">22 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d100_o">Porcja dopasowana do mniejszego apetytu. Do wyboru: tradycyjne pierogi ruskie z sudeckim twarogiem ze śmietaną lub ręcznie lepione pierogi ze świeżymi owocami sezonowymi i słodką śmietaną.</p>
-        </div>
-      </div>
-
-      <!-- PIWO -->
-      <div class="menu__kategoria" id="piwo" role="tabpanel" aria-labelledby="tab-piwo" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c7">Piwo</h3>
-
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d32_n">Lany Pilsner Urquell prosto z beczki</h4>
-          </div>
-          <p class="danie__opis" data-i18n="d101_o">Klasyczne czeskie piwo lane prosto z beczki.</p>
-          <ul class="danie__warianty">
-            <li><span data-i18n="war_14">0,5 l</span><span>20 zł</span></li>
-            <li><span data-i18n="war_15">0,3 l</span><span>17 zł</span></li>
-          </ul>
-        </div>
-
-        <h3 class="menu__podnaglowek" data-i18n="s1">Piwo butelkowe</h3>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d33_n">Książęce złote pszeniczne <span class="danie__gramatura">(4,9% · 0,5l)</span></h4>
-            <span class="danie__cena">18 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d34_n">Książęce IPA <span class="danie__gramatura">(5,4% · 0,5l)</span></h4>
-            <span class="danie__cena">18 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d35_n">Książęce lager miodowy <span class="danie__gramatura">(4,5% · 0,5l)</span></h4>
-            <span class="danie__cena">18 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d36_n">Kozel jasny <span class="danie__gramatura">(4,6% · 0,5l)</span></h4>
-            <span class="danie__cena">16 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d37_n">Kozel ciemny <span class="danie__gramatura">(3,8% · 0,5l)</span></h4>
-            <span class="danie__cena">16 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d38_n">Lech smakowy <span class="danie__gramatura">(4% · 0,5l)</span></h4>
-            <span class="danie__cena">15 zł</span>
-          </div>
-        </div>
-
-        <h3 class="menu__podnaglowek" data-i18n="s2">Piwo bezalkoholowe</h3>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d39_n">Książęce złote pszeniczne <span class="danie__gramatura">(0% · 0,5l)</span></h4>
-            <span class="danie__cena">18 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d40_n">Książęce IPA <span class="danie__gramatura">(0% · 0,5l)</span></h4>
-            <span class="danie__cena">18 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d41_n">Kozel jasny <span class="danie__gramatura">(0% · 0,5l)</span></h4>
-            <span class="danie__cena">16 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d42_n">Lech lager jasny <span class="danie__gramatura">(0% · 0,5l)</span></h4>
-            <span class="danie__cena">15 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d43_n">Lech smakowy <span class="danie__gramatura">(0% · 0,33l)</span></h4>
-            <span class="danie__cena">13 zł</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- NAPOJE -->
-      <div class="menu__kategoria" id="napoje" role="tabpanel" aria-labelledby="tab-napoje" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c8">Napoje</h3>
-
-        <h3 class="menu__podnaglowek" data-i18n="s3">Napoje gorące</h3>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d44_n">Kawa czarna <span class="danie__gramatura">(100ml)</span></h4>
-            <span class="danie__cena">10 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d45_n">Kawa z mlekiem <span class="danie__gramatura">(120ml)</span></h4>
-            <span class="danie__cena">12 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d46_n">Herbata w dzbanku <span class="danie__gramatura">(350ml)</span></h4>
-            <span class="danie__cena">15 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d102_o">Czarna · Earl Grey · Zielona · Miętowa · Biała · Owoce leśne · Malinowa.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d47_n">Rozgrzewająca domowa herbata zimowa <span class="danie__gramatura">(300ml)</span></h4>
-            <span class="danie__cena">25 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d103_o">Zapytaj obsługę, jaką dziś polecamy.</p>
-        </div>
-
-        <h3 class="menu__podnaglowek" data-i18n="s4">Grzane trunki</h3>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d48_n">Grzane wino z pomarańczą i goździkami <span class="danie__gramatura">(13,5% · 250ml)</span></h4>
-            <span class="danie__cena">22 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d49_n">Grzane wino bezalkoholowe <span class="danie__gramatura">(0% · 250ml)</span></h4>
-            <span class="danie__cena">25 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d50_n">Grzane białe wino z miodem, cynamonem i jabłkiem <span class="danie__gramatura">(11,5% · 250ml)</span></h4>
-            <span class="danie__cena">25 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d51_n">Grzany Aperol <span class="danie__gramatura">(10% · 250ml)</span></h4>
-            <span class="danie__cena">28 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d104_o">Białe wino, likier Aperol, pomarańcza i laska cynamonu.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d52_n">Grzany miód pitny Trójniak Staropolski <span class="danie__gramatura">(13% · 250ml)</span></h4>
-            <span class="danie__cena">26 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d105_o">Z jabłkiem i gwiazdką anyżu.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d53_n">Grzane piwo <span class="danie__gramatura">(5,2% · 500ml)</span></h4>
-            <span class="danie__cena">27 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d106_o">Z sokiem imbirowym, malinowym lub miodem i przyprawami korzennymi. Wersja bezalkoholowa - 30 zł.</p>
-        </div>
-
-        <h3 class="menu__podnaglowek" data-i18n="s5">Napoje zimne</h3>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d54_n">Soki świeżo wyciskane <span class="danie__gramatura">(300ml)</span></h4>
-            <span class="danie__cena">24 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d107_o">Pomarańczowy · Jabłkowy · Mix.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d55_n">Domowe herbaty mrożone <span class="danie__gramatura">(300ml)</span></h4>
-            <span class="danie__cena">20 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d108_o">Klasyczna · Zielona · Malinowa.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d56_n">Lemoniady domowe <span class="danie__gramatura">(300ml)</span></h4>
-            <span class="danie__cena">24 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d109_o">Klasyczna cytrynowa lub z owocami sezonowymi - zapytaj obsługę.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d57_n">Woda mineralna gazowana lub niegazowana <span class="danie__gramatura">(330 / 700ml)</span></h4>
-            <span class="danie__cena">8 / 12 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d58_n">Napoje gazowane <span class="danie__gramatura">(200ml)</span></h4>
-            <span class="danie__cena">10 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d110_o">Pepsi · Pepsi MAX · Mirinda · 7up.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d59_n">Lipton Ice Tea <span class="danie__gramatura">(200ml)</span></h4>
-            <span class="danie__cena">10 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d111_o">Brzoskwiniowa · Klasyczna.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d60_n">Soki <span class="danie__gramatura">(200ml)</span></h4>
-            <span class="danie__cena">10 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d112_o">Pomarańczowy · Jabłkowy.</p>
-        </div>
-      </div>
-
-      <!-- ALKOHOLE -->
-      <div class="menu__kategoria" id="alkohole" role="tabpanel" aria-labelledby="tab-alkohole" tabindex="0">
-        <h3 class="menu__kategoria-naglowek" data-i18n="c9">Alkohole</h3>
-
-        <h3 class="menu__podnaglowek" data-i18n="s7">Szprycery <span style="text-transform:none;letter-spacing:0;font-weight:500;">(300ml / 1l)</span></h3>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d61_n">Hugo Spritz <span class="danie__gramatura">(5%)</span></h4>
-            <span class="danie__cena">26 / 74 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d113_o">Prosecco, woda gazowana, syrop z kwiatów czarnego bzu, limonka.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d62_n">Pink Prosecco <span class="danie__gramatura">(5%)</span></h4>
-            <span class="danie__cena">26 / 74 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d114_o">Prosecco, purée malinowe, woda gazowana.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d63_n">Aperol Spritz <span class="danie__gramatura">(8%)</span></h4>
-            <span class="danie__cena">28 / 85 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d115_o">Prosecco, likier Aperol, woda gazowana, pomarańcza.</p>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d64_n">Lemon Bianco Spritz <span class="danie__gramatura">(12%)</span></h4>
-            <span class="danie__cena">28 / 85 zł</span>
-          </div>
-          <p class="danie__opis" data-i18n="d116_o">Prosecco, Martini Bianco, sok z cytryny, syrop cukrowy.</p>
-        </div>
-
-        <h3 class="menu__podnaglowek" data-i18n="s8">Prosecco <span style="text-transform:none;letter-spacing:0;font-weight:500;">(10,5%)</span></h3>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d65_n">Karafka 1 l</h4>
-            <span class="danie__cena">75 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d66_n">Karafka 0,5 l</h4>
-            <span class="danie__cena">40 zł</span>
-          </div>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d67_n">Kieliszek 150 ml</h4>
-            <span class="danie__cena">16 zł</span>
-          </div>
-        </div>
-
-        <h3 class="menu__podnaglowek" data-i18n="s6">Wina domu</h3>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d68_n">Czerwone wytrawne, hiszpańskie <span class="danie__gramatura">(12,5%)</span></h4>
-          </div>
-          <p class="danie__opis" data-i18n="d117_o">Wyraziste, o intensywnych nutach jeżyn i ciemnych jagód.</p>
-          <ul class="danie__warianty">
-            <li><span data-i18n="war_16">Karafka 1 l</span><span>75 zł</span></li>
-            <li><span data-i18n="war_17">Karafka 0,5 l</span><span>40 zł</span></li>
-            <li><span data-i18n="war_18">Kieliszek 150 ml</span><span>16 zł</span></li>
-          </ul>
-        </div>
-        <div class="danie">
-          <div class="danie__glowna">
-            <h4 class="danie__nazwa" data-i18n="d69_n">Białe wytrawne, hiszpańskie <span class="danie__gramatura">(11,5%)</span></h4>
-          </div>
-          <p class="danie__opis" data-i18n="d118_o">Delikatne, z wyczuwalnymi aromatami bananów i jabłek.</p>
-          <ul class="danie__warianty">
-            <li><span data-i18n="war_19">Karafka 1 l</span><span>75 zł</span></li>
-            <li><span data-i18n="war_20">Karafka 0,5 l</span><span>40 zł</span></li>
-            <li><span data-i18n="war_21">Kieliszek 150 ml</span><span>16 zł</span></li>
-          </ul>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -1984,16 +2046,16 @@ var I18N_DANE = {
     "d16_n": "Pieczeń piwna z knedlami",
     "d17_n": "Golonka Piwowara",
     "d18_n": "Gulasz Sudecki z kluskami śląskimi",
-    "d19_n": "Żebra z Pieca Wyszynkowego",
+    "d19_n": "Żeberka z Pieca Wyszynkowego",
     "d20_n": "Tradycyjny schabowy z kością",
-    "d21_n": "Klopsy w sosie kaparowym",
-    "d22_n": "Pstrąg Podgórzyński z pieca",
+    "d21_n": "Klopsy z indyka w sosie kaparowym",
+    "d22_n": "Pstrąg Podgórzyński z pieca z masłem z sardeli",
     "d23_n": "Smažený sýr",
-    "d24_n": "Grillowana pierś kurczaka z sosem kurkowym",
-    "d70_n": "Sezonowe pierogi na słono z naszej stolnicy",
+    "d24_n": "Grillowana pierś kurczaka z sosem miodowo-musztardowym",
+    "d70_n": "Pierogi z pieczoną dynią i soczewicą",
     "d25_n": "Karkonoski strudel z jabłkami i żurawiną",
     "d26_n": "Czekoladowy fondant z wiśniami",
-    "d27_n": "Sezonowe pierogi na słodko z naszej stolnicy",
+    "d27_n": "Sezonowe pierogi na słodko z jagodami",
     "d28_n": "Rosołek z kluseczkami",
     "d29_n": "Złocisty kurczak z frytkami",
     "d30_n": "Pulpety z indyka w łagodnym sosie",
@@ -2043,40 +2105,40 @@ var I18N_DANE = {
     "d74_o": "Czeski klasyk w gorącej odsłonie. Ser pleśniowy zapiekany ze świeżym czosnkiem i słodką żurawiną, podawany na rozgrzanej żeliwnej patelni w towarzystwie piwnego precla.",
     "d75_o": "Kompozycja regionalnych, krojonych kiełbas zapiekanych w gęstym sosie na bazie ciemnego piwa, musztardy i karmelizowanej cebuli, podawana prosto z pieca na żeliwnej patelni.",
     "d76_o": "Chrupiący, świeżo wypiekany precel piwny, serwowany z gęstym, aksamitnym i ciepłym sosem z kilku rodzajów sera.",
-    "d77_o": "Grubo ciosane, chrupiące frytki podawane w koszyczku, serwowane z trzema autorskimi sosami: czosnkowym, piwno-miodowo-musztardowym oraz ketchupem curry.",
-    "d78_o": "Pajda chrupiącego chleba razowego naszego wypieku, podawana ze swojskim smalcem oraz ogórkiem małosolnym.",
+    "d77_o": "Grubo krojone, chrupiące frytki, serwowane z trzema autorskimi sosami: czosnkowym, piwno-miodowo-musztardowym oraz ketchupem curry. Do wyboru w jednej z trzech wersji:",
+    "d78_o": "Chrupiący chleb razowy naszego wypieku, z domowym smalcem z długo wytapianego, wędzonego boczku z cebulą i swojskim ogórkiem małosolnym.",
     "d79_o": "Złociste krążki słodkiej cebuli w puszystej panierce z nutą piwa, podawane z domowym sosem piwno-musztardowo-miodowym.",
     "d80_o": "Ręcznie lepione pierogi z pieczonym mięsem jelenia, podawane z wyrazistym sosem na bazie ciemnego piwa, musztardy i karmelizowanej cebuli.",
     "d81_o": "Pierogi wypełnione aromatyczną gęsiną, polane masłem i podawane z konfiturą żurawinową.",
     "d82_o": "Tradycyjne pierogi z ziemniakami i regionalnym twarogiem sudeckim, podawane z kwaśną śmietaną oraz chrupiącą okrasą z boczku i cebulki.",
     "d83_o": "Pierogi ze smażonymi pieczarkami i lokalnym serem wędzonym, polane masłem i podawane z sosem czosnkowo-koperkowym.",
     "d84_o": "Kompozycja po 2 sztuki pierogów: z jeleniem, gęsiną, twarogiem Sudeckim oraz wędzonym serem górskim. Podawane z trzema klasycznymi dodatkami: żurawiną, śmietaną i chrupiącą okrasą.",
-    "d85_o": "Soczysta szynka wieprzowa, wolno pieczona w jasnym sosie własnym z nutą piwa, podawana z tradycyjnymi czeskimi knedlami bułczanymi oraz zasmażaną kiszoną kapustą z dodatkiem kminku i miodu.",
+    "d85_o": "Soczysta szynka wieprzowa, wolno pieczona w jasnym sosie własnym z nutą piwa, podawana z tradycyjnymi, czeskimi knedlami bułczanymi oraz zasmażaną, kiszoną kapustą z dodatkiem kminku i miodu.",
     "d86_o": "Solidna porcja biesiadnej golonki wieprzowej z chrupiącą skórką, podawana z ostrym chrzanem, musztardą, zasmażaną kiszoną kapustą z kminkiem i miodem oraz ciemnym domowym chlebem.",
-    "d87_o": "Długo duszony, esencjonalny gulasz wołowo-wieprzowy z dodatkiem aromatycznych, suszonych podgrzybków, podawany z domowymi kluskami śląskimi i piórkami czerwonej cebuli.",
-    "d88_o": "Kruche żeberka wieprzowe marynowane w piwie pilzneńskim i pieczone do miękkości, serwowane z pieczonymi ziemniakami z rozmarynem, sosem chrzanowym i domowymi piklami.",
+    "d87_o": "Długo duszony, esencjonalny gulasz wołowo-wieprzowy z dodatkiem aromatycznych, suszonych podgrzybków, podawany z domowymi kluskami śląskimi i świeżą czerwoną cebulą.",
+    "d88_o": "Kruche żeberka wieprzowe marynowane w piwie Pilsner Urquell i pieczone do miękkości, serwowane z pieczonymi ziemniakami z rozmarynem, sosem chrzanowym i domowymi piklami.",
     "d89_o": "Soczysty, gruby kotlet schabowy smażony tradycyjnie na smalcu, podawany z gotowanymi ziemniakami z koperkiem i białą kapustą zasmażaną.",
-    "d90_o": "Delikatne klopsiki z indyka w aksamitnym sosie kaparowym, przygotowywane według dawnego przepisu z pogranicza, podawane z tłuczonymi ziemniakami.",
-    "d91_o": "Świeży pstrąg z lokalnej, karkonoskiej hodowli, pieczony w całości i podawany z naszym rzemieślniczym masłem z sardeli oraz świeżymi ziołami, w zestawie z pieczonymi ziemniakami i chrupiącą surówką coleslaw.",
-    "d92_o": "Klasyka gatunku. Wyrazisty ser Edam w piwnej chrupiącej panierce, podawany z gęstym, domowym sosem tatarskim i grubo krojonymi frytkami.",
-    "d93_o": "Soczysta pierś kurczaka z grilla, serwowana z wyrazistym sosem kurkowym, sałatką ze świeżych warzyw i pieczonymi ziemniakami z rozmarynem.",
-    "d119_o": "Ręcznie lepione pierogi z ciasta według tradycyjnej receptury, wypełnione sezonowym farszem z lokalnych produktów. O aktualnie dostępny smak zapytaj obsługę.",
-    "d94_o": "Podawany na ciepło z puszystą bitą śmietaną i lodami waniliowymi.",
-    "d95_o": "Gorące czekoladowe wnętrze, podane z gałką lodów waniliowych i wiśniami.",
-    "d96_o": "Ręcznie lepione pierogi z ciasta według tradycyjnej receptury, wypełnione świeżymi owocami sezonowymi, podawane ze słodką śmietaną. O aktualnie dostępny smak zapytaj obsługę.",
+    "d90_o": "Delikatne klopsy z indyka w aksamitnym sosie kaparowym, serwowane na kremowym puree ziemniaczanym.",
+    "d91_o": "Świeży pstrąg z lokalnej, karkonoskiej hodowli, pieczony w całości i podawany z naszym rzemieślniczym masłem z sardeli, smażonymi ziemniakami i chrupiącą surówką coleslaw.",
+    "d92_o": "Klasyka gatunku. Wyrazisty ser Edam w piwnej chrupiącej panierce, podawany z domowym sosem tatarskim i grubo krojonymi frytkami.",
+    "d93_o": "Soczysta pierś kurczaka z grilla, z sosem miodowo-musztardowym, podawana ze świeżą sałatką z rukoli, papryki i pieczonej dyni, z domowym dressingiem.",
+    "d119_o": "Ręcznie lepione pierogi z autorskiego ciasta dyniowego, nadziewane aromatycznym farszem z pieczonej dyni i soczewicy, podawane z borowikami duszonymi z cebulą.",
+    "d94_o": "Złocisty strudel z aromatycznym nadzieniem jabłkowo-żurawinowym, podawany na ciepło z lodami waniliowymi i puszystą bitą śmietaną.",
+    "d95_o": "Gorący fondant czekoladowy z płynnym sercem, podawany z lodami waniliowymi i wiśniami.",
+    "d96_o": "Ręcznie lepione pierogi z ciasta według tradycyjnej receptury, wypełnione świeżymi leśnymi jagodami, podawane ze słodką śmietaną.",
     "d97_o": "Mniejsza porcja naszego esencjonalnego rosołu z gęsi i kury, podawana z domowymi szpeclami i słodką marchewką.",
     "d98_o": "Delikatna, grillowana pierś z kurczaka, podawana z grubo krojonymi frytkami oraz surówką sezonową.",
     "d99_o": "Lekkie i delikatne klopsiki z indyka podawane w kremowym sosie własnym, serwowane z puszystymi, tłuczonymi ziemniakami.",
-    "d100_o": "Porcja dopasowana do mniejszego apetytu. Do wyboru: tradycyjne pierogi ruskie z sudeckim twarogiem ze śmietaną lub ręcznie lepione pierogi ze świeżymi owocami sezonowymi i słodką śmietaną.",
-    "d101_o": "Klasyczne czeskie piwo lane prosto z beczki.",
+    "d100_o": "Porcja dopasowana do mniejszego apetytu. Do wyboru: tradycyjne pierogi ruskie z sudeckim twarogiem ze śmietaną lub ręcznie lepione pierogi na słodko z leśnymi jagodami i słodką śmietaną.",
+    "d101_o": "Serce naszego wyszynku — oryginalny czeski leżak z Pilzna o gęstej, kremowej pianie i pełnej goryczce chmielu żateckiego.",
     "d102_o": "Czarna · Earl Grey · Zielona · Miętowa · Biała · Owoce leśne · Malinowa.",
     "d103_o": "Zapytaj obsługę, jaką dziś polecamy.",
     "d104_o": "Białe wino, likier Aperol, pomarańcza i laska cynamonu.",
     "d105_o": "Z jabłkiem i gwiazdką anyżu.",
-    "d106_o": "Z sokiem imbirowym, malinowym lub miodem i przyprawami korzennymi. Wersja bezalkoholowa - 30 zł.",
+    "d106_o": "Z sokiem imbirowym, malinowym lub miodem i przyprawami korzennymi. Wersja bezalkoholowa — 30 zł.",
     "d107_o": "Pomarańczowy · Jabłkowy · Mix.",
     "d108_o": "Klasyczna · Zielona · Malinowa.",
-    "d109_o": "Klasyczna cytrynowa lub z owocami sezonowymi - zapytaj obsługę.",
+    "d109_o": "Klasyczna cytrynowa lub z owocami sezonowymi — zapytaj obsługę.",
     "d110_o": "Pepsi · Pepsi MAX · Mirinda · 7up.",
     "d111_o": "Brzoskwiniowa · Klasyczna.",
     "d112_o": "Pomarańczowy · Jabłkowy.",
@@ -2093,13 +2155,13 @@ var I18N_DANE = {
     "c1": "Zupy",
     "c2": "Zakąski z Wyszynku",
     "c3": "Pierogi lepione w Wyszynku",
-    "c4": "Dania główne",
+    "c4": "Dania Główne",
     "c5": "Desery",
     "c6": "Menu dla Małych Wędrowców",
     "c7": "Piwo",
     "c8": "Napoje",
     "c9": "Alkohole",
-    "wstep_5": "Lepione ręcznie, każdego dnia. Regionalna wizytówka naszej kuchni.",
+    "wstep_5": "Wszystkie nasze pierogi lepimy ręcznie każdego dnia — to regionalna wizytówka Wyszynku.",
     "s1": "Piwo butelkowe",
     "s2": "Piwo bezalkoholowe",
     "s3": "Napoje gorące",
@@ -2169,7 +2231,31 @@ var I18N_DANE = {
     "ui_skip": "Przejdź do treści",
     "pil_p1": "Klasyczne nalanie z kremową, gęstą pianą - podstawowy i najczęściej wybierany sposób podania.",
     "pil_p2": "Mniej piwa, więcej piany - lżejsza porcja idealna na krótką przerwę między daniami.",
-    "pil_p3": "Mleczne nalanie samej piany - aksamitny akcent na zakończenie wieczoru."
+    "pil_p3": "Mleczne nalanie samej piany - aksamitny akcent na zakończenie wieczoru.",
+    "wstep_dzieci": "Mniejsze porcje dla najmłodszych wędrowców po Karkonoszach.",
+    "c4_cd": "Dania Główne (ciąg dalszy)",
+    "c_gorace": "Napoje gorące",
+    "c_zimne": "Napoje zimne",
+    "d71_n": "Aksamitny krem z dyni",
+    "d120_o": "Kremowa, rozgrzewająca zupa ze świeżej dyni, doprawiona ostrym, świeżym imbirem, podawana z chrupiącymi, ziołowymi grzankami, prażonymi pestkami dyni i aksamitną, słodką śmietanką. Idealna na karkonoskie chłody!",
+    "d72_n": "Kluski z pieczonej dyni w sosie borowikowym",
+    "d121_o": "Ręcznie robione, bezglutenowe kluski z pieczonej dyni, z aromatycznym sosem borowikowym i wędzoną kozią ricottą z Łomnicy.",
+    "tag_vege": "VEGE",
+    "tag_gluten": "BEZ GLUTENU",
+    "tag_sezon": "DANIE SEZONOWE",
+    "sig_flagowe": "◆ Danie flagowe",
+    "sig_polecane": "◆ Polecane",
+    "sig_piwo": "◆ Piwo flagowe Wyszynku",
+    "piwo_eyebrow": "LANE PROSTO Z BECZKI",
+    "fryt_klasyczne": "Z solą morską.",
+    "fryt_serowe": "Z tartym serem cheddar i świeżym szczypiorkiem.",
+    "fryt_bogato": "Z tartym serem cheddar, chrupiącym bekonem i świeżym szczypiorkiem.",
+    "gram_golonka": "(ok. 1000g)",
+    "tab_zakaski": "Zakąski",
+    "tab_pierogi": "Pierogi",
+    "tab_dzieci": "Dla dzieci",
+    "menu_wybierz": "Wybierz kategorię",
+    "om_historia": "Poznaj historię Wyszynku"
   },
   "en": {
     "d1_n": "House chicken and goose broth",
@@ -2192,14 +2278,14 @@ var I18N_DANE = {
     "d18_n": "Sudeten goulash with Silesian dumplings",
     "d19_n": "Ribs from the Wyszynk Oven",
     "d20_n": "Traditional bone-in pork chop",
-    "d21_n": "Meatballs in caper sauce",
-    "d22_n": "Oven-roasted Podgórzyn trout",
+    "d21_n": "Turkey meatballs in caper sauce",
+    "d22_n": "Oven-baked trout from Podgórzyn with anchovy butter",
     "d23_n": "Smažený sýr",
-    "d24_n": "Grilled chicken breast with chanterelle sauce",
-    "d70_n": "Seasonal savoury pierogi from our board",
+    "d24_n": "Grilled chicken breast with honey-mustard sauce",
+    "d70_n": "Pierogi with roasted pumpkin and lentils",
     "d25_n": "Karkonoski apple and cranberry strudel",
     "d26_n": "Chocolate fondant with cherries",
-    "d27_n": "Seasonal sweet pierogi from our board",
+    "d27_n": "Seasonal sweet pierogi with bilberries",
     "d28_n": "Small broth with noodles",
     "d29_n": "Golden chicken with fries",
     "d30_n": "Turkey meatballs in mild sauce",
@@ -2249,40 +2335,40 @@ var I18N_DANE = {
     "d74_o": "A Czech classic, served hot. Blue-veined cheese baked with fresh garlic and sweet cranberry, served on a hot cast-iron pan with a beer pretzel.",
     "d75_o": "A composition of sliced regional sausages baked in a thick sauce of dark beer, mustard and caramelised onion, served straight from the oven on a cast-iron pan.",
     "d76_o": "A crispy, freshly baked beer pretzel served with a thick, velvety, warm sauce made from several cheeses.",
-    "d77_o": "Thick-cut, crispy fries served in a basket with three signature sauces: garlic, beer-honey-mustard and curry ketchup.",
-    "d78_o": "A slice of our crusty homemade wholemeal bread, served with traditional lard and a pickled cucumber.",
+    "d77_o": "Thick-cut, crispy fries served with three house-made sauces: garlic, beer-honey-mustard and curry ketchup. Choose from three versions:",
+    "d78_o": "Crispy rye bread from our own oven, with homemade lard slowly rendered from smoked bacon with onion, and a lightly salted cucumber.",
     "d79_o": "Golden rings of sweet onion in a fluffy beer batter, served with a homemade beer-mustard-honey sauce.",
     "d80_o": "Hand-folded pierogi filled with roasted venison, served with a bold sauce of dark beer, mustard and caramelised onion.",
     "d81_o": "Pierogi filled with fragrant goose meat, drizzled with butter and served with cranberry preserve.",
     "d82_o": "Traditional pierogi with potato and regional Sudeten curd cheese, served with sour cream and crispy bacon and onion.",
     "d83_o": "Pierogi with sautéed mushrooms and local smoked cheese, drizzled with butter and served with garlic-dill sauce.",
     "d84_o": "A composition of 2 pierogi each of: venison, goose, Sudeten curd cheese and smoked mountain cheese. Served with three classic accompaniments: cranberry, sour cream and crispy bacon bits.",
-    "d85_o": "Juicy pork ham, slow-roasted in its own light sauce with a hint of beer, served with traditional Czech bread dumplings and braised sauerkraut with caraway and honey.",
+    "d85_o": "Juicy pork ham, slow-roasted in a light gravy with a hint of beer, served with traditional Czech bread dumplings and sautéed sauerkraut with caraway and honey.",
     "d86_o": "A hearty portion of feast-worthy pork knuckle with crispy crackling, served with sharp horseradish, mustard, braised sauerkraut with caraway and honey, and dark homemade bread.",
-    "d87_o": "A slow-braised, rich beef and pork goulash with aromatic dried porcini mushrooms, served with homemade Silesian dumplings and shreds of red onion.",
-    "d88_o": "Tender pork ribs marinated in Pilsner beer and roasted until fall-off-the-bone, served with rosemary roast potatoes, horseradish sauce and homemade pickles.",
+    "d87_o": "A rich, slow-cooked beef and pork goulash with aromatic dried bay bolete mushrooms, served with homemade Silesian potato dumplings and fresh red onion.",
+    "d88_o": "Tender pork ribs marinated in Pilsner Urquell and roasted until soft, served with rosemary roast potatoes, horseradish sauce and homemade pickles.",
     "d89_o": "A juicy, thick pork chop, fried the traditional way in lard, served with boiled potatoes with dill and braised white cabbage.",
-    "d90_o": "Delicate turkey meatballs in a velvety caper sauce, prepared to an old borderland recipe, served with mashed potatoes.",
-    "d91_o": "Fresh trout from a local Karkonosze farm, whole-roasted and served with our house anchovy butter and fresh herbs, alongside roast potatoes and crisp coleslaw.",
-    "d92_o": "A true classic. Bold Edam cheese in a crispy beer batter, served with a thick, homemade tartar sauce and thick-cut fries.",
-    "d93_o": "Juicy grilled chicken breast, served with a robust chanterelle sauce, a fresh vegetable salad and rosemary roast potatoes.",
-    "d119_o": "Hand-folded pierogi made from a traditional dough recipe, filled with a seasonal savoury filling from local produce. Ask staff about today's flavour.",
-    "d94_o": "Served warm with fluffy whipped cream and vanilla ice cream.",
-    "d95_o": "A hot chocolate centre, served with a scoop of vanilla ice cream and cherries.",
-    "d96_o": "Hand-folded pierogi made from a traditional dough recipe, filled with fresh seasonal fruit, served with sweet sour cream. Ask staff about today's flavour.",
+    "d90_o": "Tender turkey meatballs in a velvety caper sauce, served on creamy mashed potatoes.",
+    "d91_o": "Fresh trout from a local Karkonosze fish farm, baked whole and served with our handcrafted anchovy butter, fried potatoes and crunchy coleslaw.",
+    "d92_o": "A true classic. Full-flavoured Edam in a crispy beer coating, served with homemade tartare sauce and thick-cut fries.",
+    "d93_o": "Juicy grilled chicken breast with honey-mustard sauce, served with a fresh salad of rocket, peppers and roasted pumpkin, with homemade dressing.",
+    "d119_o": "Handmade pierogi made with our own pumpkin dough, filled with an aromatic roasted pumpkin and lentil filling, served with porcini mushrooms sautéed with onion.",
+    "d94_o": "Golden strudel with an aromatic apple and cranberry filling, served warm with vanilla ice cream and fluffy whipped cream.",
+    "d95_o": "Hot chocolate fondant with a molten centre, served with vanilla ice cream and sour cherries.",
+    "d96_o": "Handmade pierogi made with dough from a traditional recipe, filled with fresh wild bilberries and served with sweet cream.",
     "d97_o": "A smaller portion of our rich goose and chicken broth, served with homemade noodles and sweet carrot.",
     "d98_o": "Tender grilled chicken breast, served with thick-cut fries and seasonal coleslaw.",
     "d99_o": "Light, delicate turkey meatballs in a creamy sauce, served with fluffy mashed potatoes.",
-    "d100_o": "A portion sized for a smaller appetite. Choose from: traditional Russian-style pierogi with Sudeten curd cheese and sour cream, or hand-folded pierogi with fresh seasonal fruit and sweet sour cream.",
-    "d101_o": "Classic Czech beer, poured straight from the barrel.",
+    "d100_o": "A portion for smaller appetites. Choose traditional potato and Sudeten curd cheese pierogi with sour cream, or handmade sweet pierogi with wild bilberries and sweet cream.",
+    "d101_o": "The heart of our tavern — the original Czech lager from Pilsen, with a thick, creamy head and the full bitterness of Saaz hops.",
     "d102_o": "Black · Earl Grey · Green · Peppermint · White · Forest fruit · Raspberry.",
     "d103_o": "Ask staff what we recommend today.",
     "d104_o": "White wine, Aperol liqueur, orange and a cinnamon stick.",
     "d105_o": "With apple and a star anise.",
-    "d106_o": "With ginger, raspberry or honey syrup and warming spices. Alcohol-free version - 30 zł.",
+    "d106_o": "With ginger or raspberry syrup, or honey and warming spices. Alcohol-free version — 30 zł.",
     "d107_o": "Orange · Apple · Mix.",
     "d108_o": "Classic · Green · Raspberry.",
-    "d109_o": "Classic lemon or seasonal fruit - ask staff.",
+    "d109_o": "Classic lemon or seasonal fruit — ask our staff.",
     "d110_o": "Pepsi · Pepsi MAX · Mirinda · 7up.",
     "d111_o": "Peach · Classic.",
     "d112_o": "Orange · Apple.",
@@ -2305,7 +2391,7 @@ var I18N_DANE = {
     "c7": "Beer",
     "c8": "Drinks",
     "c9": "Alcohol",
-    "wstep_5": "Hand-folded, every single day. The regional signature of our kitchen.",
+    "wstep_5": "We make all our pierogi by hand every day — a regional hallmark of Wyszynk.",
     "s1": "Bottled beer",
     "s2": "Alcohol-free beer",
     "s3": "Hot drinks",
@@ -2375,7 +2461,31 @@ var I18N_DANE = {
     "kon_nota": "Staying at Villa Bożena? The Wyszynk is right downstairs.",
     "foot_haslo": "Come back for pork knuckle, pierogi and a well-poured beer - from the Karkonosze Mountains, since 1892.",
     "foot_prawa": "All rights reserved.",
-    "ui_skip": "Skip to content"
+    "ui_skip": "Skip to content",
+    "wstep_dzieci": "Smaller portions for the youngest explorers of the Karkonosze Mountains.",
+    "c4_cd": "Main courses (continued)",
+    "c_gorace": "Hot drinks",
+    "c_zimne": "Cold drinks",
+    "d71_n": "Velvety pumpkin soup",
+    "d120_o": "A creamy, warming soup made from fresh pumpkin, seasoned with fiery fresh ginger, served with crispy herb croutons, toasted pumpkin seeds and velvety sweet cream. Perfect for chilly days in the Karkonosze Mountains!",
+    "d72_n": "Roasted pumpkin dumplings in porcini sauce",
+    "d121_o": "Handmade gluten-free roasted pumpkin dumplings with aromatic porcini sauce and smoked goat's milk ricotta from Łomnica.",
+    "tag_vege": "VEGE",
+    "tag_gluten": "GLUTEN FREE",
+    "tag_sezon": "SEASONAL DISH",
+    "sig_flagowe": "◆ Signature dish",
+    "sig_polecane": "◆ Recommended",
+    "sig_piwo": "◆ Wyszynk's signature beer",
+    "piwo_eyebrow": "DRAFT, STRAIGHT FROM THE BARREL",
+    "fryt_klasyczne": "With sea salt.",
+    "fryt_serowe": "With grated cheddar and fresh chives.",
+    "fryt_bogato": "With grated cheddar, crispy bacon and fresh chives.",
+    "gram_golonka": "(approx. 1000g)",
+    "tab_zakaski": "Starters",
+    "tab_pierogi": "Pierogi",
+    "tab_dzieci": "For children",
+    "menu_wybierz": "Choose a category",
+    "om_historia": "Discover the story of Wyszynk"
   },
   "de": {
     "d1_n": "Wyszynk-Brühe von Gans und Huhn",
@@ -2398,14 +2508,14 @@ var I18N_DANE = {
     "d18_n": "Sudeten-Gulasch mit schlesischen Klößen",
     "d19_n": "Rippchen aus dem Wyszynk-Ofen",
     "d20_n": "Traditionelles Kotelett mit Knochen",
-    "d21_n": "Klopse in Kapernsauce",
-    "d22_n": "Podgórzyn-Forelle aus dem Ofen",
+    "d21_n": "Putenklopse in Kapernsauce",
+    "d22_n": "Ofenforelle aus Podgórzyn mit Sardellenbutter",
     "d23_n": "Smažený sýr",
-    "d24_n": "Gegrillte Hähnchenbrust mit Pfifferlingsauce",
-    "d70_n": "Saisonale herzhafte Piroggen von unserem Nudelbrett",
+    "d24_n": "Gegrillte Hähnchenbrust mit Honig-Senf-Sauce",
+    "d70_n": "Piroggen mit geröstetem Kürbis und Linsen",
     "d25_n": "Karkonoski-Strudel mit Apfel und Preiselbeere",
     "d26_n": "Schokoladenfondant mit Kirschen",
-    "d27_n": "Saisonale süße Piroggen von unserem Nudelbrett",
+    "d27_n": "Saisonale süße Piroggen mit Waldheidelbeeren",
     "d28_n": "Kleine Brühe mit Nudeln",
     "d29_n": "Goldenes Hähnchen mit Pommes",
     "d30_n": "Putenklopse in milder Sauce",
@@ -2455,40 +2565,40 @@ var I18N_DANE = {
     "d74_o": "Ein tschechischer Klassiker, heiß serviert. Weichkäse, überbacken mit frischem Knoblauch und süßer Preiselbeere, serviert auf einer heißen Gusseisenpfanne mit Bierbrezel.",
     "d75_o": "Eine Komposition regionaler, geschnittener Würste, überbacken in einer dickflüssigen Sauce aus dunklem Bier, Senf und karamellisierten Zwiebeln, direkt aus dem Ofen auf der Gusseisenpfanne serviert.",
     "d76_o": "Eine knusprige, frisch gebackene Bierbrezel, serviert mit einer dicken, samtigen, warmen Sauce aus mehreren Käsesorten.",
-    "d77_o": "Grob geschnittene, knusprige Pommes im Körbchen, serviert mit drei hauseigenen Saucen: Knoblauch, Bier-Honig-Senf und Curry-Ketchup.",
-    "d78_o": "Eine Scheibe unseres knusprigen, hausgebackenen Vollkornbrots, serviert mit traditionellem Schmalz und einer Salzgurke.",
+    "d77_o": "Dick geschnittene, knusprige Pommes mit drei hausgemachten Saucen: Knoblauch, Bier-Honig-Senf und Curry-Ketchup. In drei Varianten zur Wahl:",
+    "d78_o": "Knuspriges Roggenbrot aus unserem Ofen mit hausgemachtem Schmalz aus langsam ausgelassenem Räucherspeck und Zwiebeln sowie einer leicht gesalzenen, kurz eingelegten Gurke.",
     "d79_o": "Goldene Ringe süßer Zwiebeln in luftigem Bierteig, serviert mit hausgemachter Bier-Senf-Honig-Sauce.",
     "d80_o": "Handgeformte Piroggen gefüllt mit gebratenem Hirschfleisch, serviert mit einer kräftigen Sauce aus dunklem Bier, Senf und karamellisierten Zwiebeln.",
     "d81_o": "Piroggen gefüllt mit aromatischem Gänsefleisch, mit Butter beträufelt und serviert mit Preiselbeerkonfitüre.",
     "d82_o": "Traditionelle Piroggen mit Kartoffeln und regionalem Sudeten-Quark, serviert mit saurer Sahne sowie knusprigem Speck und Zwiebeln.",
     "d83_o": "Piroggen mit gebratenen Champignons und lokalem Räucherkäse, mit Butter beträufelt und serviert mit Knoblauch-Dill-Sauce.",
     "d84_o": "Eine Komposition von je 2 Stück Piroggen: mit Hirsch, Gans, Sudeten-Quark und geräuchertem Bergkäse. Serviert mit drei klassischen Beilagen: Preiselbeere, saure Sahne und knuspriger Speck.",
-    "d85_o": "Saftiger Schweineschinken, langsam gebraten in eigener heller Sauce mit einer Note Bier, serviert mit traditionellen tschechischen Semmelknödeln und geschmortem Sauerkraut mit Kümmel und Honig.",
+    "d85_o": "Saftiger Schweineschinken, langsam im hellen eigenen Saft mit einer Biernote gebraten, mit traditionellen böhmischen Semmelknödeln und geschmortem Sauerkraut mit Kümmel und Honig.",
     "d86_o": "Eine kräftige Portion festliches Schweineeisbein mit knuspriger Schwarte, serviert mit scharfem Meerrettich, Senf, geschmortem Sauerkraut mit Kümmel und Honig sowie dunklem hausgebackenem Brot.",
-    "d87_o": "Lange geschmortes, kräftiges Rind-Schweine-Gulasch mit aromatischen getrockneten Steinpilzen, serviert mit hausgemachten schlesischen Klößen und roten Zwiebelstreifen.",
-    "d88_o": "Zarte Schweinerippchen, mariniert in Pilsner Bier und gebraten bis sie vom Knochen fallen, serviert mit Rosmarin-Bratkartoffeln, Meerrettichsauce und hausgemachten Essiggurken.",
+    "d87_o": "Lange geschmortes, kräftiges Rind- und Schweinegulasch mit aromatischen getrockneten Maronenröhrlingen, hausgemachten schlesischen Kartoffelklößen und frischer roter Zwiebel.",
+    "d88_o": "Zarte Schweinerippchen, in Pilsner Urquell mariniert und weich gebraten, mit Rosmarinkartoffeln aus dem Ofen, Meerrettichsauce und hausgemachtem eingelegtem Gemüse.",
     "d89_o": "Ein saftiges, dickes Kotelett, traditionell in Schmalz gebraten, serviert mit Salzkartoffeln mit Dill und geschmortem Weißkohl.",
-    "d90_o": "Zarte Putenklopse in samtiger Kapernsauce, nach altem Grenzland-Rezept zubereitet, serviert mit Kartoffelpüree.",
-    "d91_o": "Frische Forelle aus lokaler Riesengebirgs-Zucht, ganz gebraten und serviert mit unserer hausgemachten Sardellenbutter und frischen Kräutern, dazu Bratkartoffeln und knackiger Krautsalat.",
-    "d92_o": "Ein echter Klassiker. Würziger Edamer Käse in knusprigem Bierteig, serviert mit dicker, hausgemachter Tatarsauce und grob geschnittenen Pommes.",
-    "d93_o": "Saftige gegrillte Hähnchenbrust, serviert mit kräftiger Pfifferlingsauce, frischem Gemüsesalat und Rosmarin-Bratkartoffeln.",
-    "d119_o": "Handgeformte Piroggen aus traditionellem Teigrezept, gefüllt mit einer saisonalen herzhaften Füllung aus lokalen Produkten. Fragen Sie das Personal nach dem heutigen Geschmack.",
-    "d94_o": "Warm serviert mit luftiger Schlagsahne und Vanilleeis.",
-    "d95_o": "Heißer Schokoladenkern, serviert mit einer Kugel Vanilleeis und Kirschen.",
-    "d96_o": "Handgeformte Piroggen aus traditionellem Teigrezept, gefüllt mit frischem Saisonobst, serviert mit süßer saurer Sahne. Fragen Sie das Personal nach dem heutigen Geschmack.",
+    "d90_o": "Zarte Putenklopse in samtiger Kapernsauce, auf cremigem Kartoffelpüree serviert.",
+    "d91_o": "Frische Forelle aus einer lokalen Zucht im Riesengebirge, im Ganzen gebacken und mit unserer handgemachten Sardellenbutter, Bratkartoffeln und knackigem Coleslaw serviert.",
+    "d92_o": "Ein echter Klassiker. Würziger Edamer in knuspriger Bierpanade, mit hausgemachter Sauce tartare und dick geschnittenen Pommes.",
+    "d93_o": "Saftige Hähnchenbrust vom Grill mit Honig-Senf-Sauce, dazu ein frischer Salat aus Rucola, Paprika und geröstetem Kürbis mit hausgemachtem Dressing.",
+    "d119_o": "Handgeformte Piroggen aus unserem eigenen Kürbisteig, gefüllt mit aromatischem geröstetem Kürbis und Linsen, dazu mit Zwiebeln geschmorte Steinpilze.",
+    "d94_o": "Goldbrauner Strudel mit aromatischer Apfel-Preiselbeer-Füllung, warm serviert mit Vanilleeis und luftiger Schlagsahne.",
+    "d95_o": "Warmer Schokoladenfondant mit flüssigem Kern, serviert mit Vanilleeis und Sauerkirschen.",
+    "d96_o": "Handgeformte Piroggen aus Teig nach traditionellem Rezept, gefüllt mit frischen Waldheidelbeeren und mit süßer Sahne serviert.",
     "d97_o": "Eine kleinere Portion unserer kräftigen Gans-Huhn-Brühe, serviert mit hausgemachten Nudeln und süßer Karotte.",
     "d98_o": "Zarte gegrillte Hähnchenbrust, serviert mit grob geschnittenen Pommes und saisonalem Krautsalat.",
     "d99_o": "Leichte, zarte Putenklopse in cremiger Sauce, serviert mit luftigem Kartoffelpüree.",
-    "d100_o": "Eine Portion für den kleineren Appetit. Zur Wahl: traditionelle Piroggen \"Ruskie\" mit Sudeten-Quark und saurer Sahne, oder handgeformte Piroggen mit frischem Saisonobst und süßer saurer Sahne.",
-    "d101_o": "Klassisches tschechisches Bier, frisch vom Fass gezapft.",
+    "d100_o": "Eine Portion für den kleinen Appetit. Zur Wahl: traditionelle Kartoffelpiroggen mit Sudeten-Quark und saurer Sahne oder handgeformte süße Piroggen mit Waldheidelbeeren und süßer Sahne.",
+    "d101_o": "Das Herz unseres Wyszynku — das original tschechische Lager aus Pilsen mit dichtem, cremigem Schaum und der vollen Bitterkeit des Saazer Hopfens.",
     "d102_o": "Schwarzer Tee · Earl Grey · Grüner Tee · Pfefferminze · Weißer Tee · Waldfrucht · Himbeere.",
     "d103_o": "Fragen Sie das Personal, was wir heute empfehlen.",
     "d104_o": "Weißwein, Aperol-Likör, Orange und eine Zimtstange.",
     "d105_o": "Mit Apfel und Sternanis.",
-    "d106_o": "Mit Ingwer-, Himbeersaft oder Honig und winterlichen Gewürzen. Alkoholfreie Version - 30 zł.",
+    "d106_o": "Mit Ingwer- oder Himbeersirup oder mit Honig und wärmenden Gewürzen. Alkoholfreie Variante — 30 zł.",
     "d107_o": "Orange · Apfel · Mix.",
     "d108_o": "Klassisch · Grün · Himbeere.",
-    "d109_o": "Klassisch Zitrone oder Saisonobst - fragen Sie das Personal.",
+    "d109_o": "Klassisch mit Zitrone oder mit saisonalen Früchten — fragen Sie unser Team.",
     "d110_o": "Pepsi · Pepsi MAX · Mirinda · 7up.",
     "d111_o": "Pfirsich · Klassisch.",
     "d112_o": "Orange · Apfel.",
@@ -2511,7 +2621,7 @@ var I18N_DANE = {
     "c7": "Bier",
     "c8": "Getränke",
     "c9": "Alkoholische Getränke",
-    "wstep_5": "Handgeformt, jeden Tag. Das regionale Aushängeschild unserer Küche.",
+    "wstep_5": "Alle unsere Piroggen formen wir täglich von Hand — ein regionales Aushängeschild des Wyszynku.",
     "s1": "Flaschenbier",
     "s2": "Alkoholfreies Bier",
     "s3": "Heißgetränke",
@@ -2581,7 +2691,31 @@ var I18N_DANE = {
     "kon_nota": "Übernachten Sie in der Villa Bożena? Der Wyszynk liegt direkt im Erdgeschoss.",
     "foot_haslo": "Kommen Sie wieder für Eisbein, Piroggen und ein gut gezapftes Bier - aus dem Riesengebirge, seit 1892.",
     "foot_prawa": "Alle Rechte vorbehalten.",
-    "ui_skip": "Zum Inhalt springen"
+    "ui_skip": "Zum Inhalt springen",
+    "wstep_dzieci": "Kleinere Portionen für die jüngsten Wanderer im Riesengebirge.",
+    "c4_cd": "Hauptgerichte (Fortsetzung)",
+    "c_gorace": "Heiße Getränke",
+    "c_zimne": "Kalte Getränke",
+    "d71_n": "Samtige Kürbiscremesuppe",
+    "d120_o": "Cremige, wärmende Suppe aus frischem Kürbis, mit scharfem frischem Ingwer gewürzt, dazu knusprige Kräutercroûtons, geröstete Kürbiskerne und samtige süße Sahne. Ideal für kalte Tage im Riesengebirge!",
+    "d72_n": "Klößchen aus geröstetem Kürbis in Steinpilzsauce",
+    "d121_o": "Handgemachte, glutenfreie Klößchen aus geröstetem Kürbis mit aromatischer Steinpilzsauce und geräucherter Ziegenricotta aus Łomnica.",
+    "tag_vege": "VEGE",
+    "tag_gluten": "GLUTENFREI",
+    "tag_sezon": "SAISONGERICHT",
+    "sig_flagowe": "◆ Hausspezialität",
+    "sig_polecane": "◆ Empfehlung",
+    "sig_piwo": "◆ Das Hausbier des Wyszynku",
+    "piwo_eyebrow": "FRISCH VOM FASS",
+    "fryt_klasyczne": "Mit Meersalz.",
+    "fryt_serowe": "Mit geriebenem Cheddar und frischem Schnittlauch.",
+    "fryt_bogato": "Mit geriebenem Cheddar, knusprigem Bacon und frischem Schnittlauch.",
+    "gram_golonka": "(ca. 1000g)",
+    "tab_zakaski": "Vorspeisen",
+    "tab_pierogi": "Piroggen",
+    "tab_dzieci": "Für Kinder",
+    "menu_wybierz": "Kategorie wählen",
+    "om_historia": "Die Geschichte des Wyszynku entdecken"
   },
   "cs": {
     "d1_n": "Wyszynkový vývar z husy a kuřete",
@@ -2602,16 +2736,16 @@ var I18N_DANE = {
     "d16_n": "Pivní pečeně s knedlíky",
     "d17_n": "Pivovarské koleno",
     "d18_n": "Sudetský guláš se slezskými noky",
-    "d19_n": "Žebra z Wyszynkové pece",
+    "d19_n": "Žebírka z pece Wyszynku",
     "d20_n": "Tradiční kotleta na kosti",
-    "d21_n": "Karbanátky v kaparové omáčce",
-    "d22_n": "Pstruh Podgórzyński z pece",
+    "d21_n": "Krůtí masové kuličky v kaparové omáčce",
+    "d22_n": "Pstruh z Podgórzynu pečený s ančovičkovým máslem",
     "d23_n": "Smažený sýr",
-    "d24_n": "Grilovaná kuřecí prsa s liškovou omáčkou",
-    "d70_n": "Sezónní slané pirohy z naší válu",
+    "d24_n": "Grilovaná kuřecí prsa s medovo-hořčičnou omáčkou",
+    "d70_n": "Pirohy s pečenou dýní a čočkou",
     "d25_n": "Karkonoský štrúdl s jablky a brusinkami",
     "d26_n": "Čokoládový fondán s třešněmi",
-    "d27_n": "Sezónní sladké pirohy z naší válu",
+    "d27_n": "Sezónní sladké pirohy s borůvkami",
     "d28_n": "Malý vývar s nudlemi",
     "d29_n": "Zlatavé kuře s hranolky",
     "d30_n": "Krůtí karbanátky v jemné omáčce",
@@ -2661,40 +2795,40 @@ var I18N_DANE = {
     "d74_o": "Český klasik v horké verzi. Plísňový sýr zapečený s čerstvým česnekem a sladkými brusinkami, podávaný na rozpálené litinové pánvi s pivním preclíkem.",
     "d75_o": "Kompozice regionálních, krájených klobás zapečených v hustě omáčce z tmavého piva, hořčice a karamelizované cibule, podávaná přímo z pece na litinové pánvi.",
     "d76_o": "Křupavý, čerstvě pečený pivní preclík, servírovaný s hustou, sametovou a teplou omáčkou z několika druhů sýra.",
-    "d77_o": "Hrubě krájené, křupavé hranolky podávané v košíčku, servírované se třemi autorskými omáčkami: česnekovou, pivně-medově-hořčičnou a kari kečupem.",
-    "d78_o": "Krajíc křupavého celozrnného chleba naší pekárny, podávaný s domácími škvarky a nakládanou okurkou.",
+    "d77_o": "Silně krájené, křupavé hranolky podávané se třemi vlastními omáčkami: česnekovou, pivní s medem a hořčicí a kari kečupem. Na výběr ve třech variantách:",
+    "d78_o": "Křupavý celozrnný žitný chléb z naší pece s domácím sádlem z pomalu škvařené uzené slaniny s cibulí a lehce kvašenou okurkou.",
     "d79_o": "Zlatavé kroužky sladké cibule v nadýchaném pivním těstíčku, podávané s domácí pivně-hořčičně-medovou omáčkou.",
     "d80_o": "Ručně lepené pirohy s pečeným jelením masem, podávané s výraznou omáčkou na bázi tmavého piva, hořčice a karamelizované cibule.",
     "d81_o": "Pirohy plněné vonnou husí, polité máslem a podávané s brusinkovým kompotem.",
     "d82_o": "Tradiční pirohy s bramborami a regionálním sudetským tvarohem, podávané se zakysanou smetanou a křupavými škvarky s cibulkou.",
     "d83_o": "Pirohy se smaženými žampiony a místním uzeným sýrem, polité máslem a podávané s česnekovo-kopřovou omáčkou.",
     "d84_o": "Kompozice po 2 kusech pirohů: s jelenem, husou, sudetským tvarohem a uzeným horským sýrem. Podávané se třemi klasickými přílohami: brusinkami, zakysanou smetanou a křupavými škvarky.",
-    "d85_o": "Šťavnatá vepřová kýta, pomalu pečená ve vlastní světlé omáčce s nádechem piva, podávaná s tradičními českými houskovými knedlíky a dušeným kysaným zelím s kmínem a medem.",
+    "d85_o": "Šťavnatá vepřová kýta, pomalu pečená ve světlé vlastní šťávě s nádechem piva, podávaná s tradičními českými houskovými knedlíky a dušeným kysaným zelím s kmínem a medem.",
     "d86_o": "Vydatná porce hodovního vepřového kolena s křupavou kůrčičkou, podávaná s ostrým křenem, hořčicí, dušeným kysaným zelím s kmínem a medem a tmavým domácím chlebem.",
-    "d87_o": "Dlouho dušený, vydatný hovězí-vepřový guláš s aromatickými sušenými hřiby, podávaný s domácími slezskými noky a plátky červené cibule.",
-    "d88_o": "Křehká vepřová žebra marinovaná v plzeňském pivu a pečená do měkka, servírovaná s pečenými bramborami s rozmarýnem, křenovou omáčkou a domácími nakládanými okurkami.",
+    "d87_o": "Pomalu dušený, vydatný hovězí a vepřový guláš s aromatickými sušenými hřiby hnědými, podávaný s domácími slezskými bramborovými knedlíčky a čerstvou červenou cibulí.",
+    "d88_o": "Křehká vepřová žebírka marinovaná v pivu Pilsner Urquell a pečená doměkka, podávaná s pečenými bramborami s rozmarýnem, křenovou omáčkou a domácí nakládanou zeleninou.",
     "d89_o": "Šťavnatý, silný vepřový kotlet smažený tradičně na sádle, podávaný s vařenými bramborami s kopřem a dušeným bílým zelím.",
-    "d90_o": "Jemné krůtí karbanátky v sametové kaparové omáčce, připravované podle starého receptu z pohraničí, podávané s bramborovou kaší.",
-    "d91_o": "Čerstvý pstruh z místního krkonošského chovu, pečený vcelku a podávaný s naším řemeslným ančovičkovým máslem a čerstvými bylinkami, k tomu pečené brambory a křupavý coleslaw.",
-    "d92_o": "Skutečný klasik. Výrazný sýr eidam v křupavém pivním těstíčku, podávaný s hustou domácí tatarskou omáčkou a hrubě krájenými hranolky.",
-    "d93_o": "Šťavnatá grilovaná kuřecí prsa, podávaná s výraznou liškovou omáčkou, salátem z čerstvé zeleniny a pečenými bramborami s rozmarýnem.",
-    "d119_o": "Ručně lepené pirohy z tradičního receptu na těsto, plněné sezónní slanou náplní z místních produktů. Na aktuální příchuť se zeptejte obsluhy.",
-    "d94_o": "Podávaný teplý s nadýchanou šlehačkou a vanilkovou zmrzlinou.",
-    "d95_o": "Horké čokoládové jádro, podávané s kopečkem vanilkové zmrzliny a třešněmi.",
-    "d96_o": "Ručně lepené pirohy z tradičního receptu na těsto, plněné čerstvým sezónním ovocem, podávané se sladkou zakysanou smetanou. Na aktuální příchuť se zeptejte obsluhy.",
+    "d90_o": "Jemné krůtí masové kuličky v sametové kaparové omáčce, podávané na krémovém bramborovém pyré.",
+    "d91_o": "Čerstvý pstruh z místního krkonošského chovu, pečený vcelku a podávaný s naším ručně připravovaným ančovičkovým máslem, smaženými bramborami a křupavým salátem coleslaw.",
+    "d92_o": "Klasika. Výrazný eidam v křupavém pivním obalu, podávaný s domácí tatarskou omáčkou a silně krájenými hranolky.",
+    "d93_o": "Šťavnatá kuřecí prsa z grilu s medovo-hořčičnou omáčkou, podávaná s čerstvým salátem z rukoly, papriky a pečené dýně s domácím dresinkem.",
+    "d119_o": "Ručně lepené pirohy z našeho vlastního dýňového těsta, plněné voňavou náplní z pečené dýně a čočky, podávané s pravými hřiby dušenými s cibulí.",
+    "d94_o": "Zlatavý štrúdl s voňavou jablečno-brusinkovou náplní, podávaný teplý s vanilkovou zmrzlinou a nadýchanou šlehačkou.",
+    "d95_o": "Horký čokoládový fondant s tekutým středem, podávaný s vanilkovou zmrzlinou a višněmi.",
+    "d96_o": "Ručně lepené pirohy z těsta podle tradičního receptu, plněné čerstvými lesními borůvkami a podávané se sladkou smetanou.",
     "d97_o": "Menší porce našeho vydatného husího-kuřecího vývaru, podávaná s domácími nudlemi a sladkou mrkví.",
     "d98_o": "Jemná grilovaná kuřecí prsa, podávaná s hrubě krájenými hranolky a sezónním coleslaw.",
     "d99_o": "Lehké, jemné krůtí karbanátky v krémové omáčce, podávané s nadýchanou bramborovou kaší.",
-    "d100_o": "Porce přizpůsobená menší chuti k jídlu. Na výběr: tradiční ruské pirohy se sudetským tvarohem a zakysanou smetanou, nebo ručně lepené pirohy s čerstvým sezónním ovocem a sladkou zakysanou smetanou.",
-    "d101_o": "Klasické české pivo čepované přímo ze sudu.",
+    "d100_o": "Porce pro menší hlad. Na výběr: tradiční pirohy s bramborami a sudetským tvarohem se zakysanou smetanou, nebo ručně lepené sladké pirohy s lesními borůvkami a sladkou smetanou.",
+    "d101_o": "Srdce našeho Wyszynku — originální český ležák z Plzně s hustou, krémovou pěnou a plnou hořkostí žateckého chmele.",
     "d102_o": "Černý · Earl Grey · Zelený · Mátový · Bílý · Lesní plody · Malinový.",
     "d103_o": "Zeptejte se obsluhy, co dnes doporučujeme.",
     "d104_o": "Bílé víno, likér Aperol, pomeranč a skořicová tyčinka.",
     "d105_o": "S jablkem a badyánem.",
-    "d106_o": "Se zázvorovým, malinovým nebo medovým sirupem a kořeněním. Nealkoholická verze - 30 zł.",
+    "d106_o": "Se zázvorovým či malinovým sirupem nebo s medem a kořením. Nealkoholická verze — 30 zł.",
     "d107_o": "Pomerančový · Jablečný · Mix.",
     "d108_o": "Klasický · Zelený · Malinový.",
-    "d109_o": "Klasická citronová nebo se sezónním ovocem - zeptejte se obsluhy.",
+    "d109_o": "Klasická citronová nebo se sezónním ovocem — zeptejte se obsluhy.",
     "d110_o": "Pepsi · Pepsi MAX · Mirinda · 7up.",
     "d111_o": "Broskvový · Klasický.",
     "d112_o": "Pomerančový · Jablečný.",
@@ -2717,7 +2851,7 @@ var I18N_DANE = {
     "c7": "Pivo",
     "c8": "Nápoje",
     "c9": "Alkohol",
-    "wstep_5": "Ručně lepené, každý den. Regionální vizitka naší kuchyně.",
+    "wstep_5": "Všechny naše pirohy lepíme každý den ručně — jsou regionální vizitkou Wyszynku.",
     "s1": "Lahvové pivo",
     "s2": "Nealkoholické pivo",
     "s3": "Horké nápoje",
@@ -2787,7 +2921,31 @@ var I18N_DANE = {
     "kon_nota": "Ubytováni ve Villa Bożena? Wyszynk máte hned v přízemí.",
     "foot_haslo": "Vraťte se na koleno, pirohy a dobře natočené pivo - z Krkonoš, od roku 1892.",
     "foot_prawa": "Všechna práva vyhrazena.",
-    "ui_skip": "Přejít na obsah"
+    "ui_skip": "Přejít na obsah",
+    "wstep_dzieci": "Menší porce pro nejmladší krkonošské poutníky.",
+    "c4_cd": "Hlavní jídla (pokračování)",
+    "c_gorace": "Teplé nápoje",
+    "c_zimne": "Studené nápoje",
+    "d71_n": "Sametová dýňová polévka",
+    "d120_o": "Krémová, zahřívající polévka z čerstvé dýně, dochucená pikantním čerstvým zázvorem, podávaná s křupavými bylinkovými krutony, praženými dýňovými semínky a sametovou sladkou smetanou. Ideální do krkonošského chladu!",
+    "d72_n": "Noky z pečené dýně v hříbkové omáčce",
+    "d121_o": "Ručně připravované bezlepkové noky z pečené dýně s aromatickou omáčkou z pravých hřibů a uzenou kozí ricottou z Łomnice.",
+    "tag_vege": "VEGE",
+    "tag_gluten": "BEZ LEPKU",
+    "tag_sezon": "SEZÓNNÍ JÍDLO",
+    "sig_flagowe": "◆ Specialita podniku",
+    "sig_polecane": "◆ Doporučujeme",
+    "sig_piwo": "◆ Vlajkové pivo Wyszynku",
+    "piwo_eyebrow": "ČEPOVANÉ PŘÍMO ZE SUDU",
+    "fryt_klasyczne": "S mořskou solí.",
+    "fryt_serowe": "Se strouhaným čedarem a čerstvou pažitkou.",
+    "fryt_bogato": "Se strouhaným čedarem, křupavou slaninou a čerstvou pažitkou.",
+    "gram_golonka": "(cca 1000g)",
+    "tab_zakaski": "Předkrmy",
+    "tab_pierogi": "Pirohy",
+    "tab_dzieci": "Pro děti",
+    "menu_wybierz": "Vyberte kategorii",
+    "om_historia": "Poznejte příběh Wyszynku"
   }
 };
 
@@ -2877,9 +3035,23 @@ document.addEventListener('DOMContentLoaded', function () {
   // ---------- Zakładki kategorii menu ----------
   var zakladki = document.querySelectorAll('.menu__zakladka');
   var kategorie = document.querySelectorAll('.menu__kategoria');
+  var wyborKategorii = document.getElementById('menu-kategoria');
+  var naglowek = document.querySelector('.naglowek');
+  function zmierzNaglowek() {
+    document.documentElement.style.setProperty('--header-height', naglowek.getBoundingClientRect().height + 'px');
+  }
+  zmierzNaglowek();
+  if (window.ResizeObserver) new ResizeObserver(zmierzNaglowek).observe(naglowek);
+  else window.addEventListener('resize', zmierzNaglowek);
+  wyborKategorii.addEventListener('change', function () {
+    var zakladka = document.querySelector('[data-kategoria="' + wyborKategorii.value + '"]');
+    aktywujZakladke(zakladka, false);
+    document.getElementById('menu').scrollIntoView({ block: 'start', behavior: 'instant' });
+  });
 
   function aktywujZakladke(zakladka, przeniesFokus) {
     var idKategorii = zakladka.getAttribute('data-kategoria');
+    wyborKategorii.value = idKategorii;
 
     zakladki.forEach(function (z) {
       var jest = z === zakladka;
