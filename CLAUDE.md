@@ -1,7 +1,10 @@
 # Karkonoski Wyszynk — strona WWW
 
-Statyczna strona karczmy piwnej w Szklarskiej Porębie (budynek z 1892).
-Zero frameworków, zero zależności, zero build stepu. Czysty HTML + CSS + waniliowy JS.
+Statyczna strona restauracji w Szklarskiej Porębie (budynek z 1892).
+Frontend bez frameworków, zależności i build stepu: HTML + CSS + waniliowy JS.
+Opcjonalna integracja Instagrama używa Netlify Functions i serwerowej biblioteki
+`@netlify/blobs`. Konfiguracja, status podłączenia i testy: `docs/instagram-i-zdjecia.md`.
+Tokeny wyłącznie w środowisku funkcji i prywatnym magazynie, nigdy w HTML ani Git.
 
 ---
 

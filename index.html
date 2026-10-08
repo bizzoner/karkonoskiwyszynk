@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/assets/img/logokrzywe.svg" type="image/svg+xml">
 <title>Karkonoski Wyszynk – Restauracja i karczma | Szklarska Poręba</title>
-<meta name="description" content="Karkonoski Wyszynk – restauracja i karczma piwna w Szklarskiej Porębie. Golonka, ręcznie lepione pierogi i lany Pilsner Urquell z beczki w historycznym budynku z 1892 roku.">
+<meta name="description" content="Karkonoski Wyszynk w Szklarskiej Porębie. Kuchnia karkonoska z czeskimi wpływami, golonka, żeberka i lany Pilsner Urquell. Jedności Narodowej 18, parter Villa Bożena.">
 <meta name="google-site-verification" content="vKxTHDYAmH4tzRb9LDvFxGf6AF75WMDIZfKAQzwjiKw">
 
 <!-- Open Graph -->
@@ -1163,6 +1164,105 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
 .historia-zajawka figcaption { margin-top: .7rem; font-size: 1rem; line-height: 1.5; color: var(--brown); }
 .historia-zajawka figcaption a { display: block; color: var(--gold-dark); text-decoration: underline; text-underline-offset: 3px; }
 .historia-link { margin-bottom: 1rem; text-align: center; }
+.miejsce-kadr { margin-top: 0; margin-bottom: 0; }
+.miejsce-kadr__siatka { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 1rem; }
+.miejsce-kadr__zdjecie { aspect-ratio: auto; height: clamp(260px, 35vw, 450px); }
+.miejsce-kadr figcaption { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--gold); color: var(--forest); }
+.miejsce-kadr figcaption span:first-child { font-size: 1.45rem; }
+.zdjecie-powieksz { position: absolute; right: 0; bottom: 0; padding: .35rem .8rem; background: var(--forest); color: var(--ivory); font-size: .95rem; z-index: 1; }
+.menu-fotografie { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 3rem 0 0; padding-top: 3rem; border-top: 1px solid var(--gold); }
+.menu-fotografie__kadr { aspect-ratio: 4 / 3; margin-bottom: 1.25rem; }
+.menu-fotografie h3 { font-size: clamp(1.35rem, 2.5vw, 1.8rem); }
+.menu-fotografie p { max-width: 42ch; margin: .6rem 0 0; line-height: 1.5; }
+.menu-sezon { margin-bottom: 3rem; padding: 2rem 0; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); scroll-margin-top: calc(var(--header-height, 100px) + 24px); }
+.menu-sezon__naglowek { display: flex; justify-content: space-between; align-items: end; gap: 1.5rem; margin-bottom: 1.5rem; }
+.menu-sezon__naglowek h3 { font-size: clamp(1.75rem, 3vw, 2.25rem); margin: 0; }
+.menu-sezon__naglowek p { margin: .35rem 0 0; color: var(--wood); }
+.menu-sezon__karta { text-decoration: underline; text-underline-offset: .25em; color: var(--forest); white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center; }
+.menu-sezon__siatka { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
+.menu-sezon__danie { display: flex; flex-direction: column; min-width: 0; }
+.menu-sezon__zdjecie { aspect-ratio: 4 / 5; margin-bottom: 1rem; }
+.menu-sezon__danie h4 { font-size: 1.2rem; line-height: 1.35; margin: 0 0 .55rem; }
+.menu-sezon__danie p { font-size: 1.05rem; line-height: 1.45; margin: 0 0 1rem; }
+.menu-sezon__cena { display: block; color: var(--forest); font-size: 1.35rem; font-weight: 700; margin-top: auto; }
+#pelna-karta { scroll-margin-top: calc(var(--header-height, 100px) + 24px); }
+.galeria__siatka { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 170px; gap: 1rem; }
+.galeria__siatka .galeria__element { aspect-ratio: auto; height: 100%; }
+.galeria__wnetrze { grid-column: span 2; grid-row: span 2; }
+.galeria__dom { grid-row: span 2; }
+.galeria__siatka .galeria__element:nth-child(7) { grid-column: span 2; }
+.galeria__siatka .galeria__element:nth-child(10) { grid-column: span 2; }
+.galeria__siatka .galeria__detal { grid-row: span 2; }
+.galeria__element:focus-visible, .rolki button:focus-visible, dialog button:focus-visible, dialog a:focus-visible { outline: 3px solid var(--gold-lighter); outline-offset: 4px; }
+dialog.lightbox { border: 0; width: 100%; max-width: 100%; height: 100%; max-height: 100%; margin: 0; background: transparent; }
+dialog.lightbox[open] { display: flex; }
+dialog::backdrop { background: rgba(28, 20, 9, .94); }
+.lightbox__tresc { max-width: 1100px; background: var(--brown); color: var(--ivory); padding: 3.5rem 1.25rem 1rem; }
+.lightbox__zamknij { color: var(--ivory); }
+#lightbox-img { height: 65dvh; max-height: 65dvh; border: 0; margin: 0; }
+#lightbox-opis { margin: .6rem 0; }
+.lightbox__nawigacja { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.lightbox__nawigacja button { font: inherit; color: inherit; background: none; border: 1px solid var(--gold); min-height: 44px; padding: .25rem 1rem; cursor: pointer; }
+.rolki__naglowek { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
+.rolki__naglowek p { margin: .75rem 0 0; }
+.rolki__profil, .rolki__link, #rolka-zrodlo { text-decoration: underline; text-underline-offset: .25em; }
+.rolki__fallback { display: grid; grid-template-columns: 1fr 1.2fr; min-height: 370px; border: 1px solid var(--gold); }
+.rolki__fallback > img { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.rolki__zaproszenie { padding: clamp(1.5rem, 4vw, 3rem); align-self: center; }
+.rolki__zaproszenie h3 { color: var(--ivory); font-size: 1.8rem; }
+.rolki__zaproszenie p { max-width: 48ch; line-height: 1.5; }
+.rolki__link { display: block; margin-top: 1rem; }
+.rolki .btn--ghost { background: transparent; border-color: var(--gold-lighter); color: var(--ivory); cursor: pointer; }
+.rolki .btn--ghost:hover { background: var(--ivory); color: var(--forest); }
+.rolki .btn--ghost:disabled { opacity: .6; cursor: wait; }
+.rolki__lista { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.rolki__kafel { min-width: 0; }
+.rolki__okladka { position: relative; display: block; aspect-ratio: 9 / 16; width: 100%; padding: 0; border: 1px solid var(--gold); background: var(--brown); color: var(--ivory); cursor: pointer; overflow: hidden; }
+.rolki__okladka img { width: 100%; height: 100%; object-fit: cover; }
+.rolki__odtworz { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; border: 1px solid var(--ivory); background: rgba(31, 74, 46, .9); display: grid; place-items: center; }
+.rolki__odtworz::after { content: ''; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 17px solid var(--ivory); margin-left: 4px; }
+.rolki__kafel p { margin: .7rem 0 0; font-size: 1.05rem; line-height: 1.4; overflow-wrap: anywhere; }
+.rolki__kafel time { display: block; font-size: .95rem; margin-top: .4rem; }
+.rolki__cofnij { background: none; color: var(--ivory); border: 0; font: inherit; text-decoration: underline; text-underline-offset: .25em; padding: .75rem 0; margin-top: 1rem; cursor: pointer; min-height: 44px; }
+.rolka-modal { width: min(480px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 1rem; color: var(--ivory); background: var(--brown); border: 1px solid var(--gold); }
+.rolka-modal__zamknij { display: block; margin: 0 0 .75rem auto; min-height: 44px; font: inherit; color: inherit; background: none; border: 1px solid var(--gold); padding: .2rem .8rem; cursor: pointer; }
+#rolka-odtwarzacz video { display: block; width: 100%; max-height: 70dvh; aspect-ratio: 9 / 16; background: #000; }
+#rolka-zrodlo { display: inline-block; padding: .7rem 0 0; }
+.rolki[hidden], .rolki [hidden], .rolka-modal [hidden] { display: none !important; }
+@media (max-width: 900px) {
+  .galeria__siatka { grid-auto-rows: 135px; }
+  .menu-sezon__siatka { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.2rem; }
+  .rolki__naglowek { display: block; }
+  .rolki__profil { display: inline-block; margin-top: 1rem; }
+}
+@media (max-width: 860px) {
+  .zdjecie-powieksz { display: none; }
+}
+@media (max-width: 700px) {
+  .miejsce-kadr__siatka { grid-template-columns: 1fr 1fr; gap: .6rem; }
+  .miejsce-kadr__zdjecie { height: auto; aspect-ratio: 4 / 5; }
+  .miejsce-kadr__zdjecie:first-child { grid-column: span 2; aspect-ratio: 4 / 3; }
+  .miejsce-kadr figcaption { display: block; }
+  .miejsce-kadr figcaption span { display: block; }
+  .menu-fotografie { grid-template-columns: 1fr; gap: 2rem; }
+  .menu-sezon__naglowek { display: block; }
+  .menu-sezon__karta { margin-top: .5rem; }
+  .menu-sezon__danie h4 { font-size: 1.1rem; }
+  .menu-sezon__danie p { font-size: 1rem; }
+  .galeria__siatka { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 155px; gap: .6rem; }
+  .galeria__wnetrze { grid-row: span 1; }
+  .galeria__siatka .galeria__detal { grid-row: span 1; }
+  .galeria__siatka .galeria__element:nth-child(7), .galeria__siatka .galeria__element:nth-child(10) { grid-column: span 1; }
+  .rolki__fallback { grid-template-columns: 1fr; }
+  .rolki__fallback > img { aspect-ratio: 16 / 9; }
+  .rolki__lista { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding: 4px 4px 1rem; scrollbar-color: var(--gold-light) var(--forest); }
+  .rolki__kafel { flex: 0 0 78%; scroll-snap-align: start; }
+  .lightbox__tresc { padding-left: .75rem; padding-right: .75rem; }
+  #lightbox-img { height: 56dvh; max-height: 56dvh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}
 </style>
 
 <!-- Dane strukturalne Schema.org dla restauracji -->
@@ -1305,7 +1405,7 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
         <p data-i18n="om_p1">Szrenica, Śnieżne Kotły, Wodospad Kamieńczyka - wszystkie te szlaki mają wspólne zakończenie: moment, w którym można zdjąć plecak, usiąść i poczekać na gorący talerz.</p>
         <details class="o-miejscu__historia"><summary data-i18n="om_historia">Poznaj historię Wyszynku</summary>
         <p data-i18n="om_p2">Ten dom powstał w 1892 roku. Na dawnych widokach odnajdujemy Hotel Klose, później znany jako Hotel am Schenkenstein. W przewodniku W. Winklera z 1903 roku zapisano: 32 pokoje i właściciel o nazwisku Franke.</p>
-        <p data-i18n="om_p3">Od 2026 roku dopisujemy do tej historii własny rozdział: Karkonoski Wyszynk. Na parterze spotykamy się przy kuchni pogranicza, a nad restauracją mieszczą się pokoje Villi Bożena.</p>
+        <p data-i18n="om_p3">Od 2026 roku dopisujemy do tej historii własny rozdział: Karkonoski Wyszynk. Na parterze spotykamy się przy kuchni pogranicza, a nad restauracją mieszczą się pokoje Villa Bożena.</p>
         <figure class="historia-zajawka">
           <img src="/assets/img/hotel-schenkenstein-archiwum.jpg" width="960" height="625" loading="lazy" alt="Dawna ulica przy Hotelu Schenkenstein, z przechodniami i górami w tle" data-i18n-alt="history_alt">
           <figcaption><span data-i18n="history_caption">Przy Hotelu Schenkenstein, widok w stronę Śnieżnych Kotłów. Pocztówka datowana na lata 1905–1945.</span> <a href="https://commons.wikimedia.org/wiki/File:Schreiberhau_i._Riesengebirge._Am_Hotel_Schenkenstein_m._Schneegrubenblick._1905-1945_(72429082).jpg" data-i18n="history_credit">Biblioteka Narodowa / Polona · Wikimedia Commons · domena publiczna</a></figcaption>
@@ -1323,6 +1423,21 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
   </section>
 
   <!-- ============ MENU ============ -->
+  <figure class="miejsce-kadr container">
+    <div class="miejsce-kadr__siatka">
+      <button class="galeria__element miejsce-kadr__zdjecie" type="button" data-full="assets/img/wnetrze-przy-oknie-1200.webp">
+        <img src="assets/img/wnetrze-przy-oknie-720.webp" srcset="assets/img/wnetrze-przy-oknie-360.webp 360w, assets/img/wnetrze-przy-oknie-720.webp 720w, assets/img/wnetrze-przy-oknie-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 48px), 450px" width="1200" height="1500" alt="Fotele przy oknie i drewniane wykończenie wnętrza" data-i18n-alt="photo_window_seats" loading="lazy" decoding="async">
+        <span class="zdjecie-powieksz" data-i18n="photo_enlarge">Powiększ zdjęcie</span>
+      </button>
+      <button class="galeria__element miejsce-kadr__zdjecie" type="button" data-full="assets/img/wnetrze-witraz-1200.webp">
+        <img src="assets/img/wnetrze-witraz-720.webp" srcset="assets/img/wnetrze-witraz-360.webp 360w, assets/img/wnetrze-witraz-720.webp 720w, assets/img/wnetrze-witraz-1200.webp 1200w" sizes="(max-width: 700px) 45vw, 330px" width="1200" height="1500" alt="Kolorowe szkło w oknie Wyszynku" data-i18n-alt="photo_stained_glass" loading="lazy" decoding="async">
+      </button>
+      <button class="galeria__element miejsce-kadr__zdjecie" type="button" data-full="assets/img/wnetrze-lampy-1200.webp">
+        <img src="assets/img/wnetrze-lampy-720.webp" srcset="assets/img/wnetrze-lampy-360.webp 360w, assets/img/wnetrze-lampy-720.webp 720w, assets/img/wnetrze-lampy-1200.webp 1200w" sizes="(max-width: 700px) 45vw, 330px" width="1200" height="1500" alt="Lampy pod drewnianym stropem" data-i18n-alt="photo_lamps" loading="lazy" decoding="async">
+      </button>
+    </div>
+    <figcaption><span data-i18n="space_caption">Wnętrze Wyszynku</span><span data-i18n="space_detail">Jedności Narodowej 18, Szklarska Poręba</span></figcaption>
+  </figure>
   <section class="sekcja menu" id="menu">
     <div class="container">
       <div class="sekcja__naglowek">
@@ -1330,6 +1445,48 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
         <h2 class="sekcja__tytul" data-i18n="menu_tytul">Menu</h2>
       </div>
 
+      <section class="menu-sezon" id="dania-sezonowe" aria-labelledby="sezon-tytul">
+        <div class="menu-sezon__naglowek">
+          <div><span class="eyebrow" data-i18n="season_label">Jesień w karcie</span><h3 id="sezon-tytul" data-i18n="season_title">Dania sezonowe</h3><p data-i18n="season_intro">Pieczona dynia, borowiki i cztery jesienne propozycje.</p></div>
+          <a class="menu-sezon__karta" href="#pelna-karta" data-i18n="season_full_menu">Przejdź do pełnej karty</a>
+        </div>
+        <div class="menu-sezon__siatka">
+          <article class="menu-sezon__danie">
+            <button class="galeria__element menu-sezon__zdjecie" type="button" data-full="assets/img/jesien-krem-dyniowy-1200.webp" aria-haspopup="dialog">
+              <img src="assets/img/jesien-krem-dyniowy-720.webp" srcset="assets/img/jesien-krem-dyniowy-360.webp 360w, assets/img/jesien-krem-dyniowy-720.webp 720w" sizes="(max-width: 900px) 45vw, 270px" width="720" height="900" alt="Aksamitny krem z dyni" data-i18n-alt="d71_n" loading="lazy" decoding="async">
+            </button>
+            <h4 data-i18n="d71_n">Aksamitny krem z dyni</h4>
+            <p data-i18n="season_soup">Z imbirem, grzankami, prażonymi pestkami dyni i śmietanką.</p>
+            <span class="menu-sezon__cena" data-menu-price="d71_n">27 zł</span>
+          </article>
+          <article class="menu-sezon__danie">
+            <button class="galeria__element menu-sezon__zdjecie" type="button" data-full="assets/img/jesien-kluski-dyniowe-1200.webp" aria-haspopup="dialog">
+              <img src="assets/img/jesien-kluski-dyniowe-720.webp" srcset="assets/img/jesien-kluski-dyniowe-360.webp 360w, assets/img/jesien-kluski-dyniowe-720.webp 720w" sizes="(max-width: 900px) 45vw, 270px" width="720" height="900" alt="Kluski z pieczonej dyni w sosie borowikowym" data-i18n-alt="d72_n" loading="lazy" decoding="async">
+            </button>
+            <h4 data-i18n="d72_n">Kluski z pieczonej dyni w sosie borowikowym</h4>
+            <p data-i18n="season_dumplings">Ręcznie robione, z sosem borowikowym i wędzoną kozią ricottą z Łomnicy.</p>
+            <span class="menu-sezon__cena" data-menu-price="d72_n">52 zł</span>
+          </article>
+          <article class="menu-sezon__danie">
+            <button class="galeria__element menu-sezon__zdjecie" type="button" data-full="assets/img/jesien-pierogi-dyniowe-1200.webp" aria-haspopup="dialog">
+              <img src="assets/img/jesien-pierogi-dyniowe-720.webp" srcset="assets/img/jesien-pierogi-dyniowe-360.webp 360w, assets/img/jesien-pierogi-dyniowe-720.webp 720w" sizes="(max-width: 900px) 45vw, 270px" width="720" height="900" alt="Pierogi z pieczoną dynią i soczewicą" data-i18n-alt="d70_n" loading="lazy" decoding="async">
+            </button>
+            <h4 data-i18n="d70_n">Pierogi z pieczoną dynią i soczewicą</h4>
+            <p data-i18n="season_pierogi">Ciasto dyniowe, farsz z pieczonej dyni i soczewicy, borowiki duszone z cebulą.</p>
+            <span class="menu-sezon__cena" data-menu-price="d70_n">45 zł</span>
+          </article>
+          <article class="menu-sezon__danie">
+            <button class="galeria__element menu-sezon__zdjecie" type="button" data-full="assets/img/jesien-kurczak-1200.webp" aria-haspopup="dialog">
+              <img src="assets/img/jesien-kurczak-720.webp" srcset="assets/img/jesien-kurczak-360.webp 360w, assets/img/jesien-kurczak-720.webp 720w" sizes="(max-width: 900px) 45vw, 270px" width="720" height="900" alt="Grillowana pierś kurczaka z sosem miodowo-musztardowym" data-i18n-alt="d24_n" loading="lazy" decoding="async">
+            </button>
+            <h4 data-i18n="d24_n">Grillowana pierś kurczaka z sosem miodowo-musztardowym</h4>
+            <p data-i18n="season_chicken">Z sałatką z rukoli, papryki i pieczonej dyni oraz domowym dressingiem.</p>
+            <span class="menu-sezon__cena" data-menu-price="d24_n">62 zł</span>
+          </article>
+        </div>
+      </section>
+
+      <div id="pelna-karta" tabindex="-1">
       <!-- Zakładki kategorii menu. Wzorzec ARIA tablist: kazda zakladka ma
            aria-controls wskazujace panel, panel ma aria-labelledby wskazujace
            zakladke, a tabindex jest "wedrujacy" - w tab-orderze siedzi tylko
@@ -1881,6 +2038,25 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
         </div>
 </div>
 
+      </div>
+      <div class="menu-fotografie">
+        <article>
+          <button class="galeria__element menu-fotografie__kadr" type="button" data-full="assets/img/golonka-1200.webp">
+            <img src="assets/img/golonka.webp" srcset="assets/img/golonka.webp 600w, assets/img/golonka-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 48px), 550px" width="1400" height="1400" alt="Golonka Piwowara" data-i18n-alt="d17_n" loading="lazy" decoding="async">
+            <span class="zdjecie-powieksz" data-i18n="photo_enlarge">Powiększ zdjęcie</span>
+          </button>
+          <h3 data-i18n="d17_n">Golonka Piwowara</h3>
+          <p data-i18n="feature_pork">Chrupiąca skórka, chrzan, musztarda, zasmażana kiszona kapusta i ciemny chleb.</p>
+        </article>
+        <article>
+          <button class="galeria__element menu-fotografie__kadr" type="button" data-full="assets/img/zeberka.webp">
+            <img src="assets/img/zeberka.webp" srcset="assets/img/zeberka-360.webp 360w, assets/img/zeberka.webp 600w" sizes="(max-width: 700px) calc(100vw - 48px), 550px" width="600" height="600" alt="Żeberka z Pieca Wyszynkowego" data-i18n-alt="d19_n" loading="lazy" decoding="async">
+            <span class="zdjecie-powieksz" data-i18n="photo_enlarge">Powiększ zdjęcie</span>
+          </button>
+          <h3 data-i18n="d19_n">Żeberka z Pieca Wyszynkowego</h3>
+          <p data-i18n="feature_ribs">Marynowane w Pilsner Urquell. Z pieczonymi ziemniakami, sosem chrzanowym i domowymi piklami.</p>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -1918,35 +2094,73 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
         <h2 class="sekcja__tytul" data-i18n="gal_tytul">Galeria</h2>
       </div>
       <div class="galeria__siatka">
+        <button class="galeria__element galeria__wnetrze" type="button" data-full="assets/img/wnetrze-desktop.webp">
+          <img src="assets/img/wnetrze-1200.webp" srcset="assets/img/wnetrze-640.webp 640w, assets/img/wnetrze-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 48px), 560px" alt="Wnętrze Karkonoskiego Wyszynku" data-i18n-alt="photo_interior" loading="lazy" decoding="async" width="2560" height="1440">
+        </button>
+        <button class="galeria__element galeria__dom" type="button" data-full="assets/img/zewnatrz.webp">
+          <img src="assets/img/zewnatrz.webp" alt="Villa Bożena, restauracja na parterze" data-i18n-alt="photo_house" loading="lazy" decoding="async" width="700" height="876">
+        </button>
         <button class="galeria__element" type="button" data-alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą">
-          <img src="assets/img/golonka.webp" alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą" loading="lazy" width="600" height="600">
+          <img src="assets/img/golonka.webp" srcset="assets/img/golonka-360.webp 360w, assets/img/golonka.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Golonka Piwowara" data-i18n-alt="d17_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem">
-          <img src="assets/img/zeberka.webp" alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem" loading="lazy" width="600" height="600">
+          <img src="assets/img/zeberka.webp" srcset="assets/img/zeberka-360.webp 360w, assets/img/zeberka.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Żeberka z Pieca Wyszynkowego" data-i18n-alt="d19_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli">
-          <img src="assets/img/pstrag.webp" alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli" loading="lazy" width="600" height="600">
+          <img src="assets/img/pstrag.webp" srcset="assets/img/pstrag-360.webp 360w, assets/img/pstrag.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Pstrąg Podgórzyński z pieca z masłem z sardeli" data-i18n-alt="d22_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy">
-          <img src="assets/img/pierogi.webp" alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy" loading="lazy" width="600" height="600">
+          <img src="assets/img/pierogi.webp" srcset="assets/img/pierogi-360.webp 360w, assets/img/pierogi.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Pierogi" data-i18n-alt="tab_pierogi" loading="lazy" decoding="async" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem">
-          <img src="assets/img/hermelin.webp" alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem" loading="lazy" width="600" height="600">
+          <img src="assets/img/hermelin.webp" srcset="assets/img/hermelin-360.webp 360w, assets/img/hermelin.webp 600w" sizes="(max-width: 700px) 45vw, 560px" alt="Pieczony Hermelín z żurawiną i czosnkiem" data-i18n-alt="d5_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole">
-          <img src="assets/img/kielbasy.webp" alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole" loading="lazy" width="600" height="600">
+          <img src="assets/img/kielbasy.webp" srcset="assets/img/kielbasy-360.webp 360w, assets/img/kielbasy.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Patelnia kiełbas pieczonych w ciemnym piwie" data-i18n-alt="d6_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy">
-          <img src="assets/img/wszystkie-zupy.webp" alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy" loading="lazy" width="600" height="600">
+          <img src="assets/img/wszystkie-zupy.webp" srcset="assets/img/wszystkie-zupy-360.webp 360w, assets/img/wszystkie-zupy.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Zupy" data-i18n-alt="c1" loading="lazy" decoding="async" width="600" height="600">
         </button>
         <button class="galeria__element" type="button" data-alt="Czekoladowy fondant z wiśniami i lodami waniliowymi">
-          <img src="assets/img/fondant.webp" alt="Czekoladowy fondant z wiśniami i lodami waniliowymi" loading="lazy" width="600" height="600">
+          <img src="assets/img/fondant.webp" srcset="assets/img/fondant-360.webp 360w, assets/img/fondant.webp 600w" sizes="(max-width: 700px) 45vw, 560px" alt="Czekoladowy fondant z wiśniami" data-i18n-alt="d26_n" loading="lazy" decoding="async" width="600" height="600">
+        </button>
+        <button class="galeria__element galeria__detal" type="button" data-full="assets/img/wnetrze-drewno-1200.webp">
+          <img src="assets/img/wnetrze-drewno-720.webp" srcset="assets/img/wnetrze-drewno-360.webp 360w, assets/img/wnetrze-drewno-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Drewniana boazeria i fotele we wnętrzu Wyszynku" data-i18n-alt="photo_wood" width="720" height="900" loading="lazy" decoding="async">
+        </button>
+        <button class="galeria__element galeria__detal" type="button" data-full="assets/img/wnetrze-drzwi-1200.webp">
+          <img src="assets/img/wnetrze-drzwi-720.webp" srcset="assets/img/wnetrze-drzwi-360.webp 360w, assets/img/wnetrze-drzwi-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Drewniane drzwi, kinkiet i kolorowe szkło" data-i18n-alt="photo_door" width="720" height="900" loading="lazy" decoding="async">
+        </button>
+        <button class="galeria__element galeria__detal" type="button" data-full="assets/img/wnetrze-witraz-1200.webp">
+          <img src="assets/img/wnetrze-witraz-720.webp" srcset="assets/img/wnetrze-witraz-360.webp 360w, assets/img/wnetrze-witraz-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Kolorowe szkło w oknie Wyszynku" data-i18n-alt="photo_stained_glass" width="720" height="900" loading="lazy" decoding="async">
+        </button>
+        <button class="galeria__element galeria__detal" type="button" data-full="assets/img/wnetrze-lampy-1200.webp">
+          <img src="assets/img/wnetrze-lampy-720.webp" srcset="assets/img/wnetrze-lampy-360.webp 360w, assets/img/wnetrze-lampy-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Lampy pod drewnianym stropem" data-i18n-alt="photo_lamps" width="720" height="900" loading="lazy" decoding="async">
         </button>
       </div>
     </div>
   </section>
 
   <!-- ============ LOKALIZACJA I KONTAKT ============ -->
+  <section class="sekcja sekcja--ciemna rolki" id="zajrzyj" aria-labelledby="rolki-tytul" hidden>
+    <div class="container">
+      <div class="rolki__naglowek">
+        <div><h2 class="sekcja__tytul" id="rolki-tytul" data-i18n="reels_title">Zajrzyj do Wyszynku</h2><p data-i18n="reels_intro">Z kuchni i od stołu. Krótkie filmy z naszego Instagrama.</p></div>
+        <a class="rolki__profil" href="https://www.instagram.com/karkonoskiwyszynk/" target="_blank" rel="noopener noreferrer">@karkonoskiwyszynk</a>
+      </div>
+      <div id="rolki-fallback" class="rolki__fallback">
+        <img src="assets/img/wnetrze-640.webp" width="640" height="360" alt="Wnętrze Karkonoskiego Wyszynku" data-i18n-alt="photo_interior" loading="lazy" decoding="async">
+        <div class="rolki__zaproszenie">
+          <h3 data-i18n="reels_invite">Zobacz, co dziś u nas</h3>
+          <p id="rolki-status" role="status" data-i18n="reels_consent">Rolki pochodzą z Instagrama. Ich włączenie pozwoli Meta otrzymać Twój adres IP i dane przeglądarki. Zgodę możesz cofnąć w tej sekcji.</p>
+          <button type="button" class="btn btn--ghost" id="rolki-zgoda" data-i18n="reels_accept">Zezwól i pokaż rolki</button>
+          <a class="rolki__link" href="https://www.instagram.com/karkonoskiwyszynk/" target="_blank" rel="noopener noreferrer" data-i18n="reels_profile">Przejdź do Instagrama</a>
+          <noscript><p>Instagram: <a href="https://www.instagram.com/karkonoskiwyszynk/">@karkonoskiwyszynk</a></p></noscript>
+        </div>
+      </div>
+      <div id="rolki-lista" class="rolki__lista" hidden aria-label="Rolki z Instagrama" data-i18n-aria="reels_list"></div>
+      <button type="button" id="rolki-cofnij" class="rolki__cofnij" hidden data-i18n="reels_revoke">Wyłącz treści z Instagrama</button>
+    </div>
+  </section>
   <section class="sekcja" id="kontakt">
     <div class="container">
       <div class="sekcja__naglowek">
@@ -1994,7 +2208,7 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
 <footer class="stopka">
   <div class="container">
     <img src="assets/img/logokrzywe.svg" alt="Karkonoski Wyszynk" class="logo-img logo-img--footer stopka__logo" width="192" height="84" loading="lazy">
-    <p class="stopka__haslo" data-i18n="foot_haslo">Wracajcie na golonkę, pierogi i dobrze nalane piwo. Karkonoski Wyszynk — od 2026 roku.</p>
+    <p class="stopka__haslo" data-i18n="foot_haslo">Kuchnia karkonoska, czeskie inspiracje i dobrze nalane piwo.</p>
     <div class="stopka__social">
       <a href="/historia/" data-i18n="history_nav">Historia</a>
       <a href="https://www.instagram.com/karkonoskiwyszynk/" target="_blank" rel="noopener">Instagram</a>
@@ -2020,13 +2234,20 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
      ekranu tresc pod spodem, aria-labelledby wskazuje na opis zdjecia.
      Obrazek nie ma atrybutu src dopoki nie zostanie otwarty - stad hidden,
      zeby pusty <img> nie byl w drzewie jako uszkodzona grafika. -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-opis">
+<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-opis">
   <div class="lightbox__tresc">
-    <button class="lightbox__zamknij" id="lightbox-zamknij" aria-label="Zamknij podgląd zdjęcia">&times;</button>
+    <button class="lightbox__zamknij" id="lightbox-zamknij" aria-label="Zamknij podgląd zdjęcia" data-i18n-aria="photo_close">&times;</button>
     <img id="lightbox-img" alt="" hidden>
     <p id="lightbox-opis"></p>
+    <div class="lightbox__nawigacja"><button type="button" id="lightbox-poprzednie" data-i18n="photo_previous">Poprzednie</button><span id="lightbox-licznik" aria-live="polite"></span><button type="button" id="lightbox-nastepne" data-i18n="photo_next">Następne</button></div>
   </div>
-</div>
+</dialog>
+<dialog class="rolka-modal" id="rolka-modal" aria-label="Rolka z Instagrama" data-i18n-aria="reels_video">
+  <button type="button" id="rolka-zamknij" class="rolka-modal__zamknij" data-i18n="photo_close">Zamknij podgląd</button>
+  <div id="rolka-odtwarzacz"></div>
+  <p id="rolka-blad" role="status" hidden data-i18n="reels_video_error">Nie można odtworzyć filmu. Otwórz go na Instagramie.</p>
+  <a id="rolka-zrodlo" target="_blank" rel="noopener noreferrer" data-i18n="reels_original">Otwórz na Instagramie</a>
+</dialog>
 
 <!-- JEDYNE zrodlo skryptow tej strony - patrz komentarz przy <style>.
      Osobny script.js zostal usuniety 2026-07-29 z tego samego powodu:
@@ -2982,12 +3203,66 @@ var I18N_DANE = {
   }
 };
 
+var DODATKI_I18N = {
+  pl: {
+    photo_interior: 'Wnętrze Karkonoskiego Wyszynku', photo_house: 'Villa Bożena, restauracja na parterze', photo_enlarge: 'Powiększ zdjęcie', photo_close: 'Zamknij podgląd', photo_previous: 'Poprzednie', photo_next: 'Następne',
+    space_caption: 'Wnętrze Wyszynku', space_detail: 'Jedności Narodowej 18, Szklarska Poręba',
+    season_label: 'Jesień w karcie', season_title: 'Dania sezonowe', season_intro: 'Pieczona dynia, borowiki i cztery jesienne propozycje.', season_full_menu: 'Przejdź do pełnej karty',
+    season_soup: 'Z imbirem, grzankami, prażonymi pestkami dyni i śmietanką.', season_dumplings: 'Ręcznie robione, z sosem borowikowym i wędzoną kozią ricottą z Łomnicy.', season_pierogi: 'Ciasto dyniowe, farsz z pieczonej dyni i soczewicy, borowiki duszone z cebulą.', season_chicken: 'Z sałatką z rukoli, papryki i pieczonej dyni oraz domowym dressingiem.',
+    photo_window_seats: 'Fotele przy oknie i drewniane wykończenie wnętrza', photo_stained_glass: 'Kolorowe szkło w oknie Wyszynku', photo_lamps: 'Lampy pod drewnianym stropem', photo_wood: 'Drewniana boazeria i fotele we wnętrzu Wyszynku', photo_door: 'Drewniane drzwi, kinkiet i kolorowe szkło',
+    feature_pork: 'Chrupiąca skórka, chrzan, musztarda, zasmażana kiszona kapusta i ciemny chleb.', feature_ribs: 'Marynowane w Pilsner Urquell. Z pieczonymi ziemniakami, sosem chrzanowym i domowymi piklami.',
+    reels_title: 'Zajrzyj do Wyszynku', reels_intro: 'Z kuchni i od stołu. Krótkie filmy z naszego Instagrama.', reels_invite: 'Zobacz, co dziś u nas',
+    reels_consent: 'Rolki pochodzą z Instagrama. Ich włączenie pozwoli Meta otrzymać Twój adres IP i dane przeglądarki. Zgodę możesz cofnąć w tej sekcji.', reels_accept: 'Zezwól i pokaż rolki', reels_profile: 'Przejdź do Instagrama', reels_revoke: 'Wyłącz treści z Instagrama', reels_list: 'Rolki z Instagrama', reels_video: 'Rolka z Instagrama', reels_play: 'Odtwórz rolkę', reels_original: 'Otwórz na Instagramie',
+    reels_loading: 'Ładowanie rolek…', reels_unavailable: 'Rolki są teraz dostępne na naszym profilu. Zajrzyj do nas na Instagramie.', reels_retry: 'Spróbuj ponownie', reels_video_error: 'Nie można odtworzyć filmu. Otwórz go na Instagramie.',
+    foot_haslo: 'Kuchnia karkonoska, czeskie inspiracje i dobrze nalane piwo.'
+  },
+  en: {
+    photo_interior: 'Inside Karkonoski Wyszynk', photo_house: 'Villa Bożena, restaurant on the ground floor', photo_enlarge: 'Enlarge photo', photo_close: 'Close preview', photo_previous: 'Previous', photo_next: 'Next',
+    space_caption: 'Inside Wyszynk', space_detail: 'Jedności Narodowej 18, Szklarska Poręba',
+    season_label: 'Autumn on the menu', season_title: 'Seasonal dishes', season_intro: 'Roast pumpkin, porcini mushrooms and four autumn dishes.', season_full_menu: 'Explore the full menu',
+    season_soup: 'With ginger, croutons, toasted pumpkin seeds and cream.', season_dumplings: 'Handmade, with porcini sauce and smoked goat’s ricotta from Łomnica.', season_pierogi: 'Pumpkin dough filled with roast pumpkin and lentils, served with porcini mushrooms braised with onion.', season_chicken: 'With a rocket, pepper and roast pumpkin salad and house dressing.',
+    photo_window_seats: 'Armchairs by the window and wooden interior details', photo_stained_glass: 'Coloured glass in a window at Wyszynk', photo_lamps: 'Lamps beneath the wooden ceiling', photo_wood: 'Wood panelling and armchairs inside Wyszynk', photo_door: 'Wooden door, wall lamp and coloured glass',
+    feature_pork: 'Crisp crackling, horseradish, mustard, braised sauerkraut and dark bread.', feature_ribs: 'Marinated in Pilsner Urquell. With roast potatoes, horseradish sauce and house pickles.',
+    reels_title: 'A look inside Wyszynk', reels_intro: 'From the kitchen and the table. Short videos from our Instagram.', reels_invite: 'See what’s happening here',
+    reels_consent: 'These reels come from Instagram. Enabling them allows Meta to receive your IP address and browser information. You can withdraw consent here at any time.', reels_accept: 'Allow and show reels', reels_profile: 'Visit our Instagram', reels_revoke: 'Disable Instagram content', reels_list: 'Instagram reels', reels_video: 'Instagram reel', reels_play: 'Play reel', reels_original: 'Open on Instagram',
+    reels_loading: 'Loading reels…', reels_unavailable: 'You can find our reels on our profile. Visit us on Instagram.', reels_retry: 'Try again', reels_video_error: 'The video could not be played. Open it on Instagram.',
+    foot_haslo: 'Karkonosze cuisine, Czech influences and well-poured beer.'
+  },
+  de: {
+    photo_interior: 'Im Karkonoski Wyszynk', photo_house: 'Villa Bożena, Restaurant im Erdgeschoss', photo_enlarge: 'Foto vergrößern', photo_close: 'Vorschau schließen', photo_previous: 'Zurück', photo_next: 'Weiter',
+    space_caption: 'Im Wyszynk', space_detail: 'Jedności Narodowej 18, Szklarska Poręba',
+    season_label: 'Herbst auf der Speisekarte', season_title: 'Saisonale Gerichte', season_intro: 'Ofenkürbis, Steinpilze und vier Herbstgerichte.', season_full_menu: 'Zur vollständigen Speisekarte',
+    season_soup: 'Mit Ingwer, Croûtons, gerösteten Kürbiskernen und Sahne.', season_dumplings: 'Handgemacht, mit Steinpilzsauce und geräucherter Ziegenricotta aus Łomnica.', season_pierogi: 'Kürbisteig mit Ofenkürbis und Linsen, dazu mit Zwiebeln geschmorte Steinpilze.', season_chicken: 'Mit einem Salat aus Rucola, Paprika und Ofenkürbis sowie hausgemachtem Dressing.',
+    photo_window_seats: 'Sessel am Fenster und hölzerne Inneneinrichtung', photo_stained_glass: 'Farbiges Glas in einem Fenster im Wyszynk', photo_lamps: 'Lampen unter der Holzdecke', photo_wood: 'Holzvertäfelung und Sessel im Wyszynk', photo_door: 'Holztür, Wandleuchte und farbiges Glas',
+    feature_pork: 'Knusprige Kruste, Meerrettich, Senf, geschmortes Sauerkraut und dunkles Brot.', feature_ribs: 'In Pilsner Urquell mariniert. Mit Ofenkartoffeln, Meerrettichsauce und hausgemachtem Pickles-Gemüse.',
+    reels_title: 'Ein Blick ins Wyszynk', reels_intro: 'Aus der Küche und vom Tisch. Kurze Videos von unserem Instagram.', reels_invite: 'Sehen Sie, was bei uns los ist',
+    reels_consent: 'Diese Reels stammen von Instagram. Beim Aktivieren erhält Meta Ihre IP-Adresse und Browserdaten. Sie können Ihre Einwilligung hier jederzeit widerrufen.', reels_accept: 'Erlauben und Reels anzeigen', reels_profile: 'Zu unserem Instagram', reels_revoke: 'Instagram-Inhalte deaktivieren', reels_list: 'Instagram-Reels', reels_video: 'Instagram-Reel', reels_play: 'Reel abspielen', reels_original: 'Auf Instagram öffnen',
+    reels_loading: 'Reels werden geladen…', reels_unavailable: 'Unsere Reels finden Sie auf unserem Profil. Besuchen Sie uns auf Instagram.', reels_retry: 'Erneut versuchen', reels_video_error: 'Das Video kann nicht abgespielt werden. Öffnen Sie es auf Instagram.',
+    foot_haslo: 'Riesengebirgsküche, tschechische Einflüsse und gut gezapftes Bier.'
+  },
+  cs: {
+    photo_interior: 'Interiér Karkonoski Wyszynk', photo_house: 'Villa Bożena, restaurace v přízemí', photo_enlarge: 'Zvětšit fotografii', photo_close: 'Zavřít náhled', photo_previous: 'Předchozí', photo_next: 'Další',
+    space_caption: 'Interiér Wyszynku', space_detail: 'Jedności Narodowej 18, Szklarska Poręba',
+    season_label: 'Podzim v jídelním lístku', season_title: 'Sezónní jídla', season_intro: 'Pečená dýně, hříbky a čtyři podzimní jídla.', season_full_menu: 'Přejít na celý jídelní lístek',
+    season_soup: 'Se zázvorem, krutony, praženými dýňovými semínky a smetanou.', season_dumplings: 'Ručně připravované, s hříbkovou omáčkou a uzenou kozí ricottou z Łomnice.', season_pierogi: 'Dýňové těsto plněné pečenou dýní a čočkou, podávané s hříbky dušenými s cibulí.', season_chicken: 'Se salátem z rukoly, papriky a pečené dýně a domácím dresinkem.',
+    photo_window_seats: 'Křesla u okna a dřevěné detaily interiéru', photo_stained_glass: 'Barevné sklo v okně Wyszynku', photo_lamps: 'Svítidla pod dřevěným stropem', photo_wood: 'Dřevěné obložení a křesla ve Wyszynku', photo_door: 'Dřevěné dveře, nástěnné svítidlo a barevné sklo',
+    feature_pork: 'Křupavá kůrka, křen, hořčice, dušené kysané zelí a tmavý chléb.', feature_ribs: 'Marinovaná v pivu Pilsner Urquell. S pečenými bramborami, křenovou omáčkou a domácí nakládanou zeleninou.',
+    reels_title: 'Nahlédněte do Wyszynku', reels_intro: 'Z kuchyně i od stolu. Krátká videa z našeho Instagramu.', reels_invite: 'Podívejte se, co je u nás nového',
+    reels_consent: 'Tato videa pocházejí z Instagramu. Jejich povolením umožníte společnosti Meta získat vaši IP adresu a údaje prohlížeče. Souhlas zde můžete kdykoli odvolat.', reels_accept: 'Povolit a zobrazit videa', reels_profile: 'Přejít na Instagram', reels_revoke: 'Vypnout obsah z Instagramu', reels_list: 'Videa z Instagramu', reels_video: 'Video z Instagramu', reels_play: 'Přehrát video', reels_original: 'Otevřít na Instagramu',
+    reels_loading: 'Načítání videí…', reels_unavailable: 'Naše videa najdete na našem profilu. Navštivte nás na Instagramu.', reels_retry: 'Zkusit znovu', reels_video_error: 'Video nelze přehrát. Otevřete ho na Instagramu.',
+    foot_haslo: 'Krkonošská kuchyně, české inspirace a dobře načepované pivo.'
+  }
+};
+Object.keys(DODATKI_I18N).forEach(function (language) { Object.assign(I18N_DANE[language], DODATKI_I18N[language]); });
+I18N_DANE.pl.om_p3 = I18N_DANE.pl.om_p3.replace('Villi Bożena', 'Villa Bożena');
+
 (function () {
   var JEZYKI = ['pl', 'en', 'de', 'cs'];
   var ETYKIETY = { pl: 'PL', en: 'EN', de: 'DE', cs: 'CZ' };
 
   function pobierzJezyk() {
-    var zapisany = localStorage.getItem('wyszynk_jezyk');
+    var zapisany;
+    try { zapisany = localStorage.getItem('wyszynk_jezyk'); } catch (error) {}
     return JEZYKI.indexOf(zapisany) !== -1 ? zapisany : 'pl';
   }
 
@@ -3007,6 +3282,7 @@ var I18N_DANE = {
       }
     });
     document.querySelectorAll('[data-i18n-alt]').forEach(function(el) { el.alt = slownik[el.getAttribute('data-i18n-alt')]; });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(el) { el.setAttribute('aria-label', slownik[el.getAttribute('data-i18n-aria')]); });
     document.documentElement.setAttribute('lang', jezyk === 'cs' ? 'cs' : jezyk);
     document.querySelectorAll('.jezyk-przelacznik button').forEach(function (btn) {
       var aktywny = btn.getAttribute('data-jezyk') === jezyk;
@@ -3017,7 +3293,7 @@ var I18N_DANE = {
 
   function ustawJezyk(jezyk) {
     if (JEZYKI.indexOf(jezyk) === -1) jezyk = 'pl';
-    localStorage.setItem('wyszynk_jezyk', jezyk);
+    try { localStorage.setItem('wyszynk_jezyk', jezyk); } catch (error) {}
     zastosujTlumaczenia(jezyk);
   }
 
@@ -3067,6 +3343,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ---------- Zakładki kategorii menu ----------
+  document.querySelectorAll('[data-menu-price]').forEach(function (element) {
+    var source = document.querySelector('.danie__nazwa[data-i18n="' + element.dataset.menuPrice + '"]');
+    var price = source && source.closest('.danie').querySelector('.danie__cena');
+    if (price) element.textContent = price.textContent;
+  });
   var zakladki = document.querySelectorAll('.menu__zakladka');
   var kategorie = document.querySelectorAll('.menu__kategoria');
   var wyborKategorii = document.getElementById('menu-kategoria');
@@ -3135,14 +3416,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Element, do ktorego wracamy fokusem po zamknieciu modala.
   var fokusPrzedLightboxem = null;
+  var indeksZdjecia = 0;
+  var poprzednieZdjecie = document.getElementById('lightbox-poprzednie');
+  var nastepneZdjecie = document.getElementById('lightbox-nastepne');
 
   function otworzLightbox(element) {
-    var opis = element.getAttribute('data-alt');
     var zdjecie = element.querySelector('img');
-    fokusPrzedLightboxem = element;
+    var opis = zdjecie ? zdjecie.alt : element.getAttribute('data-alt');
+    indeksZdjecia = Array.prototype.indexOf.call(elementyGalerii, element);
+    if (!lightbox.open) fokusPrzedLightboxem = element;
     lightboxOpis.textContent = opis;
+    document.getElementById('lightbox-licznik').textContent = (indeksZdjecia + 1) + ' / ' + elementyGalerii.length;
     if (zdjecie) {
-      lightboxImg.src = zdjecie.src;
+      lightboxImg.src = element.getAttribute('data-full') || zdjecie.src;
       lightboxImg.alt = opis;
       lightboxImg.hidden = false;
     } else {
@@ -3150,7 +3436,7 @@ document.addEventListener('DOMContentLoaded', function () {
       lightboxImg.alt = '';
       lightboxImg.hidden = true;
     }
-    lightbox.classList.add('jest-otwarty');
+    if (!lightbox.open) lightbox.showModal();
     // Blokada przewijania tla - bez tego strona pod overlayem scrolluje sie
     // razem z gestem na modalu.
     document.body.style.overflow = 'hidden';
@@ -3158,8 +3444,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function zamknijLightbox() {
-    if (!lightbox.classList.contains('jest-otwarty')) return;
-    lightbox.classList.remove('jest-otwarty');
+    if (lightbox.open) lightbox.close();
     document.body.style.overflow = '';
     if (fokusPrzedLightboxem) {
       fokusPrzedLightboxem.focus();
@@ -3177,21 +3462,29 @@ document.addEventListener('DOMContentLoaded', function () {
     lightboxZamknij.addEventListener('click', zamknijLightbox);
   }
   if (lightbox) {
+    lightbox.addEventListener('close', zamknijLightbox);
     lightbox.addEventListener('click', function (event) {
       if (event.target === lightbox) zamknijLightbox();
     });
     // Pulapka fokusu: jedyny fokusowalny element w modalu to przycisk
     // zamkniecia, wiec Tab i Shift+Tab maja na nim zostac.
     lightbox.addEventListener('keydown', function (event) {
-      if (event.key === 'Tab') {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         event.preventDefault();
-        lightboxZamknij.focus();
+        zmienZdjecie(event.key === 'ArrowLeft' ? -1 : 1);
       }
     });
   }
   document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape') zamknijLightbox();
   });
+  function zmienZdjecie(kierunek) {
+    var aktywnyPrzycisk = document.activeElement;
+    otworzLightbox(elementyGalerii[(indeksZdjecia + kierunek + elementyGalerii.length) % elementyGalerii.length]);
+    aktywnyPrzycisk.focus();
+  }
+  poprzednieZdjecie.addEventListener('click', function () { zmienZdjecie(-1); });
+  nastepneZdjecie.addEventListener('click', function () { zmienZdjecie(1); });
 
   // ---------- Aktualny rok w stopce ----------
   var rokStopki = document.getElementById('rok-stopki');
@@ -3200,6 +3493,197 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 });
+</script>
+<script>
+(function () {
+  var section = document.getElementById('zajrzyj');
+  if (!section || section.hidden) return;
+  var fallback = document.getElementById('rolki-fallback');
+  var list = document.getElementById('rolki-lista');
+  var status = document.getElementById('rolki-status');
+  var accept = document.getElementById('rolki-zgoda');
+  var revoke = document.getElementById('rolki-cofnij');
+  var modal = document.getElementById('rolka-modal');
+  var player = document.getElementById('rolka-odtwarzacz');
+  var videoError = document.getElementById('rolka-blad');
+  var consent = false;
+  var requestController;
+  var videoController;
+  var lastTrigger;
+  var loadedAt = 0;
+  var refreshTimer;
+  var consentKey = 'wyszynk_instagram_consent_v1';
+
+  function text(key) { return (I18N_DANE[document.documentElement.lang] || I18N_DANE.pl)[key]; }
+  function label(element, key) {
+    element.setAttribute('data-i18n', key);
+    element.textContent = text(key);
+  }
+  function safeMedia(value) {
+    try {
+      var url = new URL(value);
+      return url.protocol === 'https:' && !url.username && !url.password && !url.port && /(^|\.)(cdninstagram\.com|fbcdn\.net)$/.test(url.hostname);
+    } catch (error) { return false; }
+  }
+  function safeReel(value) {
+    try {
+      var url = new URL(value);
+      return url.protocol === 'https:' && /^(www\.)?instagram\.com$/.test(url.hostname) && /^\/(reel|p)\/[\w-]+\/?$/.test(url.pathname);
+    } catch (error) { return false; }
+  }
+  function saveConsent(value) {
+    consent = value;
+    try {
+      if (value) localStorage.setItem(consentKey, JSON.stringify({ expires: Date.now() + 180 * 86400000 }));
+      else localStorage.removeItem(consentKey);
+    } catch (error) {}
+  }
+  function unavailable() {
+    list.hidden = true;
+    list.replaceChildren();
+    fallback.hidden = false;
+    label(status, 'reels_unavailable');
+    label(accept, 'reels_retry');
+  }
+  function stopVideo() {
+    if (videoController) videoController.abort();
+    var video = player.querySelector('video');
+    if (video) { video.pause(); video.removeAttribute('src'); video.load(); }
+    player.replaceChildren();
+    document.body.style.overflow = '';
+    if (lastTrigger && lastTrigger.isConnected) lastTrigger.focus();
+    lastTrigger = null;
+  }
+  function closeVideo() {
+    if (modal.open) modal.close();
+    stopVideo();
+  }
+  async function play(item, trigger) {
+    closeVideo();
+    lastTrigger = trigger;
+    videoError.hidden = true;
+    document.getElementById('rolka-zrodlo').href = item.permalink;
+    modal.showModal();
+    document.body.style.overflow = 'hidden';
+    document.getElementById('rolka-zamknij').focus();
+    videoController = new AbortController();
+    var controller = videoController;
+    var timeout = setTimeout(function () { controller.abort(); }, 10000);
+    try {
+      var response = await fetch('/.netlify/functions/instagram-video?id=' + encodeURIComponent(item.id), { signal: controller.signal, credentials: 'omit' });
+      if (!response.ok) throw new Error('video');
+      var data = await response.json();
+      if (!consent || !modal.open || controller !== videoController) return;
+      if (!safeMedia(data.video)) throw new Error('url');
+      var video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'none';
+      video.poster = item.poster;
+      video.src = data.video;
+      video.setAttribute('aria-label', text('reels_video'));
+      video.addEventListener('error', function () { videoError.hidden = false; });
+      player.replaceChildren(video);
+      video.play().catch(function () {});
+    } catch (error) {
+      if (consent && modal.open && controller === videoController) videoError.hidden = false;
+    } finally { clearTimeout(timeout); }
+  }
+  function render(items) {
+    list.replaceChildren();
+    items.forEach(function (item) {
+      var card = document.createElement('article');
+      card.className = 'rolki__kafel';
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'rolki__okladka';
+      button.setAttribute('data-i18n-aria', 'reels_play');
+      button.setAttribute('aria-label', text('reels_play'));
+      var poster = document.createElement('img');
+      poster.src = item.poster;
+      poster.alt = '';
+      poster.width = 360;
+      poster.height = 640;
+      poster.loading = 'lazy';
+      poster.decoding = 'async';
+      poster.referrerPolicy = 'no-referrer';
+      poster.addEventListener('error', function () { poster.hidden = true; }, { once: true });
+      var icon = document.createElement('span');
+      icon.className = 'rolki__odtworz';
+      icon.setAttribute('aria-hidden', 'true');
+      button.append(poster, icon);
+      button.addEventListener('click', function () { play(item, button); });
+      var caption = document.createElement('p');
+      caption.textContent = item.caption;
+      var date = document.createElement('time');
+      date.dateTime = item.timestamp;
+      date.textContent = new Date(item.timestamp).toLocaleDateString(document.documentElement.lang, { day: 'numeric', month: 'short', year: 'numeric' });
+      card.append(button, caption, date);
+      list.append(card);
+    });
+    fallback.hidden = true;
+    list.hidden = false;
+  }
+  async function load() {
+    if (!consent || requestController) return;
+    requestController = new AbortController();
+    var controller = requestController;
+    var timeout = setTimeout(function () { controller.abort(); }, 10000);
+    accept.disabled = true;
+    revoke.hidden = false;
+    label(status, 'reels_loading');
+    try {
+      var response = await fetch('/.netlify/functions/instagram-reels', { signal: controller.signal, credentials: 'omit' });
+      if (!response.ok) throw new Error('feed');
+      var data = await response.json();
+      if (!consent) return;
+      var items = Array.isArray(data.items) ? data.items.filter(function (item) { return /^\d+$/.test(item.id) && safeMedia(item.poster) && safeReel(item.permalink) && Number.isFinite(Date.parse(item.timestamp)); }).slice(0, 4) : [];
+      if (!items.length) unavailable();
+      else render(items);
+      loadedAt = Date.now();
+    } catch (error) {
+      if (consent) unavailable();
+    } finally {
+      clearTimeout(timeout);
+      requestController = null;
+      accept.disabled = false;
+    }
+  }
+  accept.addEventListener('click', function () { saveConsent(true); load(); });
+  revoke.addEventListener('click', function () {
+    saveConsent(false);
+    if (requestController) requestController.abort();
+    closeVideo();
+    list.replaceChildren();
+    list.hidden = true;
+    fallback.hidden = false;
+    revoke.hidden = true;
+    label(status, 'reels_consent');
+    label(accept, 'reels_accept');
+    accept.focus();
+  });
+  document.getElementById('rolka-zamknij').addEventListener('click', closeVideo);
+  modal.addEventListener('close', stopVideo);
+  modal.addEventListener('click', function (event) {
+    var bounds = modal.getBoundingClientRect();
+    if (event.target === modal && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) closeVideo();
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { var video = player.querySelector('video'); if (video) video.pause(); }
+  });
+  try { consent = JSON.parse(localStorage.getItem(consentKey) || 'null')?.expires > Date.now(); } catch (error) {}
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      clearInterval(refreshTimer);
+      if (entries[0].isIntersecting) {
+        if (consent && !loadedAt) load();
+        refreshTimer = setInterval(function () {
+          if (consent && !document.hidden && !modal.open && Date.now() - loadedAt > 3600000) load();
+        }, 60000);
+      }
+    }, { rootMargin: '100px' }).observe(section);
+  } else if (consent) load();
+})();
 </script>
 </body>
 </html>

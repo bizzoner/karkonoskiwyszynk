@@ -1,4 +1,9 @@
 .DS_Store
+node_modules/
+.netlify/
+.env
+.env.*
+!.env.example
 images/
 
 # Nieuzywane kopie zdjec - patrz CLAUDE.md
