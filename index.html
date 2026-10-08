@@ -1165,10 +1165,9 @@ html { scroll-padding-top: calc(var(--header-height, 90px) + 16px); }
 .historia-zajawka figcaption a { display: block; color: var(--gold-dark); text-decoration: underline; text-underline-offset: 3px; }
 .historia-link { margin-bottom: 1rem; text-align: center; }
 .miejsce-kadr { margin-top: 0; margin-bottom: 0; }
-.miejsce-kadr__siatka { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 1rem; }
-.miejsce-kadr__zdjecie { aspect-ratio: auto; height: clamp(260px, 35vw, 450px); }
-.miejsce-kadr figcaption { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--gold); color: var(--forest); }
-.miejsce-kadr figcaption span:first-child { font-size: 1.45rem; }
+.miejsce-kadr__siatka { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; align-items: stretch; }
+.miejsce-kadr__zdjecie { aspect-ratio: auto; min-width: 0; }
+.miejsce-kadr__zdjecie:first-child { aspect-ratio: 16 / 9; }
 .zdjecie-powieksz { position: absolute; right: 0; bottom: 0; padding: .35rem .8rem; background: var(--forest); color: var(--ivory); font-size: .95rem; z-index: 1; }
 .menu-fotografie { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 3rem 0 0; padding-top: 3rem; border-top: 1px solid var(--gold); }
 .menu-fotografie__kadr { aspect-ratio: 4 / 3; margin-bottom: 1.25rem; }
@@ -1201,7 +1200,7 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
 .lightbox__zamknij { color: var(--ivory); }
 #lightbox-img { height: 65dvh; max-height: 65dvh; border: 0; margin: 0; }
 #lightbox-opis { margin: .6rem 0; }
-.lightbox__nawigacja { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.lightbox__nawigacja { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1rem; }
 .lightbox__nawigacja button { font: inherit; color: inherit; background: none; border: 1px solid var(--gold); min-height: 44px; padding: .25rem 1rem; cursor: pointer; }
 .rolki__naglowek { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
 .rolki__naglowek p { margin: .75rem 0 0; }
@@ -1239,11 +1238,8 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
   .zdjecie-powieksz { display: none; }
 }
 @media (max-width: 700px) {
-  .miejsce-kadr__siatka { grid-template-columns: 1fr 1fr; gap: .6rem; }
-  .miejsce-kadr__zdjecie { height: auto; aspect-ratio: 4 / 5; }
-  .miejsce-kadr__zdjecie:first-child { grid-column: span 2; aspect-ratio: 4 / 3; }
-  .miejsce-kadr figcaption { display: block; }
-  .miejsce-kadr figcaption span { display: block; }
+  .miejsce-kadr__siatka { grid-template-columns: 1fr; gap: .6rem; }
+  .miejsce-kadr__zdjecie { aspect-ratio: 4 / 3; }
   .menu-fotografie { grid-template-columns: 1fr; gap: 2rem; }
   .menu-sezon__naglowek { display: block; }
   .menu-sezon__karta { margin-top: .5rem; }
@@ -1423,21 +1419,17 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
   </section>
 
   <!-- ============ MENU ============ -->
-  <figure class="miejsce-kadr container">
+  <div class="miejsce-kadr container">
     <div class="miejsce-kadr__siatka">
-      <button class="galeria__element miejsce-kadr__zdjecie" type="button" data-full="assets/img/wnetrze-przy-oknie-1200.webp">
-        <img src="assets/img/wnetrze-przy-oknie-720.webp" srcset="assets/img/wnetrze-przy-oknie-360.webp 360w, assets/img/wnetrze-przy-oknie-720.webp 720w, assets/img/wnetrze-przy-oknie-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 48px), 450px" width="1200" height="1500" alt="Fotele przy oknie i drewniane wykończenie wnętrza" data-i18n-alt="photo_window_seats" loading="lazy" decoding="async">
+      <button class="galeria__element miejsce-kadr__zdjecie" type="button" data-full="assets/img/wnetrze-desktop.webp">
+        <img src="assets/img/wnetrze-1200.webp" srcset="assets/img/wnetrze-640.webp 640w, assets/img/wnetrze-1200.webp 1200w, assets/img/wnetrze-desktop.webp 2560w" sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1200px) 65vw, 760px" width="2560" height="1440" alt="Wnętrze Karkonoskiego Wyszynku" data-i18n-alt="photo_interior" loading="lazy" decoding="async">
         <span class="zdjecie-powieksz" data-i18n="photo_enlarge">Powiększ zdjęcie</span>
       </button>
-      <button class="galeria__element miejsce-kadr__zdjecie" type="button" data-full="assets/img/wnetrze-witraz-1200.webp">
-        <img src="assets/img/wnetrze-witraz-720.webp" srcset="assets/img/wnetrze-witraz-360.webp 360w, assets/img/wnetrze-witraz-720.webp 720w, assets/img/wnetrze-witraz-1200.webp 1200w" sizes="(max-width: 700px) 45vw, 330px" width="1200" height="1500" alt="Kolorowe szkło w oknie Wyszynku" data-i18n-alt="photo_stained_glass" loading="lazy" decoding="async">
-      </button>
-      <button class="galeria__element miejsce-kadr__zdjecie" type="button" data-full="assets/img/wnetrze-lampy-1200.webp">
-        <img src="assets/img/wnetrze-lampy-720.webp" srcset="assets/img/wnetrze-lampy-360.webp 360w, assets/img/wnetrze-lampy-720.webp 720w, assets/img/wnetrze-lampy-1200.webp 1200w" sizes="(max-width: 700px) 45vw, 330px" width="1200" height="1500" alt="Lampy pod drewnianym stropem" data-i18n-alt="photo_lamps" loading="lazy" decoding="async">
+      <button class="galeria__element miejsce-kadr__zdjecie" type="button" data-full="assets/img/wnetrze-drewno-1200.webp">
+        <img src="assets/img/wnetrze-drewno-720.webp" srcset="assets/img/wnetrze-drewno-360.webp 360w, assets/img/wnetrze-drewno-720.webp 720w, assets/img/wnetrze-drewno-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1200px) 32vw, 380px" width="1200" height="1500" alt="Wnętrze Karkonoskiego Wyszynku" data-i18n-alt="photo_interior" loading="lazy" decoding="async">
       </button>
     </div>
-    <figcaption><span data-i18n="space_caption">Wnętrze Wyszynku</span><span data-i18n="space_detail">Jedności Narodowej 18, Szklarska Poręba</span></figcaption>
-  </figure>
+  </div>
   <section class="sekcja menu" id="menu">
     <div class="container">
       <div class="sekcja__naglowek">
@@ -2100,41 +2092,41 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
         <button class="galeria__element galeria__dom" type="button" data-full="assets/img/zewnatrz.webp">
           <img src="assets/img/zewnatrz.webp" alt="Villa Bożena, restauracja na parterze" data-i18n-alt="photo_house" loading="lazy" decoding="async" width="700" height="876">
         </button>
-        <button class="galeria__element" type="button" data-alt="Golonka Piwowara podana na drewnianej desce z chrzanem i musztardą">
+        <button class="galeria__element" type="button">
           <img src="assets/img/golonka.webp" srcset="assets/img/golonka-360.webp 360w, assets/img/golonka.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Golonka Piwowara" data-i18n-alt="d17_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
-        <button class="galeria__element" type="button" data-alt="Żebra z Pieca Wyszynkowego z pieczonymi ziemniakami i rozmarynem">
+        <button class="galeria__element" type="button">
           <img src="assets/img/zeberka.webp" srcset="assets/img/zeberka-360.webp 360w, assets/img/zeberka.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Żeberka z Pieca Wyszynkowego" data-i18n-alt="d19_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
-        <button class="galeria__element" type="button" data-alt="Pstrąg Podgórzyński pieczony w całości z ziołami i masłem z sardeli">
+        <button class="galeria__element" type="button">
           <img src="assets/img/pstrag.webp" srcset="assets/img/pstrag-360.webp 360w, assets/img/pstrag.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Pstrąg Podgórzyński z pieca z masłem z sardeli" data-i18n-alt="d22_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
-        <button class="galeria__element" type="button" data-alt="Ręcznie lepione pierogi z Wyszynku na drewnianej stolnicy">
+        <button class="galeria__element" type="button">
           <img src="assets/img/pierogi.webp" srcset="assets/img/pierogi-360.webp 360w, assets/img/pierogi.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Pierogi" data-i18n-alt="tab_pierogi" loading="lazy" decoding="async" width="600" height="600">
         </button>
-        <button class="galeria__element" type="button" data-alt="Pieczony Hermelín z żurawiną, czosnkiem i piwnym preclem">
+        <button class="galeria__element" type="button">
           <img src="assets/img/hermelin.webp" srcset="assets/img/hermelin-360.webp 360w, assets/img/hermelin.webp 600w" sizes="(max-width: 700px) 45vw, 560px" alt="Pieczony Hermelín z żurawiną i czosnkiem" data-i18n-alt="d5_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
-        <button class="galeria__element" type="button" data-alt="Patelnia kiełbas pieczonych w ciemnym piwie serwowana na stole">
+        <button class="galeria__element" type="button">
           <img src="assets/img/kielbasy.webp" srcset="assets/img/kielbasy-360.webp 360w, assets/img/kielbasy.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Patelnia kiełbas pieczonych w ciemnym piwie" data-i18n-alt="d6_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
-        <button class="galeria__element" type="button" data-alt="Miski domowych zup: kwaśnicy, żuru śląskiego i kulajdy">
+        <button class="galeria__element" type="button">
           <img src="assets/img/wszystkie-zupy.webp" srcset="assets/img/wszystkie-zupy-360.webp 360w, assets/img/wszystkie-zupy.webp 600w" sizes="(max-width: 700px) 45vw, 275px" alt="Zupy" data-i18n-alt="c1" loading="lazy" decoding="async" width="600" height="600">
         </button>
-        <button class="galeria__element" type="button" data-alt="Czekoladowy fondant z wiśniami i lodami waniliowymi">
+        <button class="galeria__element" type="button">
           <img src="assets/img/fondant.webp" srcset="assets/img/fondant-360.webp 360w, assets/img/fondant.webp 600w" sizes="(max-width: 700px) 45vw, 560px" alt="Czekoladowy fondant z wiśniami" data-i18n-alt="d26_n" loading="lazy" decoding="async" width="600" height="600">
         </button>
         <button class="galeria__element galeria__detal" type="button" data-full="assets/img/wnetrze-drewno-1200.webp">
-          <img src="assets/img/wnetrze-drewno-720.webp" srcset="assets/img/wnetrze-drewno-360.webp 360w, assets/img/wnetrze-drewno-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Drewniana boazeria i fotele we wnętrzu Wyszynku" data-i18n-alt="photo_wood" width="720" height="900" loading="lazy" decoding="async">
+          <img src="assets/img/wnetrze-drewno-720.webp" srcset="assets/img/wnetrze-drewno-360.webp 360w, assets/img/wnetrze-drewno-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Wnętrze Karkonoskiego Wyszynku" data-i18n-alt="photo_interior" width="720" height="900" loading="lazy" decoding="async">
         </button>
         <button class="galeria__element galeria__detal" type="button" data-full="assets/img/wnetrze-drzwi-1200.webp">
-          <img src="assets/img/wnetrze-drzwi-720.webp" srcset="assets/img/wnetrze-drzwi-360.webp 360w, assets/img/wnetrze-drzwi-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Drewniane drzwi, kinkiet i kolorowe szkło" data-i18n-alt="photo_door" width="720" height="900" loading="lazy" decoding="async">
+          <img src="assets/img/wnetrze-drzwi-720.webp" srcset="assets/img/wnetrze-drzwi-360.webp 360w, assets/img/wnetrze-drzwi-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Wnętrze Karkonoskiego Wyszynku" data-i18n-alt="photo_interior" width="720" height="900" loading="lazy" decoding="async">
         </button>
         <button class="galeria__element galeria__detal" type="button" data-full="assets/img/wnetrze-witraz-1200.webp">
-          <img src="assets/img/wnetrze-witraz-720.webp" srcset="assets/img/wnetrze-witraz-360.webp 360w, assets/img/wnetrze-witraz-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Kolorowe szkło w oknie Wyszynku" data-i18n-alt="photo_stained_glass" width="720" height="900" loading="lazy" decoding="async">
+          <img src="assets/img/wnetrze-witraz-720.webp" srcset="assets/img/wnetrze-witraz-360.webp 360w, assets/img/wnetrze-witraz-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Wnętrze Karkonoskiego Wyszynku" data-i18n-alt="photo_interior" width="720" height="900" loading="lazy" decoding="async">
         </button>
         <button class="galeria__element galeria__detal" type="button" data-full="assets/img/wnetrze-lampy-1200.webp">
-          <img src="assets/img/wnetrze-lampy-720.webp" srcset="assets/img/wnetrze-lampy-360.webp 360w, assets/img/wnetrze-lampy-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Lampy pod drewnianym stropem" data-i18n-alt="photo_lamps" width="720" height="900" loading="lazy" decoding="async">
+          <img src="assets/img/wnetrze-lampy-720.webp" srcset="assets/img/wnetrze-lampy-360.webp 360w, assets/img/wnetrze-lampy-720.webp 720w" sizes="(max-width: 700px) 45vw, 275px" alt="Wnętrze Karkonoskiego Wyszynku" data-i18n-alt="photo_interior" width="720" height="900" loading="lazy" decoding="async">
         </button>
       </div>
     </div>
@@ -2231,14 +2223,14 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
 
 <!-- Lightbox galerii -->
 <!-- Lightbox jako modal: role=dialog + aria-modal chowaja przed czytnikiem
-     ekranu tresc pod spodem, aria-labelledby wskazuje na opis zdjecia.
+     ekranu tresc pod spodem.
      Obrazek nie ma atrybutu src dopoki nie zostanie otwarty - stad hidden,
      zeby pusty <img> nie byl w drzewie jako uszkodzona grafika. -->
-<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-opis">
+<dialog class="lightbox" id="lightbox" aria-label="Podgląd zdjęcia" data-i18n-aria="photo_preview">
   <div class="lightbox__tresc">
     <button class="lightbox__zamknij" id="lightbox-zamknij" aria-label="Zamknij podgląd zdjęcia" data-i18n-aria="photo_close">&times;</button>
     <img id="lightbox-img" alt="" hidden>
-    <p id="lightbox-opis"></p>
+    <p id="lightbox-opis" hidden></p>
     <div class="lightbox__nawigacja"><button type="button" id="lightbox-poprzednie" data-i18n="photo_previous">Poprzednie</button><span id="lightbox-licznik" aria-live="polite"></span><button type="button" id="lightbox-nastepne" data-i18n="photo_next">Następne</button></div>
   </div>
 </dialog>
@@ -3206,10 +3198,9 @@ var I18N_DANE = {
 var DODATKI_I18N = {
   pl: {
     photo_interior: 'Wnętrze Karkonoskiego Wyszynku', photo_house: 'Villa Bożena, restauracja na parterze', photo_enlarge: 'Powiększ zdjęcie', photo_close: 'Zamknij podgląd', photo_previous: 'Poprzednie', photo_next: 'Następne',
-    space_caption: 'Wnętrze Wyszynku', space_detail: 'Jedności Narodowej 18, Szklarska Poręba',
+    photo_preview: 'Podgląd zdjęcia',
     season_label: 'Jesień w karcie', season_title: 'Dania sezonowe', season_intro: 'Pieczona dynia, borowiki i cztery jesienne propozycje.', season_full_menu: 'Przejdź do pełnej karty',
     season_soup: 'Z imbirem, grzankami, prażonymi pestkami dyni i śmietanką.', season_dumplings: 'Ręcznie robione, z sosem borowikowym i wędzoną kozią ricottą z Łomnicy.', season_pierogi: 'Ciasto dyniowe, farsz z pieczonej dyni i soczewicy, borowiki duszone z cebulą.', season_chicken: 'Z sałatką z rukoli, papryki i pieczonej dyni oraz domowym dressingiem.',
-    photo_window_seats: 'Fotele przy oknie i drewniane wykończenie wnętrza', photo_stained_glass: 'Kolorowe szkło w oknie Wyszynku', photo_lamps: 'Lampy pod drewnianym stropem', photo_wood: 'Drewniana boazeria i fotele we wnętrzu Wyszynku', photo_door: 'Drewniane drzwi, kinkiet i kolorowe szkło',
     feature_pork: 'Chrupiąca skórka, chrzan, musztarda, zasmażana kiszona kapusta i ciemny chleb.', feature_ribs: 'Marynowane w Pilsner Urquell. Z pieczonymi ziemniakami, sosem chrzanowym i domowymi piklami.',
     reels_title: 'Zajrzyj do Wyszynku', reels_intro: 'Z kuchni i od stołu. Krótkie filmy z naszego Instagrama.', reels_invite: 'Zobacz, co dziś u nas',
     reels_consent: 'Rolki pochodzą z Instagrama. Ich włączenie pozwoli Meta otrzymać Twój adres IP i dane przeglądarki. Zgodę możesz cofnąć w tej sekcji.', reels_accept: 'Zezwól i pokaż rolki', reels_profile: 'Przejdź do Instagrama', reels_revoke: 'Wyłącz treści z Instagrama', reels_list: 'Rolki z Instagrama', reels_video: 'Rolka z Instagrama', reels_play: 'Odtwórz rolkę', reels_original: 'Otwórz na Instagramie',
@@ -3218,10 +3209,9 @@ var DODATKI_I18N = {
   },
   en: {
     photo_interior: 'Inside Karkonoski Wyszynk', photo_house: 'Villa Bożena, restaurant on the ground floor', photo_enlarge: 'Enlarge photo', photo_close: 'Close preview', photo_previous: 'Previous', photo_next: 'Next',
-    space_caption: 'Inside Wyszynk', space_detail: 'Jedności Narodowej 18, Szklarska Poręba',
+    photo_preview: 'Photo preview',
     season_label: 'Autumn on the menu', season_title: 'Seasonal dishes', season_intro: 'Roast pumpkin, porcini mushrooms and four autumn dishes.', season_full_menu: 'Explore the full menu',
     season_soup: 'With ginger, croutons, toasted pumpkin seeds and cream.', season_dumplings: 'Handmade, with porcini sauce and smoked goat’s ricotta from Łomnica.', season_pierogi: 'Pumpkin dough filled with roast pumpkin and lentils, served with porcini mushrooms braised with onion.', season_chicken: 'With a rocket, pepper and roast pumpkin salad and house dressing.',
-    photo_window_seats: 'Armchairs by the window and wooden interior details', photo_stained_glass: 'Coloured glass in a window at Wyszynk', photo_lamps: 'Lamps beneath the wooden ceiling', photo_wood: 'Wood panelling and armchairs inside Wyszynk', photo_door: 'Wooden door, wall lamp and coloured glass',
     feature_pork: 'Crisp crackling, horseradish, mustard, braised sauerkraut and dark bread.', feature_ribs: 'Marinated in Pilsner Urquell. With roast potatoes, horseradish sauce and house pickles.',
     reels_title: 'A look inside Wyszynk', reels_intro: 'From the kitchen and the table. Short videos from our Instagram.', reels_invite: 'See what’s happening here',
     reels_consent: 'These reels come from Instagram. Enabling them allows Meta to receive your IP address and browser information. You can withdraw consent here at any time.', reels_accept: 'Allow and show reels', reels_profile: 'Visit our Instagram', reels_revoke: 'Disable Instagram content', reels_list: 'Instagram reels', reels_video: 'Instagram reel', reels_play: 'Play reel', reels_original: 'Open on Instagram',
@@ -3230,10 +3220,9 @@ var DODATKI_I18N = {
   },
   de: {
     photo_interior: 'Im Karkonoski Wyszynk', photo_house: 'Villa Bożena, Restaurant im Erdgeschoss', photo_enlarge: 'Foto vergrößern', photo_close: 'Vorschau schließen', photo_previous: 'Zurück', photo_next: 'Weiter',
-    space_caption: 'Im Wyszynk', space_detail: 'Jedności Narodowej 18, Szklarska Poręba',
+    photo_preview: 'Fotovorschau',
     season_label: 'Herbst auf der Speisekarte', season_title: 'Saisonale Gerichte', season_intro: 'Ofenkürbis, Steinpilze und vier Herbstgerichte.', season_full_menu: 'Zur vollständigen Speisekarte',
     season_soup: 'Mit Ingwer, Croûtons, gerösteten Kürbiskernen und Sahne.', season_dumplings: 'Handgemacht, mit Steinpilzsauce und geräucherter Ziegenricotta aus Łomnica.', season_pierogi: 'Kürbisteig mit Ofenkürbis und Linsen, dazu mit Zwiebeln geschmorte Steinpilze.', season_chicken: 'Mit einem Salat aus Rucola, Paprika und Ofenkürbis sowie hausgemachtem Dressing.',
-    photo_window_seats: 'Sessel am Fenster und hölzerne Inneneinrichtung', photo_stained_glass: 'Farbiges Glas in einem Fenster im Wyszynk', photo_lamps: 'Lampen unter der Holzdecke', photo_wood: 'Holzvertäfelung und Sessel im Wyszynk', photo_door: 'Holztür, Wandleuchte und farbiges Glas',
     feature_pork: 'Knusprige Kruste, Meerrettich, Senf, geschmortes Sauerkraut und dunkles Brot.', feature_ribs: 'In Pilsner Urquell mariniert. Mit Ofenkartoffeln, Meerrettichsauce und hausgemachtem Pickles-Gemüse.',
     reels_title: 'Ein Blick ins Wyszynk', reels_intro: 'Aus der Küche und vom Tisch. Kurze Videos von unserem Instagram.', reels_invite: 'Sehen Sie, was bei uns los ist',
     reels_consent: 'Diese Reels stammen von Instagram. Beim Aktivieren erhält Meta Ihre IP-Adresse und Browserdaten. Sie können Ihre Einwilligung hier jederzeit widerrufen.', reels_accept: 'Erlauben und Reels anzeigen', reels_profile: 'Zu unserem Instagram', reels_revoke: 'Instagram-Inhalte deaktivieren', reels_list: 'Instagram-Reels', reels_video: 'Instagram-Reel', reels_play: 'Reel abspielen', reels_original: 'Auf Instagram öffnen',
@@ -3242,10 +3231,9 @@ var DODATKI_I18N = {
   },
   cs: {
     photo_interior: 'Interiér Karkonoski Wyszynk', photo_house: 'Villa Bożena, restaurace v přízemí', photo_enlarge: 'Zvětšit fotografii', photo_close: 'Zavřít náhled', photo_previous: 'Předchozí', photo_next: 'Další',
-    space_caption: 'Interiér Wyszynku', space_detail: 'Jedności Narodowej 18, Szklarska Poręba',
+    photo_preview: 'Náhled fotografie',
     season_label: 'Podzim v jídelním lístku', season_title: 'Sezónní jídla', season_intro: 'Pečená dýně, hříbky a čtyři podzimní jídla.', season_full_menu: 'Přejít na celý jídelní lístek',
     season_soup: 'Se zázvorem, krutony, praženými dýňovými semínky a smetanou.', season_dumplings: 'Ručně připravované, s hříbkovou omáčkou a uzenou kozí ricottou z Łomnice.', season_pierogi: 'Dýňové těsto plněné pečenou dýní a čočkou, podávané s hříbky dušenými s cibulí.', season_chicken: 'Se salátem z rukoly, papriky a pečené dýně a domácím dresinkem.',
-    photo_window_seats: 'Křesla u okna a dřevěné detaily interiéru', photo_stained_glass: 'Barevné sklo v okně Wyszynku', photo_lamps: 'Svítidla pod dřevěným stropem', photo_wood: 'Dřevěné obložení a křesla ve Wyszynku', photo_door: 'Dřevěné dveře, nástěnné svítidlo a barevné sklo',
     feature_pork: 'Křupavá kůrka, křen, hořčice, dušené kysané zelí a tmavý chléb.', feature_ribs: 'Marinovaná v pivu Pilsner Urquell. S pečenými bramborami, křenovou omáčkou a domácí nakládanou zeleninou.',
     reels_title: 'Nahlédněte do Wyszynku', reels_intro: 'Z kuchyně i od stolu. Krátká videa z našeho Instagramu.', reels_invite: 'Podívejte se, co je u nás nového',
     reels_consent: 'Tato videa pocházejí z Instagramu. Jejich povolením umožníte společnosti Meta získat vaši IP adresu a údaje prohlížeče. Souhlas zde můžete kdykoli odvolat.', reels_accept: 'Povolit a zobrazit videa', reels_profile: 'Přejít na Instagram', reels_revoke: 'Vypnout obsah z Instagramu', reels_list: 'Videa z Instagramu', reels_video: 'Video z Instagramu', reels_play: 'Přehrát video', reels_original: 'Otevřít na Instagramu',
@@ -3422,14 +3410,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function otworzLightbox(element) {
     var zdjecie = element.querySelector('img');
-    var opis = zdjecie ? zdjecie.alt : element.getAttribute('data-alt');
+    var pokazPodpis = zdjecie && zdjecie.getAttribute('data-i18n-alt') !== 'photo_interior';
+    lightboxOpis.textContent = pokazPodpis ? zdjecie.alt : '';
+    lightboxOpis.hidden = !pokazPodpis;
     indeksZdjecia = Array.prototype.indexOf.call(elementyGalerii, element);
     if (!lightbox.open) fokusPrzedLightboxem = element;
-    lightboxOpis.textContent = opis;
     document.getElementById('lightbox-licznik').textContent = (indeksZdjecia + 1) + ' / ' + elementyGalerii.length;
     if (zdjecie) {
       lightboxImg.src = element.getAttribute('data-full') || zdjecie.src;
-      lightboxImg.alt = opis;
+      lightboxImg.alt = zdjecie.alt;
       lightboxImg.hidden = false;
     } else {
       lightboxImg.removeAttribute('src');

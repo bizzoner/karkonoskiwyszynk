@@ -162,19 +162,25 @@ Oryginały pozostają bez zmian w folderze źródłowym.
 | `_VM43417.jpg` | Kluski dyniowe / `jesien-kluski-dyniowe-*` |
 | `_VM43464.jpg` | Pierogi z dynią i soczewicą / `jesien-pierogi-dyniowe-*` |
 | `_VM43477.jpg` | Kurczak / `jesien-kurczak-*` |
-| `_VM43379.jpg` | Wnętrze między sekcjami / `wnetrze-przy-oknie-*` |
+| `_VM43379.jpg` | Niewyświetlany obecnie kadr / `wnetrze-przy-oknie-*` |
 | `_VM43392.jpg` | Detal okna / `wnetrze-witraz-*` |
 | `_VM43397.jpg` | Oświetlenie / `wnetrze-lampy-*` |
-| `_VM43385.jpg` | Wnętrze w galerii / `wnetrze-drewno-*` |
+| `_VM43385.jpg` | Wnętrze między sekcjami i w galerii / `wnetrze-drewno-*` |
 | `_VM43371.jpg` | Drewniane drzwi w galerii / `wnetrze-drzwi-*` |
 
 Na początku menu jest blok `#dania-sezonowe` z czterema daniami, opisami i cenami:
 krem 27 zł, kluski 52 zł, pierogi 45 zł, kurczak 62 zł. Nazwy wykorzystują
-istniejące tłumaczenia karty; nowe krótkie opisy i podpisy zdjęć mają PL/EN/DE/CS.
+istniejące tłumaczenia karty; nowe krótkie opisy dań mają PL/EN/DE/CS.
 `data-menu-price` synchronizuje ceny z właściwymi wierszami pełnej karty.
 Przy zmianie cen aktualizuj też tekst HTML kafelków dla widoku bez JavaScript.
 Golonka i żeberka pozostają wyróżnione dużymi zdjęciami pod pełną kartą.
 Na telefonie nie ma napisu „Powiększ zdjęcie”; zdjęcia otwiera się dotknięciem.
+
+Między sekcjami dominuje szeroki widok sali i stołów (`wnetrze-desktop.webp`),
+obok znajduje się drugi kadr wnętrza. Zbliżenia okna i lamp pozostają w galerii.
+Zdjęcia wnętrza nie mają widocznych podpisów, również w powiększeniu.
+Podpisy zdjęć jedzenia i opisy dań pozostają widoczne.
+Teksty alternatywne wnętrz są neutralne, a zdjęcia dań korzystają z nazw z karty.
 
 Nadal przydatne byłyby zdjęcia podawania dań, nalewania piwa i większy oryginał
 zdjęcia żeberek (obecnie 600 × 600 px).
