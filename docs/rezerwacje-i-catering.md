@@ -45,8 +45,10 @@ i udający człowieka mógłby zatwierdzić decyzję - wtedy widać to w panelu
 - Numeracja roczna `46/2026`, `47/2026`... (start 46 w 2026, od 2027 od 1) -
   `PIERWSZY_NUMER` w `netlify/functions/api-catering.mjs`. Licznik używa zapisu
   warunkowego Blobs (etag), więc dwa równoczesne zamówienia nie dostaną tego samego numeru.
-- Po 20 grudnia strona i serwer przestają przyjmować zamówienia, popup na
-  stronie głównej znika (data w `index.html`, szukaj `popup-catering`).
+- Po 20 grudnia strona i serwer przestają przyjmować zamówienia. Na stronie głównej
+  znikają: popup (`popup-catering`), pasek ogłoszenia nad nawigacją (`.ogloszenie`)
+  i pozycja „Catering” w menu - oba ostatnie przez atrybut `data-do="2026-12-20"`
+  (skrypt „Elementy sezonowe” w `index.html`; ten sam atrybut działa na każdym elemencie).
 - Panel → Catering - obsługa zamówień (`netlify/lib/catering.mjs`):
   - **etap**: Przyjęte → Gotowe do odbioru → Wydane, albo **Anulowane** (powód
     obowiązkowy, opcjonalnie mail do klienta z powodem; anulowane można przywrócić),

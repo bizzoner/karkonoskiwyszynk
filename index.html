@@ -134,7 +134,7 @@ h1, h2, h3, h4 {
 }
 .skip-link {
   position: absolute;
-  top: -3rem;
+  top: -6rem; /* -3rem nie chowało go w całości - dół wystawał nad paskiem ogłoszenia */
   left: 1rem;
   background: var(--forest);
   color: var(--ivory);
@@ -1296,6 +1296,49 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
 }
 .popup-catering__tekst { font-size: 1.02rem; line-height: 1.5; margin: 0 0 1.1rem; }
 .popup-catering__cta { display: block; text-align: center; padding: 0.8rem 1rem; }
+
+/* ---------- Pasek ogłoszenia (sezonowy) ----------
+   Spokojny pasek nad nawigacją: brąz, złota linia włosowa, romb jako jedyny
+   ozdobnik. Bez animacji i cieni (zasady w CLAUDE.md). */
+.ogloszenie {
+  background: var(--brown);
+  border-bottom: 1px solid rgba(232, 196, 90, 0.35);
+  color: var(--ivory-alt);
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+}
+.ogloszenie__wnetrze {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 1.2rem;
+  flex-wrap: wrap;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  text-align: center;
+}
+.ogloszenie__tekst strong { color: var(--gold-lighter); font-weight: 600; letter-spacing: 0.04em; }
+.ogloszenie__romb { color: var(--gold-lighter); font-size: 0.6rem; vertical-align: 0.15em; margin: 0 0.3rem; }
+.ogloszenie__link {
+  color: var(--gold-lighter);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  border-bottom: 1px solid rgba(232, 196, 90, 0.5);
+  padding: 0.15rem 0;
+}
+.ogloszenie__link:hover,
+.ogloszenie__link:focus-visible { border-bottom-color: var(--gold-lighter); }
+@media (max-width: 560px) {
+  /* Na telefonie jedna linia: tytuł + „Zamów” (opis z terminem jest na stronie cateringu) */
+  .ogloszenie { font-size: 0.9rem; }
+  .ogloszenie__dlugie { display: none; }
+  .ogloszenie__wnetrze { flex-wrap: nowrap; gap: 0.9rem; }
+}
+/* Pozycja sezonowa w menu - złota, żeby odróżniała się od kotwic strony */
+.nawigacja__sezonowe a { color: var(--gold-lighter); }
+[data-do][hidden] { display: none !important; }
 </style>
 
 <!-- Dane strukturalne Schema.org dla restauracji -->
@@ -1385,6 +1428,15 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
 
 <a class="skip-link" href="#tresc" data-i18n="ui_skip">Przejdź do treści</a>
 
+<!-- Pasek ogłoszenia: catering świąteczny. Znika sam po dniu z data-do
+     (koniec przyjmowania zamówień) - patrz skrypt „Elementy sezonowe”. -->
+<div class="ogloszenie" data-do="2026-12-20">
+  <div class="container ogloszenie__wnetrze">
+    <span class="ogloszenie__tekst"><strong data-i18n="og_catering_tytul">Catering świąteczny</strong> <span class="ogloszenie__romb ogloszenie__dlugie" aria-hidden="true">◆</span> <span class="ogloszenie__dlugie" data-i18n="og_catering_opis">zamówienia do 20 grudnia, odbiór w Wigilię</span></span>
+    <a class="ogloszenie__link" href="/catering/" data-i18n="og_catering_cta">Zamów →</a>
+  </div>
+</div>
+
 <!-- ============ NAWIGACJA ============ -->
 <header class="naglowek">
   <div class="container nawigacja">
@@ -1399,6 +1451,7 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
         <li><a href="#pilsner" data-i18n="ui_nav_pilsner">Pilsner</a></li>
         <li><a href="#galeria" data-i18n="ui_nav_galeria">Galeria</a></li>
         <li><a href="#kontakt" data-i18n="ui_nav_kontakt">Kontakt</a></li>
+        <li class="nawigacja__sezonowe" data-do="2026-12-20"><a href="/catering/" data-i18n="ui_nav_catering">Catering</a></li>
       </ul>
       <div class="jezyk-przelacznik" role="group" aria-label="Wybór języka"></div>
       <a class="naglowek__cta" href="/rezerwacja/" data-i18n="ui_nav_rezerwuj">Rezerwuj</a>
@@ -2305,6 +2358,10 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
 // =========================================================
 var I18N_DANE = {
   "pl": {
+    "ui_nav_catering": "Catering",
+    "og_catering_tytul": "Catering świąteczny",
+    "og_catering_opis": "zamówienia do 20 grudnia, odbiór w Wigilię",
+    "og_catering_cta": "Zamów →",
     "foot_regulamin": "Regulamin",
     "kon_rez_online": "Zarezerwuj stolik online",
     "d1_n": "Wyszynkowy rosół z gęsi i kury",
@@ -2542,6 +2599,10 @@ var I18N_DANE = {
     "history_alt": "Dawna ulica przy Hotelu Schenkenstein, z przechodniami i górami w tle"
   },
   "en": {
+    "ui_nav_catering": "Catering",
+    "og_catering_tytul": "Christmas catering",
+    "og_catering_opis": "order by 20 December, pick up on Christmas Eve",
+    "og_catering_cta": "Order →",
     "foot_regulamin": "Terms",
     "kon_rez_online": "Book a table online",
     "d1_n": "House chicken and goose broth",
@@ -2779,6 +2840,10 @@ var I18N_DANE = {
     "history_alt": "An old street beside Hotel Schenkenstein, with pedestrians and mountains in the background"
   },
   "de": {
+    "ui_nav_catering": "Catering",
+    "og_catering_tytul": "Weihnachts-Catering",
+    "og_catering_opis": "Bestellung bis 20. Dezember, Abholung an Heiligabend",
+    "og_catering_cta": "Bestellen →",
     "foot_regulamin": "AGB",
     "kon_rez_online": "Tisch online reservieren",
     "d1_n": "Wyszynk-Brühe von Gans und Huhn",
@@ -3016,6 +3081,10 @@ var I18N_DANE = {
     "history_alt": "Historische Straße am Hotel Schenkenstein mit Passanten und Bergen im Hintergrund"
   },
   "cs": {
+    "ui_nav_catering": "Catering",
+    "og_catering_tytul": "Vánoční catering",
+    "og_catering_opis": "objednávky do 20. prosince, vyzvednutí na Štědrý den",
+    "og_catering_cta": "Objednat →",
     "foot_regulamin": "Obchodní podmínky",
     "kon_rez_online": "Rezervovat stůl online",
     "d1_n": "Wyszynkový vývar z husy a kuřete",
@@ -3752,6 +3821,17 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('popup-catering-zamknij').addEventListener('click', zamknij);
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !popup.hidden) zamknij();
+  });
+})();
+
+// ---------- Elementy sezonowe ----------
+// Wszystko z atrybutem data-do="RRRR-MM-DD" znika po tym dniu (czas polski).
+(function () {
+  var dzis;
+  try { dzis = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
+  catch (e) { return; }
+  document.querySelectorAll('[data-do]').forEach(function (el) {
+    if (dzis > el.getAttribute('data-do')) el.hidden = true;
   });
 })();
 </script>
