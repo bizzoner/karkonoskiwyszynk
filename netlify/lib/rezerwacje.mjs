@@ -10,14 +10,19 @@ export async function pobierzRezerwacje(id) {
   return (await magazyn()).get(kluczRezerwacji(id));
 }
 
-// Link w mailu do restauracji. Otwiera stronę z przyciskiem - samo wejście
-// w link niczego nie zmienia (skanery linków w Outlooku/Gmailu klikają w nie).
+// Linki w mailu do restauracji (podpisane HMAC):
+//  potwierdz     - decyzja od razu po kliknięciu (strona sama ją zatwierdza),
+//  odrzuc-brak   - odrzucenie z powodem „brak miejsc”, też od razu,
+//  odrzuc        - formularz z wyborem powodu.
+// Samo pobranie strony (GET) niczego nie zmienia - decyzję zatwierdza skrypt
+// w otwartej karcie (POST), więc skanery linków w poczcie nie podejmą jej same.
+export const AKCJE_LINKU = ['potwierdz', 'odrzuc-brak', 'odrzuc'];
 export function linkiDecyzji(id) {
   const { adresStrony } = ustawienia();
   const link = (akcja) => `${adresStrony}/rezerwacja/decyzja?id=${id}&a=${akcja}&s=${podpisz(`decyzja.${id}.${akcja}`)}`;
-  return { potwierdz: link('potwierdz'), odrzuc: link('odrzuc'), panel: `${adresStrony}/panel/` };
+  return { potwierdz: link('potwierdz'), odrzucBrak: link('odrzuc-brak'), odrzuc: link('odrzuc'), panel: `${adresStrony}/panel/` };
 }
-export const poprawnyLinkDecyzji = (id, akcja, s) => ID.test(String(id)) && ['potwierdz', 'odrzuc'].includes(akcja) && zgodnyPodpis(`decyzja.${id}.${akcja}`, s);
+export const poprawnyLinkDecyzji = (id, akcja, s) => ID.test(String(id)) && AKCJE_LINKU.includes(akcja) && zgodnyPodpis(`decyzja.${id}.${akcja}`, s);
 
 // Jedyne miejsce zmiany statusu. Idempotentne: druga decyzja nic nie robi.
 export async function zdecyduj(id, akcja, { powod, powodTekst, oznaczPelne, zrodlo } = {}) {

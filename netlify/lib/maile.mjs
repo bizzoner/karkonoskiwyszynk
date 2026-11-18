@@ -124,10 +124,11 @@ export function mailNowaRezerwacja(r, linki) {
       tytul: 'Nowa prośba o rezerwację',
       stopkaDlaGoscia: false,
       tresc: tabelaDanych(wierszeRezerwacji(r, true)) +
-        `<div style="margin:26px 0 8px;">${przycisk(linki.potwierdz, 'Potwierdź')}${przycisk(linki.odrzuc, 'Odrzuć', 'jasny')}</div>` +
-        akapit(`Gość dostanie maila automatycznie po Twojej decyzji. Odpowiedź na tę wiadomość trafi bezpośrednio do gościa. Wszystkie rezerwacje: <a href="${esc(linki.panel)}" style="color:${K.forest};">panel</a>.`, `font-size:14px;color:${K.brown};margin-top:14px;`)
+        `<div style="margin:26px 0 8px;">${przycisk(linki.potwierdz, 'Potwierdź')}${przycisk(linki.odrzucBrak, 'Odrzuć - brak miejsc', 'jasny')}</div>` +
+        akapit(`<a href="${esc(linki.odrzuc)}" style="color:${K.forest};font-weight:bold;">Odrzuć z innym powodem →</a>`, 'font-size:15px;margin:6px 0 0;') +
+        akapit(`Kliknięcie „Potwierdź” lub „Odrzuć - brak miejsc” od razu wysyła gościowi maila z decyzją. Odpowiedź na tę wiadomość trafi bezpośrednio do gościa. Wszystkie rezerwacje: <a href="${esc(linki.panel)}" style="color:${K.forest};">panel</a>.`, `font-size:14px;color:${K.brown};margin-top:14px;`)
     }),
-    text: tekstowa([`Nowa prośba o rezerwację`, '', `Termin: ${kiedy(r)}`, `Osoby: ${r.osoby}`, `Gość: ${r.imie} ${r.nazwisko}`, `Telefon: ${r.telefon}`, `E-mail: ${r.email}`, r.uwagi ? `Uwagi: ${r.uwagi}` : null, '', `Potwierdź: ${linki.potwierdz}`, `Odrzuć: ${linki.odrzuc}`])
+    text: tekstowa([`Nowa prośba o rezerwację`, '', `Termin: ${kiedy(r)}`, `Osoby: ${r.osoby}`, `Gość: ${r.imie} ${r.nazwisko}`, `Telefon: ${r.telefon}`, `E-mail: ${r.email}`, r.uwagi ? `Uwagi: ${r.uwagi}` : null, '', `Potwierdź: ${linki.potwierdz}`, `Odrzuć (brak miejsc): ${linki.odrzucBrak}`, `Odrzuć z innym powodem: ${linki.odrzuc}`])
   };
 }
 

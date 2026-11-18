@@ -1,6 +1,9 @@
 // /rezerwacja/decyzja - strona otwierana z przycisków w mailu do restauracji.
-// GET tylko POKAZUJE rezerwację i przycisk (skanery linków w poczcie same
-// otwierają linki), zmiana statusu dzieje się dopiero po POST.
+// GET niczego nie zmienia (skanery linków w poczcie same otwierają linki).
+// Dla „Potwierdź” i „Odrzuć - brak miejsc” strona od razu wysyła POST
+// skryptem w widocznej karcie przeglądarki - dla człowieka decyzja zapada
+// jednym kliknięciem w mailu. Automat bez JS (lub z navigator.webdriver)
+// zobaczy tylko przycisk. „Odrzuć” (inny powód) zawsze pokazuje formularz.
 import { BEZ_CACHE, dataSlownie } from '../lib/wyszynk.mjs';
 import { pobierzRezerwacje, poprawnyLinkDecyzji, zdecyduj } from '../lib/rezerwacje.mjs';
 import { esc, osoby } from '../lib/maile.mjs';
@@ -58,7 +61,13 @@ export default async function handler(request) {
   if (!r) return strona('Brak rezerwacji', '<h1>Nie znaleziono rezerwacji</h1><p>Mogła zostać już usunięta.</p>');
 
   if (request.method === 'POST') {
-    const wynik = await zdecyduj(id, a, { powod: form.get('powod'), powodTekst: form.get('powodTekst'), oznaczPelne: form.get('pelne') === '1', zrodlo: 'mail' });
+    const szybkie = a === 'odrzuc-brak';
+    const wynik = await zdecyduj(id, szybkie ? 'odrzuc' : a, {
+      powod: szybkie ? 'brak-miejsc' : form.get('powod'),
+      powodTekst: form.get('powodTekst'),
+      oznaczPelne: form.get('pelne') === '1',
+      zrodlo: 'mail'
+    });
     const rr = wynik.rezerwacja;
     const naglowek = wynik.juz ? 'Decyzja była już podjęta' : (rr.status === 'potwierdzona' ? 'Rezerwacja potwierdzona' : 'Rezerwacja odrzucona');
     return strona(naglowek, `<span class="eyebrow">Rezerwacja online</span><h1>${naglowek}</h1><div class="status">${opisStatusu(rr)}</div><div class="karta">${szczegoly(rr)}</div>`);
@@ -67,9 +76,35 @@ export default async function handler(request) {
   if (r.status !== 'oczekuje') return strona('Decyzja podjęta', `<span class="eyebrow">Rezerwacja online</span><h1>Decyzja była już podjęta</h1><div class="status">${opisStatusu(r)}</div><div class="karta">${szczegoly(r)}</div>`);
 
   const ukryte = `<input type="hidden" name="id" value="${esc(id)}"><input type="hidden" name="a" value="${esc(a)}"><input type="hidden" name="s" value="${esc(s)}">`;
-  const formularz = a === 'potwierdz'
-    ? `<form method="post">${ukryte}<button type="submit">Potwierdź i wyślij maila do gościa</button></form>`
-    : `<form method="post">${ukryte}
+
+  // Decyzja jednym kliknięciem w mailu: auto-zatwierdzenie w widocznej karcie.
+  if (a === 'potwierdz' || a === 'odrzuc-brak') {
+    const potw = a === 'potwierdz';
+    const tytul = potw ? 'Potwierdzam rezerwację…' : 'Odrzucam rezerwację (brak miejsc)…';
+    return strona(tytul, `<span class="eyebrow">Rezerwacja online</span><h1 id="naglowek">${tytul}</h1>
+<div class="karta">${szczegoly(r)}
+<form method="post" id="auto">${ukryte}
+<button type="submit" id="przycisk" class="${potw ? '' : 'odrzuc'}">${potw ? 'Potwierdź i wyślij maila do gościa' : 'Odrzuć i wyślij maila do gościa'}</button></form></div>
+<script>
+(function () {
+  var f = document.getElementById('auto'), wyslane = false;
+  function wyslij() {
+    // Tylko karta widoczna i aktywna (na wierzchu u człowieka); automaty bez
+    // fokusu albo z navigator.webdriver zobaczą sam przycisk.
+    if (wyslane || navigator.webdriver || document.prerendering || document.visibilityState !== 'visible' || !document.hasFocus()) return;
+    wyslane = true;
+    document.getElementById('przycisk').disabled = true;
+    document.getElementById('przycisk').textContent = 'Zapisywanie…';
+    f.submit();
+  }
+  wyslij();
+  document.addEventListener('visibilitychange', wyslij);
+  window.addEventListener('focus', wyslij);
+})();
+</script>`);
+  }
+
+  const formularz = `<form method="post">${ukryte}
 <fieldset><legend>Powód (trafi do gościa)</legend>
 <label><input type="radio" name="powod" value="brak-miejsc" checked> Brak wolnych stolików w tym terminie</label>
 <label><input type="radio" name="powod" value="zamkniete"> Lokal nieczynny / wydarzenie zamknięte</label>
@@ -79,8 +114,8 @@ export default async function handler(request) {
 <label style="margin-top:1rem"><input type="checkbox" name="pelne" value="1"> Oznacz ${esc(dataSlownie(r.data))} jako <strong>brak miejsc</strong> - zniknie z formularza rezerwacji</label>
 <button type="submit" class="odrzuc">Odrzuć i wyślij maila do gościa</button></form>`;
 
-  return strona(a === 'potwierdz' ? 'Potwierdzić rezerwację?' : 'Odrzucić rezerwację?',
-    `<span class="eyebrow">Rezerwacja online</span><h1>${a === 'potwierdz' ? 'Potwierdzić rezerwację?' : 'Odrzucić rezerwację?'}</h1><div class="karta">${szczegoly(r)}${formularz}</div>`);
+  return strona('Odrzucić rezerwację?',
+    `<span class="eyebrow">Rezerwacja online</span><h1>Odrzucić rezerwację?</h1><div class="karta">${szczegoly(r)}${formularz}</div>`);
 }
 
 export const config = { path: '/rezerwacja/decyzja' };

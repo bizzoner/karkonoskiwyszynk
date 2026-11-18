@@ -17,9 +17,14 @@ Netlify Functions + Netlify Blobs (magazyn `wyszynk`). Maile przez Resend.
    potwierdzona” albo „Przykro nam” z powodem. Przy odrzuceniu można od razu
    oznaczyć dzień jako „brak miejsc”.
 
-Linki w mailu są podpisane (HMAC, `PANEL_SEKRET`). Wejście w link **nie zmienia**
-statusu - otwiera stronę z przyciskiem (skanery linków w Outlooku/Gmailu same
-otwierają linki). Decyzja jest jednorazowa: druga (np. z panelu po mailu) nic nie zmienia.
+W mailu do restauracji są trzy przyciski (linki podpisane HMAC, `PANEL_SEKRET`):
+**Potwierdź** i **Odrzuć - brak miejsc** decydują od razu po kliknięciu, a
+**Odrzuć z innym powodem** otwiera formularz. Samo pobranie strony (GET) niczego
+nie zmienia - decyzję wysyła skrypt (POST) tylko w widocznej, aktywnej karcie
+przeglądarki bez `navigator.webdriver`. Chroni to przed skanerami linków w poczcie,
+które pobierają strony bez JS. Ryzyko szczątkowe: skaner uruchamiający JS
+i udający człowieka mógłby zatwierdzić decyzję - wtedy widać to w panelu
+(źródło decyzji „z maila” i godzina). Decyzja jest jednorazowa: druga nic nie zmienia.
 
 ## Grafik (panel → Grafik)
 
