@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel - Karkonoski Wyszynk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+  :root {
+    --forest: #1F4A2E; --forest-light: #2D6B42; --gold: #9B7A1A; --gold-dark: #7A5F12;
+    --gold-light: #C49A22; --gold-lighter: #E8C45A; --brown: #2E1F0E; --ivory: #F5EDD8;
+    --ivory-alt: #EDE0C4; --ivory-dark: #DFD0A8; --papier: #FBF6EA; --text: #1C1409; --error: #9B2C1A;
+    --f-display: "Playfair Display", Georgia, serif; --f-body: "Cormorant Garamond", Georgia, serif; --radius: 2px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ivory); color: var(--text); font-family: var(--f-body); font-size: 1.1rem; line-height: 1.5; }
+  h1, h2, h3 { font-family: var(--f-display); color: var(--forest); line-height: 1.2; margin: 0 0 0.6rem; }
+  button, input, select, textarea { font-family: inherit; font-size: 1rem; }
+  a { color: var(--forest); font-weight: 600; }
+  [hidden] { display: none !important; }
+
+  .pasek { background: var(--forest); border-bottom: 1px solid rgba(232,196,90,.25); }
+  .pasek__wnetrze { max-width: 1000px; margin: 0 auto; padding: 0.7rem 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .pasek img { height: 32px; filter: brightness(0) invert(1); display: block; }
+  .pasek__tytul { color: var(--gold-lighter); text-transform: uppercase; letter-spacing: .16em; font-size: .78rem; font-weight: 600; }
+  .zakladki { display: flex; gap: 0.3rem; margin-left: auto; flex-wrap: wrap; }
+  .zakladki button, .wyloguj {
+    background: none; border: 1px solid rgba(232,196,90,.45); color: var(--ivory-alt); border-radius: var(--radius);
+    padding: 0.45rem 0.8rem; text-transform: uppercase; letter-spacing: .1em; font-size: .78rem; font-weight: 700; cursor: pointer; min-height: 40px;
+  }
+  .zakladki button[aria-selected="true"] { background: var(--gold-lighter); border-color: var(--gold-lighter); color: var(--brown); }
+  .licznik-zakladki { display: inline-block; min-width: 1.4em; padding: 0 .3em; margin-left: .3em; background: var(--error); color: #fff; border-radius: var(--radius); font-size: .75rem; }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 1.6rem 1rem 4rem; }
+  .karta { background: var(--papier); border: 1px solid var(--gold); border-radius: var(--radius); padding: 1rem 1.1rem; }
+  .btn { border: 1px solid var(--gold-light); background: var(--gold-light); color: var(--brown); border-radius: var(--radius); padding: 0.6rem 1rem; min-height: 44px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: .1em; font-size: .82rem; cursor: pointer; }
+  .btn:hover { background: var(--gold-lighter); }
+  .btn--ciemny { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
+  .btn--ciemny:hover { background: var(--forest-light); }
+  .btn--jasny { background: #fff; border-color: var(--forest); color: var(--forest); }
+  .btn--jasny:hover { background: var(--ivory-alt); }
+  .btn:disabled { opacity: .6; cursor: wait; }
+  .btn:focus-visible, .zakladki button:focus-visible { outline: 2px solid var(--gold-lighter); outline-offset: 2px; }
+  .komunikat { border: 1px solid var(--gold); border-left: 3px solid var(--forest); background: var(--papier); padding: .7rem 1rem; margin: 0 0 1rem; }
+  .komunikat--blad { border-left-color: var(--error); }
+  .eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: .75rem; font-weight: 700; color: var(--gold-dark); }
+  .pusto { font-style: italic; color: var(--brown); }
+
+  /* Logowanie */
+  .logowanie { max-width: 380px; margin: 4rem auto; }
+  .logowanie input { width: 100%; padding: .7rem; border: 1px solid var(--ivory-dark); border-bottom: 2px solid var(--gold); border-radius: var(--radius); background: #fff; margin: .3rem 0 1rem; min-height: 48px; }
+  .logowanie .btn { width: 100%; }
+
+  /* Rezerwacje */
+  .filtry { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .filtry button { border: 1px solid var(--gold); background: #fff; color: var(--forest); border-radius: var(--radius); padding: .45rem .9rem; font-weight: 700; cursor: pointer; min-height: 40px; }
+  .filtry button[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
+  .dzien { margin-bottom: 1.6rem; }
+  .dzien__naglowek { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    border-bottom: 1px solid var(--gold); padding-bottom: .35rem; margin-bottom: .6rem; }
+  .dzien__naglowek h2 { font-size: 1.25rem; margin: 0; }
+  .dzien__info { font-size: .95rem; color: var(--brown); }
+  .dzien__pelny { font-size: .85rem; }
+  .rez { display: grid; grid-template-columns: 80px 1fr auto; gap: .3rem 1rem; padding: .8rem .9rem; margin-bottom: .5rem; background: var(--papier); border: 1px solid var(--ivory-dark); border-left: 3px solid var(--ivory-dark); border-radius: var(--radius); }
+  .rez--oczekuje { border-left-color: var(--gold-light); }
+  .rez--potwierdzona { border-left-color: var(--forest); }
+  .rez--odrzucona { border-left-color: var(--error); opacity: .75; }
+  .rez__godz { font-family: var(--f-display); font-weight: 700; font-size: 1.35rem; color: var(--forest); }
+  .rez__osoby { font-size: .9rem; color: var(--brown); }
+  .rez__kto { font-weight: 700; color: var(--forest); }
+  .rez__kontakt { font-size: .98rem; }
+  .rez__uwagi { font-style: italic; font-size: .98rem; margin-top: .2rem; }
+  .rez__meta { font-size: .82rem; color: var(--brown); opacity: .85; margin-top: .2rem; }
+  .rez__akcje { display: flex; flex-direction: column; gap: .4rem; align-items: stretch; }
+  .status { display: inline-block; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: .15rem .45rem; border-radius: var(--radius); }
+  .status--oczekuje { background: var(--gold-lighter); color: var(--brown); }
+  .status--potwierdzona { background: var(--forest); color: var(--ivory); }
+  .status--odrzucona { background: var(--error); color: #fff; }
+  .odrzucanie { grid-column: 1 / -1; border-top: 1px dashed var(--gold); padding-top: .7rem; margin-top: .3rem; }
+  .odrzucanie label { display: flex; gap: .5rem; align-items: flex-start; margin: .25rem 0; }
+  .odrzucanie textarea { width: 100%; min-height: 60px; border: 1px solid var(--ivory-dark); border-bottom: 2px solid var(--gold); border-radius: var(--radius); padding: .4rem; }
+  .odrzucanie__akcje { display: flex; gap: .5rem; margin-top: .6rem; flex-wrap: wrap; }
+  input[type=checkbox], input[type=radio] { width: 1.15rem; height: 1.15rem; accent-color: var(--forest); margin-top: .2rem; }
+  @media (max-width: 640px) {
+    .rez { grid-template-columns: 64px 1fr; }
+    .rez__akcje { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
+  }
+
+  /* Grafik */
+  .sekcja-grafiku { margin-bottom: 1.6rem; }
+  .tydzien { width: 100%; border-collapse: collapse; }
+  .tydzien th, .tydzien td { text-align: left; padding: .45rem .4rem; border-bottom: 1px solid var(--ivory-dark); }
+  .tydzien th { font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--gold-dark); }
+  .tydzien input[type=time], .wyjatek-form input, .wyjatek-form select, .ustawienia select, .ustawienia input {
+    padding: .4rem; border: 1px solid var(--ivory-dark); border-bottom: 2px solid var(--gold); border-radius: var(--radius); background: #fff; min-height: 42px; }
+  .tydzien tr.zamkniety td:not(:first-child):not(:nth-child(2)) { opacity: .4; }
+  .przelacznik { display: flex; gap: .6rem; align-items: center; font-weight: 700; color: var(--forest); }
+  .wyjatek-form { display: flex; gap: .5rem; flex-wrap: wrap; align-items: flex-end; }
+  .wyjatek-form label { display: flex; flex-direction: column; font-size: .85rem; color: var(--gold-dark); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
+  .wyjatki { list-style: none; padding: 0; margin: 1rem 0 0; }
+  .wyjatki li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .5rem 0; border-bottom: 1px solid var(--ivory-dark); }
+  .ustawienia { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .ustawienia label { display: flex; flex-direction: column; font-size: .9rem; font-weight: 700; color: var(--forest); }
+  .zapis { position: sticky; bottom: 0; background: var(--ivory); border-top: 1px solid var(--gold); padding: .8rem 0; display: flex; gap: 1rem; align-items: center; }
+
+  /* Catering */
+  .catering-gora { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-bottom: .8rem; }
+  .catering-gora .podsumowanie { margin-right: auto; color: var(--brown); }
+  .c-filtry { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; margin-bottom: .6rem; }
+  .c-filtry .etykieta-filtra { font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--gold-dark); margin-right: .2rem; min-width: 5.5rem; }
+  .c-filtry button { border: 1px solid var(--gold); background: #fff; color: var(--forest); border-radius: var(--radius); padding: .4rem .75rem; font-weight: 700; cursor: pointer; min-height: 40px; }
+  .c-filtry button[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
+  .c-filtry button .ile { font-weight: 400; opacity: .85; margin-left: .25rem; }
+  .c-filtry select, .c-filtry input[type=search] { padding: .4rem; border: 1px solid var(--ivory-dark); border-bottom: 2px solid var(--gold); border-radius: var(--radius); background: #fff; min-height: 40px; }
+  .c-filtry input[type=search] { min-width: 15rem; flex: 1; }
+  .zam { margin-bottom: .7rem; border-left: 3px solid var(--gold-light); }
+  .zam--gotowe { border-left-color: var(--forest-light); }
+  .zam--wydane { border-left-color: var(--forest); }
+  .zam--anulowane { border-left-color: var(--error); opacity: .78; }
+  .zam__gora { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem 1rem; flex-wrap: wrap; }
+  .zam__numer { font-family: var(--f-display); font-weight: 700; font-size: 1.35rem; color: var(--forest); }
+  .zam__suma { font-family: var(--f-display); font-weight: 700; color: var(--gold-dark); margin-left: auto; }
+  .zam ul { margin: .4rem 0 .6rem; padding-left: 1.1rem; }
+  .zam__sterowanie { display: flex; gap: .8rem 1.4rem; flex-wrap: wrap; align-items: center; border-top: 1px dashed var(--ivory-dark); padding-top: .6rem; margin-top: .4rem; }
+  .segment { display: inline-flex; border: 1px solid var(--forest); border-radius: var(--radius); overflow: hidden; }
+  .segment button { border: none; border-right: 1px solid var(--forest); background: #fff; color: var(--forest); padding: .45rem .7rem; font-weight: 700; cursor: pointer; min-height: 40px; }
+  .segment button:last-child { border-right: none; }
+  .segment button[aria-pressed="true"] { background: var(--forest); color: var(--ivory); }
+  .segment button:disabled { cursor: default; }
+  .status--przyjete { background: var(--gold-lighter); color: var(--brown); }
+  .status--gotowe { background: var(--forest-light); color: var(--ivory); }
+  .status--wydane { background: var(--forest); color: var(--ivory); }
+  .status--anulowane { background: var(--error); color: #fff; }
+  .status--nieoplacone { background: #fff; color: var(--error); border: 1px solid var(--error); }
+  .status--oplacone { background: #fff; color: var(--forest); border: 1px solid var(--forest); }
+  .zam__historia { font-size: .88rem; color: var(--brown); margin-top: .4rem; }
+  .zam__historia summary { cursor: pointer; font-weight: 600; color: var(--forest); }
+  .zam__historia ol { margin: .3rem 0 0; padding-left: 1.2rem; }
+  /* ---------- WYDRUK ---------- */
+  #wydruk { display: none; }
+  @media print {
+    @page { size: A4; margin: 14mm 14mm 16mm; }
+    body { background: #fff; font-size: 11.5pt; }
+    .pasek, main, .nie-drukuj { display: none !important; }
+    #wydruk { display: block; }
+    .kartka { page-break-after: always; break-after: page; }
+    .kartka:last-child { page-break-after: auto; break-after: auto; }
+  }
+  .kartka { color: #000; font-family: Georgia, serif; }
+  .kartka__gora { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 6pt; margin-bottom: 10pt; }
+  .kartka__marka { font-size: 10pt; letter-spacing: .12em; text-transform: uppercase; }
+  .kartka__numer { font-size: 26pt; font-weight: bold; line-height: 1; }
+  .kartka__numer small { display: block; font-size: 9pt; font-weight: normal; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3pt; text-align: right; }
+  .kartka__dane { display: grid; grid-template-columns: 1fr 1fr; gap: 4pt 16pt; margin-bottom: 10pt; font-size: 11pt; }
+  .kartka__dane b { display: block; font-size: 8pt; letter-spacing: .1em; text-transform: uppercase; font-weight: normal; color: #444; }
+  .kartka table { width: 100%; border-collapse: collapse; font-size: 11pt; }
+  .kartka th { text-align: left; font-size: 8pt; letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid #000; padding: 3pt 4pt; }
+  .kartka td { border-bottom: 1px solid #999; padding: 5pt 4pt; vertical-align: top; }
+  .kartka td.num, .kartka th.num { text-align: right; white-space: nowrap; width: 1%; padding-left: 14pt; }
+  .kartka th:first-child { width: 1%; }
+  .kartka .kratka { width: 14pt; height: 14pt; border: 1px solid #000; display: inline-block; }
+  .kartka__razem td { border-bottom: none; border-top: 2px solid #000; font-weight: bold; font-size: 13pt; }
+  .kartka__uwagi { border: 1px solid #000; padding: 6pt 8pt; margin-top: 10pt; min-height: 30pt; }
+  .kartka__stopka { margin-top: 18pt; display: grid; grid-template-columns: 1fr 1fr; gap: 24pt; font-size: 9pt; }
+  .kartka__stopka div { border-top: 1px solid #000; padding-top: 3pt; }
+  .kartka__nota { font-size: 9pt; color: #333; margin-top: 6pt; }
+</style>
+</head>
+<body>
+
+<header class="pasek">
+  <div class="pasek__wnetrze">
+    <img src="/assets/img/logokrzywe.svg" alt="Karkonoski Wyszynk" width="74" height="32">
+    <span class="pasek__tytul">Panel</span>
+    <nav class="zakladki" role="tablist" id="zakladki" hidden>
+      <button role="tab" data-widok="rezerwacje" aria-selected="true">Rezerwacje<span class="licznik-zakladki" id="licznik-oczekujacych" hidden></span></button>
+      <button role="tab" data-widok="grafik" aria-selected="false">Grafik</button>
+      <button role="tab" data-widok="catering" aria-selected="false">Catering</button>
+    </nav>
+    <button class="wyloguj" id="wyloguj" hidden>Wyloguj</button>
+  </div>
+</header>
+
+<main>
+  <div class="komunikat" id="komunikat" role="status" hidden></div>
+
+  <!-- LOGOWANIE -->
+  <form class="karta logowanie" id="logowanie" hidden>
+    <h1>Panel restauracji</h1>
+    <label for="haslo">Hasło</label>
+    <input type="password" id="haslo" autocomplete="current-password" required>
+    <button class="btn btn--ciemny" type="submit">Zaloguj</button>
+  </form>
+
+  <!-- REZERWACJE -->
+  <section id="widok-rezerwacje" hidden>
+    <div class="filtry" id="filtry">
+      <button data-filtr="oczekuje" aria-pressed="true">Do decyzji</button>
+      <button data-filtr="nadchodzace" aria-pressed="false">Nadchodzące</button>
+      <button data-filtr="wszystkie" aria-pressed="false">Wszystkie</button>
+      <button class="btn btn--jasny" id="odswiez" style="margin-left:auto">Odśwież</button>
+    </div>
+    <div id="lista-rezerwacji"></div>
+  </section>
+
+  <!-- GRAFIK -->
+  <section id="widok-grafik" hidden>
+    <div class="karta sekcja-grafiku">
+      <label class="przelacznik"><input type="checkbox" id="g-wlaczone"> Rezerwacje online włączone</label>
+      <p class="pusto" style="margin:.3rem 0 0">Wyłączone: formularz na stronie pokazuje tylko numer telefonu.</p>
+    </div>
+
+    <div class="karta sekcja-grafiku">
+      <h2>Tydzień (sezon)</h2>
+      <table class="tydzien" id="g-tydzien">
+        <thead><tr><th>Dzień</th><th>Otwarte</th><th>Od</th><th>Do</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="ustawienia" style="margin-top:1rem">
+        <label>Ostatnia rezerwacja przed zamknięciem
+          <select id="g-ostatnia"><option value="0">o zamknięciu</option><option value="30">30 min</option><option value="60">1 godz.</option><option value="90">1,5 godz.</option><option value="120">2 godz.</option></select>
+        </label>
+        <label>Rezerwacje do przodu (dni)
+          <input type="number" id="g-dni" min="7" max="365" step="1" style="width:7rem">
+        </label>
+      </div>
+    </div>
+
+    <div class="karta sekcja-grafiku">
+      <h2>Wyjątki: konkretne dni</h2>
+      <p class="pusto" style="margin-top:0">Święta, urlop, impreza zamknięta, inne godziny albo „brak miejsc” - wyjątek ma pierwszeństwo przed tygodniem.</p>
+      <div class="wyjatek-form">
+        <label>Dzień<input type="date" id="w-data"></label>
+        <label>Rodzaj
+          <select id="w-typ"><option value="zamkniete">Zamknięte</option><option value="pelne">Brak miejsc</option><option value="godziny">Inne godziny</option></select>
+        </label>
+        <label class="w-godziny" hidden>Od<input type="time" id="w-od" value="12:00"></label>
+        <label class="w-godziny" hidden>Do<input type="time" id="w-do" value="20:00"></label>
+        <label>Notatka (dla Was)<input type="text" id="w-notka" maxlength="80" placeholder="np. Wigilia"></label>
+        <button class="btn btn--jasny" type="button" id="w-dodaj">Dodaj</button>
+      </div>
+      <ul class="wyjatki" id="g-wyjatki"></ul>
+    </div>
+
+    <div class="zapis">
+      <button class="btn btn--ciemny" id="g-zapisz">Zapisz grafik</button>
+      <span id="g-status" class="pusto"></span>
+    </div>
+  </section>
+
+  <!-- CATERING -->
+  <section id="widok-catering" hidden>
+    <div class="catering-gora">
+      <span class="podsumowanie" id="c-podsumowanie"></span>
+      <button class="btn btn--jasny" id="c-odswiez">Odśwież</button>
+      <button class="btn btn--jasny" id="c-zestawienie">Drukuj zestawienie dla kuchni</button>
+      <button class="btn btn--ciemny" id="c-drukuj-wszystkie">Drukuj widoczne zamówienia</button>
+    </div>
+    <div class="c-filtry" id="c-filtr-etap" role="group" aria-label="Filtr etapu"><span class="etykieta-filtra">Etap</span></div>
+    <div class="c-filtry" id="c-filtr-platnosc" role="group" aria-label="Filtr płatności"><span class="etykieta-filtra">Płatność</span></div>
+    <div class="c-filtry">
+      <span class="etykieta-filtra">Szukaj</span>
+      <input type="search" id="c-szukaj" placeholder="numer, nazwisko, telefon…" aria-label="Szukaj zamówienia">
+      <label class="etykieta-filtra" for="c-sort" style="min-width:0;margin-left:.6rem">Sortuj</label>
+      <select id="c-sort">
+        <option value="numer">wg numeru</option>
+        <option value="etap">wg etapu</option>
+        <option value="platnosc">wg płatności</option>
+        <option value="nazwisko">wg nazwiska</option>
+        <option value="kwota">wg kwoty (malejąco)</option>
+      </select>
+    </div>
+    <p class="pusto" id="c-nota-filtra" style="margin:.2rem 0 1rem;font-size:.95rem"></p>
+    <div id="lista-catering"></div>
+  </section>
+</main>
+
+<div id="wydruk"></div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var DNI = ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'];
+  var KOLEJNOSC_DNI = [1, 2, 3, 4, 5, 6, 0];
+  var POWODY = { 'brak-miejsc': 'Brak wolnych stolików', 'zamkniete': 'Lokal nieczynny / wydarzenie', 'inny': 'Inny' };
+  var stan = { widok: 'rezerwacje', filtr: 'oczekuje', rezerwacje: [], grafik: null, catering: [] };
+
+  // ---------- Pomocnicze ----------
+  function el(tag, attrs, dzieci) {
+    var e = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === 'text') e.textContent = attrs[k];
+      else if (k === 'class') e.className = attrs[k];
+      else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), attrs[k]);
+      else if (attrs[k] !== false && attrs[k] != null) e.setAttribute(k, attrs[k] === true ? '' : attrs[k]);
+    });
+    (dzieci || []).forEach(function (d) { if (d) e.appendChild(typeof d === 'string' ? document.createTextNode(d) : d); });
+    return e;
+  }
+  function api(sciezka, opcje) {
+    opcje = opcje || {};
+    var naglowki = { 'X-Panel': '1' };
+    if (opcje.body) naglowki['Content-Type'] = 'application/json';
+    return fetch('/api/panel/' + sciezka, { method: opcje.method || 'GET', headers: naglowki, credentials: 'same-origin', body: opcje.body ? JSON.stringify(opcje.body) : undefined })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (r.status === 401 && sciezka !== 'logowanie') { pokazLogowanie(); throw new Error('sesja'); }
+          if (!r.ok) { var e = new Error(j.blad || r.status); e.dane = j; e.status = r.status; throw e; }
+          return j;
+        });
+      });
+  }
+  function komunikat(tekst, blad) {
+    var k = $('komunikat');
+    k.textContent = tekst || '';
+    k.hidden = !tekst;
+    k.classList.toggle('komunikat--blad', !!blad);
+    if (tekst && !blad) setTimeout(function () { if (k.textContent === tekst) k.hidden = true; }, 6000);
+  }
+  function dzisISO() { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
+  function dataSlownie(iso) {
+    return new Date(iso + 'T12:00:00').toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' });
+  }
+  function kiedyUtworzono(isoCzas) {
+    return new Date(isoCzas).toLocaleString('pl-PL', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  }
+  function zl(k) { return (Math.round(k * 100) / 100).toLocaleString('pl-PL', { minimumFractionDigits: k % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' zł'; }
+  function osoby(n) { return n + ' ' + (n === 1 ? 'osoba' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'osoby' : 'osób')); }
+
+  // ---------- Logowanie / widoki ----------
+  function pokazLogowanie() {
+    ['widok-rezerwacje', 'widok-grafik', 'widok-catering', 'zakladki', 'wyloguj'].forEach(function (id) { $(id).hidden = true; });
+    $('logowanie').hidden = false;
+    $('haslo').focus();
+  }
+  function pokazPanel() {
+    $('logowanie').hidden = true;
+    $('zakladki').hidden = false;
+    $('wyloguj').hidden = false;
+    przelacz(stan.widok);
+  }
+  $('logowanie').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = e.target.querySelector('button');
+    btn.disabled = true;
+    api('logowanie', { method: 'POST', body: { haslo: $('haslo').value } })
+      .then(function () { $('haslo').value = ''; komunikat(''); pokazPanel(); })
+      .catch(function (err) { komunikat(err.status === 429 ? 'Za dużo prób. Spróbuj za kwadrans.' : 'Nieprawidłowe hasło.', true); })
+      .then(function () { btn.disabled = false; });
+  });
+  $('wyloguj').addEventListener('click', function () { api('wyloguj', { method: 'POST' }).then(pokazLogowanie); });
+
+  $('zakladki').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-widok]');
+    if (b) przelacz(b.dataset.widok);
+  });
+  function przelacz(widok) {
+    stan.widok = widok;
+    document.querySelectorAll('#zakladki button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.widok === widok ? 'true' : 'false'); });
+    ['rezerwacje', 'grafik', 'catering'].forEach(function (w) { $('widok-' + w).hidden = w !== widok; });
+    if (widok === 'rezerwacje') wczytajRezerwacje();
+    if (widok === 'grafik') wczytajGrafik();
+    if (widok === 'catering') wczytajCatering();
+  }
+
+  // ======================= REZERWACJE =======================
+  function wczytajRezerwacje() {
+    return Promise.all([api('rezerwacje'), api('grafik')]).then(function (w) {
+      stan.rezerwacje = w[0].rezerwacje;
+      stan.grafik = w[1].grafik;
+      rysujRezerwacje();
+    }).catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się wczytać rezerwacji.', true); });
+  }
+  $('odswiez').addEventListener('click', wczytajRezerwacje);
+  $('filtry').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-filtr]');
+    if (!b) return;
+    stan.filtr = b.dataset.filtr;
+    document.querySelectorAll('#filtry button[data-filtr]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    rysujRezerwacje();
+  });
+
+  function rysujRezerwacje() {
+    var dzis = dzisISO();
+    var oczekujace = stan.rezerwacje.filter(function (r) { return r.status === 'oczekuje' && r.data >= dzis; });
+    var lz = $('licznik-oczekujacych');
+    lz.textContent = oczekujace.length;
+    lz.hidden = !oczekujace.length;
+
+    var lista = stan.rezerwacje.filter(function (r) {
+      if (stan.filtr === 'oczekuje') return r.status === 'oczekuje' && r.data >= dzis;
+      if (stan.filtr === 'nadchodzace') return r.data >= dzis && r.status !== 'odrzucona';
+      return true;
+    });
+    if (stan.filtr === 'wszystkie') lista = lista.slice().reverse();
+
+    var box = $('lista-rezerwacji');
+    box.textContent = '';
+    if (!lista.length) {
+      box.appendChild(el('p', { class: 'pusto', text: stan.filtr === 'oczekuje' ? 'Brak rezerwacji czekających na decyzję.' : 'Brak rezerwacji.' }));
+      return;
+    }
+    var grupy = {};
+    lista.forEach(function (r) { (grupy[r.data] = grupy[r.data] || []).push(r); });
+    Object.keys(grupy).forEach(function (data) {
+      var wDniu = stan.rezerwacje.filter(function (r) { return r.data === data && r.status === 'potwierdzona'; });
+      var sumaOsob = wDniu.reduce(function (s, r) { return s + r.osoby; }, 0);
+      var pelny = stan.grafik && stan.grafik.wyjatki[data] && stan.grafik.wyjatki[data].typ === 'pelne';
+      var pelnyBox = el('label', { class: 'przelacznik dzien__pelny' }, [
+        el('input', { type: 'checkbox', checked: pelny, onchange: function (e) { ustawPelny(data, e.target.checked); } }),
+        'Brak miejsc tego dnia'
+      ]);
+      box.appendChild(el('div', { class: 'dzien' }, [
+        el('div', { class: 'dzien__naglowek' }, [
+          el('div', {}, [
+            el('h2', { text: dataSlownie(data) }),
+            el('span', { class: 'dzien__info', text: 'Potwierdzone: ' + wDniu.length + ' rez., ' + osoby(sumaOsob) })
+          ]),
+          data >= dzis ? pelnyBox : null
+        ])
+      ].concat(grupy[data].map(kartaRezerwacji))));
+    });
+  }
+
+  function kartaRezerwacji(r) {
+    var akcje = el('div', { class: 'rez__akcje' });
+    var karta = el('div', { class: 'rez rez--' + r.status }, [
+      el('div', {}, [el('div', { class: 'rez__godz', text: r.godzina }), el('div', { class: 'rez__osoby', text: osoby(r.osoby) })]),
+      el('div', {}, [
+        el('div', {}, [el('span', { class: 'rez__kto', text: r.imie + ' ' + r.nazwisko + ' ' }), el('span', { class: 'status status--' + r.status, text: r.status })]),
+        el('div', { class: 'rez__kontakt' }, [
+          el('a', { href: 'tel:' + r.telefon.replace(/[^\d+]/g, ''), text: r.telefon }), ' · ',
+          el('a', { href: 'mailto:' + r.email, text: r.email })
+        ]),
+        r.uwagi ? el('div', { class: 'rez__uwagi', text: '„' + r.uwagi + '”' }) : null,
+        el('div', { class: 'rez__meta', text: 'Wpłynęła ' + kiedyUtworzono(r.utworzono) +
+          (r.decyzjaO ? ' · decyzja ' + kiedyUtworzono(r.decyzjaO) + (r.decyzjaZrodlo === 'mail' ? ' (z maila)' : '') : '') +
+          (r.status === 'odrzucona' ? ' · powód: ' + (r.powodTekst || POWODY[r.powod] || '') : '') +
+          (r.mailDoGosciaWyslany === false ? ' · UWAGA: mail do gościa nie wyszedł - zadzwoń' : '') })
+      ]),
+      akcje
+    ]);
+    if (r.status === 'oczekuje') {
+      akcje.appendChild(el('button', { class: 'btn btn--ciemny', text: 'Potwierdź', onclick: function (e) { decyzja(r, 'potwierdz', {}, e.target); } }));
+      akcje.appendChild(el('button', { class: 'btn btn--jasny', text: 'Odrzuć', onclick: function () { formularzOdrzucenia(karta, r); } }));
+    }
+    return karta;
+  }
+
+  function formularzOdrzucenia(karta, r) {
+    if (karta.querySelector('.odrzucanie')) return;
+    var nazwa = 'powod-' + r.id;
+    var tekst = el('textarea', { maxlength: '300', placeholder: 'Treść dla gościa (przy „Inny”)' });
+    var pelne = el('input', { type: 'checkbox' });
+    var radia = Object.keys(POWODY).map(function (k, i) {
+      return el('label', {}, [el('input', { type: 'radio', name: nazwa, value: k, checked: i === 0 }), POWODY[k]]);
+    });
+    var box = el('div', { class: 'odrzucanie' }, [el('div', { class: 'eyebrow', text: 'Powód - trafi do gościa' })].concat(radia, [tekst,
+      el('label', { style: 'margin-top:.5rem' }, [pelne, 'Oznacz ' + dataSlownie(r.data) + ' jako brak miejsc']),
+      el('div', { class: 'odrzucanie__akcje' }, [
+        el('button', { class: 'btn btn--ciemny', text: 'Odrzuć i wyślij maila', onclick: function (e) {
+          var powod = box.querySelector('input[name="' + nazwa + '"]:checked').value;
+          if (powod === 'inny' && !tekst.value.trim()) { tekst.focus(); komunikat('Wpisz treść powodu dla gościa.', true); return; }
+          decyzja(r, 'odrzuc', { powod: powod, powodTekst: tekst.value, pelne: pelne.checked }, e.target);
+        } }),
+        el('button', { class: 'btn btn--jasny', text: 'Anuluj', onclick: function () { box.remove(); } })
+      ])
+    ]));
+    karta.appendChild(box);
+  }
+
+  function decyzja(r, akcja, opcje, btn) {
+    btn.disabled = true;
+    api('decyzja', { method: 'POST', body: { id: r.id, akcja: akcja, powod: opcje.powod, powodTekst: opcje.powodTekst, pelne: opcje.pelne } })
+      .then(function (w) {
+        var rr = w.rezerwacja;
+        komunikat(w.juz ? 'Ta rezerwacja miała już decyzję (np. z maila).' :
+          (rr.status === 'potwierdzona' ? 'Potwierdzono - gość dostał maila.' : 'Odrzucono - gość dostał maila.') +
+          (rr.mailDoGosciaWyslany === false ? ' UWAGA: mail nie wyszedł, zadzwoń do gościa.' : ''), rr.mailDoGosciaWyslany === false);
+        return wczytajRezerwacje();
+      })
+      .catch(function (e) { if (e.message !== 'sesja') { btn.disabled = false; komunikat('Nie udało się zapisać decyzji.', true); } });
+  }
+
+  function ustawPelny(data, pelny) {
+    api('pelny', { method: 'POST', body: { data: data, pelny: pelny } })
+      .then(function (w) { stan.grafik = w.grafik; komunikat(pelny ? dataSlownie(data) + ': brak miejsc - dzień zniknął z formularza.' : dataSlownie(data) + ': znów przyjmujemy rezerwacje.'); rysujRezerwacje(); })
+      .catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się zmienić dnia.', true); });
+  }
+
+  // ======================= GRAFIK =======================
+  function wczytajGrafik() {
+    api('grafik').then(function (w) { stan.grafik = w.grafik; rysujGrafik(); $('g-status').textContent = ''; })
+      .catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się wczytać grafiku.', true); });
+  }
+  function rysujGrafik() {
+    var g = stan.grafik;
+    $('g-wlaczone').checked = g.wlaczone;
+    $('g-ostatnia').value = String(g.ostatniaPrzedZamknieciemMin);
+    $('g-dni').value = g.dniDoPrzodu;
+    var tbody = $('g-tydzien').querySelector('tbody');
+    tbody.textContent = '';
+    KOLEJNOSC_DNI.forEach(function (d) {
+      var w = g.tydzien[d];
+      var tr = el('tr', { class: w.otwarte ? '' : 'zamkniety', 'data-dzien': d }, [
+        el('td', { text: DNI[d] }),
+        el('td', {}, [el('input', { type: 'checkbox', class: 't-otwarte', checked: w.otwarte, 'aria-label': DNI[d] + ' otwarte', onchange: function (e) { tr.classList.toggle('zamkniety', !e.target.checked); zmieniono(); } })]),
+        el('td', {}, [el('input', { type: 'time', class: 't-od', value: w.od, step: '1800', 'aria-label': DNI[d] + ' od', oninput: zmieniono })]),
+        el('td', {}, [el('input', { type: 'time', class: 't-do', value: w.do, step: '1800', 'aria-label': DNI[d] + ' do', oninput: zmieniono })])
+      ]);
+      tbody.appendChild(tr);
+    });
+    rysujWyjatki();
+  }
+  var OPIS_TYPU = { zamkniete: 'Zamknięte', pelne: 'Brak miejsc', godziny: 'Inne godziny' };
+  function rysujWyjatki() {
+    var ul = $('g-wyjatki');
+    ul.textContent = '';
+    var dzis = dzisISO();
+    var daty = Object.keys(stan.grafik.wyjatki).filter(function (d) { return d >= dzis; }).sort();
+    if (!daty.length) ul.appendChild(el('li', { class: 'pusto', text: 'Brak wyjątków.' }));
+    daty.forEach(function (d) {
+      var w = stan.grafik.wyjatki[d];
+      ul.appendChild(el('li', {}, [
+        el('span', {}, [el('strong', { text: dataSlownie(d) }), ' - ' + OPIS_TYPU[w.typ] + (w.typ === 'godziny' ? ' ' + w.od + '-' + w.do : '') + (w.notka ? ' (' + w.notka + ')' : '')]),
+        el('button', { class: 'btn btn--jasny', text: 'Usuń', onclick: function () { delete stan.grafik.wyjatki[d]; rysujWyjatki(); zmieniono(); } })
+      ]));
+    });
+  }
+  $('w-typ').addEventListener('change', function () {
+    document.querySelectorAll('.w-godziny').forEach(function (x) { x.hidden = $('w-typ').value !== 'godziny'; });
+  });
+  $('w-dodaj').addEventListener('click', function () {
+    var d = $('w-data').value, typ = $('w-typ').value;
+    if (!d) { komunikat('Wybierz dzień wyjątku.', true); return; }
+    if (d < dzisISO()) { komunikat('Ten dzień już minął.', true); return; }
+    var w = { typ: typ };
+    if (typ === 'godziny') {
+      w.od = $('w-od').value; w.do = $('w-do').value;
+      if (!w.od || !w.do || w.od >= w.do) { komunikat('Godzina „do” musi być późniejsza niż „od”.', true); return; }
+    }
+    if ($('w-notka').value.trim()) w.notka = $('w-notka').value.trim();
+    stan.grafik.wyjatki[d] = w;
+    $('w-data').value = ''; $('w-notka').value = '';
+    rysujWyjatki();
+    zmieniono();
+  });
+  ['g-wlaczone', 'g-ostatnia', 'g-dni'].forEach(function (id) { $(id).addEventListener('change', zmieniono); });
+  function zmieniono() { $('g-status').textContent = 'Niezapisane zmiany'; }
+
+  $('g-zapisz').addEventListener('click', function () {
+    var g = stan.grafik;
+    g.wlaczone = $('g-wlaczone').checked;
+    g.ostatniaPrzedZamknieciemMin = Number($('g-ostatnia').value);
+    g.dniDoPrzodu = Number($('g-dni').value);
+    $('g-tydzien').querySelectorAll('tbody tr').forEach(function (tr) {
+      g.tydzien[tr.dataset.dzien] = { otwarte: tr.querySelector('.t-otwarte').checked, od: tr.querySelector('.t-od').value, do: tr.querySelector('.t-do').value };
+    });
+    var btn = $('g-zapisz');
+    btn.disabled = true;
+    api('grafik', { method: 'PUT', body: g })
+      .then(function (w) { stan.grafik = w.grafik; rysujGrafik(); $('g-status').textContent = 'Zapisano ' + new Date().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' }) + ' - zmiany są już na stronie.'; komunikat(''); })
+      .catch(function (e) { if (e.message !== 'sesja') komunikat((e.dane && e.dane.komunikaty || ['Nie udało się zapisać grafiku.']).join(' '), true); })
+      .then(function () { btn.disabled = false; });
+  });
+
+  // ======================= CATERING =======================
+  var ETAPY = { przyjete: 'Przyjęte', gotowe: 'Gotowe do odbioru', wydane: 'Wydane', anulowane: 'Anulowane' };
+  var KOLEJNOSC_ETAPOW = ['przyjete', 'gotowe', 'wydane', 'anulowane'];
+  var PLATNOSCI = { nieoplacone: 'Nieopłacone', oplacone: 'Opłacone' };
+  var cf = { etap: 'aktywne', platnosc: 'wszystkie', szukaj: '', sort: 'numer' };
+
+  function zamowien(n) { return n + ' ' + (n === 1 ? 'zamówienie' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'zamówienia' : 'zamówień')); }
+  function nrSort(z) { var p = String(z.numer || '0/0').split('/'); return Number(p[1]) * 100000 + Number(p[0]); }
+  // Kolejność kategorii i pozycji w zestawieniu = kolejność w catering/menu.json
+  var kolejnoscMenu = null;
+  function wczytajKolejnoscMenu() {
+    if (kolejnoscMenu) return Promise.resolve();
+    return fetch('/catering/menu.json').then(function (r) { return r.json(); }).then(function (m) {
+      kolejnoscMenu = { kat: {}, poz: {} };
+      var i = 0;
+      m.kategorie.forEach(function (k, ki) { kolejnoscMenu.kat[k.nazwa] = ki; k.pozycje.forEach(function (p) { kolejnoscMenu.poz[p.id] = i++; }); });
+    }).catch(function () {});
+  }
+  function wczytajCatering() {
+    wczytajKolejnoscMenu();
+    return api('catering').then(function (w) {
+      stan.catering = w.zamowienia;
+      rysujCatering();
+    }).catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się wczytać zamówień.', true); });
+  }
+  $('c-odswiez').addEventListener('click', wczytajCatering);
+
+  // Filtry: etap (z licznikami), płatność, szukaj, sortowanie
+  function przyciskFiltra(grupa, wartosc, etykieta, ile) {
+    return el('button', { type: 'button', 'aria-pressed': cf[grupa] === wartosc ? 'true' : 'false', onclick: function () { cf[grupa] = wartosc; rysujCatering(); } },
+      [etykieta, ile != null ? el('span', { class: 'ile', text: '(' + ile + ')' }) : null]);
+  }
+  function rysujFiltry() {
+    var wszystkie = stan.catering;
+    var ile = function (f) { return wszystkie.filter(f).length; };
+    var fe = $('c-filtr-etap');
+    while (fe.children.length > 1) fe.removeChild(fe.lastChild);
+    fe.appendChild(przyciskFiltra('etap', 'aktywne', 'Do realizacji', ile(function (z) { return z.etap === 'przyjete' || z.etap === 'gotowe'; })));
+    KOLEJNOSC_ETAPOW.forEach(function (e) { fe.appendChild(przyciskFiltra('etap', e, ETAPY[e], ile(function (z) { return z.etap === e; }))); });
+    fe.appendChild(przyciskFiltra('etap', 'wszystkie', 'Wszystkie', wszystkie.length));
+    var fp = $('c-filtr-platnosc');
+    while (fp.children.length > 1) fp.removeChild(fp.lastChild);
+    fp.appendChild(przyciskFiltra('platnosc', 'wszystkie', 'Wszystkie'));
+    Object.keys(PLATNOSCI).forEach(function (p) { fp.appendChild(przyciskFiltra('platnosc', p, PLATNOSCI[p], ile(function (z) { return z.platnosc === p && z.etap !== 'anulowane'; }))); });
+  }
+  $('c-szukaj').addEventListener('input', function (e) { cf.szukaj = e.target.value.trim().toLowerCase(); rysujCatering(); });
+  $('c-sort').addEventListener('change', function (e) { cf.sort = e.target.value; rysujCatering(); });
+
+  function widoczneZamowienia() {
+    var q = cf.szukaj, cyfry = q.replace(/\D/g, '');
+    var lista = stan.catering.filter(function (z) {
+      if (cf.etap === 'aktywne' && !(z.etap === 'przyjete' || z.etap === 'gotowe')) return false;
+      if (cf.etap !== 'aktywne' && cf.etap !== 'wszystkie' && z.etap !== cf.etap) return false;
+      if (cf.platnosc !== 'wszystkie' && z.platnosc !== cf.platnosc) return false;
+      if (q) {
+        var tekst = (z.numer + ' ' + z.imie + ' ' + z.nazwisko + ' ' + z.email).toLowerCase();
+        var tel = z.telefon.replace(/\D/g, '');
+        if (tekst.indexOf(q) === -1 && !(cyfry.length >= 3 && tel.indexOf(cyfry) !== -1)) return false;
+      }
+      return true;
+    });
+    var porownaj = {
+      numer: function (a, b) { return nrSort(a) - nrSort(b); },
+      etap: function (a, b) { return KOLEJNOSC_ETAPOW.indexOf(a.etap) - KOLEJNOSC_ETAPOW.indexOf(b.etap) || nrSort(a) - nrSort(b); },
+      platnosc: function (a, b) { return (a.platnosc === 'oplacone') - (b.platnosc === 'oplacone') || nrSort(a) - nrSort(b); },
+      nazwisko: function (a, b) { return (a.nazwisko + a.imie).localeCompare(b.nazwisko + b.imie, 'pl'); },
+      kwota: function (a, b) { return b.suma - a.suma; }
+    }[cf.sort];
+    return lista.sort(porownaj);
+  }
+
+  function rysujCatering() {
+    rysujFiltry();
+    var aktywne = stan.catering.filter(function (z) { return z.etap !== 'anulowane'; });
+    var suma = aktywne.reduce(function (s, z) { return s + z.suma; }, 0);
+    var zaplacone = aktywne.filter(function (z) { return z.platnosc === 'oplacone'; }).reduce(function (s, z) { return s + z.suma; }, 0);
+    $('c-podsumowanie').textContent = aktywne.length ? zamowien(aktywne.length) + ' (bez anulowanych) · razem ok. ' + zl(suma) + ' · opłacone ' + zl(zaplacone) : '';
+
+    var lista = widoczneZamowienia();
+    var doDruku = lista.filter(function (z) { return z.etap !== 'anulowane'; });
+    $('c-drukuj-wszystkie').disabled = !doDruku.length;
+    $('c-zestawienie').disabled = !doDruku.length;
+    $('c-nota-filtra').textContent = 'Widoczne: ' + lista.length + '. Druk i zestawienie dla kuchni obejmują widoczne zamówienia bez anulowanych (' + doDruku.length + ').';
+
+    var box = $('lista-catering');
+    box.textContent = '';
+    if (!lista.length) { box.appendChild(el('p', { class: 'pusto', text: stan.catering.length ? 'Brak zamówień dla wybranych filtrów.' : 'Brak zamówień.' })); return; }
+    lista.forEach(function (z) { box.appendChild(kartaZamowienia(z)); });
+  }
+
+  function zmienStatus(z, zmiana, przycisk) {
+    if (przycisk) przycisk.disabled = true;
+    return api('catering-status', { method: 'POST', body: Object.assign({ id: z.id }, zmiana) })
+      .then(function (w) {
+        var i = stan.catering.findIndex(function (x) { return x.id === z.id; });
+        stan.catering[i] = w.zamowienie;
+        var ost = w.zamowienie.historia[w.zamowienie.historia.length - 1];
+        komunikat('Nr ' + z.numer + ': ' + (ost ? ost.co : 'zapisano'), ost && /NIE wyszedł/.test(ost.co));
+        rysujCatering();
+      })
+      .catch(function (e) { if (e.message !== 'sesja') { if (przycisk) przycisk.disabled = false; komunikat(e.message === 'brak-powodu' ? 'Podaj powód anulowania.' : 'Nie udało się zapisać zmiany.', true); } });
+  }
+
+  function kartaZamowienia(z) {
+    var anulowane = z.etap === 'anulowane';
+    var segEtap = el('div', { class: 'segment', role: 'group', 'aria-label': 'Etap zamówienia ' + z.numer }, ['przyjete', 'gotowe', 'wydane'].map(function (e) {
+      return el('button', { type: 'button', 'aria-pressed': z.etap === e ? 'true' : 'false', text: ETAPY[e], disabled: anulowane,
+        onclick: function (ev) { if (z.etap !== e) zmienStatus(z, { etap: e }, ev.target); } });
+    }));
+    var segPlat = el('div', { class: 'segment', role: 'group', 'aria-label': 'Płatność zamówienia ' + z.numer }, Object.keys(PLATNOSCI).map(function (p) {
+      return el('button', { type: 'button', 'aria-pressed': z.platnosc === p ? 'true' : 'false', text: PLATNOSCI[p], disabled: anulowane,
+        onclick: function (ev) { if (z.platnosc !== p) zmienStatus(z, { platnosc: p }, ev.target); } });
+    }));
+    var karta = el('div', { class: 'karta zam zam--' + z.etap }, [
+      el('div', { class: 'zam__gora' }, [
+        el('span', { class: 'zam__numer', text: 'Nr ' + z.numer }),
+        el('span', { class: 'status status--' + z.etap, text: ETAPY[z.etap] }),
+        anulowane ? null : el('span', { class: 'status status--' + z.platnosc, text: PLATNOSCI[z.platnosc] }),
+        el('span', { class: 'zam__suma', text: (z.saWagowe ? 'ok. ' : '') + zl(z.suma) })
+      ]),
+      el('div', {}, [el('strong', { text: z.imie + ' ' + z.nazwisko }), ' · ',
+        el('a', { href: 'tel:' + z.telefon.replace(/[^\d+]/g, ''), text: z.telefon }), ' · ', el('a', { href: 'mailto:' + z.email, text: z.email })]),
+      el('ul', {}, z.pozycje.map(function (p) { return el('li', { text: p.nazwa + ' - ' + p.ilosc }); })),
+      z.uwagi ? el('div', { class: 'rez__uwagi', text: 'Uwagi: „' + z.uwagi + '”' }) : null,
+      anulowane ? el('div', { class: 'rez__uwagi', text: 'Powód anulowania: ' + z.powodAnulowania }) : null,
+      el('div', { class: 'zam__sterowanie' }, anulowane ? [
+        el('button', { class: 'btn btn--jasny', text: 'Przywróć zamówienie', onclick: function (ev) { zmienStatus(z, { etap: 'przyjete' }, ev.target); } })
+      ] : [
+        segEtap, segPlat,
+        el('button', { class: 'btn btn--jasny', text: 'Drukuj', onclick: function () { drukuj([z]); } }),
+        el('button', { class: 'btn btn--jasny', text: 'Anuluj…', onclick: function () { formularzAnulowania(karta, z); } })
+      ]),
+      el('details', { class: 'zam__historia' }, [
+        el('summary', { text: 'Historia (' + (z.historia || []).length + ')' }),
+        el('ol', {}, (z.historia || []).map(function (h) { return el('li', { text: kiedyUtworzono(h.kiedy) + ' - ' + h.co }); }))
+      ])
+    ]);
+    return karta;
+  }
+
+  function formularzAnulowania(karta, z) {
+    if (karta.querySelector('.odrzucanie')) return;
+    var powod = el('textarea', { maxlength: '300', placeholder: 'np. Klient zrezygnował telefonicznie / brak możliwości realizacji' });
+    var powiadom = el('input', { type: 'checkbox', checked: true });
+    var box = el('div', { class: 'odrzucanie' }, [
+      el('div', { class: 'eyebrow', text: 'Anulowanie zamówienia nr ' + z.numer }),
+      el('label', { style: 'flex-direction:column;align-items:stretch' }, ['Powód (obowiązkowy)', powod]),
+      el('label', {}, [powiadom, 'Wyślij klientowi maila o anulowaniu (z powodem)']),
+      el('div', { class: 'odrzucanie__akcje' }, [
+        el('button', { class: 'btn btn--ciemny', text: 'Anuluj zamówienie', onclick: function (ev) {
+          if (!powod.value.trim()) { powod.focus(); komunikat('Podaj powód anulowania.', true); return; }
+          zmienStatus(z, { etap: 'anulowane', powod: powod.value, powiadom: powiadom.checked }, ev.target);
+        } }),
+        el('button', { class: 'btn btn--jasny', text: 'Zamknij', onclick: function () { box.remove(); } })
+      ])
+    ]);
+    karta.insertBefore(box, karta.querySelector('.zam__historia'));
+    powod.focus();
+  }
+
+  // ---------- Wydruk ----------
+  function kgL(g) { return (Math.round(g / 10) / 100).toLocaleString('pl-PL') + ' kg'; }
+  function litry(ml) { return (Math.round(ml / 10) / 100).toLocaleString('pl-PL') + ' l'; }
+
+  function kartkaZamowienia(z) {
+    return el('div', { class: 'kartka' }, [
+      el('div', { class: 'kartka__gora' }, [
+        el('div', {}, [el('div', { class: 'kartka__marka', text: 'Karkonoski Wyszynk · catering świąteczny' }),
+          el('div', { text: 'Odbiór: ' + z.odbior }),
+          el('div', { text: 'Etap: ' + ETAPY[z.etap] + ' · Płatność: ' + PLATNOSCI[z.platnosc] })]),
+        el('div', { class: 'kartka__numer' }, [el('small', { text: 'Zamówienie nr' }), z.numer])
+      ]),
+      el('div', { class: 'kartka__dane' }, [
+        el('div', {}, [el('b', { text: 'Klient' }), z.imie + ' ' + z.nazwisko]),
+        el('div', {}, [el('b', { text: 'Telefon' }), z.telefon]),
+        el('div', {}, [el('b', { text: 'E-mail' }), z.email]),
+        el('div', {}, [el('b', { text: 'Złożone' }), kiedyUtworzono(z.utworzono)])
+      ]),
+      el('table', {}, [
+        el('thead', {}, [el('tr', {}, [el('th', { text: 'Spak.' }), el('th', { text: 'Pozycja' }), el('th', { class: 'num', text: 'Ilość' }), el('th', { class: 'num', text: 'Wartość' })])]),
+        el('tbody', {}, z.pozycje.map(function (p) {
+          return el('tr', {}, [el('td', {}, [el('span', { class: 'kratka' })]), el('td', { text: p.nazwa }), el('td', { class: 'num', text: p.ilosc }), el('td', { class: 'num', text: (p.waga ? 'ok. ' : '') + zl(p.wartosc) })]);
+        }).concat([el('tr', { class: 'kartka__razem' }, [el('td'), el('td', { text: 'Razem' }), el('td'), el('td', { class: 'num', text: (z.saWagowe ? 'ok. ' : '') + zl(z.suma) })])]))
+      ]),
+      el('p', { class: 'kartka__nota', text: (z.saWagowe ? 'Pozycje „ok.” rozliczane wg rzeczywistej wagi przy odbiorze. ' : '') + 'Płatność przy odbiorze.' }),
+      el('div', { class: 'kartka__uwagi' }, [el('b', { text: 'Uwagi: ' }), z.uwagi || '']),
+      el('div', { class: 'kartka__stopka' }, [el('div', { text: 'Spakował(a)' }), el('div', { text: 'Wydano / zapłacono' })])
+    ]);
+  }
+
+  // Zestawienie dla kuchni: suma każdej pozycji ze wszystkich widocznych
+  // (nieanulowanych) zamówień, z przeliczeniem na kg i litry, wg kategorii.
+  function jednostkaZamowienia(p) {
+    return p.jedn || (/× 500 g$/.test(p.ilosc) ? 'porcja' : /szt\.$/.test(p.ilosc) ? 'szt' : / k?g$/.test(p.ilosc) ? 'g' : / m?l$/.test(p.ilosc) ? 'ml' : '');
+  }
+  function kartkaZestawienia(lista) {
+    var poz = {}, kolejnosc = [];
+    lista.forEach(function (z) { z.pozycje.forEach(function (p) {
+      if (!poz[p.id]) { poz[p.id] = { nazwa: p.nazwa, kategoria: p.kategoria || '', jedn: jednostkaZamowienia(p), q: 0, masaG: 0, objMl: 0, przybl: false, zamowien: 0 }; kolejnosc.push(p.id); }
+      var s = poz[p.id];
+      s.q += p.q; s.zamowien++;
+      var j = s.jedn;
+      s.masaG += p.masaG != null ? p.masaG : (j === 'g' ? p.q : j === 'porcja' ? p.q * 500 : 0);
+      s.objMl += p.objMl != null ? p.objMl : (j === 'ml' ? p.q : 0);
+      if (p.masaPrzyblizona) s.przybl = true;
+    }); });
+    function ilosc(s) {
+      if (s.jedn === 'porcja') return s.q + ' ' + (s.q === 1 ? 'porcja' : (s.q % 10 >= 2 && s.q % 10 <= 4 && (s.q % 100 < 10 || s.q % 100 >= 20) ? 'porcje' : 'porcji')) + ' × 500 g';
+      if (s.jedn === 'szt') return s.q + ' szt.';
+      if (s.jedn === 'g') return kgL(s.q);
+      if (s.jedn === 'ml') return s.q / 900 === Math.round(s.q / 900) ? (s.q / 900) + ' × 900 ml' : litry(s.q);
+      return String(s.q);
+    }
+    function wKgL(s) {
+      if (s.objMl) return litry(s.objMl);
+      if (s.masaG) return (s.przybl ? 'ok. ' : '') + kgL(s.masaG);
+      return '-';
+    }
+    if (kolejnoscMenu) kolejnosc.sort(function (a, b) {
+      var ka = kolejnoscMenu.kat[poz[a].kategoria], kb = kolejnoscMenu.kat[poz[b].kategoria];
+      return (ka == null ? 99 : ka) - (kb == null ? 99 : kb) || (kolejnoscMenu.poz[a] || 0) - (kolejnoscMenu.poz[b] || 0);
+    });
+    var kategorie = [];
+    kolejnosc.forEach(function (id) { var k = poz[id].kategoria; if (kategorie.indexOf(k) === -1) kategorie.push(k); });
+    var wiersze = [];
+    kategorie.forEach(function (k) {
+      if (k) wiersze.push(el('tr', {}, [el('td', { colspan: '4', style: 'font-weight:bold;padding-top:9pt;border-bottom:1px solid #000;text-transform:uppercase;letter-spacing:.08em;font-size:9pt', text: k })]));
+      kolejnosc.filter(function (id) { return poz[id].kategoria === k; }).forEach(function (id) {
+        var s = poz[id];
+        wiersze.push(el('tr', {}, [el('td', { text: s.nazwa }), el('td', { class: 'num', text: ilosc(s) }), el('td', { class: 'num', style: 'font-weight:bold', text: wKgL(s) }), el('td', { class: 'num', text: String(s.zamowien) })]));
+      });
+    });
+    var sumaKg = kolejnosc.reduce(function (a, id) { return a + poz[id].masaG; }, 0);
+    var sumaL = kolejnosc.reduce(function (a, id) { return a + poz[id].objMl; }, 0);
+    var numery = lista.map(function (z) { return z.numer; });
+    var opisFiltra = cf.etap === 'aktywne' ? 'do realizacji' : cf.etap === 'wszystkie' ? 'wszystkie (bez anulowanych)' : ETAPY[cf.etap].toLowerCase();
+    return el('div', { class: 'kartka' }, [
+      el('div', { class: 'kartka__gora' }, [
+        el('div', {}, [el('div', { class: 'kartka__marka', text: 'Karkonoski Wyszynk · catering świąteczny' }), el('div', { text: 'Zestawienie dla kuchni - zamówienia: ' + opisFiltra })]),
+        el('div', { class: 'kartka__numer' }, [el('small', { text: 'Zamówień' }), String(lista.length)])
+      ]),
+      el('p', { class: 'kartka__nota', text: 'Stan na ' + new Date().toLocaleString('pl-PL') + ' · numery: ' + numery.join(', ') }),
+      el('table', {}, [
+        el('thead', {}, [el('tr', {}, [el('th', { text: 'Pozycja' }), el('th', { class: 'num', text: 'Zamówiono' }), el('th', { class: 'num', text: 'Razem kg / l' }), el('th', { class: 'num', text: 'Zamówień' })])]),
+        el('tbody', {}, wiersze.concat([el('tr', { class: 'kartka__razem' }, [el('td', { text: 'Razem' }), el('td'), el('td', { class: 'num', text: [sumaKg ? 'ok. ' + kgL(sumaKg) : '', sumaL ? litry(sumaL) : ''].filter(Boolean).join(' + ') }), el('td')])]))
+      ]),
+      el('p', { class: 'kartka__nota', text: 'Ryby i ciasta: ilości zamówione (rozliczenie wg wagi). Gołąbki i krokiety przeliczone na kg orientacyjnie (ok. 120 g/szt.).' })
+    ]);
+  }
+  function drukuj(kartki) {
+    var w = $('wydruk');
+    w.textContent = '';
+    kartki.forEach(function (k) { w.appendChild(k.nodeType ? k : kartkaZamowienia(k)); });
+    window.print();
+  }
+  function doDruku() { return widoczneZamowienia().filter(function (z) { return z.etap !== 'anulowane'; }); }
+  $('c-drukuj-wszystkie').addEventListener('click', function () { drukuj(doDruku()); });
+  $('c-zestawienie').addEventListener('click', function () { drukuj([kartkaZestawienia(doDruku())]); });
+
+  // ---------- Start ----------
+  fetch('/api/panel/sesja', { credentials: 'same-origin' }).then(function (r) { if (r.ok) pokazPanel(); else pokazLogowanie(); }).catch(pokazLogowanie);
+})();
+</script>
+</body>
+</html>

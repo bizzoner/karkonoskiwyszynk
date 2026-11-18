@@ -152,3 +152,19 @@ samego klucza localStorage co główna. Treść polska jest dostępna bez JS.
 Źródła i ustalenia: `docs/historia/research-i-struktura.md`.
 Prawa do pocztówki: `assets/img/hotel-schenkenstein-archiwum.md`.
 Osobne URL-e wersji językowych pozostają zadaniem na kolejny etap SEO.
+
+## 9. Rezerwacje, catering świąteczny, panel
+
+`/rezerwacja/`, `/catering/` i `/panel/` (noindex) korzystają z Netlify Functions
+(`netlify/functions/api-*.mjs`, `decyzja.mjs`) i magazynu Blobs `wyszynk`.
+Pełny opis, zmienne środowiskowe i lista wdrożeniowa: `docs/rezerwacje-i-catering.md`.
+
+- Dostępność terminów liczy **tylko** `dzien()` w `netlify/lib/wyszynk.mjs`;
+  formularz dostaje gotowe sloty z `/api/grafik`. Nie dubluj tej logiki w HTML.
+- Menu i ceny cateringu: wyłącznie `catering/menu.json` (czyta je strona i serwer).
+- Numery zamówień `46/2026`... nadaje serwer licznikiem z zapisem warunkowym - nie
+  licz ich w przeglądarce. Strona, maile i wydruk z panelu są tylko po polsku.
+- Maile: `netlify/lib/maile.mjs`, układ tabelaryczny ze stylami inline (wymóg
+  klientów poczty). Logo w mailach to `assets/img/logo-mail.png` (białe, PNG -
+  poczta nie wyświetla SVG).
+- Lokalnie: `npm run dev` (bez Netlify CLI), maile do podglądu pod `/dev/maile`.

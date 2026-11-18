@@ -1259,6 +1259,43 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }
+
+/* ---------- Popup: catering świąteczny ----------
+   Bez cienia i animacji (zasady wizualne w CLAUDE.md) - od tła odcina
+   go ciemna zieleń i złota linia. Na mobile nad paskiem .pasek-mobilny. */
+.popup-catering {
+  position: fixed;
+  z-index: 495;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: min(360px, calc(100vw - 32px));
+  background: var(--forest);
+  color: var(--ivory-alt);
+  border: 1px solid var(--gold-lighter);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.4rem 1.4rem;
+}
+.popup-catering[hidden] { display: none; }
+@media (max-width: 860px) {
+  .popup-catering {
+    left: 16px; right: 16px; width: auto;
+    bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+.popup-catering__zamknij {
+  position: absolute; top: 0.3rem; right: 0.4rem;
+  background: none; border: none; color: var(--ivory-alt);
+  font-size: 1.7rem; line-height: 1; width: 44px; height: 44px; cursor: pointer;
+}
+.popup-catering__zamknij:hover,
+.popup-catering__zamknij:focus-visible { color: var(--gold-lighter); }
+.popup-catering__eyebrow { color: var(--gold-lighter); margin-bottom: 0.3rem; }
+.popup-catering__tytul {
+  font-family: var(--f-display); font-weight: 700; font-size: 1.35rem;
+  color: var(--ivory); line-height: 1.2; margin: 0 2.2rem 0.5rem 0;
+}
+.popup-catering__tekst { font-size: 1.02rem; line-height: 1.5; margin: 0 0 1.1rem; }
+.popup-catering__cta { display: block; text-align: center; padding: 0.8rem 1rem; }
 </style>
 
 <!-- Dane strukturalne Schema.org dla restauracji -->
@@ -1364,7 +1401,7 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
         <li><a href="#kontakt" data-i18n="ui_nav_kontakt">Kontakt</a></li>
       </ul>
       <div class="jezyk-przelacznik" role="group" aria-label="Wybór języka"></div>
-      <a class="naglowek__cta" href="tel:+48793066186" data-i18n="ui_nav_rezerwuj">Rezerwuj</a>
+      <a class="naglowek__cta" href="/rezerwacja/" data-i18n="ui_nav_rezerwuj">Rezerwuj</a>
       <button class="nawigacja__hamburger" id="hamburger" aria-label="Otwórz menu nawigacji" aria-expanded="false" aria-controls="linki-nawigacji">
         <span></span><span></span><span></span>
       </button>
@@ -1386,7 +1423,7 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
       <p class="hero__haslo" data-i18n="hero_haslo">Karkonosze na talerzu i w kuflu</p>
       <div class="hero__cta">
         <a href="#menu" class="btn btn--primary" data-i18n="hero_cta1">Zobacz menu</a>
-        <a href="tel:+48793066186" class="btn btn--ghost" data-i18n="hero_cta_rezerwuj">Zarezerwuj stolik</a>
+        <a href="/rezerwacja/" class="btn btn--ghost" data-i18n="hero_cta_rezerwuj">Zarezerwuj stolik</a>
       </div>
     </div>
     <span class="hero__strzalka" aria-hidden="true"></span>
@@ -2166,6 +2203,7 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
 
           <h3 data-i18n="kon_rez_label">Rezerwacje</h3>
           <p><a class="kontakt__telefon" href="tel:+48793066186">793 066 186</a></p>
+          <p><a class="btn-google" href="/rezerwacja/" data-i18n="kon_rez_online">Zarezerwuj stolik online</a></p>
 
           <h3 data-i18n="kon_godz_label">Godziny otwarcia</h3>
           <p>
@@ -2203,6 +2241,7 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
     <p class="stopka__haslo" data-i18n="foot_haslo">Kuchnia karkonoska, czeskie inspiracje i dobrze nalane piwo.</p>
     <div class="stopka__social">
       <a href="/historia/" data-i18n="history_nav">Historia</a>
+      <a href="/regulamin/" data-i18n="foot_regulamin">Regulamin</a>
       <a href="https://www.instagram.com/karkonoskiwyszynk/" target="_blank" rel="noopener">Instagram</a>
       <span class="stopka__handle">@karkonoskiwyszynk</span>
     </div>
@@ -2220,6 +2259,18 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
     <svg class="pasek-mobilny__ikona" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span data-i18n="bar_dojazd">Dojazd</span>
   </a>
 </div>
+
+<!-- Popup: catering świąteczny. Pokazuje się po chwili, do 20.12.2026
+     (koniec przyjmowania zamówień). Zamknięcie zapamiętane na sesję.
+     Tylko po polsku - oferta głównie dla klientów lokalnych.
+     Podgląd bez czekania: /?popup=1 -->
+<aside class="popup-catering" id="popup-catering" aria-labelledby="popup-catering-tytul" hidden>
+  <button class="popup-catering__zamknij" id="popup-catering-zamknij" aria-label="Zamknij">&times;</button>
+  <span class="eyebrow popup-catering__eyebrow">Boże Narodzenie 2026</span>
+  <p class="popup-catering__tytul" id="popup-catering-tytul">Zamów catering świąteczny</p>
+  <p class="popup-catering__tekst">Barszcz, karp, uszka, pierogi i domowe ciasta. Zamówienia do 20 grudnia, odbiór w Wigilię.</p>
+  <a class="btn btn--primary popup-catering__cta" href="/catering/">Zobacz menu i zamów</a>
+</aside>
 
 <!-- Lightbox galerii -->
 <!-- Lightbox jako modal: role=dialog + aria-modal chowaja przed czytnikiem
@@ -2254,6 +2305,8 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
 // =========================================================
 var I18N_DANE = {
   "pl": {
+    "foot_regulamin": "Regulamin",
+    "kon_rez_online": "Zarezerwuj stolik online",
     "d1_n": "Wyszynkowy rosół z gęsi i kury",
     "d2_n": "Kulajda",
     "d3_n": "Żur śląski",
@@ -2489,6 +2542,8 @@ var I18N_DANE = {
     "history_alt": "Dawna ulica przy Hotelu Schenkenstein, z przechodniami i górami w tle"
   },
   "en": {
+    "foot_regulamin": "Terms",
+    "kon_rez_online": "Book a table online",
     "d1_n": "House chicken and goose broth",
     "d2_n": "Kulajda",
     "d3_n": "Silesian sour rye soup",
@@ -2724,6 +2779,8 @@ var I18N_DANE = {
     "history_alt": "An old street beside Hotel Schenkenstein, with pedestrians and mountains in the background"
   },
   "de": {
+    "foot_regulamin": "AGB",
+    "kon_rez_online": "Tisch online reservieren",
     "d1_n": "Wyszynk-Brühe von Gans und Huhn",
     "d2_n": "Kulajda",
     "d3_n": "Schlesische Sauerteigsuppe",
@@ -2959,6 +3016,8 @@ var I18N_DANE = {
     "history_alt": "Historische Straße am Hotel Schenkenstein mit Passanten und Bergen im Hintergrund"
   },
   "cs": {
+    "foot_regulamin": "Obchodní podmínky",
+    "kon_rez_online": "Rezervovat stůl online",
     "d1_n": "Wyszynkový vývar z husy a kuřete",
     "d2_n": "Kulajda",
     "d3_n": "Slezská kyselá polévka (żur)",
@@ -3672,6 +3731,28 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }, { rootMargin: '100px' }).observe(section);
   } else if (consent) load();
+})();
+
+// ---------- Popup: catering świąteczny ----------
+(function () {
+  var popup = document.getElementById('popup-catering');
+  if (!popup) return;
+  var KONIEC = new Date(2026, 11, 20, 23, 59, 59);
+  var KLUCZ = 'wyszynk_popup_catering_zamkniety';
+  var wymus = /[?&]popup=1/.test(location.search);
+  var zamkniety = false;
+  try { zamkniety = sessionStorage.getItem(KLUCZ) === '1'; } catch (e) {}
+  if (!wymus && (zamkniety || new Date() > KONIEC)) return;
+
+  function zamknij() {
+    popup.hidden = true;
+    try { sessionStorage.setItem(KLUCZ, '1'); } catch (e) {}
+  }
+  setTimeout(function () { popup.hidden = false; }, wymus ? 300 : 2500);
+  document.getElementById('popup-catering-zamknij').addEventListener('click', zamknij);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !popup.hidden) zamknij();
+  });
 })();
 </script>
 </body>

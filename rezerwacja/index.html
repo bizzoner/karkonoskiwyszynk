@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rezerwacja stolika - Karkonoski Wyszynk</title>
+<meta name="description" content="Zarezerwuj stolik w Karkonoskim Wyszynku w Szklarskiej Porębie - golonka, ręcznie lepione pierogi i lany Pilsner Urquell z beczki.">
+<link rel="canonical" href="https://karkonoskiwyszynk.pl/rezerwacja/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"></noscript>
+
+<style>
+  /* Stylistyka inline, jak na reszcie serwisu - bez osobnego arkusza. */
+  :root {
+    --forest: #1F4A2E;
+    --forest-light: #2D6B42;
+    --gold: #9B7A1A;
+    --gold-dark: #7A5F12;
+    --gold-light: #C49A22;
+    --gold-lighter: #E8C45A;
+    --brown: #2E1F0E;
+    --ivory: #F5EDD8;
+    --ivory-alt: #EDE0C4;
+    --ivory-dark: #DFD0A8;
+    --text: #1C1409;
+    --error: #9B2C1A;
+    --f-display: "Playfair Display", Georgia, serif;
+    --f-body: "Cormorant Garamond", Georgia, serif;
+    --radius: 2px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ivory);
+    color: var(--text);
+    font-family: var(--f-body);
+    font-weight: 400;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2 {
+    font-family: var(--f-display);
+    color: var(--forest);
+    line-height: 1.15;
+    margin: 0 0 0.5em;
+  }
+
+  /* Pasek górny - spójny z nawigacją strony głównej */
+  .pasek {
+    background: var(--forest);
+    border-bottom: 1px solid rgba(232, 196, 90, 0.25);
+  }
+  .pasek__wnetrze {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .pasek__logo img {
+    height: 34px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+  }
+  .pasek__powrot {
+    color: var(--ivory-alt);
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+  }
+  .pasek__powrot:hover { color: var(--gold-lighter); }
+
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2.4rem 1rem 4rem;
+  }
+  .eyebrow {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--gold-dark);
+    margin-bottom: 0.4rem;
+  }
+  h1 { font-size: clamp(1.9rem, 6vw, 2.5rem); font-weight: 900; }
+  .wstep { font-style: italic; color: var(--brown); margin: 0 0 2rem; }
+
+  /* Karta formularza */
+  .karta {
+    background: #FBF6EA;
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 1.6rem 1.2rem;
+  }
+  @media (min-width: 560px) { .karta { padding: 2rem 2rem; } }
+  .karta h2 {
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold-dark);
+    margin: 0 0 1rem;
+  }
+  .karta h2:not(:first-child) { margin-top: 2rem; }
+
+  .siatka {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 560px) {
+    .siatka--2 { grid-template-columns: 1fr 1fr; }
+  }
+
+  .pole label,
+  .pole .etykieta {
+    display: block;
+    font-weight: 600;
+    color: var(--forest);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  .opcjonalne { font-weight: 400; font-style: italic; color: var(--brown); opacity: 0.75; }
+  .pole input,
+  .pole select,
+  .pole textarea {
+    width: 100%;
+    font-family: var(--f-body);
+    font-size: 1.1rem;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid var(--ivory-dark);
+    border-bottom: 2px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.75rem;
+    min-height: 48px;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .pole select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--forest) 50%), linear-gradient(135deg, var(--forest) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 55%, calc(100% - 12px) 55%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 2.2rem;
+  }
+  .pole textarea { min-height: 90px; resize: vertical; }
+  .pole input:focus,
+  .pole select:focus,
+  .pole textarea:focus {
+    outline: 2px solid var(--gold-lighter);
+    outline-offset: 1px;
+    border-bottom-color: var(--forest);
+  }
+  .pole.ma-blad input,
+  .pole.ma-blad select { border-bottom-color: var(--error); }
+  .blad {
+    display: none;
+    color: var(--error);
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+  }
+  .pole.ma-blad .blad { display: block; }
+  .podpowiedz { font-size: 0.92rem; font-style: italic; color: var(--brown); opacity: 0.8; margin-top: 0.25rem; }
+
+  /* Licznik osób */
+  .licznik {
+    display: flex;
+    align-items: stretch;
+    width: max-content;
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .licznik button {
+    width: 48px;
+    min-height: 48px;
+    border: none;
+    background: var(--forest);
+    color: var(--ivory);
+    font-family: var(--f-display);
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  .licznik button:hover,
+  .licznik button:focus-visible { background: var(--forest-light); }
+  .licznik button:focus-visible { outline: 2px solid var(--gold-lighter); outline-offset: -3px; }
+  /* Nieaktywny: wyraźnie wygaszony, ale nadal czytelny (4,6:1) */
+  .licznik button:disabled { background: #E4D8BC; color: #6B5C44; cursor: default; }
+  .licznik output {
+    min-width: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--forest);
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    font-family: var(--f-body);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.95rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--gold-light);
+    border-radius: var(--radius);
+    background: var(--gold-light);
+    color: var(--brown);
+    cursor: pointer;
+    margin-top: 2rem;
+  }
+  .btn:hover { background: var(--gold-lighter); }
+  .btn:disabled { opacity: 0.6; cursor: wait; }
+
+  .nota-prawna {
+    font-size: 0.88rem;
+    color: var(--brown);
+    opacity: 0.8;
+    margin: 1rem 0 0;
+  }
+  .nota-prawna a, .kontakt-alt a, .podpowiedz a { color: var(--forest); font-weight: 600; }
+  .kontakt-alt { text-align: center; margin-top: 1.8rem; font-size: 1rem; }
+
+  /* Potwierdzenie */
+  .potwierdzenie {
+    display: none;
+    text-align: center;
+    background: var(--forest);
+    color: var(--ivory);
+    border: 1px solid var(--gold-lighter);
+    border-radius: var(--radius);
+    padding: 2.2rem 1.4rem;
+  }
+  .potwierdzenie.jest-widoczne { display: block; }
+  .potwierdzenie:focus { outline: none; }
+  .potwierdzenie h2 { color: var(--gold-lighter); font-size: 1.6rem; }
+  .potwierdzenie p { color: var(--ivory-alt); }
+  .potwierdzenie__dane {
+    display: inline-block;
+    text-align: left;
+    border-top: 1px solid rgba(232, 196, 90, 0.35);
+    border-bottom: 1px solid rgba(232, 196, 90, 0.35);
+    padding: 0.8rem 0.4rem;
+    margin: 0.6rem 0 1.2rem;
+    font-size: 1.05rem;
+  }
+  .potwierdzenie a { color: var(--gold-lighter); font-weight: 600; }
+
+  /* Kalendarz - dni i godziny z grafiku ustawianego w panelu */
+  .kalendarz { max-width: 360px; }
+  .kalendarz__gora { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+  .kalendarz__miesiac { font-family: var(--f-display); font-weight: 700; color: var(--forest); font-size: 1.1rem; }
+  .kalendarz__nav {
+    width: 44px; height: 40px; border: 1px solid var(--gold); background: #fff; color: var(--forest);
+    border-radius: var(--radius); font-size: 1.2rem; cursor: pointer;
+  }
+  .kalendarz__nav:disabled { background: #E4D8BC; color: #6B5C44; border-color: #E4D8BC; cursor: default; }
+  .kalendarz__siatka { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .kalendarz__dzien-tyg { text-align: center; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold-dark); padding: 0.2rem 0; }
+  .kalendarz__dzien {
+    aspect-ratio: 1 / 1; min-height: 40px; border: 1px solid var(--gold); background: #fff; color: var(--forest);
+    font-family: var(--f-body); font-weight: 700; font-size: 1.05rem; border-radius: var(--radius); cursor: pointer; padding: 0;
+  }
+  .kalendarz__dzien:hover { background: var(--ivory-alt); }
+  .kalendarz__dzien[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
+  .kalendarz__dzien:disabled { background: transparent; border-color: transparent; color: #8A7B5F; font-weight: 400; cursor: default; }
+  .kalendarz__dzien--pelne:disabled { text-decoration: line-through; }
+  .kalendarz__legenda { font-size: 0.88rem; font-style: italic; color: var(--brown); margin: 0.5rem 0 0; }
+
+  .godziny { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 6px; }
+  .godziny button {
+    min-height: 44px; border: 1px solid var(--gold); background: #fff; color: var(--forest);
+    font-family: var(--f-body); font-weight: 700; font-size: 1.05rem; border-radius: var(--radius); cursor: pointer;
+  }
+  .godziny button:hover { background: var(--ivory-alt); }
+  .godziny button[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
+  .godziny__pusto { font-style: italic; color: var(--brown); margin: 0; }
+  .kalendarz__dzien:focus-visible, .godziny button:focus-visible, .kalendarz__nav:focus-visible { outline: 2px solid var(--gold-lighter); outline-offset: 2px; }
+
+  .komunikat {
+    border: 1px solid var(--gold); border-left: 3px solid var(--forest); background: #FBF6EA;
+    padding: 0.9rem 1rem; margin: 0 0 1.4rem;
+  }
+  .komunikat--blad { border-left-color: var(--error); }
+  .komunikat a { color: var(--forest); font-weight: 700; }
+  .pulapka { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<header class="pasek">
+  <div class="pasek__wnetrze">
+    <a class="pasek__logo" href="/"><img src="../assets/img/logokrzywe.svg" alt="Karkonoski Wyszynk - strona główna" width="78" height="34"></a>
+    <a class="pasek__powrot" href="/">← Strona główna</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <span class="eyebrow">Karkonoski Wyszynk · Szklarska Poręba</span>
+  <h1>Zarezerwuj stolik</h1>
+  <p class="wstep">Wybierz dzień i godzinę, a my przygotujemy dla Was miejsce przy stole. Potwierdzenie rezerwacji wyślemy mailem.</p>
+
+  <div class="komunikat" id="komunikat" role="status" hidden></div>
+
+  <form class="karta" id="formularz" novalidate hidden>
+    <h2>Kiedy</h2>
+    <div class="pole" id="pole-data">
+      <span class="etykieta" id="etykieta-data">Dzień</span>
+      <div class="kalendarz" role="group" aria-labelledby="etykieta-data">
+        <div class="kalendarz__gora">
+          <button type="button" class="kalendarz__nav" id="kal-wstecz" aria-label="Poprzedni miesiąc">‹</button>
+          <span class="kalendarz__miesiac" id="kal-miesiac" aria-live="polite"></span>
+          <button type="button" class="kalendarz__nav" id="kal-dalej" aria-label="Następny miesiąc">›</button>
+        </div>
+        <div class="kalendarz__siatka" id="kal-siatka"></div>
+        <p class="kalendarz__legenda">Wyszarzone dni: lokal nieczynny lub brak wolnych miejsc.</p>
+      </div>
+      <span class="blad">Wybierz dzień wizyty.</span>
+    </div>
+
+    <div class="pole" id="pole-godzina" style="margin-top:1.2rem">
+      <span class="etykieta" id="etykieta-godzina">Godzina</span>
+      <div class="godziny" id="godziny" role="group" aria-labelledby="etykieta-godzina">
+        <p class="godziny__pusto">Najpierw wybierz dzień.</p>
+      </div>
+      <span class="blad">Wybierz godzinę.</span>
+    </div>
+
+    <h2>Ile osób</h2>
+    <div class="pole">
+      <div class="licznik" role="group" aria-label="Liczba osób">
+        <button type="button" id="osoby-minus" aria-label="Mniej osób">−</button>
+        <output id="osoby" aria-live="polite">2</output>
+        <button type="button" id="osoby-plus" aria-label="Więcej osób">+</button>
+      </div>
+      <p class="podpowiedz">Przy grupie powyżej 12 osób prosimy o telefon: <a href="tel:+48793066186">793 066 186</a>.</p>
+    </div>
+
+    <h2>Dane do rezerwacji</h2>
+    <div class="siatka siatka--2">
+      <div class="pole" id="pole-imie">
+        <label for="imie">Imię</label>
+        <input type="text" id="imie" name="imie" autocomplete="given-name" maxlength="60" required>
+        <span class="blad">Podaj imię.</span>
+      </div>
+      <div class="pole" id="pole-nazwisko">
+        <label for="nazwisko">Nazwisko</label>
+        <input type="text" id="nazwisko" name="nazwisko" autocomplete="family-name" maxlength="80" required>
+        <span class="blad">Podaj nazwisko.</span>
+      </div>
+      <div class="pole" id="pole-telefon">
+        <label for="telefon">Telefon</label>
+        <input type="tel" id="telefon" name="telefon" autocomplete="tel" inputmode="tel" placeholder="np. 600 100 200" maxlength="30" required>
+        <span class="blad">Podaj poprawny numer telefonu (min. 9 cyfr).</span>
+      </div>
+      <div class="pole" id="pole-email">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" autocomplete="email" inputmode="email" maxlength="160" required>
+        <span class="blad">Podaj poprawny adres e-mail - wyślemy na niego potwierdzenie.</span>
+      </div>
+    </div>
+    <div class="pole" style="margin-top:1rem">
+      <label for="uwagi">Uwagi <span class="opcjonalne">(opcjonalnie)</span></label>
+      <textarea id="uwagi" name="uwagi" maxlength="600" placeholder="np. krzesełko dla dziecka, okazja, alergie"></textarea>
+    </div>
+    <div class="pulapka" aria-hidden="true">
+      <label for="firma">Firma</label><input type="text" id="firma" name="firma" tabindex="-1" autocomplete="off">
+    </div>
+
+    <button type="submit" class="btn" id="wyslij">Wyślij prośbę o rezerwację</button>
+    <p class="nota-prawna">Rezerwacja jest wstępna, dopóki jej nie potwierdzimy mailem. Dane (imię, nazwisko, telefon, e-mail) wykorzystamy wyłącznie do obsługi tej rezerwacji i usuniemy 30 dni po wizycie. Wysyłając prośbę, akceptujesz <a href="/regulamin/">regulamin</a>; zasady przetwarzania danych: <a href="/regulamin/#dane">informacja o danych osobowych</a>.</p>
+  </form>
+
+  <section class="potwierdzenie" id="potwierdzenie" tabindex="-1" aria-live="polite">
+    <h2>Dziękujemy!</h2>
+    <p>Otrzymaliśmy prośbę o rezerwację:</p>
+    <div class="potwierdzenie__dane" id="podsumowanie"></div>
+    <p id="potwierdzenie-mail"></p>
+    <p>W razie pytań: <a href="tel:+48793066186">793 066 186</a>.</p>
+    <p><a href="/">← Wróć na stronę główną</a></p>
+  </section>
+
+  <p class="kontakt-alt" id="kontakt-alt">Wolisz zadzwonić? <a href="tel:+48793066186">793 066 186</a></p>
+</main>
+
+<script>
+(function () {
+  var OSOBY_MIN = 1, OSOBY_MAX = 12;
+  var MIESIACE = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+  var DNI_TYG = ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'];
+  var POWODY = { zamkniete: 'lokal nieczynny', pelne: 'brak wolnych miejsc', 'po-czasie': 'na dziś to już za późno', poza: 'poza zakresem rezerwacji' };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $('formularz');
+  var stan = { dni: {}, od: null, miesiac: null, data: '', godzina: '', osoby: 2 };
+
+  function komunikat(html, blad) {
+    var k = $('komunikat');
+    k.innerHTML = html;
+    k.hidden = !html;
+    k.classList.toggle('komunikat--blad', !!blad);
+  }
+  var TEL = '<a href="tel:+48793066186">793 066 186</a>';
+
+  // ---------- Terminy z serwera ----------
+  function wczytajTerminy() {
+    return fetch('/api/grafik', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) {
+        if (!d.wlaczone) {
+          form.hidden = true;
+          komunikat('Rezerwacje online są chwilowo wyłączone. Zadzwoń, chętnie znajdziemy stolik: ' + TEL + '.');
+          return;
+        }
+        stan.dni = d.dni;
+        stan.od = d.od;
+        if (!stan.miesiac) stan.miesiac = d.od.slice(0, 7);
+        if (stan.data && !(stan.dni[stan.data] || {}).s) { stan.data = ''; stan.godzina = ''; }
+        form.hidden = false;
+        rysujKalendarz();
+        rysujGodziny();
+      })
+      .catch(function () {
+        form.hidden = true;
+        komunikat('Nie udało się wczytać wolnych terminów. Odśwież stronę lub zadzwoń: ' + TEL + '.', true);
+      });
+  }
+
+  // ---------- Kalendarz ----------
+  function iso(r, m, d) { return r + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0'); }
+  function przesunMiesiac(ym, n) {
+    var r = +ym.slice(0, 4), m = +ym.slice(5, 7) - 1 + n;
+    r += Math.floor(m / 12); m = ((m % 12) + 12) % 12;
+    return r + '-' + String(m + 1).padStart(2, '0');
+  }
+  function rysujKalendarz() {
+    var ym = stan.miesiac, r = +ym.slice(0, 4), m = +ym.slice(5, 7);
+    var klucze = Object.keys(stan.dni);
+    $('kal-miesiac').textContent = MIESIACE[m - 1] + ' ' + r;
+    $('kal-wstecz').disabled = ym <= stan.od.slice(0, 7);
+    $('kal-dalej').disabled = ym >= klucze[klucze.length - 1].slice(0, 7);
+
+    var siatka = $('kal-siatka');
+    siatka.textContent = '';
+    DNI_TYG.forEach(function (d) {
+      var el = document.createElement('span');
+      el.className = 'kalendarz__dzien-tyg';
+      el.textContent = d;
+      el.setAttribute('aria-hidden', 'true');
+      siatka.appendChild(el);
+    });
+    var pierwszy = (new Date(Date.UTC(r, m - 1, 1)).getUTCDay() + 6) % 7; // pon = 0
+    for (var i = 0; i < pierwszy; i++) siatka.appendChild(document.createElement('span'));
+    var ileDni = new Date(Date.UTC(r, m, 0)).getUTCDate();
+    for (var d = 1; d <= ileDni; d++) {
+      var data = iso(r, m, d);
+      var info = stan.dni[data] || { st: 'poza' };
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'kalendarz__dzien' + (info.st === 'pelne' ? ' kalendarz__dzien--pelne' : '');
+      btn.textContent = d;
+      btn.dataset.data = data;
+      btn.setAttribute('aria-pressed', data === stan.data ? 'true' : 'false');
+      if (info.s) {
+        btn.setAttribute('aria-label', d + ' ' + MIESIACE[m - 1].toLowerCase());
+      } else {
+        btn.disabled = true;
+        btn.setAttribute('aria-label', d + ' - ' + (POWODY[info.st] || 'niedostępny'));
+        btn.title = POWODY[info.st] || '';
+      }
+      siatka.appendChild(btn);
+    }
+  }
+  $('kal-siatka').addEventListener('click', function (e) {
+    var btn = e.target.closest('.kalendarz__dzien');
+    if (!btn || btn.disabled) return;
+    stan.data = btn.dataset.data;
+    if ((stan.dni[stan.data].s || []).indexOf(stan.godzina) === -1) stan.godzina = '';
+    rysujKalendarz();
+    rysujGodziny();
+    oznacz('pole-data', true);
+  });
+  $('kal-wstecz').addEventListener('click', function () { stan.miesiac = przesunMiesiac(stan.miesiac, -1); rysujKalendarz(); });
+  $('kal-dalej').addEventListener('click', function () { stan.miesiac = przesunMiesiac(stan.miesiac, 1); rysujKalendarz(); });
+
+  // ---------- Godziny ----------
+  function rysujGodziny() {
+    var box = $('godziny');
+    box.textContent = '';
+    var sloty = stan.data ? (stan.dni[stan.data] || {}).s || [] : [];
+    if (!sloty.length) {
+      var p = document.createElement('p');
+      p.className = 'godziny__pusto';
+      p.textContent = 'Najpierw wybierz dzień.';
+      box.appendChild(p);
+      return;
+    }
+    sloty.forEach(function (g) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = g;
+      b.dataset.godzina = g;
+      b.setAttribute('aria-pressed', g === stan.godzina ? 'true' : 'false');
+      box.appendChild(b);
+    });
+  }
+  $('godziny').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    stan.godzina = b.dataset.godzina;
+    rysujGodziny();
+    oznacz('pole-godzina', true);
+  });
+
+  // ---------- Osoby ----------
+  function ustawOsoby(n) {
+    stan.osoby = Math.min(OSOBY_MAX, Math.max(OSOBY_MIN, n));
+    $('osoby').textContent = stan.osoby;
+    $('osoby-minus').disabled = stan.osoby <= OSOBY_MIN;
+    $('osoby-plus').disabled = stan.osoby >= OSOBY_MAX;
+  }
+  $('osoby-minus').addEventListener('click', function () { ustawOsoby(stan.osoby - 1); });
+  $('osoby-plus').addEventListener('click', function () { ustawOsoby(stan.osoby + 1); });
+  ustawOsoby(stan.osoby);
+
+  // ---------- Walidacja ----------
+  function oznacz(idPola, ok) { $(idPola).classList.toggle('ma-blad', !ok); return ok; }
+  function waliduj() {
+    var tel = $('telefon').value.replace(/\D/g, '');
+    return [
+      oznacz('pole-data', !!stan.data),
+      oznacz('pole-godzina', !!stan.godzina),
+      oznacz('pole-imie', $('imie').value.trim().length > 0),
+      oznacz('pole-nazwisko', $('nazwisko').value.trim().length > 0),
+      oznacz('pole-telefon', tel.length >= 9 && tel.length <= 15),
+      oznacz('pole-email', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim()))
+    ].every(Boolean);
+  }
+  form.addEventListener('input', function (e) {
+    var pole = e.target.closest('.pole');
+    if (pole && pole.classList.contains('ma-blad')) waliduj();
+  });
+  function pokazPierwszyBlad() {
+    var p = form.querySelector('.ma-blad');
+    if (!p) return;
+    p.scrollIntoView({ block: 'center' });
+    var el = p.querySelector('input, button:not(:disabled)');
+    if (el) el.focus({ preventScroll: true });
+  }
+
+  // ---------- Wysyłka ----------
+  function osobySlownie(n) { return n + ' ' + (n === 1 ? 'osoba' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'osoby' : 'osób')); }
+  function dataSlownie(isoData) {
+    return new Date(isoData + 'T12:00:00').toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    komunikat('');
+    if (!waliduj()) { pokazPierwszyBlad(); return; }
+    var dane = {
+      data: stan.data, godzina: stan.godzina, osoby: stan.osoby,
+      imie: $('imie').value.trim(), nazwisko: $('nazwisko').value.trim(),
+      telefon: $('telefon').value.trim(), email: $('email').value.trim(),
+      uwagi: $('uwagi').value.trim(), firma: $('firma').value
+    };
+    var btn = $('wyslij');
+    btn.disabled = true;
+    btn.textContent = 'Wysyłanie…';
+    function przywroc() { btn.disabled = false; btn.textContent = 'Wyślij prośbę o rezerwację'; }
+
+    fetch('/api/rezerwacja', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dane) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, j: j }; }); })
+      .then(function (o) {
+        if (o.status === 200 && o.j.ok) return sukces(dane);
+        przywroc();
+        if (o.status === 422) {
+          var pola = o.j.pola || [];
+          if (pola.indexOf('data') !== -1 || pola.indexOf('godzina') !== -1) {
+            komunikat('Wybrany termin właśnie przestał być dostępny. Wybierz inny dzień lub godzinę.', true);
+            stan.godzina = '';
+            wczytajTerminy();
+          }
+          ['imie', 'nazwisko', 'telefon', 'email'].forEach(function (p) { if (pola.indexOf(p) !== -1) oznacz('pole-' + p, false); });
+          pokazPierwszyBlad();
+          if (!$('komunikat').hidden) $('komunikat').scrollIntoView({ block: 'center' });
+        } else if (o.status === 409) {
+          wczytajTerminy();
+        } else if (o.status === 429) {
+          komunikat('Wysłano już kilka zgłoszeń z tego urządzenia. Spróbuj za godzinę albo zadzwoń: ' + TEL + '.', true);
+        } else {
+          komunikat('Nie udało się wysłać rezerwacji. Spróbuj ponownie lub zadzwoń: ' + TEL + '.', true);
+        }
+      })
+      .catch(function () {
+        przywroc();
+        komunikat('Brak połączenia. Spróbuj ponownie lub zadzwoń: ' + TEL + '.', true);
+      });
+  });
+
+  function sukces(dane) {
+    var p = $('podsumowanie');
+    p.textContent = '';
+    [dataSlownie(dane.data) + ', godz. ' + dane.godzina, osobySlownie(dane.osoby), dane.imie + ' ' + dane.nazwisko].forEach(function (linia) {
+      var div = document.createElement('div');
+      div.textContent = linia;
+      p.appendChild(div);
+    });
+    $('potwierdzenie-mail').textContent = 'Na adres ' + dane.email + ' wysłaliśmy potwierdzenie przyjęcia prośby. Gdy zatwierdzimy rezerwację, dostaniesz drugiego maila.';
+    form.hidden = true;
+    $('kontakt-alt').hidden = true;
+    komunikat('');
+    var pot = $('potwierdzenie');
+    pot.classList.add('jest-widoczne');
+    pot.focus();
+    window.scrollTo(0, 0);
+  }
+
+  wczytajTerminy();
+})();
+</script>
+</body>
+</html>

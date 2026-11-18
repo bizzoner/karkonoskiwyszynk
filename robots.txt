@@ -6,4 +6,8 @@ Allow: /
 Disallow: /witaj
 Disallow: /gosc
 
+# Panel pracowników i strona decyzji z maila - nie do wyszukiwarek
+Disallow: /panel
+Disallow: /rezerwacja/decyzja
+
 Sitemap: https://karkonoskiwyszynk.pl/sitemap.xml

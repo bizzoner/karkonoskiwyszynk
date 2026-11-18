@@ -540,7 +540,8 @@ var I18N_DANE = {
   var ETYKIETY = { pl: 'PL', en: 'EN', de: 'DE', cs: 'CZ' };
 
   function pobierzJezyk() {
-    var zapisany = localStorage.getItem('wyszynk_jezyk');
+    var zapisany = null;
+    try { zapisany = localStorage.getItem('wyszynk_jezyk'); } catch (e) {}
     return JEZYKI.indexOf(zapisany) !== -1 ? zapisany : 'pl';
   }
 
@@ -567,7 +568,7 @@ var I18N_DANE = {
 
   function ustawJezyk(jezyk) {
     if (JEZYKI.indexOf(jezyk) === -1) jezyk = 'pl';
-    localStorage.setItem('wyszynk_jezyk', jezyk);
+    try { localStorage.setItem('wyszynk_jezyk', jezyk); } catch (e) {}
     zastosujTlumaczenia(jezyk);
   }
 

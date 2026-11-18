@@ -1,0 +1,51 @@
+{
+  "_opis": "Jedno źródło menu cateringu: czyta je strona /catering/ i funkcja api-catering (ceny liczy serwer). cena = zł za cenaZa jednostek; krok = zmiana jednym kliknięciem; waga = rozliczenie wg wagi; wagaSzt = przybliżona waga sztuki w g (do zestawienia dla kuchni).",
+  "koniecZamowien": "2026-12-20",
+  "odbior": "24 grudnia, 12:00-15:00",
+  "kategorie": [
+    { "nazwa": "Zupy", "pozycje": [
+      { "id": "barszcz", "n": "Barszcz czerwony", "cena": 38, "jedn": "ml", "cenaZa": 900, "krok": 900 },
+      { "id": "kulajda", "n": "Kulajda", "o": "Tradycyjna czeska zupa na śmietanie z leśnymi grzybami, ziemniakami, koperkiem i jajkiem", "cena": 45, "jedn": "ml", "cenaZa": 900, "krok": 900 },
+      { "id": "zurek", "n": "Żurek na swojskim zakwasie", "cena": 45, "jedn": "ml", "cenaZa": 900, "krok": 900 }
+    ]},
+    { "nazwa": "Ryby ze stawów Podgórzyńskich", "dopisek": "Ilość wybierasz co 250 g - rozliczamy wg rzeczywistej wagi.", "pozycje": [
+      { "id": "karp", "n": "Karp smażony - dzwonki", "cena": 14, "jedn": "g", "cenaZa": 100, "krok": 250, "waga": true },
+      { "id": "pstrag", "n": "Pstrąg smażony (w całości)", "cena": 16, "jedn": "g", "cenaZa": 100, "krok": 250, "waga": true }
+    ]},
+    { "nazwa": "Zimne przystawki", "pozycje": [
+      { "id": "jarzynowa", "n": "Sałatka jarzynowa", "cena": 20, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "sledz-olej", "n": "Śledź w oleju z cebulką", "cena": 30, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "sledz-smietana", "n": "Śledź w śmietanie", "cena": 32, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "ryba-grecku", "n": "Ryba po grecku", "cena": 45, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "galaretka", "n": "Galaretka drobiowa", "cena": 26, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "pasztet", "n": "Pasztet drobiowy pieczony z żurawiną", "cena": 36, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "karkowka", "n": "Karkówka pieczona", "cena": 38, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "rolada", "n": "Rolada z boczku", "cena": 38, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "schab", "n": "Schab ze śliwką", "cena": 40, "jedn": "g", "cenaZa": 500, "krok": 500 }
+    ]},
+    { "nazwa": "Ciepłe przystawki", "dopisek": "Do podgrzania we własnym zakresie.", "pozycje": [
+      { "id": "kapusta-groch", "n": "Kapusta zasmażana z grochem", "cena": 32, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "kapusta-wigilijna", "n": "Kapusta wigilijna z grzybami", "cena": 48, "jedn": "g", "cenaZa": 500, "krok": 500 },
+      { "id": "golabki", "n": "Gołąbki z kaszą gryczaną i grzybami", "o": "ok. 120 g / szt.", "wagaSzt": 120, "cena": 8, "jedn": "szt", "cenaZa": 1, "krok": 1 },
+      { "id": "krokiety", "n": "Krokiety z kapustą i grzybami", "o": "ok. 120 g / szt.", "wagaSzt": 120, "cena": 7, "jedn": "szt", "cenaZa": 1, "krok": 1 }
+    ]},
+    { "nazwa": "Pierogi domowe", "dopisek": "Porcja 500 g - ok. 12-14 sztuk.", "pozycje": [
+      { "id": "uszka", "n": "Uszka z grzybami", "cena": 45, "jedn": "porcja", "cenaZa": 1, "krok": 1 },
+      { "id": "pierogi-ruskie", "n": "Pierogi z twarogiem i ziemniakami", "cena": 38, "jedn": "porcja", "cenaZa": 1, "krok": 1 },
+      { "id": "pierogi-kapusta", "n": "Pierogi z kapustą i leśnymi grzybami", "cena": 45, "jedn": "porcja", "cenaZa": 1, "krok": 1 },
+      { "id": "pierogi-ser", "n": "Pierogi z górskim serem wędzonym i pieczarkami", "cena": 48, "jedn": "porcja", "cenaZa": 1, "krok": 1 },
+      { "id": "pierogi-gesina", "n": "Pierogi z gęsiną", "cena": 50, "jedn": "porcja", "cenaZa": 1, "krok": 1 },
+      { "id": "pierogi-jelen", "n": "Pierogi z jeleniem", "cena": 62, "jedn": "porcja", "cenaZa": 1, "krok": 1 }
+    ]},
+    { "nazwa": "Świąteczne słodkości", "dopisek": "Ilość wybierasz co 250 g - rozliczamy wg rzeczywistej wagi.", "pozycje": [
+      { "id": "seromakowiec", "n": "Seromakowiec", "cena": 12, "jedn": "g", "cenaZa": 100, "krok": 250, "waga": true },
+      { "id": "miodownik", "n": "Miodownik z domową konfiturą z wiśni", "cena": 12, "jedn": "g", "cenaZa": 100, "krok": 250, "waga": true },
+      { "id": "piernik", "n": "Piernik z kremem mleczno-maślanym", "cena": 10, "jedn": "g", "cenaZa": 100, "krok": 250, "waga": true },
+      { "id": "torcik", "n": "Torcik „po kijowsku”", "o": "z kremem kajmakowym, bezą i orzechami", "cena": 14, "jedn": "g", "cenaZa": 100, "krok": 250, "waga": true },
+      { "id": "kutia", "n": "Kutia", "cena": 8, "jedn": "g", "cenaZa": 100, "krok": 250, "waga": true }
+    ]},
+    { "nazwa": "Napoje", "pozycje": [
+      { "id": "kompot", "n": "Kompot z suszu", "cena": 15, "jedn": "ml", "cenaZa": 900, "krok": 900 }
+    ]}
+  ]
+}

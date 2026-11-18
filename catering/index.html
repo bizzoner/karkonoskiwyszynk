@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catering świąteczny 2026 - Karkonoski Wyszynk</title>
+<meta name="description" content="Catering na Boże Narodzenie 2026 z Karkonoskiego Wyszynku: barszcz, karp, pierogi, uszka, ciasta. Zamówienia do 20 grudnia, odbiór 24 grudnia w Szklarskiej Porębie.">
+<link rel="canonical" href="https://karkonoskiwyszynk.pl/catering/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"></noscript>
+
+<style>
+  :root {
+    --forest: #1F4A2E;
+    --forest-light: #2D6B42;
+    --gold: #9B7A1A;
+    --gold-dark: #7A5F12;
+    --gold-light: #C49A22;
+    --gold-lighter: #E8C45A;
+    --brown: #2E1F0E;
+    --ivory: #F5EDD8;
+    --ivory-alt: #EDE0C4;
+    --ivory-dark: #DFD0A8;
+    --text: #1C1409;
+    --error: #9B2C1A;
+    --f-display: "Playfair Display", Georgia, serif;
+    --f-body: "Cormorant Garamond", Georgia, serif;
+    --radius: 2px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ivory);
+    color: var(--text);
+    font-family: var(--f-body);
+    font-weight: 400;
+    font-size: 1.15rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 84px; /* miejsce na przyklejony pasek sumy */
+  }
+  h1, h2, h3 {
+    font-family: var(--f-display);
+    color: var(--forest);
+    line-height: 1.15;
+    margin: 0 0 0.5em;
+  }
+
+  .pasek { background: var(--forest); border-bottom: 1px solid rgba(232, 196, 90, 0.25); }
+  .pasek__wnetrze {
+    max-width: 760px; margin: 0 auto; padding: 0.8rem 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .pasek__logo img { height: 34px; width: auto; display: block; filter: brightness(0) invert(1); }
+  .pasek__powrot {
+    color: var(--ivory-alt); text-decoration: none; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem;
+  }
+  .pasek__powrot:hover { color: var(--gold-lighter); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 2.4rem 1rem 3rem; }
+  .eyebrow {
+    display: block; text-transform: uppercase; letter-spacing: 0.18em;
+    font-size: 0.78rem; font-weight: 600; color: var(--gold-dark); margin-bottom: 0.4rem;
+  }
+  h1 { font-size: clamp(1.9rem, 6vw, 2.6rem); font-weight: 900; }
+  .wstep { font-style: italic; color: var(--brown); margin: 0 0 1.6rem; }
+
+  /* Informacje o terminach */
+  .terminy {
+    display: grid; gap: 0.8rem; grid-template-columns: 1fr;
+    background: var(--forest); color: var(--ivory-alt);
+    border: 1px solid var(--gold-lighter); border-radius: var(--radius);
+    padding: 1.2rem 1.2rem; margin-bottom: 2.4rem;
+  }
+  @media (min-width: 560px) { .terminy { grid-template-columns: 1fr 1fr; } }
+  .terminy strong {
+    display: block; color: var(--gold-lighter); font-family: var(--f-display);
+    font-size: 1.15rem;
+  }
+  .terminy span { font-size: 1rem; }
+
+  /* Kategorie i pozycje */
+  .kategoria { margin-bottom: 2.2rem; }
+  .kategoria h2 {
+    font-size: 1.35rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .kategoria__dopisek { font-style: italic; font-size: 0.95rem; color: var(--brown); opacity: 0.8; margin: 0 0 0.4rem; }
+  .pozycja {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem 1rem;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(46, 31, 14, 0.12);
+  }
+  .pozycja.jest-wybrana { background: rgba(232, 196, 90, 0.14); }
+  .pozycja__nazwa { font-weight: 700; color: var(--forest); font-size: 1.12rem; display: block; }
+  .pozycja__opis { font-style: italic; font-size: 0.95rem; color: var(--brown); display: block; }
+  .pozycja__cena { font-family: var(--f-display); font-weight: 700; color: var(--gold-dark); font-size: 0.98rem; }
+  .pozycja__prawa { display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; }
+  .pozycja__suma { font-size: 0.92rem; color: var(--brown); min-height: 1.3em; }
+
+  .licznik {
+    display: flex; align-items: stretch;
+    border: 1px solid var(--gold); border-radius: var(--radius); background: #fff;
+  }
+  .licznik button {
+    width: 44px; min-height: 44px; border: none; background: var(--forest);
+    color: var(--ivory); font-family: var(--f-display); font-size: 1.3rem; cursor: pointer;
+  }
+  .licznik button:hover,
+  .licznik button:focus-visible { background: var(--forest-light); }
+  .licznik button:focus-visible { outline: 2px solid var(--gold-lighter); outline-offset: -3px; }
+  /* Nieaktywny: wyraźnie wygaszony, ale nadal czytelny (4,6:1) */
+  .licznik button:disabled { background: #E4D8BC; color: #6B5C44; cursor: default; }
+  .licznik output {
+    min-width: 76px; padding: 0 0.3rem;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem; color: var(--forest); white-space: nowrap;
+  }
+
+  /* Podsumowanie i formularz */
+  .karta {
+    background: #FBF6EA; border: 1px solid var(--gold); border-radius: var(--radius);
+    padding: 1.6rem 1.2rem; margin-top: 1rem; scroll-margin-top: 1rem;
+  }
+  @media (min-width: 560px) { .karta { padding: 2rem; } }
+  .karta h2 {
+    font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--gold-dark); margin: 0 0 1rem;
+  }
+  .karta h2:not(:first-child) { margin-top: 2rem; }
+  .lista-zamowienia { margin: 0; padding: 0; list-style: none; }
+  .lista-zamowienia li {
+    display: flex; justify-content: space-between; gap: 1rem;
+    padding: 0.35rem 0; border-bottom: 1px dotted var(--ivory-dark);
+  }
+  .lista-zamowienia .pusta { font-style: italic; color: var(--brown); opacity: 0.75; border: none; }
+  .razem {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-top: 0.8rem; font-family: var(--f-display); font-weight: 700;
+    font-size: 1.4rem; color: var(--forest);
+  }
+  .nota-waga { font-size: 0.9rem; font-style: italic; color: var(--brown); opacity: 0.85; margin: 0.4rem 0 0; }
+
+  .siatka { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .siatka--2 { grid-template-columns: 1fr 1fr; } }
+  .pole label { display: block; font-weight: 600; color: var(--forest); font-size: 1rem; margin-bottom: 0.25rem; }
+  .opcjonalne { font-weight: 400; font-style: italic; color: var(--brown); opacity: 0.75; }
+  .pole input, .pole textarea {
+    width: 100%; font-family: var(--f-body); font-size: 1.1rem; color: var(--text);
+    background: #fff; border: 1px solid var(--ivory-dark); border-bottom: 2px solid var(--gold);
+    border-radius: var(--radius); padding: 0.6rem 0.75rem; min-height: 48px;
+  }
+  .pole textarea { min-height: 90px; resize: vertical; }
+  .pole input:focus, .pole textarea:focus {
+    outline: 2px solid var(--gold-lighter); outline-offset: 1px; border-bottom-color: var(--forest);
+  }
+  .pole.ma-blad input { border-bottom-color: var(--error); }
+  .blad { display: none; color: var(--error); font-size: 0.92rem; font-weight: 600; margin-top: 0.25rem; }
+  .pole.ma-blad .blad, .blad.jest-widoczny { display: block; }
+
+  .btn {
+    display: block; width: 100%; font-family: var(--f-body); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.95rem;
+    padding: 1rem 1.5rem; border: 1px solid var(--gold-light); border-radius: var(--radius);
+    background: var(--gold-light); color: var(--brown); cursor: pointer; margin-top: 2rem;
+    text-align: center; text-decoration: none;
+  }
+  .btn:hover { background: var(--gold-lighter); }
+  .btn:disabled { opacity: 0.6; cursor: wait; }
+  .nota-prawna { font-size: 0.88rem; color: var(--brown); opacity: 0.8; margin: 1rem 0 0; }
+  .nota-prawna a { color: var(--forest); font-weight: 600; }
+
+  /* Przyklejony pasek sumy (mobile i desktop) */
+  .pasek-sumy {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: var(--forest); border-top: 1px solid var(--gold-lighter);
+    color: var(--ivory);
+    display: none;
+  }
+  .pasek-sumy.jest-widoczny { display: block; }
+  .pasek-sumy__wnetrze {
+    max-width: 760px; margin: 0 auto; padding: 0.7rem 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .pasek-sumy__kwota { font-family: var(--f-display); font-weight: 700; font-size: 1.35rem; color: var(--gold-lighter); line-height: 1.1; }
+  .pasek-sumy__ile { font-size: 0.9rem; color: var(--ivory-alt); }
+  .pasek-sumy a {
+    background: var(--gold-light); color: var(--brown); text-decoration: none;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.82rem;
+    padding: 0.75rem 1.1rem; border-radius: var(--radius); white-space: nowrap;
+  }
+
+  .potwierdzenie {
+    display: none; text-align: center; background: var(--forest); color: var(--ivory);
+    border: 1px solid var(--gold-lighter); border-radius: var(--radius); padding: 2.2rem 1.4rem;
+  }
+  .potwierdzenie.jest-widoczne { display: block; }
+  .potwierdzenie:focus { outline: none; }
+  .potwierdzenie h2 { color: var(--gold-lighter); font-size: 1.6rem; }
+  .potwierdzenie p { color: var(--ivory-alt); }
+  .potwierdzenie a { color: var(--gold-lighter); font-weight: 600; }
+
+  .alergeny {
+    border: 1px solid var(--gold); background: #FBF6EA; padding: 0.8rem 1rem; margin: -1rem 0 2.2rem; font-size: 1rem;
+  }
+  .alergeny a { color: var(--forest); font-weight: 700; }
+  .zamkniete {
+    display: none; text-align: center; border: 1px solid var(--gold); padding: 1.6rem 1.2rem;
+    background: #FBF6EA; margin-bottom: 2rem;
+  }
+  .zamkniete.jest-widoczne { display: block; }
+
+  .komunikat {
+    border: 1px solid var(--gold); border-left: 3px solid var(--error); background: #FBF6EA;
+    padding: 0.9rem 1rem; margin: 1rem 0 0;
+  }
+  .komunikat a { color: var(--forest); font-weight: 700; }
+  .pulapka { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<header class="pasek">
+  <div class="pasek__wnetrze">
+    <a class="pasek__logo" href="/"><img src="../assets/img/logokrzywe.svg" alt="Karkonoski Wyszynk - strona główna" width="78" height="34"></a>
+    <a class="pasek__powrot" href="/">← Strona główna</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <span class="eyebrow">Boże Narodzenie 2026</span>
+  <h1>Catering świąteczny</h1>
+  <p class="wstep">Wigilijne i świąteczne potrawy z naszej kuchni - gotowane i lepione na miejscu, w Wyszynku. Wybierz, ile czego potrzebujesz, a suma policzy się sama.</p>
+
+  <div class="terminy">
+    <div><strong>Zamówienia do 20 grudnia</strong><span>online lub pod nr <a href="tel:+48793066186" style="color:inherit">793 066 186</a></span></div>
+    <div><strong>Odbiór 24 grudnia, 12:00-15:00</strong><span>ul. Jedności Narodowej 18, Szklarska Poręba</span></div>
+  </div>
+
+  <p class="alergeny"><strong>Alergeny.</strong> Informację o alergenach w każdej potrawie przekażemy przed złożeniem zamówienia - zadzwoń: <a href="tel:+48793066186">793 066 186</a> albo zapytaj w restauracji. Wykaz alergenów otrzymasz też przy odbiorze.</p>
+
+  <div class="zamkniete" id="zamkniete">
+    <h2>Zamówienia zostały zamknięte</h2>
+    <p>Przyjmowaliśmy je do 20 grudnia. Zapytaj telefonicznie, czy coś jeszcze zostało: <a href="tel:+48793066186">793 066 186</a>.</p>
+  </div>
+
+  <div id="menu-cateringu"></div>
+
+  <form class="karta" id="formularz" novalidate>
+    <h2>Twoje zamówienie</h2>
+    <ul class="lista-zamowienia" id="lista-zamowienia"></ul>
+    <div class="razem"><span>Razem</span><span id="razem" aria-live="polite">0 zł</span></div>
+    <p class="nota-waga" id="nota-waga" hidden>Pozycje na wagę (ryby, ciasta) liczymy orientacyjnie - ostateczna kwota wg rzeczywistej wagi przy odbiorze.</p>
+    <p class="blad" id="blad-pusty">Dodaj do zamówienia co najmniej jedną pozycję.</p>
+
+    <h2>Dane zamawiającego</h2>
+    <div class="siatka siatka--2">
+      <div class="pole" id="pole-imie">
+        <label for="imie">Imię</label>
+        <input type="text" id="imie" autocomplete="given-name" required>
+        <span class="blad">Podaj imię.</span>
+      </div>
+      <div class="pole" id="pole-nazwisko">
+        <label for="nazwisko">Nazwisko</label>
+        <input type="text" id="nazwisko" autocomplete="family-name" required>
+        <span class="blad">Podaj nazwisko.</span>
+      </div>
+      <div class="pole" id="pole-telefon">
+        <label for="telefon">Telefon</label>
+        <input type="tel" id="telefon" autocomplete="tel" inputmode="tel" placeholder="np. 600 100 200" required>
+        <span class="blad">Podaj poprawny numer telefonu (min. 9 cyfr).</span>
+      </div>
+      <div class="pole" id="pole-email">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" autocomplete="email" inputmode="email" maxlength="160" required>
+        <span class="blad">Podaj poprawny adres e-mail - wyślemy na niego potwierdzenie.</span>
+      </div>
+    </div>
+    <div class="pole" style="margin-top:1rem">
+      <label for="uwagi">Uwagi <span class="opcjonalne">(opcjonalnie)</span></label>
+      <textarea id="uwagi" maxlength="600" placeholder="np. preferowana godzina odbioru"></textarea>
+    </div>
+    <div class="pulapka" aria-hidden="true">
+      <label for="firma">Firma</label><input type="text" id="firma" tabindex="-1" autocomplete="off">
+    </div>
+
+    <button type="submit" class="btn" id="wyslij">Zamawiam</button>
+    <div class="komunikat" id="komunikat" role="alert" hidden></div>
+    <p class="nota-prawna">Potwierdzenie z numerem zamówienia wyślemy mailem. Płatność przy odbiorze 24 grudnia w godz. 12:00-15:00. Potrawy przygotowujemy na konkretny dzień i szybko się psują, dlatego od zamówienia nie przysługuje prawo odstąpienia (art. 38 ust. 1 pkt 4 ustawy o prawach konsumenta) - zmiany i rezygnację przyjmujemy telefonicznie do 20 grudnia. Dane (imię, nazwisko, telefon, e-mail) wykorzystamy wyłącznie do realizacji zamówienia i usuniemy 30 dni po odbiorze. Składając zamówienie, akceptujesz <a href="/regulamin/">regulamin</a>; zasady przetwarzania danych: <a href="/regulamin/#dane">informacja o danych osobowych</a>.</p>
+  </form>
+
+  <section class="potwierdzenie" id="potwierdzenie" tabindex="-1" aria-live="polite">
+    <h2>Dziękujemy za zamówienie!</h2>
+    <p id="potwierdzenie-tekst"></p>
+    <p>Potwierdzenie wysłaliśmy mailem. Odbiór: <strong>24 grudnia, 12:00-15:00</strong>, ul. Jedności Narodowej 18.</p>
+    <p><a href="/">← Wróć na stronę główną</a></p>
+  </section>
+</main>
+
+<div class="pasek-sumy" id="pasek-sumy" aria-hidden="true">
+  <div class="pasek-sumy__wnetrze">
+    <div>
+      <div class="pasek-sumy__kwota" id="pasek-kwota">0 zł</div>
+      <div class="pasek-sumy__ile" id="pasek-ile"></div>
+    </div>
+    <a href="#formularz" tabindex="-1">Do zamówienia ↓</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  // Menu, ceny i termin zamówień: catering/menu.json (to samo źródło czyta serwer).
+  var MENU = null;
+  var $ = function (id) { return document.getElementById(id); };
+  var ilosci = {};   // id -> ilość w jednostkach bazowych (g/ml/szt/porcja)
+  var pozycjePoId = {};
+
+
+  // ---------- Formatowanie ----------
+  function zl(kwota) {
+    var zaokr = Math.round(kwota * 100) / 100;
+    return zaokr.toLocaleString('pl-PL', { minimumFractionDigits: zaokr % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' zł';
+  }
+  function ilosc(p, wartosc) {
+    if (p.jedn === 'g') return wartosc >= 1000 ? (wartosc / 1000).toLocaleString('pl-PL') + ' kg' : wartosc + ' g';
+    if (p.jedn === 'ml') return wartosc >= 1000 ? (wartosc / 1000).toLocaleString('pl-PL') + ' l' : wartosc + ' ml';
+    if (p.jedn === 'szt') return wartosc + ' szt.';
+    if (p.jedn === 'porcja') return wartosc + ' × 500 g';
+    return String(wartosc);
+  }
+  function opisCeny(p) {
+    if (p.jedn === 'szt') return p.cena + ' zł / szt.';
+    if (p.jedn === 'porcja') return p.cena + ' zł / 500 g (' + zl(p.cena * 2) + '/kg)';
+    // Cena jednostkowa za kg / litr - wymóg ustawy o informowaniu o cenach
+    var naJednostke = p.jedn === 'g' ? ' (' + zl(p.cena * 1000 / p.cenaZa) + '/kg)' : p.jedn === 'ml' ? ' (' + zl(p.cena * 1000 / p.cenaZa) + '/l)' : '';
+    return p.cena + ' zł / ' + ilosc(p, p.cenaZa) + naJednostke;
+  }
+  function wartosc(p) { return (ilosci[p.id] || 0) / p.cenaZa * p.cena; }
+
+  // ---------- Render menu ----------
+  var kontener = $('menu-cateringu');
+  function rysujMenu() {
+  MENU.kategorie.forEach(function (kat) {
+    var sekcja = document.createElement('section');
+    sekcja.className = 'kategoria';
+    var h2 = document.createElement('h2');
+    h2.textContent = kat.nazwa;
+    sekcja.appendChild(h2);
+    if (kat.dopisek) {
+      var dop = document.createElement('p');
+      dop.className = 'kategoria__dopisek';
+      dop.textContent = kat.dopisek;
+      sekcja.appendChild(dop);
+    }
+    kat.pozycje.forEach(function (p) {
+      pozycjePoId[p.id] = p;
+      ilosci[p.id] = 0;
+      var wiersz = document.createElement('div');
+      wiersz.className = 'pozycja';
+      wiersz.id = 'poz-' + p.id;
+      wiersz.innerHTML =
+        '<div>' +
+          '<span class="pozycja__nazwa"></span>' +
+          (p.o ? '<span class="pozycja__opis"></span>' : '') +
+          '<span class="pozycja__cena"></span>' +
+        '</div>' +
+        '<div class="pozycja__prawa">' +
+          '<div class="licznik" role="group">' +
+            '<button type="button" class="minus">−</button>' +
+            '<output aria-live="polite">0</output>' +
+            '<button type="button" class="plus">+</button>' +
+          '</div>' +
+          '<span class="pozycja__suma"></span>' +
+        '</div>';
+      wiersz.querySelector('.pozycja__nazwa').textContent = p.n;
+      if (p.o) wiersz.querySelector('.pozycja__opis').textContent = p.o;
+      wiersz.querySelector('.pozycja__cena').textContent = opisCeny(p);
+      wiersz.querySelector('.licznik').setAttribute('aria-label', 'Ilość: ' + p.n);
+      wiersz.querySelector('.minus').setAttribute('aria-label', 'Mniej: ' + p.n);
+      wiersz.querySelector('.plus').setAttribute('aria-label', 'Więcej: ' + p.n);
+      wiersz.querySelector('.minus').addEventListener('click', function () { zmien(p, -1); });
+      wiersz.querySelector('.plus').addEventListener('click', function () { zmien(p, +1); });
+      sekcja.appendChild(wiersz);
+    });
+    kontener.appendChild(sekcja);
+  });
+  }
+
+  function zmien(p, kierunek) {
+    ilosci[p.id] = Math.max(0, Math.min(p.krok * 50, (ilosci[p.id] || 0) + kierunek * p.krok));
+    odswiez();
+  }
+
+  // ---------- Przeliczanie ----------
+  function odswiez() {
+    var suma = 0, liczbaPozycji = 0, saWagowe = false;
+    var lista = $('lista-zamowienia');
+    lista.textContent = '';
+
+    Object.keys(pozycjePoId).forEach(function (id) {
+      var p = pozycjePoId[id];
+      var q = ilosci[id];
+      var wiersz = $('poz-' + id);
+      wiersz.querySelector('output').textContent = q ? ilosc(p, q) : '0';
+      wiersz.querySelector('.minus').disabled = q === 0;
+      wiersz.querySelector('.pozycja__suma').textContent = q ? (p.waga ? 'ok. ' : '') + zl(wartosc(p)) : '';
+      wiersz.classList.toggle('jest-wybrana', q > 0);
+      if (q > 0) {
+        suma += wartosc(p);
+        liczbaPozycji++;
+        if (p.waga) saWagowe = true;
+        var li = document.createElement('li');
+        var l = document.createElement('span');
+        l.textContent = p.n + ' - ' + ilosc(p, q);
+        var r = document.createElement('span');
+        r.textContent = zl(wartosc(p));
+        li.appendChild(l); li.appendChild(r);
+        lista.appendChild(li);
+      }
+    });
+
+    if (!liczbaPozycji) {
+      var pusta = document.createElement('li');
+      pusta.className = 'pusta';
+      pusta.textContent = 'Nic jeszcze nie wybrano - użyj przycisków + przy pozycjach powyżej.';
+      lista.appendChild(pusta);
+    } else {
+      $('blad-pusty').classList.remove('jest-widoczny');
+    }
+
+    var tekstSumy = (saWagowe ? 'ok. ' : '') + zl(suma);
+    $('razem').textContent = tekstSumy;
+    $('pasek-kwota').textContent = tekstSumy;
+    $('pasek-ile').textContent = liczbaPozycji + ' ' + (liczbaPozycji === 1 ? 'pozycja' : (liczbaPozycji >= 2 && liczbaPozycji <= 4 ? 'pozycje' : 'pozycji'));
+    $('nota-waga').hidden = !saWagowe;
+    aktualizujPasek();
+    return { suma: suma, liczbaPozycji: liczbaPozycji };
+  }
+
+  // Pasek sumy widoczny, gdy coś wybrano i formularz nie jest na ekranie
+  var formularzWidoczny = false;
+  function aktualizujPasek() {
+    var cos = Object.keys(ilosci).some(function (k) { return ilosci[k] > 0; });
+    $('pasek-sumy').classList.toggle('jest-widoczny', cos && !formularzWidoczny);
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (wpisy) {
+      formularzWidoczny = wpisy[0].isIntersecting;
+      aktualizujPasek();
+    }).observe($('formularz'));
+  }
+
+  // ---------- Termin ----------
+  function dzisWPolsce() {
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  }
+  function zamknij() {
+    $('zamkniete').classList.add('jest-widoczne');
+    kontener.style.display = 'none';
+    $('formularz').style.display = 'none';
+  }
+
+  // ---------- Walidacja i wysyłka ----------
+  function oznacz(idPola, ok) { $(idPola).classList.toggle('ma-blad', !ok); return ok; }
+  function waliduj() {
+    var tel = $('telefon').value.replace(/\D/g, '');
+    var email = $('email').value.trim();
+    return [
+      oznacz('pole-imie', $('imie').value.trim().length > 0),
+      oznacz('pole-nazwisko', $('nazwisko').value.trim().length > 0),
+      oznacz('pole-telefon', tel.length >= 9 && tel.length <= 15),
+      oznacz('pole-email', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))
+    ].every(Boolean);
+  }
+  $('formularz').addEventListener('input', function (e) {
+    var pole = e.target.closest('.pole');
+    if (pole && pole.classList.contains('ma-blad')) waliduj();
+  });
+
+  var TEL = '<a href="tel:+48793066186">793 066 186</a>';
+  function komunikat(html) { $('komunikat').innerHTML = html; $('komunikat').hidden = !html; }
+
+  $('formularz').addEventListener('submit', function (e) {
+    e.preventDefault();
+    komunikat('');
+    var stan = odswiez();
+    var okDane = waliduj();
+    var okPozycje = stan.liczbaPozycji > 0;
+    $('blad-pusty').classList.toggle('jest-widoczny', !okPozycje);
+    if (!okPozycje) { $('menu-cateringu').scrollIntoView(); return; }
+    if (!okDane) {
+      var pierwszy = document.querySelector('.ma-blad input');
+      if (pierwszy) pierwszy.focus();
+      return;
+    }
+    var wybrane = {};
+    Object.keys(ilosci).forEach(function (k) { if (ilosci[k] > 0) wybrane[k] = ilosci[k]; });
+    var dane = {
+      ilosci: wybrane,
+      imie: $('imie').value.trim(),
+      nazwisko: $('nazwisko').value.trim(),
+      telefon: $('telefon').value.trim(),
+      email: $('email').value.trim(),
+      uwagi: $('uwagi').value.trim(),
+      firma: $('firma').value
+    };
+    var btn = $('wyslij');
+    btn.disabled = true;
+    btn.textContent = 'Wysyłanie…';
+    function przywroc() { btn.disabled = false; btn.textContent = 'Zamawiam'; }
+
+    fetch('/api/catering', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dane) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, j: j }; }); })
+      .then(function (o) {
+        if (o.status === 200 && o.j.ok) {
+          $('potwierdzenie-tekst').textContent = dane.imie + ', przyjęliśmy zamówienie nr ' + o.j.numer + ' na kwotę ' + (o.j.saWagowe ? 'ok. ' : '') + zl(o.j.suma) + '. Podaj ten numer przy odbiorze.';
+          kontener.style.display = 'none';
+          $('formularz').style.display = 'none';
+          document.querySelector('.terminy').style.display = 'none';
+          $('pasek-sumy').style.display = 'none';
+          var pot = $('potwierdzenie');
+          pot.classList.add('jest-widoczne');
+          pot.focus();
+          window.scrollTo(0, 0);
+          return;
+        }
+        przywroc();
+        if (o.status === 422) {
+          (o.j.pola || []).forEach(function (p) { if ($('pole-' + p)) oznacz('pole-' + p, false); });
+          if ((o.j.pola || []).indexOf('pozycje') !== -1) komunikat('Coś jest nie tak z wybranymi pozycjami. Odśwież stronę i spróbuj ponownie.');
+        } else if (o.status === 409) {
+          zamknij();
+        } else if (o.status === 429) {
+          komunikat('Wysłano już kilka zamówień z tego urządzenia. Spróbuj za godzinę albo zadzwoń: ' + TEL + '.');
+        } else {
+          komunikat('Nie udało się wysłać zamówienia. Spróbuj ponownie lub zadzwoń: ' + TEL + '.');
+        }
+      })
+      .catch(function () {
+        przywroc();
+        komunikat('Brak połączenia. Spróbuj ponownie lub zadzwoń: ' + TEL + '.');
+      });
+  });
+
+  fetch('/catering/menu.json', { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (m) {
+      MENU = m;
+      if (dzisWPolsce() > MENU.koniecZamowien) return zamknij();
+      rysujMenu();
+      odswiez();
+    })
+    .catch(function () {
+      $('formularz').style.display = 'none';
+      kontener.innerHTML = '<p class="komunikat">Nie udało się wczytać menu. Odśwież stronę lub zadzwoń: ' + TEL + '.</p>';
+    });
+})();
+</script>
+</body>
+</html>
