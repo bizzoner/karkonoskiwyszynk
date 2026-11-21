@@ -247,6 +247,7 @@
 
   <!-- GRAFIK -->
   <section id="widok-grafik" hidden>
+    <div class="ostrzezenie" id="g-niezgodnosc" hidden style="margin-bottom:1rem"></div>
     <div class="karta sekcja-grafiku">
       <label class="przelacznik"><input type="checkbox" id="g-wlaczone"> Rezerwacje online włączone</label>
       <p class="pusto" style="margin:.3rem 0 0">Wyłączone: formularz na stronie pokazuje tylko numer telefonu.</p>
@@ -723,7 +724,26 @@
   }
 
   // ======================= GRAFIK =======================
+  // Porównanie z godzinami z wizytówki Google: rezerwacje w dni, gdy lokal jest zamknięty.
+  function sprawdzZgodnoscZGoogle() {
+    Promise.all([fetch('/api/grafik').then(function (r) { return r.json(); }), fetch('/api/godziny').then(function (r) { return r.ok ? r.json() : null; })])
+      .then(function (w) {
+        var terminy = w[0], g = w[1], box = $('g-niezgodnosc');
+        if (!g || !terminy.dni) { box.hidden = true; return; }
+        var konflikty = g.najblizsze.filter(function (d) {
+          var sloty = (terminy.dni[d.data] || {}).s || [];
+          if (!sloty.length) return false;
+          if (!d.godziny.length) return true;
+          return sloty.some(function (s) { return !d.godziny.some(function (p) { return s >= p.od && s < p.do; }); });
+        });
+        box.hidden = !konflikty.length;
+        box.textContent = konflikty.length ? 'UWAGA: grafik rezerwacji przyjmuje rezerwacje poza godzinami z wizytówki Google: ' +
+          konflikty.map(function (d) { return dataSlownie(d.data) + ' (Google: ' + (d.godziny.length ? d.godziny.map(function (p) { return p.od + '-' + p.do; }).join(', ') : 'zamknięte') + ')'; }).join('; ') +
+          '. Popraw grafik poniżej albo godziny w wizytówce.' : '';
+      }).catch(function () {});
+  }
   function wczytajGrafik() {
+    sprawdzZgodnoscZGoogle();
     api('grafik').then(function (w) { stan.grafik = w.grafik; rysujGrafik(); $('g-status').textContent = ''; })
       .catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się wczytać grafiku.', true); });
   }

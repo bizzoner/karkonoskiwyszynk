@@ -962,6 +962,7 @@ h1, h2, h3, h4 {
 }
 .kontakt__blok p { margin: 0 0 1.6rem; }
 .kontakt__blok .kontakt__bez-rez { margin-top: -0.9rem; font-style: italic; }
+.kontakt__blok .kontakt__teraz { margin: 0 0 .4rem; font-weight: 700; color: var(--gold-dark); }
 .kontakt__telefon {
   font-family: var(--f-display);
   font-weight: 700;
@@ -1393,24 +1394,9 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
   "publicAccess": true,
   "knowsLanguage": ["pl", "en"],
   "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
-      "opens": "12:00",
-      "closes": "20:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Friday", "Saturday"],
-      "opens": "12:00",
-      "closes": "21:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Sunday"],
-      "opens": "12:00",
-      "closes": "18:00"
-    }
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "13:00", "closes": "20:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "13:00", "closes": "21:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "12:00", "closes": "18:00" }
   ],
   "containedInPlace": {
     "@type": "LodgingBusiness",
@@ -2452,6 +2438,7 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
         <li><a href="#menu" data-i18n="ui_nav_menu">Menu</a></li>
         <li><a href="#pilsner" data-i18n="ui_nav_pilsner">Pilsner</a></li>
         <li><a href="#galeria" data-i18n="ui_nav_galeria">Galeria</a></li>
+        <li><a href="/imprezy/" data-i18n="ui_nav_imprezy">Imprezy</a></li>
         <li><a href="#kontakt" data-i18n="ui_nav_kontakt">Kontakt</a></li>
         <li class="nawigacja__sezonowe" data-do="2026-12-20"><a href="/catering/" data-i18n="ui_nav_catering">Catering</a></li>
       </ul>
@@ -3260,14 +3247,16 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
           <p><a class="kontakt__telefon" href="tel:+48793066186">793 066 186</a></p>
           <p><a class="btn-google" href="/rezerwacja/" data-i18n="kon_rez_online">Zarezerwuj stolik online</a></p>
           <p class="kontakt__bez-rez" data-i18n="kon_bez_rez">Bez rezerwacji też zapraszamy: w godzinach otwarcia po prostu przyjdź.</p>
+          <p class="kontakt__bez-rez"><a href="/imprezy/" data-i18n="kon_imprezy">Impreza dla 10-60 osób? Skonfiguruj ją online</a></p>
 
           <h3 data-i18n="kon_godz_label">Godziny otwarcia</h3>
-          <p>
-            <span data-i18n="kon_godz_1">Poniedziałek - czwartek: 12:00 - 20:00</span><br>
-            <span data-i18n="kon_godz_2">Piątek i sobota: 12:00 - 21:00</span><br>
+          <p class="kontakt__teraz" id="godziny-teraz" hidden></p>
+          <p id="godziny-lista">
+            <span data-i18n="kon_godz_1">Poniedziałek - czwartek: nieczynne</span><br>
+            <span data-i18n="kon_godz_2">Piątek: 13:00 - 20:00, sobota: 13:00 - 21:00</span><br>
             <span data-i18n="kon_godz_3">Niedziela: 12:00 - 18:00</span>
           </p>
-          <p class="kontakt__godz-nota" data-i18n="kon_godz_nota">Aktualne godziny zawsze na naszej wizytówce Google.</p>
+          <p class="kontakt__godz-nota" data-i18n="kon_godz_nota">Godziny pobieramy z naszej wizytówki Google.</p>
           <a class="btn-google" href="https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9" target="_blank" rel="noopener" data-i18n="kon_google">Zobacz nas w Google</a>
           <a class="btn-google btn-google--opinie" href="https://maps.app.goo.gl/uMgw76Eg7TdJMY2r9" target="_blank" rel="noopener">
             <svg class="btn-google__ikona" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.7 1.4 6.8L12 17.8 5.9 21.3l1.4-6.8L2.2 9.7l6.9-.7L12 2z"/></svg>
@@ -3559,10 +3548,12 @@ var I18N_DANE = {
     "kon_adres_label": "Adres",
     "kon_rez_label": "Rezerwacje",
     "kon_godz_label": "Godziny otwarcia",
-    "kon_godz_1": "Poniedziałek - czwartek: 12:00 - 20:00",
-    "kon_godz_2": "Piątek i sobota: 12:00 - 21:00",
+    "kon_godz_1": "Poniedziałek - czwartek: nieczynne",
+    "kon_godz_2": "Piątek: 13:00 - 20:00, sobota: 13:00 - 21:00",
     "kon_godz_3": "Niedziela: 12:00 - 18:00",
-    "kon_godz_nota": "Aktualne godziny zawsze na naszej wizytówce Google.",
+    "kon_imprezy": "Impreza dla 10-60 osób? Skonfiguruj ją online",
+    "ui_nav_imprezy": "Imprezy",
+    "kon_godz_nota": "Godziny pobieramy z naszej wizytówki Google.",
     "kon_google": "Zobacz nas w Google",
     "kon_opinie": "Zobacz opinie",
     "kon_nota": "Nocujesz w Villa Bożena? Wyszynk masz na parterze.",
@@ -3804,10 +3795,12 @@ var I18N_DANE = {
     "kon_adres_label": "Address",
     "kon_rez_label": "Reservations",
     "kon_godz_label": "Opening hours",
-    "kon_godz_1": "Monday - Thursday: 12:00 - 20:00",
-    "kon_godz_2": "Friday and Saturday: 12:00 - 21:00",
+    "kon_godz_1": "Monday - Thursday: closed",
+    "kon_godz_2": "Friday: 13:00 - 20:00, Saturday: 13:00 - 21:00",
     "kon_godz_3": "Sunday: 12:00 - 18:00",
-    "kon_godz_nota": "Current hours are always on our Google listing.",
+    "kon_imprezy": "Planning an event for 10-60 guests? Configure it online",
+    "ui_nav_imprezy": "Events",
+    "kon_godz_nota": "Hours are taken from our Google listing.",
     "kon_google": "Find us on Google",
     "kon_opinie": "Read reviews",
     "kon_nota": "Staying at Villa Bożena? The Wyszynk is right downstairs.",
@@ -4046,10 +4039,12 @@ var I18N_DANE = {
     "kon_adres_label": "Adresse",
     "kon_rez_label": "Reservierungen",
     "kon_godz_label": "Öffnungszeiten",
-    "kon_godz_1": "Montag - Donnerstag: 12:00 - 20:00",
-    "kon_godz_2": "Freitag und Samstag: 12:00 - 21:00",
+    "kon_godz_1": "Montag - Donnerstag: geschlossen",
+    "kon_godz_2": "Freitag: 13:00 - 20:00, Samstag: 13:00 - 21:00",
     "kon_godz_3": "Sonntag: 12:00 - 18:00",
-    "kon_godz_nota": "Aktuelle Öffnungszeiten immer in unserem Google-Profil.",
+    "kon_imprezy": "Eine Feier für 10-60 Gäste? Online konfigurieren",
+    "ui_nav_imprezy": "Feiern",
+    "kon_godz_nota": "Die Öffnungszeiten stammen aus unserem Google-Profil.",
     "kon_google": "Auf Google ansehen",
     "kon_opinie": "Bewertungen ansehen",
     "kon_nota": "Übernachten Sie in der Villa Bożena? Der Wyszynk liegt direkt im Erdgeschoss.",
@@ -4288,10 +4283,12 @@ var I18N_DANE = {
     "kon_adres_label": "Adresa",
     "kon_rez_label": "Rezervace",
     "kon_godz_label": "Otevírací doba",
-    "kon_godz_1": "Pondělí - čtvrtek: 12:00 - 20:00",
-    "kon_godz_2": "Pátek a sobota: 12:00 - 21:00",
+    "kon_godz_1": "Pondělí - čtvrtek: zavřeno",
+    "kon_godz_2": "Pátek: 13:00 - 20:00, sobota: 13:00 - 21:00",
     "kon_godz_3": "Neděle: 12:00 - 18:00",
-    "kon_godz_nota": "Aktuální otevírací dobu najdete vždy na našem profilu Google.",
+    "kon_imprezy": "Oslava pro 10-60 hostů? Nakonfigurujte ji online",
+    "ui_nav_imprezy": "Oslavy",
+    "kon_godz_nota": "Otevírací dobu přebíráme z našeho profilu Google.",
     "kon_google": "Podívejte se na nás na Google",
     "kon_opinie": "Zobrazit recenze",
     "kon_nota": "Ubytováni ve Villa Bożena? Wyszynk máte hned v přízemí.",
@@ -4840,6 +4837,61 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('[data-do]').forEach(function (el) {
     if (dzis > el.getAttribute('data-do')) el.hidden = true;
   });
+})();
+</script>
+<script>
+// Godziny otwarcia z wizytówki Google (/api/godziny): lista w kontakcie, stan
+// "teraz" i dane strukturalne. Statyczny tekst w HTML zostaje, gdy API nie odpowie.
+(function () {
+  var lista = document.getElementById('godziny-lista'), teraz = document.getElementById('godziny-teraz');
+  if (!lista || !window.fetch) return;
+  var T = {
+    pl: { zamk: 'nieczynne', otw: 'Teraz otwarte, do ', zam: 'Teraz zamknięte', od: 'otwieramy ', o: ' o ', jutro: 'jutro', dzis: 'dziś' },
+    en: { zamk: 'closed', otw: 'Open now, until ', zam: 'Closed now', od: 'we open ', o: ' at ', jutro: 'tomorrow', dzis: 'today' },
+    de: { zamk: 'geschlossen', otw: 'Jetzt geöffnet, bis ', zam: 'Jetzt geschlossen', od: 'wir öffnen ', o: ' um ', jutro: 'morgen', dzis: 'heute' },
+    cs: { zamk: 'zavřeno', otw: 'Nyní otevřeno, do ', zam: 'Nyní zavřeno', od: 'otevíráme ', o: ' v ', jutro: 'zítra', dzis: 'dnes' }
+  };
+  var dane = null;
+  function jezyk() { var l = document.documentElement.lang; return T[l] ? l : 'pl'; }
+  function nazwaDnia(d, l) { // d: 0 = niedziela
+    var n = new Date(Date.UTC(2026, 0, 4 + d)).toLocaleDateString(l === 'cs' ? 'cs-CZ' : l, { weekday: 'long', timeZone: 'UTC' });
+    return n.charAt(0).toUpperCase() + n.slice(1);
+  }
+  // Po polsku i czesku nazwy dni w środku zdania małą literą; po niemiecku i angielsku zawsze wielką.
+  function wSrodku(n, l) { return l === 'pl' || l === 'cs' ? n.toLowerCase() : n; }
+  function rysuj() {
+    if (!dane) return;
+    var l = jezyk(), t = T[l], kolej = [1, 2, 3, 4, 5, 6, 0], grupy = [];
+    kolej.forEach(function (d) {
+      var opis = dane.tydzien[d].length ? dane.tydzien[d].map(function (p) { return p.od + ' - ' + p.do; }).join(', ') : t.zamk;
+      var ost = grupy[grupy.length - 1];
+      if (ost && ost.opis === opis) ost.dni.push(d); else grupy.push({ dni: [d], opis: opis });
+    });
+    lista.textContent = '';
+    grupy.forEach(function (g, i) {
+      if (i) lista.appendChild(document.createElement('br'));
+      var dni = nazwaDnia(g.dni[0], l) + (g.dni.length > 1 ? ' - ' + wSrodku(nazwaDnia(g.dni[g.dni.length - 1], l), l) : '');
+      lista.appendChild(document.createTextNode(dni + ': ' + g.opis));
+    });
+    var s = dane.teraz;
+    if (s.otwarte) teraz.textContent = t.otw + s.do;
+    else if (s.otwarcie) {
+      var kiedy = s.otwarcie.data === dane.najblizsze[0].data ? t.dzis : s.otwarcie.data === dane.najblizsze[1].data ? t.jutro
+        : wSrodku(nazwaDnia(new Date(s.otwarcie.data + 'T12:00:00Z').getUTCDay(), l), l);
+      teraz.textContent = t.zam + ' - ' + t.od + kiedy + t.o + s.otwarcie.od;
+    } else teraz.textContent = t.zam;
+    teraz.hidden = false;
+  }
+  fetch('/api/godziny').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+    if (!d || !d.tydzien) return;
+    dane = d;
+    rysuj();
+    // Dane strukturalne zgodne z wizytówką Google
+    var ld = document.querySelector('script[type="application/ld+json"]');
+    try { var j = JSON.parse(ld.textContent); if (j['@type'] === 'Restaurant') { j.openingHoursSpecification = d.schema; ld.textContent = JSON.stringify(j, null, 2); } } catch (e) {}
+  }).catch(function () {});
+  // Tłumaczenie podmienia teksty - po zmianie języka rysujemy godziny ponownie.
+  new MutationObserver(rysuj).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 })();
 </script>
 <script>

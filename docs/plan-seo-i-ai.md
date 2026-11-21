@@ -30,7 +30,9 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
   z wizytówki.
 - [ ] Wpis w wizytówce „Catering świąteczny” z przyciskiem „Zamów online”
   (sezonowo, listopad-grudzień).
-- [ ] Godziny świąteczne w wizytówce (Wigilia, Święta, Sylwester).
+- [ ] Godziny świąteczne w wizytówce (Wigilia, Święta, Sylwester) - strona pobierze je sama.
+- [ ] **Grafik rezerwacji w panelu przyjmuje rezerwacje pn-czw, a wizytówka mówi
+  „zamknięte”** (21.11.2026). Ustalić z restauracją, które jest prawdziwe.
 - [ ] Odpowiadać na nowe opinie na bieżąco (wizytówka pokazuje licznik).
 
 ### Kontrola (za 1-2 tygodnie od 21.11.2026)
@@ -52,6 +54,10 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
   przed publikacją.
 
 ## Zrobione
+- 2026-11-21: godziny otwarcia synchronizowane z wizytówki Google (Places API) na
+  stronie, w danych strukturalnych i llms.txt; ostrzeżenie w panelu o niezgodnym grafiku.
+- 2026-11-21: konfigurator imprez /imprezy/ (10-60 osób) z obsługą w panelu; link w
+  nawigacji i kontakcie (4 języki), sitemap, llms.txt.
 - 2026-11-21: statystyki w panelu (źródła wizyt z UTM/QR/referera, dni, godziny,
   catering) i zanonimizowane archiwum do statystyk po terminie RODO.
 - 2026-11-21: link rezerwacji w wizytówce (z UTM), `ReserveAction` w danych strony.

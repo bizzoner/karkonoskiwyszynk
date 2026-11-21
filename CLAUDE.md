@@ -177,5 +177,15 @@ Pełny opis, zmienne środowiskowe i lista wdrożeniowa: `docs/rezerwacje-i-cate
 
 ## 10. SEO, wizytówka Google, AI
 
+**Godziny otwarcia: jedynym źródłem jest wizytówka Google.** `netlify/lib/godziny.mjs`
+pobiera je z Places API (New) najwyżej raz na 3 h (Blobs `godziny`; zmienne
+`GOOGLE_PLACES_KEY` - klucz w projekcie Google Cloud „Relaxtour Google Ads”,
+ograniczony do Places API (New) - i `GOOGLE_PLACE_ID`). Z nich korzystają:
+`/api/godziny`, lista godzin i „Teraz otwarte” w kontakcie na stronie głównej, dane
+strukturalne (podmieniane skryptem) i `/llms.txt` (funkcja `netlify/functions/llms.mjs` -
+tam edytuj tekst dla AI; pliku statycznego nie ma). Statyczne godziny w HTML i
+słowniku to tylko zapas, gdy API nie odpowie. Grafik rezerwacji w panelu jest osobny -
+panel ostrzega, gdy przyjmuje rezerwacje poza godzinami z Google.
+
 Otwarte zadania, terminy kontroli i historia zmian: `docs/plan-seo-i-ai.md`.
 Zaglądaj tam na początku sesji dotyczącej SEO lub wizytówki i aktualizuj po zmianach.
