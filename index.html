@@ -1379,7 +1379,17 @@ dialog::backdrop { background: rgba(28, 20, 9, .94); }
   "priceRange": "$$",
   "currenciesAccepted": "PLN",
   "paymentAccepted": "Gotówka, karta płatnicza, BLIK",
-  "acceptsReservations": "True",
+  "acceptsReservations": "https://karkonoskiwyszynk.pl/rezerwacja/",
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://karkonoskiwyszynk.pl/rezerwacja/",
+      "inLanguage": "pl",
+      "actionPlatform": ["https://schema.org/DesktopWebPlatform", "https://schema.org/MobileWebPlatform"]
+    },
+    "result": { "@type": "FoodEstablishmentReservation", "name": "Rezerwacja stolika" }
+  },
   "publicAccess": true,
   "knowsLanguage": ["pl", "cs", "de", "en"],
   "openingHoursSpecification": [
