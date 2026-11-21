@@ -92,6 +92,12 @@ węzeł tekstowy**, żeby zagnieżdżone `<span>` (odznaka, gramatura) przetrwa�
 **Dodając danie: musisz dopisać klucze do wszystkich czterech języków.** Brak
 klucza = element zostaje po polsku, bez żadnego błędu.
 
+**Po każdej zmianie dań lub cen uruchom `npm run menu`.** Skrypt
+`scripts/menu-dane.mjs` czyta polskie menu z `index.html` i generuje `/menu.json`
+oraz blok schema.org `Menu` między znacznikami `MENU-LD` w `index.html` (dla Google
+i asystentów AI; opisane w `/openapi.json` i `/llms.txt`). Nie edytuj ich ręcznie.
+`npm run menu -- --check` sprawdza, czy są aktualne.
+
 Czeskie nazwy dań zostają w oryginale z diakrytyką (*Hermelín*, *kulajda*,
 *Smažený sýr*). Ceny jako pełne złote z sufiksem (`29 zł`), gramatura w
 nawiasie. Emoji — nigdy, nigdzie.

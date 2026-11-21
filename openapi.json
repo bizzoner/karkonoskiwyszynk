@@ -1,0 +1,109 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Karkonoski Wyszynk - public data",
+    "version": "1.0.0",
+    "description": "Read-only public data of Karkonoski Wyszynk, a restaurant in Szklarska Poręba, Poland (ul. Jedności Narodowej 18, ground floor of Villa Bożena). Menu, catering menu and table availability. To book a table, send the guest to https://karkonoskiwyszynk.pl/rezerwacja/ - bookings are requests confirmed by staff by e-mail. Walk-ins are welcome during opening hours. Groups over 12 people: phone +48 793 066 186.",
+    "contact": { "url": "https://karkonoskiwyszynk.pl/" }
+  },
+  "servers": [{ "url": "https://karkonoskiwyszynk.pl" }],
+  "paths": {
+    "/menu.json": {
+      "get": {
+        "operationId": "getMenu",
+        "summary": "Current restaurant menu with prices (Polish, PLN)",
+        "description": "Generated from the menu on the website. Each item has a name, optional portion size, price text and a list of prices (zl) with optional size or variant.",
+        "responses": {
+          "200": {
+            "description": "Menu",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Menu" } } }
+          }
+        }
+      }
+    },
+    "/api/grafik": {
+      "get": {
+        "operationId": "getTableAvailability",
+        "summary": "Days and times available for online table booking",
+        "description": "Times are local (Europe/Warsaw). Online booking for today is possible at the earliest one hour ahead; walk-ins are welcome without booking. A day without free times has a status instead of a time list.",
+        "responses": {
+          "200": {
+            "description": "Availability",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Availability" } } }
+          },
+          "503": { "description": "Temporarily unavailable" }
+        }
+      }
+    },
+    "/catering/menu.json": {
+      "get": {
+        "operationId": "getChristmasCateringMenu",
+        "summary": "Seasonal Christmas catering menu (pickup only)",
+        "description": "Orders are placed at https://karkonoskiwyszynk.pl/catering/ until koniecZamowien; pickup time in odbior. Prices: cena zl per cenaZa units (jedn).",
+        "responses": {
+          "200": { "description": "Catering menu", "content": { "application/json": { "schema": { "type": "object" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Availability": {
+        "type": "object",
+        "required": ["wlaczone", "od", "dni"],
+        "properties": {
+          "wlaczone": { "type": "boolean", "description": "Whether online booking is enabled at all" },
+          "od": { "type": "string", "format": "date", "description": "Today (Europe/Warsaw)" },
+          "dni": {
+            "type": "object",
+            "description": "Keyed by date YYYY-MM-DD",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "s": { "type": "array", "items": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" }, "description": "Bookable start times" },
+                "st": { "type": "string", "enum": ["zamkniete", "pelne", "po-czasie", "poza"], "description": "zamkniete = closed, pelne = fully booked online, po-czasie = too late to book online today (walk-ins welcome), poza = outside booking range" }
+              }
+            }
+          }
+        }
+      },
+      "Menu": {
+        "type": "object",
+        "properties": {
+          "restauracja": { "type": "string" },
+          "adres": { "type": "string" },
+          "strona": { "type": "string", "format": "uri" },
+          "waluta": { "type": "string", "const": "PLN" },
+          "uwagi": { "type": "string" },
+          "kategorie": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "nazwa": { "type": "string", "description": "Category name" },
+                "wstep": { "type": "string" },
+                "pozycje": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "nazwa": { "type": "string", "description": "Dish name" },
+                      "porcja": { "type": "string", "description": "Portion size, e.g. 350ml or 400g" },
+                      "cena": { "type": "string", "description": "Price as printed" },
+                      "ceny": { "type": "array", "items": { "type": "object", "properties": { "zl": { "type": "number" }, "rozmiar": { "type": "string" } } } },
+                      "opis": { "type": "string", "description": "Description" },
+                      "podkategoria": { "type": "string" },
+                      "wegetarianskie": { "type": "boolean" },
+                      "sezonowe": { "type": "boolean" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
