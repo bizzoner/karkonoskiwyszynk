@@ -95,7 +95,9 @@
     margin-bottom: 0.4rem;
   }
   h1 { font-size: clamp(1.9rem, 6vw, 2.5rem); font-weight: 900; }
-  .wstep { font-style: italic; color: var(--brown); margin: 0 0 2rem; }
+  .wstep { font-style: italic; color: var(--brown); margin: 0 0 1rem; }
+  .bez-rezerwacji { border-left: 1px solid var(--gold); padding: .2rem 0 .2rem 1rem; margin: 0 0 2rem; color: var(--brown); }
+  .bez-rezerwacji strong { color: var(--forest); }
 
   /* Karta formularza */
   .karta {
@@ -292,6 +294,7 @@
   .godziny button:hover { background: var(--ivory-alt); }
   .godziny button[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
   .godziny__pusto { font-style: italic; color: var(--brown); margin: 0; }
+  .godziny__dzis { grid-column: 1 / -1; font-style: italic; color: var(--brown); font-size: .92rem; margin: 0 0 .3rem; }
   .kalendarz__dzien:focus-visible, .godziny button:focus-visible, .kalendarz__nav:focus-visible { outline: 2px solid var(--gold-lighter); outline-offset: 2px; }
 
   .komunikat {
@@ -324,6 +327,7 @@
   <span class="eyebrow">Karkonoski Wyszynk · Szklarska Poręba</span>
   <h1>Zarezerwuj stolik</h1>
   <p class="wstep">Wybierz dzień i godzinę, a my przygotujemy dla Was miejsce przy stole. Potwierdzenie rezerwacji wyślemy mailem.</p>
+  <p class="bez-rezerwacji"><strong>Bez rezerwacji też zapraszamy.</strong> W godzinach otwarcia po prostu przyjdź, a jeśli jest wolny stolik, od razu usiądziesz. Rezerwacja daje pewność miejsca o konkretnej godzinie. Online przyjmujemy ją najwcześniej na godzinę naprzód.</p>
 
   <div class="komunikat" id="komunikat" role="status" hidden></div>
 
@@ -413,7 +417,7 @@
   var OSOBY_MIN = 1, OSOBY_MAX = 12;
   var MIESIACE = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
   var DNI_TYG = ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'];
-  var POWODY = { zamkniete: 'lokal nieczynny', pelne: 'brak wolnych miejsc', 'po-czasie': 'na dziś to już za późno', poza: 'poza zakresem rezerwacji' };
+  var POWODY = { zamkniete: 'lokal nieczynny', pelne: 'brak wolnych miejsc', 'po-czasie': 'dziś online już za późno, zapraszamy bez rezerwacji', poza: 'poza zakresem rezerwacji' };
 
   var $ = function (id) { return document.getElementById(id); };
   var form = $('formularz');
@@ -519,6 +523,12 @@
       p.textContent = 'Najpierw wybierz dzień.';
       box.appendChild(p);
       return;
+    }
+    if (stan.data === stan.od) {
+      var info = document.createElement('p');
+      info.className = 'godziny__dzis';
+      info.textContent = 'Dziś online najwcześniej za godzinę. Wcześniej? Przyjdź bez rezerwacji.';
+      box.appendChild(info);
     }
     sloty.forEach(function (g) {
       var b = document.createElement('button');
