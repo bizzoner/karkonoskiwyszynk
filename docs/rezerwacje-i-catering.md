@@ -83,6 +83,16 @@ działać (401) i rezerwacja przepadła niezauważona; klucz wymieniono 21.11.20
 Wspólne hasło (`PANEL_HASLO`), sesja 12 h w ciasteczku HttpOnly/Secure/SameSite=Strict,
 limit 10 prób logowania na 15 min z jednego IP. Zmiany wymagają nagłówka `X-Panel` (CSRF).
 
+## Imprezy okolicznościowe (konfigurator `/imprezy/`, panel → Imprezy)
+
+Gość wybiera datę (od jutra), liczbę gości (10-60, sala do 60 osób), wyłączność sali,
+rodzaj imprezy, format jedzenia (z karty / menu stałe / bufet) i dodatki organizowane
+z partnerami. `POST /api/impreza` zapisuje `impreza/<id>` i wysyła maile do restauracji
+(Reply-To: gość) i do gościa. To zapytanie, nie rezerwacja - termin ustala się po kontakcie.
+Panel: statusy Nowe / W kontakcie / Potwierdzone / Odrzucone. Słowniki opcji:
+`netlify/lib/imprezy.mjs` (serwer, maile) - lista w `imprezy/index.html` i `panel/index.html`
+musi mieć te same klucze. Dane osobowe usuwane 30 dni po terminie imprezy (archiwum anonimowe).
+
 ## Statystyki (panel → Statystyki)
 
 Zgłoszenia, potwierdzenia, goście, źródła wizyt, dni tygodnia i godziny, catering.

@@ -3,6 +3,7 @@ import { zalogowany, poprawneHaslo, utworzSesje, usunSesje, przekroczonyLimit, w
 import { wszystkieRezerwacje, zdecyduj, ustawDzienPelny } from '../lib/rezerwacje.mjs';
 import { wszystkieZamowienia, zmienZamowienie } from '../lib/catering.mjs';
 import { daneStatystyk } from '../lib/statystyki.mjs';
+import { wszystkieImprezy, zmienStatusImprezy } from '../lib/imprezy.mjs';
 
 const czekaj = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -46,6 +47,13 @@ export default async function handler(request) {
       const b = await cialoJson(request);
       if (!b || !/^\d{4}-\d{2}-\d{2}$/.test(b.data)) return json({ blad: 'zle-dane' }, 400);
       return json({ grafik: await ustawDzienPelny(b.data, !!b.pelny) });
+    }
+
+    if (trasa === 'imprezy' && metoda === 'GET') return json({ imprezy: await wszystkieImprezy() });
+    if (trasa === 'impreza-status' && metoda === 'POST') {
+      const b = await cialoJson(request);
+      const w = await zmienStatusImprezy(b?.id, b?.status);
+      return w.blad ? json(w, w.blad === 'nie-ma' ? 404 : 400) : json(w);
     }
 
     if (trasa === 'statystyki' && metoda === 'GET') return json(await daneStatystyk());

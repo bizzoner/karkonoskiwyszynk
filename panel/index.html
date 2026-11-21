@@ -58,7 +58,7 @@
   /* Rezerwacje */
   .filtry { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
   .filtry button { border: 1px solid var(--gold); background: #fff; color: var(--forest); border-radius: var(--radius); padding: .45rem .9rem; font-weight: 700; cursor: pointer; min-height: 40px; }
-  #odswiez { margin-left: auto; }
+  #odswiez, #i-odswiez { margin-left: auto; }
   .filtry button[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
   .dzien { margin-bottom: 1.6rem; }
   .dzien__naglowek { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
@@ -95,12 +95,17 @@
     /* Telefon: logo, tytuł i Wyloguj w pierwszym wierszu, zakładki na całą szerokość pod spodem. */
     .pasek__wnetrze { gap: .6rem .8rem; }
     .wyloguj { margin-left: auto; order: 1; padding: .35rem .6rem; min-height: 36px; }
-    .zakladki { order: 2; flex-basis: 100%; margin-left: 0; display: grid; grid-template-columns: repeat(2, 1fr); }
+    .zakladki { order: 2; flex-basis: 100%; margin-left: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
     .zakladki button { padding: .45rem .3rem; letter-spacing: .06em; }
     .filtry { display: grid; grid-template-columns: repeat(3, 1fr); }
     .filtry button { padding: .45rem .3rem; }
     #odswiez { grid-column: 1 / -1; margin-left: 0; min-height: 40px; }
     #s-okres { grid-template-columns: repeat(4, 1fr); }
+    #i-odswiez { grid-column: 1 / -1; margin-left: 0; min-height: 40px; }
+    .segment.segment--siatka { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+    .segment.segment--siatka button { border-bottom: 1px solid var(--forest); }
+    .segment.segment--siatka button:nth-child(2n) { border-right: none; }
+    .segment.segment--siatka button:nth-last-child(-n+2) { border-bottom: none; }
     .rez { grid-template-columns: 64px 1fr; }
     .rez__akcje { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
   }
@@ -211,6 +216,7 @@
       <button role="tab" data-widok="rezerwacje" aria-selected="true">Rezerwacje<span class="licznik-zakladki" id="licznik-oczekujacych" hidden></span></button>
       <button role="tab" data-widok="grafik" aria-selected="false">Grafik</button>
       <button role="tab" data-widok="catering" aria-selected="false">Catering</button>
+      <button role="tab" data-widok="imprezy" aria-selected="false">Imprezy<span class="licznik-zakladki" id="licznik-imprez" hidden></span></button>
       <button role="tab" data-widok="statystyki" aria-selected="false">Statystyki</button>
     </nav>
     <button class="wyloguj" id="wyloguj" hidden>Wyloguj</button>
@@ -310,6 +316,17 @@
     <div id="lista-catering"></div>
   </section>
 
+  <!-- IMPREZY -->
+  <section id="widok-imprezy" hidden>
+    <div class="filtry" id="i-filtry">
+      <button data-filtr="aktywne" aria-pressed="true">Do obsługi</button>
+      <button data-filtr="potwierdzone" aria-pressed="false">Potwierdzone</button>
+      <button data-filtr="wszystkie" aria-pressed="false">Wszystkie</button>
+      <button class="btn btn--jasny" id="i-odswiez">Odśwież</button>
+    </div>
+    <div id="lista-imprez"></div>
+  </section>
+
   <!-- STATYSTYKI -->
   <section id="widok-statystyki" hidden>
     <div class="filtry" id="s-okres">
@@ -388,7 +405,7 @@
 
   // ---------- Logowanie / widoki ----------
   function pokazLogowanie() {
-    ['widok-rezerwacje', 'widok-grafik', 'widok-catering', 'widok-statystyki', 'zakladki', 'wyloguj'].forEach(function (id) { $(id).hidden = true; });
+    ['widok-rezerwacje', 'widok-grafik', 'widok-catering', 'widok-imprezy', 'widok-statystyki', 'zakladki', 'wyloguj'].forEach(function (id) { $(id).hidden = true; });
     $('logowanie').hidden = false;
     $('haslo').focus();
   }
@@ -397,6 +414,7 @@
     $('zakladki').hidden = false;
     $('wyloguj').hidden = false;
     przelacz(stan.widok);
+    if (stan.widok !== 'imprezy') wczytajImprezy(); // licznik nowych zapytań na zakładce
   }
   $('logowanie').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -416,11 +434,77 @@
   function przelacz(widok) {
     stan.widok = widok;
     document.querySelectorAll('#zakladki button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.widok === widok ? 'true' : 'false'); });
-    ['rezerwacje', 'grafik', 'catering', 'statystyki'].forEach(function (w) { $('widok-' + w).hidden = w !== widok; });
+    ['rezerwacje', 'grafik', 'catering', 'imprezy', 'statystyki'].forEach(function (w) { $('widok-' + w).hidden = w !== widok; });
     if (widok === 'rezerwacje') wczytajRezerwacje();
     if (widok === 'grafik') wczytajGrafik();
     if (widok === 'catering') wczytajCatering();
     if (widok === 'statystyki') wczytajStatystyki();
+    if (widok === 'imprezy') wczytajImprezy();
+  }
+
+  // ======================= IMPREZY =======================
+  var I_RODZAJE = { wigilia: 'Wigilia firmowa', urodziny: 'Urodziny', komunia: 'Komunia', chrzciny: 'Chrzciny', slub: 'Ślub', jubileusz: 'Jubileusz', integracja: 'Integracja', szkolenie: 'Szkolenie', inne: 'Inne' };
+  var I_FORMATY = { karta: 'Wybór z karty', menu: 'Menu stałe na osobę', bufet: 'Bufet' };
+  var I_DODATKI = { wystroj: 'Wystrój sali', dj: 'DJ', muzyka: 'Muzyka na żywo', rzutnik: 'Rzutnik i ekran', naglosnienie: 'Nagłośnienie', opiekun: 'Opiekun dla dzieci', fotobudka: 'Fotobudka' };
+  var I_STATUSY = { nowe: 'Nowe', kontakt: 'W kontakcie', potwierdzone: 'Potwierdzone', odrzucone: 'Odrzucone' };
+  var imp = { lista: [], filtr: 'aktywne' };
+  function wczytajImprezy() {
+    return api('imprezy').then(function (d) { imp.lista = d.imprezy; rysujImprezy(); })
+      .catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się wczytać zapytań o imprezy.', true); });
+  }
+  $('i-odswiez').addEventListener('click', wczytajImprezy);
+  $('i-filtry').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-filtr]');
+    if (!b) return;
+    imp.filtr = b.dataset.filtr;
+    document.querySelectorAll('#i-filtry button[data-filtr]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    rysujImprezy();
+  });
+  function rysujImprezy() {
+    var dzis = dzisISO();
+    var nowe = imp.lista.filter(function (z) { return z.status === 'nowe'; }).length;
+    $('licznik-imprez').textContent = nowe; $('licznik-imprez').hidden = !nowe;
+    var lista = imp.lista.filter(function (z) {
+      if (imp.filtr === 'aktywne') return (z.status === 'nowe' || z.status === 'kontakt') && z.data >= dzis;
+      if (imp.filtr === 'potwierdzone') return z.status === 'potwierdzone' && z.data >= dzis;
+      return true;
+    });
+    if (imp.filtr === 'wszystkie') lista = lista.slice().reverse();
+    var box = $('lista-imprez');
+    box.textContent = '';
+    if (!lista.length) { box.appendChild(el('p', { class: 'pusto', text: imp.filtr === 'aktywne' ? 'Brak zapytań do obsługi.' : 'Brak zapytań.' })); return; }
+    lista.forEach(function (z) { box.appendChild(kartaImprezy(z)); });
+  }
+  function kartaImprezy(z) {
+    var seg = el('div', { class: 'segment segment--siatka', role: 'group', 'aria-label': 'Status zapytania' }, Object.keys(I_STATUSY).map(function (s) {
+      return el('button', { type: 'button', 'aria-pressed': z.status === s ? 'true' : 'false', text: I_STATUSY[s],
+        onclick: function (ev) { if (z.status !== s) statusImprezy(z, s, ev.target); } });
+    }));
+    var ostrzezenia = [];
+    if (z.mailDoRestauracjiWyslany === false) ostrzezenia.push('powiadomienie mailowe do restauracji nie wyszło');
+    if (z.mailDoGosciaWyslany === false) ostrzezenia.push('gość nie dostał potwierdzenia mailem');
+    var rodzaj = z.rodzaj === 'inne' && z.rodzajInny ? 'Inne: ' + z.rodzajInny : I_RODZAJE[z.rodzaj] || z.rodzaj;
+    return el('div', { class: 'karta zam zam--' + (z.status === 'odrzucone' ? 'anulowane' : z.status === 'potwierdzone' ? 'wydane' : 'przyjete') }, [
+      el('div', { class: 'zam__gora' }, [
+        el('span', { class: 'zam__numer', text: dataSlownie(z.data) + (z.godzina ? ', ' + z.godzina : '') }),
+        el('span', { class: 'status status--' + (z.status === 'nowe' ? 'oczekuje' : z.status === 'potwierdzone' ? 'potwierdzona' : z.status === 'odrzucone' ? 'odrzucona' : 'zamknieta'), text: I_STATUSY[z.status] }),
+        el('span', { class: 'zam__suma', text: osoby(z.goscie) })
+      ]),
+      el('div', {}, [el('strong', { text: rodzaj }), z.wylacznosc ? ' · sala na wyłączność' : '', ' · ' + (I_FORMATY[z.format] || z.format)]),
+      z.dodatki && z.dodatki.length ? el('div', { text: 'Dodatki: ' + z.dodatki.map(function (d) { return I_DODATKI[d] || d; }).join(', ') }) : null,
+      el('div', {}, [el('strong', { text: z.imie + ' ' + z.nazwisko }), z.nazwaFirmy ? ' (' + z.nazwaFirmy + ')' : '', ' · ',
+        el('a', { href: 'tel:' + z.telefon.replace(/[^\d+]/g, ''), text: z.telefon }), ' · ', el('a', { href: 'mailto:' + z.email, text: z.email })]),
+      z.uwagi ? el('div', { class: 'rez__uwagi', text: '„' + z.uwagi + '”' }) : null,
+      el('div', { class: 'rez__meta', text: 'Wpłynęło ' + kiedyUtworzono(z.utworzono) }),
+      ostrzezenia.length ? el('div', { class: 'ostrzezenie', text: 'UWAGA: ' + ostrzezenia.join('; ') + '.' }) : null,
+      el('div', { class: 'zam__sterowanie' }, [seg])
+    ]);
+  }
+  function statusImprezy(z, status, btn) {
+    btn.disabled = true;
+    api('impreza-status', { method: 'POST', body: { id: z.id, status: status } })
+      .then(function (w) { z.status = w.impreza.status; rysujImprezy(); komunikat('Zapisano: ' + I_STATUSY[status] + '.'); })
+      .catch(function (e) { if (e.message !== 'sesja') { btn.disabled = false; komunikat('Nie udało się zapisać statusu.', true); } });
   }
 
   // ======================= STATYSTYKI =======================

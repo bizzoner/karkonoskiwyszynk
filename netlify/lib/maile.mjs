@@ -3,6 +3,7 @@
 // zieleń, złote linie włosowe, krój szeryfowy, zero cieni i zaokrągleń.
 
 import { ustawienia, dataSlownie, TELEFON, ADRES } from './wyszynk.mjs';
+import { FORMATY, DODATKI, opisRodzaju } from './imprezy.mjs';
 
 const K = {
   forest: '#1F4A2E', gold: '#9B7A1A', goldDark: '#7A5F12', goldLight: '#C49A22', goldLighter: '#E8C45A',
@@ -253,5 +254,61 @@ export function mailZamowienieCateringPrzyjete(z) {
         akapit(`Chcesz coś zmienić? Odpowiedz na tę wiadomość lub zadzwoń: <a href="tel:${TELEFON.replace(/\s/g, '')}" style="color:${K.forest};font-weight:bold;">${TELEFON}</a>. Zmiany i rezygnację przyjmujemy do 20 grudnia. Potrawy przygotowujemy na konkretny dzień, dlatego od zamówienia nie przysługuje prawo odstąpienia (art. 38 ust. 1 pkt 4 ustawy o prawach konsumenta).`, 'font-size:15px;')
     }),
     text: tekstowa([`Dziękujemy, ${z.imie}!`, `Przyjęliśmy Twoje zamówienie nr ${z.numer}. Płatność przy odbiorze.`, `Odbiór: ${z.odbior}, ${ADRES}`, '', ...z.pozycje.map((p) => `- ${p.nazwa}: ${p.ilosc} = ${zl(p.wartosc)}`), '', `Razem: ${z.saWagowe ? 'ok. ' : ''}${zl(z.suma)}`, '', `Zmiany: ${TELEFON}`])
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Imprezy okolicznościowe (konfigurator /imprezy/)
+// ---------------------------------------------------------------------------
+function wierszeImprezy(z, zKontaktem) {
+  return [
+    ['Termin', `<strong>${esc(dataSlownie(z.data))}${z.godzina ? ', od godz. ' + esc(z.godzina) : ''}</strong>`],
+    ['Rodzaj', esc(opisRodzaju(z))],
+    ['Liczba gości', esc(osoby(z.goscie))],
+    ['Sala na wyłączność', z.wylacznosc ? 'tak' : 'nie'],
+    ['Jedzenie', esc(FORMATY[z.format] || z.format)],
+    ['Dodatki', z.dodatki.length ? esc(z.dodatki.map((d) => DODATKI[d] || d).join(', ')) : 'bez dodatków'],
+    ['Kontakt', esc(`${z.imie} ${z.nazwisko}`) + (z.nazwaFirmy ? `<br>${esc(z.nazwaFirmy)}` : '')],
+    zKontaktem && ['Telefon', `<a href="tel:${esc(z.telefon.replace(/[^\d+]/g, ''))}" style="color:${K.forest};">${esc(z.telefon)}</a>`],
+    zKontaktem && ['E-mail', `<a href="mailto:${esc(z.email)}" style="color:${K.forest};">${esc(z.email)}</a>`],
+    z.uwagi && ['Uwagi', nl2br(z.uwagi)]
+  ];
+}
+const tekstImprezy = (z) => [
+  `Termin: ${dataSlownie(z.data)}${z.godzina ? ', od godz. ' + z.godzina : ''}`, `Rodzaj: ${opisRodzaju(z)}`, `Liczba gości: ${z.goscie}`,
+  `Sala na wyłączność: ${z.wylacznosc ? 'tak' : 'nie'}`, `Jedzenie: ${FORMATY[z.format] || z.format}`,
+  `Dodatki: ${z.dodatki.length ? z.dodatki.map((d) => DODATKI[d] || d).join(', ') : 'bez dodatków'}`,
+  `Kontakt: ${z.imie} ${z.nazwisko}${z.nazwaFirmy ? ' (' + z.nazwaFirmy + ')' : ''}`
+];
+
+export function mailNowaImpreza(z) {
+  const { adresStrony } = ustawienia();
+  return {
+    temat: `Zapytanie o imprezę: ${opisRodzaju(z)}, ${krotkaData(z.data)}, ${osoby(z.goscie)} - ${z.imie} ${z.nazwisko}`,
+    html: szablon({
+      zajawka: `${opisRodzaju(z)} · ${dataSlownie(z.data)} · ${osoby(z.goscie)}`,
+      eyebrow: 'Konfigurator imprez · nowe zapytanie',
+      tytul: 'Nowe zapytanie o imprezę',
+      stopkaDlaGoscia: false,
+      tresc: tabelaDanych(wierszeImprezy(z, true)) +
+        akapit(`Gość czeka na kontakt z propozycją. Odpowiedź na tę wiadomość trafi bezpośrednio do gościa. Wszystkie zapytania: <a href="${esc(adresStrony)}/panel/" style="color:${K.forest};">panel → Imprezy</a>.`, `font-size:14px;color:${K.brown};margin-top:14px;`)
+    }),
+    text: tekstowa(['Nowe zapytanie o imprezę', '', ...tekstImprezy(z), `Telefon: ${z.telefon}`, `E-mail: ${z.email}`, z.uwagi ? `Uwagi: ${z.uwagi}` : null])
+  };
+}
+
+export function mailImprezaPrzyjeta(z) {
+  return {
+    temat: `Dziękujemy za zapytanie o imprezę - ${dataSlownie(z.data)}`,
+    html: szablon({
+      zajawka: 'Przygotujemy propozycję i odezwiemy się wkrótce.',
+      eyebrow: 'Imprezy okolicznościowe',
+      tytul: `Dziękujemy, ${z.imie}!`,
+      tresc: akapit('Otrzymaliśmy zapytanie o imprezę w Karkonoskim Wyszynku. Przygotujemy propozycję i <strong>odezwiemy się telefonicznie lub mailowo</strong>. Termin rezerwujemy dopiero po wspólnym ustaleniu szczegółów.') +
+        tabelaDanych(wierszeImprezy(z, false)) +
+        separator() +
+        akapit(`Coś się zmieniło? Odpowiedz na tę wiadomość albo zadzwoń: <a href="tel:${TELEFON.replace(/\s/g, '')}" style="color:${K.forest};font-weight:bold;">${TELEFON}</a>.`, 'font-size:15px;')
+    }),
+    text: tekstowa([`Dziękujemy, ${z.imie}!`, '', 'Otrzymaliśmy zapytanie o imprezę. Przygotujemy propozycję i odezwiemy się telefonicznie lub mailowo. Termin rezerwujemy dopiero po wspólnym ustaleniu szczegółów.', '', ...tekstImprezy(z), '', `Pytania: ${TELEFON}`])
   };
 }
