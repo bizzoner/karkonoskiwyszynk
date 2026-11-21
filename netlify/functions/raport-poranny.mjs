@@ -32,8 +32,13 @@ export async function daneRaportu(teraz = terazWPolsce()) {
   };
 }
 
+// Raport bez treści (same zera i brak problemów) nie wychodzi.
+export const pustyRaport = (d) => !d.dzis.length && !d.doDecyzji.length && !d.noweImprezy.length &&
+  !d.imprezyTydzien.length && !d.cateringNowe && !Object.keys(d.stan).length;
+
 export default async function handler() {
   const d = await daneRaportu();
+  if (pustyRaport(d)) { console.log('raport-poranny', d.data, 'pusty - nie wysyłam'); return; }
   const { mailRestauracji, mailAdmin } = ustawienia();
   const mail = mailRaportPoranny(d);
   try {

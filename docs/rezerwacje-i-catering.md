@@ -105,7 +105,8 @@ musi mieć te same klucze. Dane osobowe usuwane 30 dni po terminie imprezy (arch
 `raport-poranny` (codziennie 8:00 UTC = 9:00 zimą, 10:00 latem) sprawdza klucz Resend
 (pusty POST: 422 = OK, 401 = zły klucz) i pobieranie godzin z Google, po czym wysyła na
 `MAIL_RESTAURACJA` raport: rezerwacje na dziś, do decyzji, nowe zapytania o imprezy,
-potwierdzone imprezy w tygodniu, catering. Przy trwającej awarii raport idzie też na
+potwierdzone imprezy w tygodniu, catering. Gdy wszystko jest zerem i nie ma problemów,
+raport nie wychodzi. Przy trwającej awarii raport idzie też na
 `MAIL_ADMIN` (ustawiony na adres Krystiana).
 
 Każda awaria wysyłki (401/403/5xx, brak połączenia) i pobierania godzin zapisuje się w
