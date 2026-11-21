@@ -58,6 +58,7 @@
   /* Rezerwacje */
   .filtry { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
   .filtry button { border: 1px solid var(--gold); background: #fff; color: var(--forest); border-radius: var(--radius); padding: .45rem .9rem; font-weight: 700; cursor: pointer; min-height: 40px; }
+  #odswiez { margin-left: auto; }
   .filtry button[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
   .dzien { margin-bottom: 1.6rem; }
   .dzien__naglowek { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
@@ -98,7 +99,7 @@
     .zakladki button { padding: .45rem .3rem; letter-spacing: .06em; }
     .filtry { display: grid; grid-template-columns: repeat(3, 1fr); }
     .filtry button { padding: .45rem .3rem; }
-    #odswiez { grid-column: 1 / -1; margin-left: 0 !important; min-height: 40px; }
+    #odswiez { grid-column: 1 / -1; margin-left: 0; min-height: 40px; }
     .rez { grid-template-columns: 64px 1fr; }
     .rez__akcje { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
   }
@@ -215,7 +216,7 @@
       <button data-filtr="oczekuje" aria-pressed="true">Do decyzji</button>
       <button data-filtr="nadchodzace" aria-pressed="false">Nadchodzące</button>
       <button data-filtr="wszystkie" aria-pressed="false">Wszystkie</button>
-      <button class="btn btn--jasny" id="odswiez" style="margin-left:auto">Odśwież</button>
+      <button class="btn btn--jasny" id="odswiez">Odśwież</button>
     </div>
     <div id="lista-rezerwacji"></div>
   </section>
