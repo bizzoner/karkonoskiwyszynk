@@ -7,3 +7,60 @@
 
 [functions."instagram-sync"]
   schedule = "17 * * * *"
+
+# Repo jest publikowane w całości (publish = "."), więc pliki wewnętrzne
+# (dokumentacja, kod funkcji, skrypty) blokujemy na poziomie HTTP.
+# Funkcje Netlify budują się z katalogu netlify/ niezależnie od tych reguł.
+[[redirects]]
+  from = "/docs/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/CLAUDE.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/AGENTS.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/_headers"
+  to = "/404"
+  status = 404
+  force = true

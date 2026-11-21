@@ -8,3 +8,8 @@
   X-Robots-Tag: noindex, nofollow
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
+
+# Zdjęcia: nazwy plików nie mają hasha, więc tydzień cache + odświeżanie w tle.
+# Podmieniając zdjęcie pod tą samą nazwą, licz się z tygodniem starej wersji u gości.
+/assets/img/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
