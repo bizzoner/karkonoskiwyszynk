@@ -38,7 +38,11 @@ export default async function handler(request) {
   ]);
   wyniki.forEach((w, i) => { if (w.status === 'rejected') console.error('Mail rezerwacji', i ? 'gość' : 'restauracja', r.id, w.reason?.message); });
 
-  // Jeśli nie poszedł mail do restauracji, rezerwacja i tak jest w panelu.
+  // Wynik wysyłki zapisujemy przy rezerwacji - panel pokaże ostrzeżenie, bo log
+  // funkcji znika po dobie. Rezerwacja i tak jest w panelu.
+  r.mailDoRestauracjiWyslany = wyniki[0].status === 'fulfilled';
+  r.mailPrzyjecieWyslany = wyniki[1].status === 'fulfilled';
+  if (!r.mailDoRestauracjiWyslany || !r.mailPrzyjecieWyslany) await (await magazyn()).set(kluczRezerwacji(r.id), r);
   return json({ ok: true, id: r.id });
 }
 

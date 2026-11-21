@@ -1,5 +1,5 @@
 // Rezerwacje: zapis, linki decyzji z maila, potwierdzanie/odrzucanie.
-import { magazyn, ustawienia, podpisz, zgodnyPodpis, wyslijMail, wczytajGrafik, tekst } from './wyszynk.mjs';
+import { magazyn, ustawienia, podpisz, zgodnyPodpis, wyslijMail, wczytajGrafik, tekst, terazWPolsce } from './wyszynk.mjs';
 import { mailRezerwacjaPotwierdzona, mailRezerwacjaOdrzucona, POWODY_ODRZUCENIA } from './maile.mjs';
 
 export const kluczRezerwacji = (id) => `rezerwacja/${id}`;
@@ -24,12 +24,27 @@ export function linkiDecyzji(id) {
 }
 export const poprawnyLinkDecyzji = (id, akcja, s) => ID.test(String(id)) && AKCJE_LINKU.includes(akcja) && zgodnyPodpis(`decyzja.${id}.${akcja}`, s);
 
+// Czy godzina rezerwacji już minęła (czas polski).
+export function terminMinal(r, teraz = terazWPolsce()) {
+  const [g, mi] = String(r.godzina).split(':').map(Number);
+  return r.data < teraz.data || (r.data === teraz.data && g * 60 + mi <= teraz.minuty);
+}
+
 // Jedyne miejsce zmiany statusu. Idempotentne: druga decyzja nic nie robi.
+// 'zamknij' - dla rezerwacji bez decyzji, której termin minął: bez maila do gościa.
 export async function zdecyduj(id, akcja, { powod, powodTekst, oznaczPelne, zrodlo } = {}) {
   const m = await magazyn();
   const r = await pobierzRezerwacje(id);
   if (!r) return { blad: 'nie-ma' };
   if (r.status !== 'oczekuje') return { juz: true, rezerwacja: r };
+
+  if (akcja === 'zamknij') {
+    r.status = 'zamknieta';
+    r.decyzjaO = new Date().toISOString();
+    r.decyzjaZrodlo = zrodlo || 'panel';
+    await m.set(kluczRezerwacji(id), r);
+    return { rezerwacja: r };
+  }
 
   r.status = akcja === 'potwierdz' ? 'potwierdzona' : 'odrzucona';
   r.decyzjaO = new Date().toISOString();

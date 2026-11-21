@@ -5,7 +5,7 @@
 // jednym kliknięciem w mailu. Automat bez JS (lub z navigator.webdriver)
 // zobaczy tylko przycisk. „Odrzuć” (inny powód) zawsze pokazuje formularz.
 import { BEZ_CACHE, dataSlownie } from '../lib/wyszynk.mjs';
-import { pobierzRezerwacje, poprawnyLinkDecyzji, zdecyduj } from '../lib/rezerwacje.mjs';
+import { pobierzRezerwacje, poprawnyLinkDecyzji, zdecyduj, terminMinal } from '../lib/rezerwacje.mjs';
 import { esc, osoby } from '../lib/maile.mjs';
 
 function strona(tytul, tresc) {
@@ -42,7 +42,9 @@ const szczegoly = (r) => `<dl>
 <dt>E-mail</dt><dd>${esc(r.email)}</dd>
 ${r.uwagi ? `<dt>Uwagi</dt><dd>${esc(r.uwagi)}</dd>` : ''}</dl>`;
 
-const opisStatusu = (r) => r.status === 'potwierdzona'
+const opisStatusu = (r) => r.status === 'zamknieta'
+  ? 'Ta rezerwacja została <strong>zamknięta bez decyzji</strong> (termin minął), gość nie dostał maila.'
+  : r.status === 'potwierdzona'
   ? `Ta rezerwacja jest już <strong>potwierdzona</strong>${r.mailDoGosciaWyslany === false ? ' - ale mail do gościa NIE wyszedł, zadzwoń do niego.' : ', gość dostał maila.'}`
   : `Ta rezerwacja została <strong>odrzucona</strong>${r.mailDoGosciaWyslany === false ? ' - ale mail do gościa NIE wyszedł, zadzwoń do niego.' : ', gość dostał maila.'}`;
 
@@ -59,6 +61,14 @@ export default async function handler(request) {
   if (!poprawnyLinkDecyzji(id, a, s)) return strona('Nieprawidłowy link', '<h1>Nieprawidłowy link</h1><p>Ten link jest niepełny lub uszkodzony. Otwórz rezerwację w panelu.</p>');
   const r = await pobierzRezerwacje(id);
   if (!r) return strona('Brak rezerwacji', '<h1>Nie znaleziono rezerwacji</h1><p>Mogła zostać już usunięta.</p>');
+
+  // Termin minął, a decyzji nie było: mail z potwierdzeniem lub odmową po fakcie
+  // tylko zdezorientowałby gościa. Zamyka się taką rezerwację w panelu.
+  if (r.status === 'oczekuje' && terminMinal(r)) {
+    return strona('Termin minął', `<span class="eyebrow">Rezerwacja online</span><h1>Termin tej rezerwacji minął</h1>
+<div class="status">Rezerwacja nie dostała decyzji przed terminem, więc z maila nie da się jej już potwierdzić ani odrzucić. Skontaktuj się z gościem telefonicznie, a potem zamknij ją w panelu („Zamknij bez maila”).</div>
+<div class="karta">${szczegoly(r)}</div>`);
+  }
 
   if (request.method === 'POST') {
     const szybkie = a === 'odrzuc-brak';

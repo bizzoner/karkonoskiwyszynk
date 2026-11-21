@@ -29,7 +29,7 @@ export default async function handler(request) {
 
     if (trasa === 'decyzja' && metoda === 'POST') {
       const b = await cialoJson(request);
-      if (!b || !['potwierdz', 'odrzuc'].includes(b.akcja)) return json({ blad: 'zle-dane' }, 400);
+      if (!b || !['potwierdz', 'odrzuc', 'zamknij'].includes(b.akcja)) return json({ blad: 'zle-dane' }, 400);
       const w = await zdecyduj(b.id, b.akcja, { powod: b.powod, powodTekst: b.powodTekst, oznaczPelne: !!b.pelne, zrodlo: 'panel' });
       return w.blad ? json(w, 404) : json(w);
     }

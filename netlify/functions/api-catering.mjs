@@ -68,6 +68,14 @@ export default async function handler(request) {
     wyslijMail({ do: z.email, temat: doKlienta.temat, html: doKlienta.html, text: doKlienta.text, odpowiedzDo: u.mailRestauracji })
   ]);
   wyniki.forEach((w, i) => { if (w.status === 'rejected') console.error('Mail cateringu', i ? 'klient' : 'restauracja', z.id, w.reason?.message); });
+  z.mailDoRestauracjiWyslany = wyniki[0].status === 'fulfilled';
+  z.mailDoKlientaWyslany = wyniki[1].status === 'fulfilled';
+  if (!z.mailDoRestauracjiWyslany || !z.mailDoKlientaWyslany) {
+    const kiedy = new Date().toISOString();
+    if (!z.mailDoRestauracjiWyslany) z.historia.push({ kiedy, co: 'UWAGA: powiadomienie mailowe do restauracji NIE wyszło' });
+    if (!z.mailDoKlientaWyslany) z.historia.push({ kiedy, co: 'UWAGA: potwierdzenie do klienta NIE wyszło - zadzwoń do klienta' });
+    await (await magazyn()).set(`catering/${z.id}`, z);
+  }
 
   return json({ ok: true, id: z.id, numer: z.numer, suma: z.suma, saWagowe: z.saWagowe });
 }

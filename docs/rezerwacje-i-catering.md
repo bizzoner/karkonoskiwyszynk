@@ -26,6 +26,18 @@ które pobierają strony bez JS. Ryzyko szczątkowe: skaner uruchamiający JS
 i udający człowieka mógłby zatwierdzić decyzję - wtedy widać to w panelu
 (źródło decyzji „z maila” i godzina). Decyzja jest jednorazowa: druga nic nie zmienia.
 
+**Termin minął bez decyzji.** Rezerwacja `oczekuje` zostaje w „Do decyzji” także
+po swojej godzinie, z oznaczeniem „termin minął”. Zamiast Potwierdź/Odrzuć ma
+przycisk **Zamknij bez maila** (status `zamknieta`, gość nie dostaje maila).
+Linki z maila po terminie już nie decydują, tylko odsyłają do panelu.
+
+**Nieudana wysyłka maili.** Wynik wysyłki zapisuje się przy rezerwacji
+(`mailDoRestauracjiWyslany`, `mailPrzyjecieWyslany`, `mailDoGosciaWyslany`) i przy
+zamówieniu (`mailDoRestauracjiWyslany`, `mailDoKlientaWyslany` + wpis w historii).
+Panel pokazuje wtedy czerwone „UWAGA”. Log funkcji Netlify znika po około dobie,
+więc ten zapis jest jedynym trwałym śladem. 20.11.2026 klucz Resend przestał
+działać (401) i rezerwacja przepadła niezauważona; klucz wymieniono 21.11.2026.
+
 ## Grafik (panel → Grafik)
 
 - Główny wyłącznik rezerwacji online.

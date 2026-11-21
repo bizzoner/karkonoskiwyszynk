@@ -80,12 +80,25 @@
   .status--oczekuje { background: var(--gold-lighter); color: var(--brown); }
   .status--potwierdzona { background: var(--forest); color: var(--ivory); }
   .status--odrzucona { background: var(--error); color: #fff; }
+  .rez--zamknieta { opacity: .7; }
+  .status--zamknieta { background: var(--ivory-dark); color: var(--brown); }
+  .status--po-terminie { background: #fff; color: var(--error); border: 1px solid var(--error); margin-left: .3rem; }
+  .ostrzezenie { color: var(--error); font-weight: 700; font-size: .92rem; margin-top: .3rem; }
+  .rez__podpowiedz { font-size: .85rem; color: var(--brown); max-width: 14rem; }
   .odrzucanie { grid-column: 1 / -1; border-top: 1px dashed var(--gold); padding-top: .7rem; margin-top: .3rem; }
   .odrzucanie label { display: flex; gap: .5rem; align-items: flex-start; margin: .25rem 0; }
   .odrzucanie textarea { width: 100%; min-height: 60px; border: 1px solid var(--ivory-dark); border-bottom: 2px solid var(--gold); border-radius: var(--radius); padding: .4rem; }
   .odrzucanie__akcje { display: flex; gap: .5rem; margin-top: .6rem; flex-wrap: wrap; }
   input[type=checkbox], input[type=radio] { width: 1.15rem; height: 1.15rem; accent-color: var(--forest); margin-top: .2rem; }
   @media (max-width: 640px) {
+    /* Telefon: logo, tytuł i Wyloguj w pierwszym wierszu, zakładki na całą szerokość pod spodem. */
+    .pasek__wnetrze { gap: .6rem .8rem; }
+    .wyloguj { margin-left: auto; order: 1; padding: .35rem .6rem; min-height: 36px; }
+    .zakladki { order: 2; flex-basis: 100%; margin-left: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .zakladki button { padding: .45rem .3rem; letter-spacing: .06em; }
+    .filtry { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .filtry button { padding: .45rem .3rem; }
+    #odswiez { grid-column: 1 / -1; margin-left: 0 !important; min-height: 40px; }
     .rez { grid-template-columns: 64px 1fr; }
     .rez__akcje { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
   }
@@ -286,6 +299,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var DNI = ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'];
   var KOLEJNOSC_DNI = [1, 2, 3, 4, 5, 6, 0];
+  var STATUSY = { oczekuje: 'oczekuje', potwierdzona: 'potwierdzona', odrzucona: 'odrzucona', zamknieta: 'zamknięta' };
   var POWODY = { 'brak-miejsc': 'Brak wolnych stolików', 'zamkniete': 'Lokal nieczynny / wydarzenie', 'inny': 'Inny' };
   var stan = { widok: 'rezerwacje', filtr: 'oczekuje', rezerwacje: [], grafik: null, catering: [] };
 
@@ -322,6 +336,16 @@
     if (tekst && !blad) setTimeout(function () { if (k.textContent === tekst) k.hidden = true; }, 6000);
   }
   function dzisISO() { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
+  function terazMinuty() {
+    var c = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Warsaw', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date()).split(':');
+    return Number(c[0]) * 60 + Number(c[1]);
+  }
+  // Oczekuje, a godzina rezerwacji już minęła (czas polski).
+  function poTerminie(r) {
+    if (r.status !== 'oczekuje') return false;
+    var dzis = dzisISO(), g = r.godzina.split(':');
+    return r.data < dzis || (r.data === dzis && Number(g[0]) * 60 + Number(g[1]) <= terazMinuty());
+  }
   function dataSlownie(iso) {
     return new Date(iso + 'T12:00:00').toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' });
   }
@@ -386,14 +410,15 @@
 
   function rysujRezerwacje() {
     var dzis = dzisISO();
-    var oczekujace = stan.rezerwacje.filter(function (r) { return r.status === 'oczekuje' && r.data >= dzis; });
+    // Bez decyzji zostają w "Do decyzji" także po terminie - inaczej znikałyby po cichu.
+    var oczekujace = stan.rezerwacje.filter(function (r) { return r.status === 'oczekuje'; });
     var lz = $('licznik-oczekujacych');
     lz.textContent = oczekujace.length;
     lz.hidden = !oczekujace.length;
 
     var lista = stan.rezerwacje.filter(function (r) {
-      if (stan.filtr === 'oczekuje') return r.status === 'oczekuje' && r.data >= dzis;
-      if (stan.filtr === 'nadchodzace') return r.data >= dzis && r.status !== 'odrzucona';
+      if (stan.filtr === 'oczekuje') return r.status === 'oczekuje';
+      if (stan.filtr === 'nadchodzace') return r.data >= dzis && r.status !== 'odrzucona' && r.status !== 'zamknieta';
       return true;
     });
     if (stan.filtr === 'wszystkie') lista = lista.slice().reverse();
@@ -428,10 +453,16 @@
 
   function kartaRezerwacji(r) {
     var akcje = el('div', { class: 'rez__akcje' });
+    var minal = poTerminie(r);
+    var ostrzezenia = [];
+    if (r.mailDoRestauracjiWyslany === false) ostrzezenia.push('powiadomienie mailowe do restauracji nie wyszło');
+    if (r.mailPrzyjecieWyslany === false) ostrzezenia.push('gość nie dostał maila o przyjęciu zgłoszenia');
+    if (r.mailDoGosciaWyslany === false) ostrzezenia.push('mail z decyzją do gościa nie wyszedł - zadzwoń');
     var karta = el('div', { class: 'rez rez--' + r.status }, [
       el('div', {}, [el('div', { class: 'rez__godz', text: r.godzina }), el('div', { class: 'rez__osoby', text: osoby(r.osoby) })]),
       el('div', {}, [
-        el('div', {}, [el('span', { class: 'rez__kto', text: r.imie + ' ' + r.nazwisko + ' ' }), el('span', { class: 'status status--' + r.status, text: r.status })]),
+        el('div', {}, [el('span', { class: 'rez__kto', text: r.imie + ' ' + r.nazwisko + ' ' }), el('span', { class: 'status status--' + r.status, text: STATUSY[r.status] || r.status }),
+          minal ? el('span', { class: 'status status--po-terminie', text: 'termin minął' }) : null]),
         el('div', { class: 'rez__kontakt' }, [
           el('a', { href: 'tel:' + r.telefon.replace(/[^\d+]/g, ''), text: r.telefon }), ' · ',
           el('a', { href: 'mailto:' + r.email, text: r.email })
@@ -440,11 +471,15 @@
         el('div', { class: 'rez__meta', text: 'Wpłynęła ' + kiedyUtworzono(r.utworzono) +
           (r.decyzjaO ? ' · decyzja ' + kiedyUtworzono(r.decyzjaO) + (r.decyzjaZrodlo === 'mail' ? ' (z maila)' : '') : '') +
           (r.status === 'odrzucona' ? ' · powód: ' + (r.powodTekst || POWODY[r.powod] || '') : '') +
-          (r.mailDoGosciaWyslany === false ? ' · UWAGA: mail do gościa nie wyszedł - zadzwoń' : '') })
+          (r.status === 'zamknieta' ? ' · zamknięta bez maila do gościa' : '') }),
+        ostrzezenia.length ? el('div', { class: 'ostrzezenie', text: 'UWAGA: ' + ostrzezenia.join('; ') + '.' }) : null
       ]),
       akcje
     ]);
-    if (r.status === 'oczekuje') {
+    if (minal) {
+      akcje.appendChild(el('button', { class: 'btn btn--jasny', text: 'Zamknij bez maila', onclick: function (e) { decyzja(r, 'zamknij', {}, e.target); } }));
+      akcje.appendChild(el('span', { class: 'rez__podpowiedz', text: 'Termin minął bez decyzji. Zadzwoń do gościa, potem zamknij.' }));
+    } else if (r.status === 'oczekuje') {
       akcje.appendChild(el('button', { class: 'btn btn--ciemny', text: 'Potwierdź', onclick: function (e) { decyzja(r, 'potwierdz', {}, e.target); } }));
       akcje.appendChild(el('button', { class: 'btn btn--jasny', text: 'Odrzuć', onclick: function () { formularzOdrzucenia(karta, r); } }));
     }
@@ -479,6 +514,7 @@
       .then(function (w) {
         var rr = w.rezerwacja;
         komunikat(w.juz ? 'Ta rezerwacja miała już decyzję (np. z maila).' :
+          rr.status === 'zamknieta' ? 'Zamknięto - gość nie dostał maila.' :
           (rr.status === 'potwierdzona' ? 'Potwierdzono - gość dostał maila.' : 'Odrzucono - gość dostał maila.') +
           (rr.mailDoGosciaWyslany === false ? ' UWAGA: mail nie wyszedł, zadzwoń do gościa.' : ''), rr.mailDoGosciaWyslany === false);
         return wczytajRezerwacje();
@@ -692,6 +728,10 @@
         el('a', { href: 'tel:' + z.telefon.replace(/[^\d+]/g, ''), text: z.telefon }), ' · ', el('a', { href: 'mailto:' + z.email, text: z.email })]),
       el('ul', {}, z.pozycje.map(function (p) { return el('li', { text: p.nazwa + ' - ' + p.ilosc }); })),
       z.uwagi ? el('div', { class: 'rez__uwagi', text: 'Uwagi: „' + z.uwagi + '”' }) : null,
+      z.mailDoRestauracjiWyslany === false || z.mailDoKlientaWyslany === false ? el('div', { class: 'ostrzezenie', text: 'UWAGA: ' + [
+        z.mailDoRestauracjiWyslany === false ? 'powiadomienie mailowe do restauracji nie wyszło' : '',
+        z.mailDoKlientaWyslany === false ? 'klient nie dostał potwierdzenia mailem - zadzwoń' : ''
+      ].filter(Boolean).join('; ') + '.' }) : null,
       anulowane ? el('div', { class: 'rez__uwagi', text: 'Powód anulowania: ' + z.powodAnulowania }) : null,
       el('div', { class: 'zam__sterowanie' }, anulowane ? [
         el('button', { class: 'btn btn--jasny', text: 'Przywróć zamówienie', onclick: function (ev) { zmienStatus(z, { etap: 'przyjete' }, ev.target); } })
