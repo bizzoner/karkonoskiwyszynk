@@ -1,14 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://karkonoskiwyszynk.pl/</loc>
     <lastmod>2026-11-21</lastmod>
-    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/"/>
+  </url>
+  <url>
+    <loc>https://karkonoskiwyszynk.pl/en/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/"/>
+  </url>
+  <url>
+    <loc>https://karkonoskiwyszynk.pl/de/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/"/>
+  </url>
+  <url>
+    <loc>https://karkonoskiwyszynk.pl/cs/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/"/>
   </url>
   <url>
     <loc>https://karkonoskiwyszynk.pl/historia/</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-11-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/historia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/historia/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/historia/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/historia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/historia/"/>
+  </url>
+  <url>
+    <loc>https://karkonoskiwyszynk.pl/en/historia/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/historia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/historia/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/historia/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/historia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/historia/"/>
+  </url>
+  <url>
+    <loc>https://karkonoskiwyszynk.pl/de/historia/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/historia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/historia/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/historia/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/historia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/historia/"/>
+  </url>
+  <url>
+    <loc>https://karkonoskiwyszynk.pl/cs/historia/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/historia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/historia/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/historia/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/historia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/historia/"/>
   </url>
   <url>
     <loc>https://karkonoskiwyszynk.pl/rezerwacja/</loc>

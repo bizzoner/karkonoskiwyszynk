@@ -19,6 +19,7 @@ const TRESC = `# Karkonoski Wyszynk
 - Groups over 12 people: please call
 - Vegetarian dishes available; garden seating (seasonal)
 - Staff speak Polish and English; the menu is available in Polish, English, German and Czech
+- Website in [Polish](https://karkonoskiwyszynk.pl/), [English](https://karkonoskiwyszynk.pl/en/), [German](https://karkonoskiwyszynk.pl/de/) and [Czech](https://karkonoskiwyszynk.pl/cs/)
 
 ## Menu and prices
 - [Menu (website)](https://karkonoskiwyszynk.pl/#menu)

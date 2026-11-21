@@ -2,6 +2,13 @@
 <title>Historia budynku z 1892 roku | Karkonoski Wyszynk</title>
 <meta name="description" content="Od Hotelu Klose przez Hotel am Schenkenstein i Bożenę do Wyszynku otwartego w 2026 roku. Historia budynku w Szklarskiej Porębie, archiwalna pocztówka i źródła.">
 <link rel="canonical" href="https://karkonoskiwyszynk.pl/historia/">
+<!-- HREFLANG:START (generuje scripts/jezyki.mjs) -->
+<link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/historia/">
+<link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/historia/">
+<link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/historia/">
+<link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/historia/">
+<link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/historia/">
+<!-- HREFLANG:END -->
 <meta property="og:type" content="article"><meta property="og:title" content="Historia budynku z 1892 roku | Karkonoski Wyszynk"><meta property="og:description" content="Dom z 1892 roku. Nowy rozdział od 2026. Poznaj historię naszego adresu."><meta property="og:url" content="https://karkonoskiwyszynk.pl/historia/"><meta property="og:image" content="https://karkonoskiwyszynk.pl/assets/img/hotel-schenkenstein-archiwum.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap"></noscript><style>
 :root{--forest:#1F4A2E;--gold:#9B7A1A;--gold-dark:#7A5F12;--gold-light:#C29A2E;--brown:#2E1F0E;--ivory:#F5EDD8;--ivory-alt:#EFE4C8;--heading:'Playfair Display',Georgia,serif;--body:'Cormorant Garamond',Georgia,serif}
@@ -216,10 +223,16 @@
   document.querySelectorAll('[data-i18n-alt]').forEach(function(el){el.alt=d[el.dataset.i18nAlt];});
   document.querySelectorAll('[data-i18n-aria]').forEach(function(el){el.setAttribute('aria-label',d[el.dataset.i18nAria]);});
   document.querySelectorAll('[data-lang]').forEach(function(el){el.setAttribute('aria-pressed',String(el.dataset.lang===lang));});
-  try{localStorage.setItem('wyszynk_jezyk',lang);}catch(e){}
  }
- document.querySelectorAll('[data-lang]').forEach(function(el){el.addEventListener('click',function(){setLanguage(el.dataset.lang);});});
- var lang='pl';try{lang=localStorage.getItem('wyszynk_jezyk')||'pl';}catch(e){}setLanguage(lang);
+ // Każdy język ma własny adres (/historia/, /en/historia/... - generuje scripts/jezyki.mjs).
+ function adres(l){return (l==='pl'?'':'/'+l)+location.pathname.replace(/^\/(en|de|cs)(\/|$)/,'/')+location.hash;}
+ document.querySelectorAll('[data-lang]').forEach(function(el){el.addEventListener('click',function(){
+  try{localStorage.setItem('wyszynk_jezyk',el.dataset.lang);}catch(e){}
+  if(el.dataset.lang!==document.documentElement.lang)location.href=adres(el.dataset.lang);
+ });});
+ var strony=document.documentElement.lang;setLanguage(strony);
+ var zap=null;try{zap=localStorage.getItem('wyszynk_jezyk');}catch(e){}
+ if(strony==='pl'&&zap&&zap!=='pl'&&HISTORY_COPY[zap])location.replace(adres(zap));
 })();
 </script><script>
 // Źródło wizyty (pierwsze wejście w tej karcie): utm z linku, kod QR albo strona

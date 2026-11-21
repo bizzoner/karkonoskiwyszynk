@@ -6,13 +6,6 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
 ## Do zrobienia
 
 ### Strona (kod)
-- [ ] **Osobne adresy wersji językowych `/en/`, `/de/`, `/cs/`.** Największy zysk SEO:
-  dziś tłumaczenie robi skrypt w przeglądarce, więc Google indeksuje tylko polską
-  wersję, a turyści z Czech i Niemiec nas nie znajdują (Search Console: ruch
-  z zagranicy to pojedyncze wyświetlenia). Plan: generować statyczne strony ze
-  słownika `I18N_DANE` skryptem (jak `npm run menu`), z `hreflang` i osobnymi
-  wpisami w `sitemap.xml`. Przełącznik języka musiałby wtedy zmieniać URL -
-  NIE dotyczy `/witaj/` i `/gosc/` (adresy z kodów QR, patrz CLAUDE.md §4).
 - [ ] Przyjmowanie rezerwacji przez agentów AI (`POST /api/rezerwacja` w
   `openapi.json`). Technicznie działa (limit 5/h na IP, każdą zatwierdza
   pracownik). Udostępnić świadomie, gdy będzie widać ruch od asystentów AI.
@@ -36,6 +29,8 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
 - [ ] Odpowiadać na nowe opinie na bieżąco (wizytówka pokazuje licznik).
 
 ### Kontrola (za 1-2 tygodnie od 21.11.2026)
+- [ ] Search Console: czy /en/, /de/, /cs/ są zindeksowane i czy pojawiają się
+  wyświetlenia z Czech i Niemiec (Skuteczność → Kraje).
 - [ ] Search Console → Strony: czy `/rezerwacja/`, `/catering/`, `/historia/` są
   zindeksowane (prośby wysłane 21.11.2026; wcześniej Google ich nie znał).
 - [ ] Search Console → Skuteczność: CTR fraz „pierogi szklarska poręba”,
@@ -54,6 +49,9 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
   przed publikacją.
 
 ## Zrobione
+- 2026-11-21: wersje językowe /en/, /de/, /cs/ (strona główna i historia) generowane
+  `npm run jezyki`, hreflang, sitemap z alternatywami; zgodność z tłumaczeniem w
+  przeglądarce sprawdzona element po elemencie (0 różnic).
 - 2026-11-21: prośba o opinię dzień po wizycie (za zgodą), strona /opinia/ „Napisz do
   nas”, regulamin uzupełniony o zgodę i zapytania o imprezy.
 - 2026-11-21: godziny otwarcia synchronizowane z wizytówki Google (Places API) na

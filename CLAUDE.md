@@ -85,8 +85,14 @@ między nazwą a ceną przez `order: 1/2/3`. Poniżej 700px ukrywany — na wąs
 ekranie nazwa zjada całą szerokość i zostaje z niego kilkukropkowy kikut.
 
 **i18n:** słownik `I18N_DANE` inline w `index.html`, języki `pl/en/de/cs`
-(etykieta przycisku dla `cs` to **CZ**). Tłumaczenie po atrybucie `data-i18n`,
-zapamiętane w `localStorage['wyszynk_jezyk']`. Podmieniany jest **tylko pierwszy
+(etykieta przycisku dla `cs` to **CZ**). Tłumaczenie po atrybucie `data-i18n`.
+**Każdy język ma własny adres** (`/`, `/en/`, `/de/`, `/cs/` oraz `/en/historia/` itd.)
+- statyczne strony generuje `npm run jezyki` (`scripts/jezyki.mjs`) z polskich
+źródeł i słowników, z `hreflang` i canonical. **Nie edytuj `en/`, `de/`, `cs/`
+ręcznie; po każdej zmianie `index.html` lub `historia/index.html` uruchom
+`npm run menu` i `npm run jezyki`** (`-- --check` sprawdza aktualność). Przełącznik
+języka przechodzi pod adres wersji; wybór zapamiętany w `localStorage['wyszynk_jezyk']`
+przekierowuje tylko ze strony polskiej. Podmieniany jest **tylko pierwszy
 węzeł tekstowy**, żeby zagnieżdżone `<span>` (odznaka, gramatura) przetrwały.
 
 **Dodając danie: musisz dopisać klucze do wszystkich czterech języków.** Brak
@@ -109,7 +115,7 @@ nawiasie. Emoji — nigdy, nigdzie.
 `/witaj/` i `/gosc/` to landingi kodów QR **wydrukowanych** na ekspozytorach w
 Villa Bożena i OW Sudety. Adresy są zaszyte na papierze — zmiana ścieżki
 unieważnia fizyczne materiały. Obie mają `noindex, nofollow` i nie są linkowane
-z nawigacji. Dlatego też przełącznik języka nie zmienia URL-a.
+z nawigacji. Dlatego na tych stronach przełącznik języka nie zmienia URL-a (inaczej niż na stronie głównej i w historii).
 
 ---
 

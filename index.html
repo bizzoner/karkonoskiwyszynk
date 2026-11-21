@@ -14,6 +14,13 @@
 <meta property="og:type" content="restaurant">
 <meta property="og:locale" content="pl_PL">
 <link rel="canonical" href="https://karkonoskiwyszynk.pl/">
+<!-- HREFLANG:START (generuje scripts/jezyki.mjs) -->
+<link rel="alternate" hreflang="pl" href="https://karkonoskiwyszynk.pl/">
+<link rel="alternate" hreflang="en" href="https://karkonoskiwyszynk.pl/en/">
+<link rel="alternate" hreflang="de" href="https://karkonoskiwyszynk.pl/de/">
+<link rel="alternate" hreflang="cs" href="https://karkonoskiwyszynk.pl/cs/">
+<link rel="alternate" hreflang="x-default" href="https://karkonoskiwyszynk.pl/">
+<!-- HREFLANG:END -->
 <meta property="og:url" content="https://karkonoskiwyszynk.pl/">
 <meta property="og:image" content="https://karkonoskiwyszynk.pl/assets/img/golonka.jpg">
 
@@ -4411,10 +4418,16 @@ I18N_DANE.pl.om_p3 = I18N_DANE.pl.om_p3.replace('Villi Bożena', 'Villa Bożena'
     });
   }
 
+  // Każdy język ma własny adres (/, /en/, /de/, /cs/ - generuje scripts/jezyki.mjs).
+  function adresJezyka(jezyk) {
+    var sciezka = location.pathname.replace(/^\/(en|de|cs)(\/|$)/, '/');
+    return (jezyk === 'pl' ? '' : '/' + jezyk) + sciezka + location.hash;
+  }
+
   function ustawJezyk(jezyk) {
     if (JEZYKI.indexOf(jezyk) === -1) jezyk = 'pl';
     try { localStorage.setItem('wyszynk_jezyk', jezyk); } catch (error) {}
-    zastosujTlumaczenia(jezyk);
+    if (jezyk !== document.documentElement.lang) location.href = adresJezyka(jezyk);
   }
 
   function zbudujPrzelacznik(kontener) {
@@ -4431,7 +4444,12 @@ I18N_DANE.pl.om_p3 = I18N_DANE.pl.om_p3.replace('Villi Bożena', 'Villa Bożena'
 
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.jezyk-przelacznik').forEach(zbudujPrzelacznik);
-    zastosujTlumaczenia(pobierzJezyk());
+    var jezykStrony = document.documentElement.lang;
+    zastosujTlumaczenia(jezykStrony);
+    // Zapamiętany wybór: tylko z polskiej wersji (domyślnej) przechodzimy na inną.
+    var zapisany = null;
+    try { zapisany = localStorage.getItem('wyszynk_jezyk'); } catch (error) {}
+    if (jezykStrony === 'pl' && zapisany && zapisany !== 'pl' && JEZYKI.indexOf(zapisany) !== -1) location.replace(adresJezyka(zapisany));
   });
 })();
 
