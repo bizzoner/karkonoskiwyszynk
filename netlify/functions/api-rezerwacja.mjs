@@ -26,7 +26,7 @@ export default async function handler(request) {
   // Limit liczymy dopiero dla poprawnych zgłoszeń - poprawianie błędów w formularzu nie blokuje gościa.
   if (await przekroczonyLimit(request, 'rezerwacja', 5)) return json({ blad: 'limit' }, 429);
 
-  const r = { id: noweId(), status: 'oczekuje', utworzono: new Date().toISOString(), data: body.data, godzina: body.godzina, osoby, ...dane, zrodlo: zrodloWizyty(body.zrodlo) };
+  const r = { id: noweId(), status: 'oczekuje', utworzono: new Date().toISOString(), data: body.data, godzina: body.godzina, osoby, ...dane, zrodlo: zrodloWizyty(body.zrodlo), zgodaOpinia: body.zgodaOpinia === true };
   await (await magazyn()).set(kluczRezerwacji(r.id), r);
 
   const u = ustawienia();

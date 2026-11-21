@@ -93,6 +93,16 @@ Panel: statusy Nowe / W kontakcie / Potwierdzone / Odrzucone. Słowniki opcji:
 `netlify/lib/imprezy.mjs` (serwer, maile) - lista w `imprezy/index.html` i `panel/index.html`
 musi mieć te same klucze. Dane osobowe usuwane 30 dni po terminie imprezy (archiwum anonimowe).
 
+## Prośba o opinię po wizycie
+
+Formularz rezerwacji ma opcjonalną zgodę (`zgodaOpinia`). Funkcja `prosba-o-opinie`
+(codziennie 9:00 UTC) wysyła gościom z wczorajszych **potwierdzonych** rezerwacji ze
+zgodą jednego maila: przycisk „Zostaw opinię w Google” (`LINK_OPINII_GOOGLE` w
+`maile.mjs`) i link „Napisz do nas” do `/opinia/` (podpis HMAC `opinia.<id>`).
+**Oba linki dostaje każdy** - nie wolno kierować do Google tylko zadowolonych (zasady
+Google, ryzyko usunięcia opinii). Wiadomość z `/opinia/` idzie mailem do restauracji
+(Reply-To: gość) i widać ją w panelu przy rezerwacji (`wiadomosciPoWizycie`).
+
 ## Statystyki (panel → Statystyki)
 
 Zgłoszenia, potwierdzenia, goście, źródła wizyt, dni tygodnia i godziny, catering.

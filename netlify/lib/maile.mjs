@@ -312,3 +312,43 @@ export function mailImprezaPrzyjeta(z) {
     text: tekstowa([`Dziękujemy, ${z.imie}!`, '', 'Otrzymaliśmy zapytanie o imprezę. Przygotujemy propozycję i odezwiemy się telefonicznie lub mailowo. Termin rezerwujemy dopiero po wspólnym ustaleniu szczegółów.', '', ...tekstImprezy(z), '', `Pytania: ${TELEFON}`])
   };
 }
+
+// ---------------------------------------------------------------------------
+// Prośba o opinię (dzień po wizycie, tylko za zgodą z formularza rezerwacji).
+// Oba linki dostaje każdy gość - nie filtrujemy zadowolonych (zasady Google).
+// ---------------------------------------------------------------------------
+export const LINK_OPINII_GOOGLE = 'https://search.google.com/local/writereview?placeid=ChIJPc7v4v7bDkcRiHsWJPbH9H0';
+
+export function mailProsbaOOpinie(r, linkKontakt) {
+  return {
+    temat: 'Jak było w Karkonoskim Wyszynku?',
+    html: szablon({
+      zajawka: 'Dziękujemy za wizytę - będzie nam miło, jeśli podzielisz się wrażeniami.',
+      eyebrow: 'Dziękujemy za wizytę',
+      tytul: `${r.imie}, jak było?`,
+      tresc: akapit(`Dziękujemy, że byliście u nas w ${esc(dataSlownie(r.data))}. Każda opinia pomaga nam gotować lepiej, a innym gościom - znaleźć Wyszynk. Zajmie to minutę.`) +
+        `<div style="margin:22px 0 10px;">${przycisk(LINK_OPINII_GOOGLE, 'Zostaw opinię w Google')}</div>` +
+        separator() +
+        akapit(`Coś poszło nie tak albo chcesz nam coś przekazać bezpośrednio? <a href="${esc(linkKontakt)}" style="color:${K.forest};font-weight:bold;">Napisz do nas →</a> Wiadomość trafi prosto do kierownika restauracji.`, 'font-size:15px;') +
+        akapit('To jedyna taka wiadomość - wysyłamy ją, bo przy rezerwacji zaznaczona była zgoda na prośbę o opinię.', `font-size:13px;color:${K.brown};`)
+    }),
+    text: tekstowa([`${r.imie}, jak było?`, '', `Dziękujemy, że byliście u nas w ${dataSlownie(r.data)}. Każda opinia pomaga nam gotować lepiej, a innym gościom - znaleźć Wyszynk.`, '', `Zostaw opinię w Google: ${LINK_OPINII_GOOGLE}`, '', `Coś poszło nie tak? Napisz do nas: ${linkKontakt}`, '', 'To jedyna taka wiadomość - wysyłamy ją, bo przy rezerwacji zaznaczona była zgoda na prośbę o opinię.'])
+  };
+}
+
+export function mailWiadomoscPoWizycie(r, tresc) {
+  return {
+    temat: `Wiadomość od gościa po wizycie - ${r.imie} ${r.nazwisko}, ${krotkaData(r.data)}`,
+    html: szablon({
+      zajawka: tresc.slice(0, 90),
+      eyebrow: 'Wiadomość po wizycie',
+      tytul: 'Gość napisał do restauracji',
+      stopkaDlaGoscia: false,
+      tresc: tabelaDanych([
+        ['Wiadomość', nl2br(tresc)],
+        ...wierszeRezerwacji(r, true)
+      ]) + akapit('Odpowiedź na tę wiadomość trafi bezpośrednio do gościa.', `font-size:14px;color:${K.brown};margin-top:14px;`)
+    }),
+    text: tekstowa(['Wiadomość od gościa po wizycie', '', tresc, '', `Wizyta: ${kiedy(r)}, ${osoby(r.osoby)}`, `Gość: ${r.imie} ${r.nazwisko}`, `Telefon: ${r.telefon}`, `E-mail: ${r.email}`])
+  };
+}

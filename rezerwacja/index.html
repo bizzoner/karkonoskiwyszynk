@@ -303,6 +303,8 @@
   }
   .komunikat--blad { border-left-color: var(--error); }
   .komunikat a { color: var(--forest); font-weight: 700; }
+  .zgoda { display: flex; gap: .6rem; align-items: flex-start; margin-top: 1rem; font-size: 1rem; color: var(--brown); cursor: pointer; }
+  .zgoda input { width: 1.15rem; height: 1.15rem; margin-top: .25rem; accent-color: var(--forest); flex: none; }
   .pulapka { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
   .visually-hidden {
@@ -392,6 +394,7 @@
       <label for="uwagi">Uwagi <span class="opcjonalne">(opcjonalnie)</span></label>
       <textarea id="uwagi" name="uwagi" maxlength="600" placeholder="np. krzesełko dla dziecka, okazja, alergie"></textarea>
     </div>
+    <label class="zgoda"><input type="checkbox" id="zgoda-opinia"> Dzień po wizycie możecie wysłać mi jednego maila z prośbą o opinię <span class="opcjonalne">(opcjonalnie)</span></label>
     <div class="pulapka" aria-hidden="true">
       <label for="firma">Firma</label><input type="text" id="firma" name="firma" tabindex="-1" autocomplete="off">
     </div>
@@ -597,7 +600,7 @@
       data: stan.data, godzina: stan.godzina, osoby: stan.osoby,
       imie: $('imie').value.trim(), nazwisko: $('nazwisko').value.trim(),
       telefon: $('telefon').value.trim(), email: $('email').value.trim(),
-      uwagi: $('uwagi').value.trim(), firma: $('firma').value,
+      uwagi: $('uwagi').value.trim(), firma: $('firma').value, zgodaOpinia: $('zgoda-opinia').checked,
       zrodlo: (function () { try { return sessionStorage.getItem('wyszynk_zrodlo') || ''; } catch (e) { return ''; } })()
     };
     var btn = $('wyslij');

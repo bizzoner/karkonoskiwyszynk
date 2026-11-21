@@ -653,6 +653,7 @@
     if (r.mailDoRestauracjiWyslany === false) ostrzezenia.push('powiadomienie mailowe do restauracji nie wyszło');
     if (r.mailPrzyjecieWyslany === false) ostrzezenia.push('gość nie dostał maila o przyjęciu zgłoszenia');
     if (r.mailDoGosciaWyslany === false) ostrzezenia.push('mail z decyzją do gościa nie wyszedł - zadzwoń');
+    var poWizycie = (r.wiadomosciPoWizycie || []).map(function (w) { return el('div', { class: 'rez__uwagi', text: 'Po wizycie (' + kiedyUtworzono(w.kiedy) + '): „' + w.tresc + '”' }); });
     var karta = el('div', { class: 'rez rez--' + r.status }, [
       el('div', {}, [el('div', { class: 'rez__godz', text: r.godzina }), el('div', { class: 'rez__osoby', text: osoby(r.osoby) })]),
       el('div', {}, [
@@ -668,7 +669,7 @@
           (r.status === 'odrzucona' ? ' · powód: ' + (r.powodTekst || POWODY[r.powod] || '') : '') +
           (r.status === 'zamknieta' ? ' · zamknięta bez maila do gościa' : '') }),
         ostrzezenia.length ? el('div', { class: 'ostrzezenie', text: 'UWAGA: ' + ostrzezenia.join('; ') + '.' }) : null
-      ]),
+      ].concat(poWizycie)),
       akcje
     ]);
     if (minal) {

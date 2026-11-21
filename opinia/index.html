@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Napisz do nas - Karkonoski Wyszynk</title>
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"></noscript>
+
+<style>
+  /* Stylistyka inline, jak na reszcie serwisu - bez osobnego arkusza. */
+  :root {
+    --forest: #1F4A2E;
+    --forest-light: #2D6B42;
+    --gold: #9B7A1A;
+    --gold-dark: #7A5F12;
+    --gold-light: #C49A22;
+    --gold-lighter: #E8C45A;
+    --brown: #2E1F0E;
+    --ivory: #F5EDD8;
+    --ivory-alt: #EDE0C4;
+    --ivory-dark: #DFD0A8;
+    --text: #1C1409;
+    --error: #9B2C1A;
+    --f-display: "Playfair Display", Georgia, serif;
+    --f-body: "Cormorant Garamond", Georgia, serif;
+    --radius: 2px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ivory);
+    color: var(--text);
+    font-family: var(--f-body);
+    font-weight: 400;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2 {
+    font-family: var(--f-display);
+    color: var(--forest);
+    line-height: 1.15;
+    margin: 0 0 0.5em;
+  }
+
+  /* Pasek górny - spójny z nawigacją strony głównej */
+  .pasek {
+    background: var(--forest);
+    border-bottom: 1px solid rgba(232, 196, 90, 0.25);
+  }
+  .pasek__wnetrze {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .pasek__logo img {
+    height: 34px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+  }
+  .pasek__powrot {
+    color: var(--ivory-alt);
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+  }
+  .pasek__powrot:hover { color: var(--gold-lighter); }
+
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2.4rem 1rem 4rem;
+  }
+  .eyebrow {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--gold-dark);
+    margin-bottom: 0.4rem;
+  }
+  h1 { font-size: clamp(1.9rem, 6vw, 2.5rem); font-weight: 900; }
+  .wstep { font-style: italic; color: var(--brown); margin: 0 0 1rem; }
+  .bez-rezerwacji { border-left: 1px solid var(--gold); padding: .2rem 0 .2rem 1rem; margin: 0 0 2rem; color: var(--brown); }
+  .bez-rezerwacji strong { color: var(--forest); }
+
+  /* Karta formularza */
+  .karta {
+    background: #FBF6EA;
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 1.6rem 1.2rem;
+  }
+  @media (min-width: 560px) { .karta { padding: 2rem 2rem; } }
+  .karta h2 {
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold-dark);
+    margin: 0 0 1rem;
+  }
+  .karta h2:not(:first-child) { margin-top: 2rem; }
+
+  .siatka {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 560px) {
+    .siatka--2 { grid-template-columns: 1fr 1fr; }
+  }
+
+  .pole label,
+  .pole .etykieta {
+    display: block;
+    font-weight: 600;
+    color: var(--forest);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  .opcjonalne { font-weight: 400; font-style: italic; color: var(--brown); opacity: 0.75; }
+  .pole input,
+  .pole select,
+  .pole textarea {
+    width: 100%;
+    font-family: var(--f-body);
+    font-size: 1.1rem;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid var(--ivory-dark);
+    border-bottom: 2px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.75rem;
+    min-height: 48px;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .pole select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--forest) 50%), linear-gradient(135deg, var(--forest) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 55%, calc(100% - 12px) 55%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 2.2rem;
+  }
+  .pole textarea { min-height: 90px; resize: vertical; }
+  .pole input:focus,
+  .pole select:focus,
+  .pole textarea:focus {
+    outline: 2px solid var(--gold-lighter);
+    outline-offset: 1px;
+    border-bottom-color: var(--forest);
+  }
+  .pole.ma-blad input,
+  .pole.ma-blad select { border-bottom-color: var(--error); }
+  .blad {
+    display: none;
+    color: var(--error);
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+  }
+  .pole.ma-blad .blad { display: block; }
+  .podpowiedz { font-size: 0.92rem; font-style: italic; color: var(--brown); opacity: 0.8; margin-top: 0.25rem; }
+
+  /* Licznik osób */
+  .licznik {
+    display: flex;
+    align-items: stretch;
+    width: max-content;
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .licznik button {
+    width: 48px;
+    min-height: 48px;
+    border: none;
+    background: var(--forest);
+    color: var(--ivory);
+    font-family: var(--f-display);
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  .licznik button:hover,
+  .licznik button:focus-visible { background: var(--forest-light); }
+  .licznik button:focus-visible { outline: 2px solid var(--gold-lighter); outline-offset: -3px; }
+  /* Nieaktywny: wyraźnie wygaszony, ale nadal czytelny (4,6:1) */
+  .licznik button:disabled { background: #E4D8BC; color: #6B5C44; cursor: default; }
+  .licznik output {
+    min-width: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--forest);
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    font-family: var(--f-body);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.95rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--gold-light);
+    border-radius: var(--radius);
+    background: var(--gold-light);
+    color: var(--brown);
+    cursor: pointer;
+    margin-top: 2rem;
+  }
+  .btn:hover { background: var(--gold-lighter); }
+  .btn:disabled { opacity: 0.6; cursor: wait; }
+
+  .nota-prawna {
+    font-size: 0.88rem;
+    color: var(--brown);
+    opacity: 0.8;
+    margin: 1rem 0 0;
+  }
+  .nota-prawna a, .kontakt-alt a, .podpowiedz a { color: var(--forest); font-weight: 600; }
+  .kontakt-alt { text-align: center; margin-top: 1.8rem; font-size: 1rem; }
+
+  /* Potwierdzenie */
+  .potwierdzenie {
+    display: none;
+    text-align: center;
+    background: var(--forest);
+    color: var(--ivory);
+    border: 1px solid var(--gold-lighter);
+    border-radius: var(--radius);
+    padding: 2.2rem 1.4rem;
+  }
+  .potwierdzenie.jest-widoczne { display: block; }
+  .potwierdzenie:focus { outline: none; }
+  .potwierdzenie h2 { color: var(--gold-lighter); font-size: 1.6rem; }
+  .potwierdzenie p { color: var(--ivory-alt); }
+  .potwierdzenie__dane {
+    display: inline-block;
+    text-align: left;
+    border-top: 1px solid rgba(232, 196, 90, 0.35);
+    border-bottom: 1px solid rgba(232, 196, 90, 0.35);
+    padding: 0.8rem 0.4rem;
+    margin: 0.6rem 0 1.2rem;
+    font-size: 1.05rem;
+  }
+  .potwierdzenie a { color: var(--gold-lighter); font-weight: 600; }
+
+  /* Kalendarz - dni i godziny z grafiku ustawianego w panelu */
+  .kalendarz { max-width: 360px; }
+  .kalendarz__gora { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+  .kalendarz__miesiac { font-family: var(--f-display); font-weight: 700; color: var(--forest); font-size: 1.1rem; }
+  .kalendarz__nav {
+    width: 44px; height: 40px; border: 1px solid var(--gold); background: #fff; color: var(--forest);
+    border-radius: var(--radius); font-size: 1.2rem; cursor: pointer;
+  }
+  .kalendarz__nav:disabled { background: #E4D8BC; color: #6B5C44; border-color: #E4D8BC; cursor: default; }
+  .kalendarz__siatka { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .kalendarz__dzien-tyg { text-align: center; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold-dark); padding: 0.2rem 0; }
+  .kalendarz__dzien {
+    aspect-ratio: 1 / 1; min-height: 40px; border: 1px solid var(--gold); background: #fff; color: var(--forest);
+    font-family: var(--f-body); font-weight: 700; font-size: 1.05rem; border-radius: var(--radius); cursor: pointer; padding: 0;
+  }
+  .kalendarz__dzien:hover { background: var(--ivory-alt); }
+  .kalendarz__dzien[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
+  .kalendarz__dzien:disabled { background: transparent; border-color: transparent; color: #8A7B5F; font-weight: 400; cursor: default; }
+  .kalendarz__dzien--pelne:disabled { text-decoration: line-through; }
+  .kalendarz__legenda { font-size: 0.88rem; font-style: italic; color: var(--brown); margin: 0.5rem 0 0; }
+
+  .godziny { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 6px; }
+  .godziny button {
+    min-height: 44px; border: 1px solid var(--gold); background: #fff; color: var(--forest);
+    font-family: var(--f-body); font-weight: 700; font-size: 1.05rem; border-radius: var(--radius); cursor: pointer;
+  }
+  .godziny button:hover { background: var(--ivory-alt); }
+  .godziny button[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
+  .godziny__pusto { font-style: italic; color: var(--brown); margin: 0; }
+  .godziny__dzis { grid-column: 1 / -1; font-style: italic; color: var(--brown); font-size: .92rem; margin: 0 0 .3rem; }
+  .kalendarz__dzien:focus-visible, .godziny button:focus-visible, .kalendarz__nav:focus-visible { outline: 2px solid var(--gold-lighter); outline-offset: 2px; }
+
+  .komunikat {
+    border: 1px solid var(--gold); border-left: 3px solid var(--forest); background: #FBF6EA;
+    padding: 0.9rem 1rem; margin: 0 0 1.4rem;
+  }
+  .komunikat--blad { border-left-color: var(--error); }
+  .komunikat a { color: var(--forest); font-weight: 700; }
+  .pulapka { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* Konfigurator: kafle wyboru (radio/checkbox) w stylu przycisków godzin */
+  .kafle { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
+  .kafle--szerokie { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+  .kafel { position: relative; display: block; }
+  .kafel input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .kafel span { display: block; height: 100%; padding: .6rem .7rem; border: 1px solid var(--gold); border-radius: var(--radius);
+    background: #fff; color: var(--forest); font-weight: 700; cursor: pointer; min-height: 44px; line-height: 1.3; }
+  .kafel small { display: block; font-weight: 400; font-style: italic; color: var(--brown); font-size: .9rem; margin-top: .15rem; }
+  .kafel:hover span { background: var(--ivory-alt); }
+  .kafel input:checked + span { background: var(--forest); border-color: var(--forest); color: var(--ivory); }
+  .kafel input:checked + span small { color: var(--ivory-alt); }
+  .kafel input:focus-visible + span { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+  .pole.ma-blad .kafle .kafel span { border-color: var(--error); }
+  .przelacznik { display: flex; gap: .6rem; align-items: flex-start; margin-top: 1rem; font-weight: 600; color: var(--forest); cursor: pointer; }
+  .pole .przelacznik input { width: 1.2rem; height: 1.2rem; min-height: 0; padding: 0; margin: .2rem 0 0; border: none; background: none; accent-color: var(--forest); flex: none; }
+</style>
+</head>
+<body>
+
+<header class="pasek">
+  <div class="pasek__wnetrze">
+    <a class="pasek__logo" href="/"><img src="../assets/img/logokrzywe.svg" alt="Karkonoski Wyszynk - strona główna" width="78" height="34"></a>
+    <a class="pasek__powrot" href="/">← Strona główna</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <span class="eyebrow">Karkonoski Wyszynk</span>
+  <h1>Napisz do nas</h1>
+  <p class="wstep">Coś poszło nie tak albo chcesz nam coś przekazać? Wiadomość trafi bezpośrednio do kierownika restauracji, a odpowiemy na adres e-mail z rezerwacji.</p>
+
+  <div class="komunikat" id="komunikat" role="status" hidden></div>
+
+  <form class="karta" id="formularz" novalidate>
+    <div class="pole" id="pole-tresc">
+      <label for="tresc">Twoja wiadomość</label>
+      <textarea id="tresc" maxlength="2000" required style="min-height:160px"></textarea>
+      <span class="blad">Napisz kilka słów.</span>
+    </div>
+    <button type="submit" class="btn" id="wyslij">Wyślij wiadomość</button>
+    <p class="nota-prawna">Wolisz opinię publiczną? <a href="https://search.google.com/local/writereview?placeid=ChIJPc7v4v7bDkcRiHsWJPbH9H0" rel="noopener">Zostaw opinię w Google</a>.</p>
+  </form>
+
+  <section class="potwierdzenie" id="potwierdzenie" tabindex="-1" aria-live="polite">
+    <h2>Dziękujemy!</h2>
+    <p id="potwierdzenie-tekst">Wiadomość dotarła do restauracji.</p>
+    <p><a href="/">← Wróć na stronę główną</a></p>
+  </section>
+</main>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var q = new URLSearchParams(location.search), id = q.get('id'), s = q.get('s');
+  function komunikat(t) { var k = $('komunikat'); k.textContent = t; k.hidden = !t; k.classList.toggle('komunikat--blad', !!t); }
+  if (!id || !s) { $('formularz').hidden = true; komunikat('Ten link jest niepełny. Napisz do nas mailem albo zadzwoń: 793 066 186.'); return; }
+  $('formularz').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var tresc = $('tresc').value.trim();
+    $('pole-tresc').classList.toggle('ma-blad', tresc.length < 3);
+    if (tresc.length < 3) return;
+    var btn = $('wyslij'); btn.disabled = true; btn.textContent = 'Wysyłanie…';
+    fetch('/api/opinia', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id, s: s, tresc: tresc }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, j: j }; }); })
+      .then(function (w) {
+        if (w.status === 200) {
+          $('potwierdzenie-tekst').textContent = 'Dziękujemy' + (w.j.imie ? ', ' + w.j.imie : '') + '! Wiadomość dotarła do restauracji - odezwiemy się mailowo.';
+          $('formularz').hidden = true; var p = $('potwierdzenie'); p.classList.add('jest-widoczne'); p.focus(); return;
+        }
+        btn.disabled = false; btn.textContent = 'Wyślij wiadomość';
+        komunikat(w.status === 403 ? 'Ten link jest nieprawidłowy. Napisz do nas mailem albo zadzwoń: 793 066 186.' : 'Nie udało się wysłać. Spróbuj ponownie albo zadzwoń: 793 066 186.');
+      })
+      .catch(function () { btn.disabled = false; btn.textContent = 'Wyślij wiadomość'; komunikat('Brak połączenia. Spróbuj ponownie.'); });
+  });
+})();
+</script>
+</body>
+</html>

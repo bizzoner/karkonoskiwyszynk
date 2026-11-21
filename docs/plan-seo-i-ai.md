@@ -54,6 +54,8 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
   przed publikacją.
 
 ## Zrobione
+- 2026-11-21: prośba o opinię dzień po wizycie (za zgodą), strona /opinia/ „Napisz do
+  nas”, regulamin uzupełniony o zgodę i zapytania o imprezy.
 - 2026-11-21: godziny otwarcia synchronizowane z wizytówki Google (Places API) na
   stronie, w danych strukturalnych i llms.txt; ostrzeżenie w panelu o niezgodnym grafiku.
 - 2026-11-21: konfigurator imprez /imprezy/ (10-60 osób) z obsługą w panelu; link w

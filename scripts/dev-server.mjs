@@ -33,6 +33,7 @@ const FUNKCJE = [
   ['/api/catering', 'api-catering'],
   ['/api/impreza', 'api-impreza'],
   ['/api/godziny', 'api-godziny'],
+  ['/api/opinia', 'api-opinia'],
   ['/llms.txt', 'llms'],
   ['/rezerwacja/decyzja', 'decyzja'],
   ['/api/panel/', 'api-panel', true]
