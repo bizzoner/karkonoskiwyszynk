@@ -1,7 +1,10 @@
 // Codziennie usuwa dane osobowe, których już nie potrzebujemy (RODO):
 // rezerwacje 30 dni po terminie, zamówienia cateringu 30 dni po dniu
 // odbioru (24 grudnia roku złożenia), liczniki antyspamowe po dobie.
+// Przed usunięciem zostawia zanonimizowaną kopię do statystyk (archiwum/,
+// bez imienia, nazwiska, telefonu, e-maila i uwag).
 import { magazyn, terazWPolsce, dodajDni } from '../lib/wyszynk.mjs';
+import { anonimRezerwacja, anonimZamowienie } from '../lib/statystyki.mjs';
 
 export default async function handler() {
   const m = await magazyn();
@@ -9,12 +12,18 @@ export default async function handler() {
   let usuniete = 0;
   for (const k of await m.list('rezerwacja/')) {
     const r = await m.get(k);
-    if (!r || r.data < granica) { await m.del(k); usuniete++; }
+    if (!r || r.data < granica) {
+      if (r) await m.set(`archiwum/rezerwacja/${r.id}`, anonimRezerwacja(r));
+      await m.del(k); usuniete++;
+    }
   }
   for (const k of await m.list('catering/')) {
     const z = await m.get(k);
     const odbior = z && z.utworzono.slice(0, 4) + '-12-24';
-    if (!z || odbior < granica) { await m.del(k); usuniete++; }
+    if (!z || odbior < granica) {
+      if (z) await m.set(`archiwum/catering/${z.id}`, anonimZamowienie(z));
+      await m.del(k); usuniete++;
+    }
   }
   for (const k of await m.list('limit/')) {
     const l = await m.get(k);

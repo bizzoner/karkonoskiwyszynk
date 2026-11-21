@@ -624,5 +624,26 @@ var I18N_DANE = {
   });
 })();
 </script>
+<script>
+// Źródło wizyty (pierwsze wejście w tej karcie): utm z linku, kod QR albo strona
+// odsyłająca. Trzymane tylko w sessionStorage i dołączane do rezerwacji/zamówienia
+// na potrzeby statystyk w panelu - bez ciasteczek i śledzenia między stronami.
+(function () {
+  try {
+    if (sessionStorage.getItem('wyszynk_zrodlo')) return;
+    var q = new URLSearchParams(location.search), z = '';
+    if (q.get('utm_source')) z = q.get('utm_source') + (q.get('utm_medium') ? '/' + q.get('utm_medium') : '');
+    else if (/^\/(witaj|gosc)\//.test(location.pathname)) z = 'qr-' + location.pathname.split('/')[1];
+    else if (document.referrer) {
+      var h = new URL(document.referrer).hostname.replace(/^www\./, '');
+      if (h && h !== location.hostname.replace(/^www\./, '')) {
+        var znane = ['google', 'instagram', 'facebook', 'bing', 'tripadvisor', 'chatgpt', 'perplexity'];
+        z = znane.filter(function (n) { return h.indexOf(n) !== -1; })[0] || h;
+      }
+    }
+    sessionStorage.setItem('wyszynk_zrodlo', (z || 'bezposrednio').toLowerCase().replace(/[^a-z0-9._\/-]/g, '').slice(0, 60));
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

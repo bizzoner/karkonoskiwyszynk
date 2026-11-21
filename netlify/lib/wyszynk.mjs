@@ -212,6 +212,8 @@ export function terminy(grafik, teraz = terazWPolsce()) {
 // ---------------------------------------------------------------------------
 // Walidacja danych od gościa
 // ---------------------------------------------------------------------------
+// Źródło wizyty zapisane przez stronę (utm, referer, kod QR) - tylko bezpieczne znaki.
+export const zrodloWizyty = (v) => String(v ?? '').toLowerCase().replace(/[^a-z0-9._\/-]/g, '').slice(0, 60);
 export const tekst = (v, max) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, max);
 export const tekstWielolinijkowy = (v, max) => String(v ?? '').replace(/\r/g, '').trim().slice(0, max);
 export function poprawnyTelefon(v) { const c = String(v || '').replace(/\D/g, ''); return c.length >= 9 && c.length <= 15; }

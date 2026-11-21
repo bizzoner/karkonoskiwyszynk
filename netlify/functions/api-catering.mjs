@@ -1,7 +1,7 @@
 // POST /api/catering - zamówienie cateringu świątecznego.
 // Ceny i sumy liczy serwer z catering/menu.json - przeglądarce nie ufamy.
 import menu from '../../catering/menu.json' with { type: 'json' };
-import { daneKontaktowe, przekroczonyLimit, wyslijMail, magazyn, noweId, ustawienia, terazWPolsce, cialoJson, json } from '../lib/wyszynk.mjs';
+import { daneKontaktowe, przekroczonyLimit, wyslijMail, magazyn, noweId, ustawienia, terazWPolsce, cialoJson, json, zrodloWizyty } from '../lib/wyszynk.mjs';
 import { mailNoweZamowienieCatering, mailZamowienieCateringPrzyjete } from '../lib/maile.mjs';
 
 // Numeracja zamówień: seria roczna "46/2026". W 2026 zaczynamy od 46
@@ -54,7 +54,7 @@ export default async function handler(request) {
   const z = {
     id: noweId(), numer: await nadajNumer(), utworzono: new Date().toISOString(),
     etap: 'przyjete', platnosc: 'nieoplacone', historia: [{ kiedy: new Date().toISOString(), co: 'Złożone online' }],
-    ...dane, pozycje,
+    ...dane, pozycje, zrodlo: zrodloWizyty(body.zrodlo),
     suma: Math.round(pozycje.reduce((s, p) => s + p.wartosc, 0) * 100) / 100,
     saWagowe: pozycje.some((p) => p.waga), odbior: menu.odbior
   };

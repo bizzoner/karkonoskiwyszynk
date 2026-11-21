@@ -52,6 +52,8 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
   przed publikacją.
 
 ## Zrobione
+- 2026-11-21: statystyki w panelu (źródła wizyt z UTM/QR/referera, dni, godziny,
+  catering) i zanonimizowane archiwum do statystyk po terminie RODO.
 - 2026-11-21: link rezerwacji w wizytówce (z UTM), `ReserveAction` w danych strony.
 - 2026-11-21: informacja „można przyjść bez rezerwacji” na /rezerwacja/ i w kontakcie.
 - 2026-11-21: Search Console - prośby o indeksowanie 3 podstron, ponownie

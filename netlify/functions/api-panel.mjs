@@ -2,6 +2,7 @@
 import { zalogowany, poprawneHaslo, utworzSesje, usunSesje, przekroczonyLimit, wczytajGrafik, sprawdzGrafik, magazyn, cialoJson, json } from '../lib/wyszynk.mjs';
 import { wszystkieRezerwacje, zdecyduj, ustawDzienPelny } from '../lib/rezerwacje.mjs';
 import { wszystkieZamowienia, zmienZamowienie } from '../lib/catering.mjs';
+import { daneStatystyk } from '../lib/statystyki.mjs';
 
 const czekaj = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -46,6 +47,8 @@ export default async function handler(request) {
       if (!b || !/^\d{4}-\d{2}-\d{2}$/.test(b.data)) return json({ blad: 'zle-dane' }, 400);
       return json({ grafik: await ustawDzienPelny(b.data, !!b.pelny) });
     }
+
+    if (trasa === 'statystyki' && metoda === 'GET') return json(await daneStatystyk());
 
     if (trasa === 'catering' && metoda === 'GET') return json({ zamowienia: await wszystkieZamowienia() });
     if (trasa === 'catering-status' && metoda === 'POST') {

@@ -83,11 +83,23 @@ działać (401) i rezerwacja przepadła niezauważona; klucz wymieniono 21.11.20
 Wspólne hasło (`PANEL_HASLO`), sesja 12 h w ciasteczku HttpOnly/Secure/SameSite=Strict,
 limit 10 prób logowania na 15 min z jednego IP. Zmiany wymagają nagłówka `X-Panel` (CSRF).
 
+## Statystyki (panel → Statystyki)
+
+Zgłoszenia, potwierdzenia, goście, źródła wizyt, dni tygodnia i godziny, catering.
+Źródło wizyty (`zrodlo`) ustala skrypt na stronach publicznych przy pierwszym wejściu
+w karcie: `utm_source[/utm_medium]`, kod QR albo domena strony odsyłającej, inaczej
+`bezposrednio`. Trzymane w `sessionStorage['wyszynk_zrodlo']` (bez ciasteczek),
+dołączane do rezerwacji i zamówień. Etykiety źródeł: `ZRODLA` w `panel/index.html`.
+API: `GET /api/panel/statystyki` (`netlify/lib/statystyki.mjs`) zwraca wyłącznie
+pola statystyczne, nigdy dane osobowe.
+
 ## Dane osobowe
 
 Funkcja `sprzatanie-danych` (codziennie 3:30 UTC) usuwa rezerwacje 30 dni po
 terminie wizyty, zamówienia cateringu 30 dni po 24 grudnia roku złożenia
-i stare liczniki antyspamowe.
+i stare liczniki antyspamowe. Przed usunięciem zapisuje zanonimizowaną kopię do
+statystyk (`archiwum/rezerwacja/`, `archiwum/catering/`: status, termin, liczba osób,
+suma, źródło - bez imienia, nazwiska, telefonu, e-maila i uwag).
 
 ## Wdrożenie - lista kontrolna
 

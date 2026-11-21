@@ -1,5 +1,5 @@
 // POST /api/rezerwacja - przyjęcie prośby o rezerwację od gościa.
-import { wczytajGrafik, dzien, daneKontaktowe, przekroczonyLimit, wyslijMail, magazyn, noweId, ustawienia, cialoJson, json } from '../lib/wyszynk.mjs';
+import { wczytajGrafik, dzien, daneKontaktowe, przekroczonyLimit, wyslijMail, magazyn, noweId, ustawienia, cialoJson, json, zrodloWizyty } from '../lib/wyszynk.mjs';
 import { kluczRezerwacji, linkiDecyzji } from '../lib/rezerwacje.mjs';
 import { mailNowaRezerwacja, mailRezerwacjaPrzyjeta } from '../lib/maile.mjs';
 
@@ -26,7 +26,7 @@ export default async function handler(request) {
   // Limit liczymy dopiero dla poprawnych zgłoszeń - poprawianie błędów w formularzu nie blokuje gościa.
   if (await przekroczonyLimit(request, 'rezerwacja', 5)) return json({ blad: 'limit' }, 429);
 
-  const r = { id: noweId(), status: 'oczekuje', utworzono: new Date().toISOString(), data: body.data, godzina: body.godzina, osoby, ...dane };
+  const r = { id: noweId(), status: 'oczekuje', utworzono: new Date().toISOString(), data: body.data, godzina: body.godzina, osoby, ...dane, zrodlo: zrodloWizyty(body.zrodlo) };
   await (await magazyn()).set(kluczRezerwacji(r.id), r);
 
   const u = ustawienia();

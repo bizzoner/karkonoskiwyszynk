@@ -95,11 +95,12 @@
     /* Telefon: logo, tytuł i Wyloguj w pierwszym wierszu, zakładki na całą szerokość pod spodem. */
     .pasek__wnetrze { gap: .6rem .8rem; }
     .wyloguj { margin-left: auto; order: 1; padding: .35rem .6rem; min-height: 36px; }
-    .zakladki { order: 2; flex-basis: 100%; margin-left: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .zakladki { order: 2; flex-basis: 100%; margin-left: 0; display: grid; grid-template-columns: repeat(2, 1fr); }
     .zakladki button { padding: .45rem .3rem; letter-spacing: .06em; }
     .filtry { display: grid; grid-template-columns: repeat(3, 1fr); }
     .filtry button { padding: .45rem .3rem; }
     #odswiez { grid-column: 1 / -1; margin-left: 0; min-height: 40px; }
+    #s-okres { grid-template-columns: repeat(4, 1fr); }
     .rez { grid-template-columns: 64px 1fr; }
     .rez__akcje { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
   }
@@ -120,6 +121,22 @@
   .ustawienia { display: flex; gap: 1.2rem; flex-wrap: wrap; }
   .ustawienia label { display: flex; flex-direction: column; font-size: .9rem; font-weight: 700; color: var(--forest); }
   .zapis { position: sticky; bottom: 0; background: var(--ivory); border-top: 1px solid var(--gold); padding: .8rem 0; display: flex; gap: 1rem; align-items: center; }
+
+  /* Statystyki */
+  .s-nota { font-size: .9rem; font-style: italic; color: var(--brown); margin: -.4rem 0 1.2rem; }
+  .s-liczby { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .6rem; margin-bottom: 1.4rem; }
+  .s-liczba { background: var(--papier); border: 1px solid var(--ivory-dark); border-top: 2px solid var(--gold); border-radius: var(--radius); padding: .7rem .8rem; }
+  .s-liczba strong { display: block; font-family: var(--f-display); font-size: 1.6rem; color: var(--forest); line-height: 1.2; }
+  .s-liczba span { font-size: .85rem; color: var(--brown); }
+  .s-sekcja { margin-bottom: 1.8rem; }
+  .s-sekcja h2 { font-size: 1.2rem; border-bottom: 1px solid var(--gold); padding-bottom: .3rem; margin: 0 0 .6rem; }
+  .s-tabela { width: 100%; border-collapse: collapse; }
+  .s-tabela td { padding: .35rem .4rem; border-bottom: 1px solid var(--ivory-dark); vertical-align: middle; }
+  .s-tabela td:first-child { width: 38%; }
+  .s-tabela td.ile { width: 4.5rem; text-align: right; font-weight: 700; color: var(--forest); white-space: nowrap; }
+  .s-pasek { height: 8px; background: var(--gold-light); border-radius: var(--radius); min-width: 2px; }
+  .s-kolumny { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+  @media (max-width: 640px) { .s-kolumny { grid-template-columns: 1fr; } .s-tabela td:first-child { width: 45%; } }
 
   /* Catering */
   .catering-gora { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-bottom: .8rem; }
@@ -194,6 +211,7 @@
       <button role="tab" data-widok="rezerwacje" aria-selected="true">Rezerwacje<span class="licznik-zakladki" id="licznik-oczekujacych" hidden></span></button>
       <button role="tab" data-widok="grafik" aria-selected="false">Grafik</button>
       <button role="tab" data-widok="catering" aria-selected="false">Catering</button>
+      <button role="tab" data-widok="statystyki" aria-selected="false">Statystyki</button>
     </nav>
     <button class="wyloguj" id="wyloguj" hidden>Wyloguj</button>
   </div>
@@ -291,6 +309,18 @@
     <p class="pusto" id="c-nota-filtra" style="margin:.2rem 0 1rem;font-size:.95rem"></p>
     <div id="lista-catering"></div>
   </section>
+
+  <!-- STATYSTYKI -->
+  <section id="widok-statystyki" hidden>
+    <div class="filtry" id="s-okres">
+      <button data-dni="30" aria-pressed="true">30 dni</button>
+      <button data-dni="90" aria-pressed="false">90 dni</button>
+      <button data-dni="365" aria-pressed="false">Rok</button>
+      <button data-dni="0" aria-pressed="false">Wszystko</button>
+    </div>
+    <p class="s-nota">Liczone od dnia złożenia rezerwacji lub zamówienia. Źródło wizyty zapisujemy od 21.11.2026 - starsze wpisy mają źródło „nieznane”.</p>
+    <div id="statystyki"></div>
+  </section>
 </main>
 
 <div id="wydruk"></div>
@@ -358,7 +388,7 @@
 
   // ---------- Logowanie / widoki ----------
   function pokazLogowanie() {
-    ['widok-rezerwacje', 'widok-grafik', 'widok-catering', 'zakladki', 'wyloguj'].forEach(function (id) { $(id).hidden = true; });
+    ['widok-rezerwacje', 'widok-grafik', 'widok-catering', 'widok-statystyki', 'zakladki', 'wyloguj'].forEach(function (id) { $(id).hidden = true; });
     $('logowanie').hidden = false;
     $('haslo').focus();
   }
@@ -386,10 +416,89 @@
   function przelacz(widok) {
     stan.widok = widok;
     document.querySelectorAll('#zakladki button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.widok === widok ? 'true' : 'false'); });
-    ['rezerwacje', 'grafik', 'catering'].forEach(function (w) { $('widok-' + w).hidden = w !== widok; });
+    ['rezerwacje', 'grafik', 'catering', 'statystyki'].forEach(function (w) { $('widok-' + w).hidden = w !== widok; });
     if (widok === 'rezerwacje') wczytajRezerwacje();
     if (widok === 'grafik') wczytajGrafik();
     if (widok === 'catering') wczytajCatering();
+    if (widok === 'statystyki') wczytajStatystyki();
+  }
+
+  // ======================= STATYSTYKI =======================
+  var ZRODLA = {
+    'google/wizytowka': 'Wizytówka Google', 'google': 'Google (wyszukiwarka)', 'bezposrednio': 'Wejście bezpośrednie',
+    'instagram': 'Instagram', 'facebook': 'Facebook', 'qr-front/offline': 'Kod QR (ekspozytor)', 'qr-witaj': 'Kod QR (/witaj/)',
+    'qr-gosc': 'Kod QR (/gosc/)', 'chatgpt': 'ChatGPT', 'perplexity': 'Perplexity', '': 'nieznane'
+  };
+  var DNI_KROTKO = ['nd', 'pn', 'wt', 'śr', 'cz', 'pt', 'sb'];
+  var stat = { dni: 30, dane: null };
+  function wczytajStatystyki() {
+    $('statystyki').textContent = 'Wczytywanie…';
+    api('statystyki').then(function (d) { stat.dane = d; rysujStatystyki(); })
+      .catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się wczytać statystyk.', true); });
+  }
+  $('s-okres').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-dni]');
+    if (!b) return;
+    stat.dni = Number(b.dataset.dni);
+    document.querySelectorAll('#s-okres button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    rysujStatystyki();
+  });
+  function zlicz(lista, klucz, waga) {
+    var w = {};
+    lista.forEach(function (x) { var k = klucz(x); w[k] = (w[k] || 0) + (waga ? waga(x) : 1); });
+    return w;
+  }
+  function tabela(wyniki, etykieta, kolejnosc, format) {
+    var klucze = kolejnosc || Object.keys(wyniki).sort(function (a, b) { return wyniki[b] - wyniki[a]; });
+    var max = Math.max.apply(null, klucze.map(function (k) { return wyniki[k] || 0; }).concat([1]));
+    if (!klucze.length) return el('p', { class: 'pusto', text: 'Brak danych w tym okresie.' });
+    return el('table', { class: 's-tabela' }, [el('tbody', {}, klucze.map(function (k) {
+      var v = wyniki[k] || 0;
+      return el('tr', {}, [
+        el('td', { text: etykieta ? etykieta(k) : k }),
+        el('td', {}, [el('div', { class: 's-pasek', style: 'width:' + Math.round(v / max * 100) + '%' })]),
+        el('td', { class: 'ile', text: format ? format(v) : String(v) })
+      ]);
+    }))]);
+  }
+  function liczba(wartosc, opis) { return el('div', { class: 's-liczba' }, [el('strong', { text: String(wartosc) }), el('span', { text: opis })]); }
+  function sekcja(tytul, tresc) { return el('div', { class: 's-sekcja' }, [el('h2', { text: tytul }), tresc]); }
+  function rysujStatystyki() {
+    var box = $('statystyki');
+    box.textContent = '';
+    if (!stat.dane) return;
+    var od = stat.dni ? new Date(Date.now() - stat.dni * 86400000).toISOString() : '';
+    var rez = stat.dane.rezerwacje.filter(function (r) { return r.utworzono >= od; });
+    var cat = stat.dane.catering.filter(function (z) { return z.utworzono >= od && z.etap !== 'anulowane'; });
+    var potw = rez.filter(function (r) { return r.status === 'potwierdzona'; });
+    var nieodrz = rez.filter(function (r) { return r.status !== 'odrzucona'; });
+    var osobyPotw = potw.reduce(function (s, r) { return s + r.osoby; }, 0);
+    var wyprz = nieodrz.map(function (r) { return (new Date(r.data + 'T12:00:00') - new Date(r.utworzono)) / 86400000; }).filter(function (x) { return x >= -1; });
+    var srWyprz = wyprz.length ? wyprz.reduce(function (s, x) { return s + Math.max(0, x); }, 0) / wyprz.length : 0;
+    var etZrodla = function (k) { return ZRODLA[k] || k; };
+
+    box.appendChild(el('div', { class: 's-liczby' }, [
+      liczba(rez.length, 'zgłoszeń rezerwacji'),
+      liczba(potw.length, 'potwierdzonych'),
+      liczba(osobyPotw, 'gości w potwierdzonych'),
+      liczba(potw.length ? (osobyPotw / potw.length).toLocaleString('pl-PL', { maximumFractionDigits: 1 }) : '-', 'osób średnio na stolik'),
+      liczba(rez.length ? Math.round(potw.length / rez.length * 100) + '%' : '-', 'zgłoszeń potwierdzonych'),
+      liczba(wyprz.length ? srWyprz.toLocaleString('pl-PL', { maximumFractionDigits: 1 }) + ' dni' : '-', 'średnio z wyprzedzeniem')
+    ]));
+    box.appendChild(sekcja('Skąd przychodzą rezerwacje', tabela(zlicz(rez, function (r) { return r.zrodlo || ''; }), etZrodla)));
+    box.appendChild(el('div', { class: 's-kolumny' }, [
+      sekcja('Dzień tygodnia wizyty', tabela(zlicz(nieodrz, function (r) { return String(new Date(r.data + 'T12:00:00').getDay()); }), function (k) { return DNI_KROTKO[k]; }, ['1', '2', '3', '4', '5', '6', '0'])),
+      sekcja('Godzina wizyty', tabela(zlicz(nieodrz, function (r) { return r.godzina; }), null, Object.keys(zlicz(nieodrz, function (r) { return r.godzina; })).sort()))
+    ]));
+    box.appendChild(sekcja('Status zgłoszeń', tabela(zlicz(rez, function (r) { return r.status; }), function (k) { return STATUSY[k] || k; })));
+
+    var suma = cat.reduce(function (s, z) { return s + (z.suma || 0); }, 0);
+    box.appendChild(el('div', { class: 's-liczby' }, [
+      liczba(cat.length, 'zamówień cateringu'),
+      liczba(zl(suma), 'wartość zamówień'),
+      liczba(cat.length ? zl(suma / cat.length) : '-', 'średnie zamówienie')
+    ]));
+    box.appendChild(sekcja('Skąd przychodzą zamówienia cateringu', tabela(zlicz(cat, function (z) { return z.zrodlo || ''; }), etZrodla)));
   }
 
   // ======================= REZERWACJE =======================
