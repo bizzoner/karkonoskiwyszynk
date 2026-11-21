@@ -2,7 +2,7 @@
 // Pobieramy najwyżej raz na 3 godziny i trzymamy w Blobs (`godziny`), żeby
 // strona, llms.txt i dane strukturalne pokazywały to samo co Google.
 // Zmienne: GOOGLE_PLACES_KEY (klucz ograniczony do Places API New), GOOGLE_PLACE_ID.
-import { magazyn, terazWPolsce, dodajDni } from './wyszynk.mjs';
+import { magazyn, terazWPolsce, dodajDni, zapiszStanSystemu } from './wyszynk.mjs';
 
 const WAZNOSC_MS = 3 * 3600 * 1000;
 const hhmm = (p) => String(p.hour).padStart(2, '0') + ':' + String(p.minute || 0).padStart(2, '0');
@@ -47,9 +47,11 @@ export async function godziny() {
   try {
     const nowe = { ...(await pobierzZGoogle()), pobrano: new Date().toISOString() };
     await m.set('godziny', nowe);
+    await zapiszStanSystemu('godziny', null);
     return nowe;
   } catch (e) {
     console.error('godziny: nie udało się pobrać z Google', e.message);
+    await zapiszStanSystemu('godziny', `Nie udało się pobrać godzin z Google: ${e.message}`);
     if (zapis) return zapis;
     throw e;
   }

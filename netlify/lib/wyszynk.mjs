@@ -20,6 +20,7 @@ export function ustawienia() {
     resendKlucz: env.RESEND_API_KEY || '',
     nadawca: env.MAIL_FROM || 'Karkonoski Wyszynk <rezerwacje@mail.karkonoskiwyszynk.pl>',
     mailRestauracji: env.MAIL_RESTAURACJA || 'anastasia.vilk@relaxtour.pl',
+    mailAdmin: env.MAIL_ADMIN || '', // alarmy techniczne (opcjonalnie)
     panelHaslo: env.PANEL_HASLO || '',
     sekret: env.PANEL_SEKRET || '',
     adresStrony: (env.SITE_URL || env.URL || 'https://karkonoskiwyszynk.pl').replace(/\/$/, ''),
@@ -352,14 +353,59 @@ export async function wyslijMail({ do: adresat, temat, html, text, odpowiedzDo }
     await writeFile(path.join(katalog, nazwa), `<!-- DO: ${adresat} | ODPOWIEDZ-DO: ${odpowiedzDo || '-'} | TEMAT: ${temat} -->\n${html}`);
     return { id: 'dev-' + nazwa };
   }
-  const odp = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${u.resendKlucz}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: u.nadawca, to: [adresat], subject: temat, html, text, ...(odpowiedzDo ? { reply_to: odpowiedzDo } : {}) }),
-    signal: AbortSignal.timeout(8000)
-  });
-  if (!odp.ok) throw new Error(`Resend ${odp.status}: ${(await odp.text()).slice(0, 200)}`);
+  let odp;
+  try {
+    odp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${u.resendKlucz}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: u.nadawca, to: [adresat], subject: temat, html, text, ...(odpowiedzDo ? { reply_to: odpowiedzDo } : {}) }),
+      signal: AbortSignal.timeout(8000)
+    });
+  } catch (e) {
+    await zapiszStanSystemu('mail', `Brak połączenia z Resend: ${e.message}`);
+    throw e;
+  }
+  if (!odp.ok) {
+    const opis = `Resend ${odp.status}: ${(await odp.text()).slice(0, 200)}`;
+    // 4xx przy konkretnym adresie (np. literówka gościa) to nie awaria systemu - alarm tylko przy kluczu i serwerze.
+    if (odp.status === 401 || odp.status === 403 || odp.status >= 500) await zapiszStanSystemu('mail', opis);
+    throw new Error(opis);
+  }
+  await zapiszStanSystemu('mail', null);
   return odp.json();
+}
+
+// ---------------------------------------------------------------------------
+// Stan systemu (Blobs `stan-systemu`): awarie wysyłki maili i pobierania godzin.
+// Panel pokazuje je na górze, raport poranny je wymienia. Gdy padnie wysyłka maili,
+// panel jest jedynym miejscem, gdzie obsługa zobaczy problem.
+// ---------------------------------------------------------------------------
+export async function zapiszStanSystemu(czesc, blad) {
+  try {
+    const m = await magazyn();
+    const s = (await m.get('stan-systemu')) || {};
+    if (!blad && !s[czesc]) return;
+    const teraz = new Date().toISOString();
+    if (blad) s[czesc] = { blad: String(blad).slice(0, 300), od: s[czesc]?.od || teraz, ostatnio: teraz };
+    else delete s[czesc];
+    await m.set('stan-systemu', s);
+  } catch (e) { console.error('stan-systemu', e.message); }
+}
+export async function stanSystemu() {
+  return (await (await magazyn()).get('stan-systemu')) || {};
+}
+
+// Sprawdza klucz Resend bez wysyłania maila: pusty POST daje 422 (klucz OK) albo 401/403.
+export async function sprawdzWysylke() {
+  const { resendKlucz } = ustawienia();
+  if (!resendKlucz) return { ok: !!ustawienia().devMagazyn, opis: 'Brak RESEND_API_KEY' };
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST', headers: { Authorization: `Bearer ${resendKlucz}`, 'Content-Type': 'application/json' }, body: '{}', signal: AbortSignal.timeout(8000)
+    });
+    const ok = r.status === 422 || r.status === 400;
+    return { ok, opis: ok ? '' : `Resend odrzuca klucz (${r.status})` };
+  } catch (e) { return { ok: false, opis: `Brak połączenia z Resend: ${e.message}` }; }
 }
 
 // ---------------------------------------------------------------------------

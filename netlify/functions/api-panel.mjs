@@ -1,5 +1,5 @@
 // /api/panel/* - API panelu pracowników (logowanie wspólnym hasłem).
-import { zalogowany, poprawneHaslo, utworzSesje, usunSesje, przekroczonyLimit, wczytajGrafik, sprawdzGrafik, wczytajSzablony, sprawdzSzablony, magazyn, cialoJson, json } from '../lib/wyszynk.mjs';
+import { zalogowany, poprawneHaslo, utworzSesje, usunSesje, przekroczonyLimit, wczytajGrafik, sprawdzGrafik, wczytajSzablony, sprawdzSzablony, stanSystemu, magazyn, cialoJson, json } from '../lib/wyszynk.mjs';
 import { wszystkieRezerwacje, zdecyduj, ustawDzienPelny } from '../lib/rezerwacje.mjs';
 import { wszystkieZamowienia, zmienZamowienie } from '../lib/catering.mjs';
 import { daneStatystyk } from '../lib/statystyki.mjs';
@@ -26,6 +26,7 @@ export default async function handler(request) {
     if (!zalogowany(request)) return json({ blad: 'sesja' }, 401);
 
     if (trasa === 'sesja' && metoda === 'GET') return json({ ok: true });
+    if (trasa === 'stan' && metoda === 'GET') return json({ stan: await stanSystemu() });
 
     if (trasa === 'rezerwacje' && metoda === 'GET') return json({ rezerwacje: await wszystkieRezerwacje() });
 

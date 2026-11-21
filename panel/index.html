@@ -132,6 +132,9 @@
   .link-przycisk { background: none; border: none; padding: 0; color: var(--forest); font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
   .zapis { position: sticky; bottom: 0; background: var(--ivory); border-top: 1px solid var(--gold); padding: .8rem 0; display: flex; gap: 1rem; align-items: center; }
 
+  .stan-systemu { border: 1px solid var(--error); border-left: 4px solid var(--error); background: #FBEDEA; color: #7A1F12; padding: .8rem 1rem; margin-bottom: 1.2rem; border-radius: var(--radius); }
+  .stan-systemu strong { display: block; margin-bottom: .2rem; }
+
   /* Statystyki */
   .s-nota { font-size: .9rem; font-style: italic; color: var(--brown); margin: -.4rem 0 1.2rem; }
   .s-liczby { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .6rem; margin-bottom: 1.4rem; }
@@ -229,6 +232,7 @@
 </header>
 
 <main>
+  <div class="stan-systemu" id="stan-systemu" role="alert" hidden></div>
   <div class="komunikat" id="komunikat" role="status" hidden></div>
 
   <!-- LOGOWANIE -->
@@ -437,6 +441,7 @@
     $('wyloguj').hidden = false;
     przelacz(stan.widok);
     if (stan.widok !== 'imprezy') wczytajImprezy(); // licznik nowych zapytań na zakładce
+    sprawdzStanSystemu();
   }
   $('logowanie').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -462,6 +467,21 @@
     if (widok === 'catering') wczytajCatering();
     if (widok === 'statystyki') wczytajStatystyki();
     if (widok === 'imprezy') wczytajImprezy();
+  }
+
+  // Awarie (wysyłka maili, godziny z Google) - widoczne zawsze na górze panelu.
+  var OPIS_STANU = { mail: 'Nie działa wysyłka maili - nowe rezerwacje i zamówienia widać tylko w panelu, goście nie dostają potwierdzeń.', godziny: 'Nie udało się pobrać godzin otwarcia z wizytówki Google - strona pokazuje ostatnie znane godziny.' };
+  function sprawdzStanSystemu() {
+    api('stan').then(function (w) {
+      var box = $('stan-systemu'), klucze = Object.keys(w.stan || {});
+      box.hidden = !klucze.length;
+      box.textContent = '';
+      if (!klucze.length) return;
+      box.appendChild(el('strong', { text: 'Problem z systemem - daj znać administratorowi strony' }));
+      klucze.forEach(function (k) {
+        box.appendChild(el('div', { text: (OPIS_STANU[k] || k) + ' Od: ' + kiedyUtworzono(w.stan[k].od) + '. (' + w.stan[k].blad + ')' }));
+      });
+    }).catch(function () {});
   }
 
   // ======================= IMPREZY =======================

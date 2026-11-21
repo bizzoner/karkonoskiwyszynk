@@ -352,3 +352,45 @@ export function mailWiadomoscPoWizycie(r, tresc) {
     text: tekstowa(['Wiadomość od gościa po wizycie', '', tresc, '', `Wizyta: ${kiedy(r)}, ${osoby(r.osoby)}`, `Gość: ${r.imie} ${r.nazwisko}`, `Telefon: ${r.telefon}`, `E-mail: ${r.email}`])
   };
 }
+
+// ---------------------------------------------------------------------------
+// Raport poranny dla restauracji (codziennie, funkcja raport-poranny)
+// ---------------------------------------------------------------------------
+const OPIS_STANU = { mail: 'Wysyłka maili', godziny: 'Godziny z wizytówki Google' };
+
+export function mailRaportPoranny(d) {
+  const { adresStrony } = ustawienia();
+  const lista = (wiersze) => wiersze.length
+    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 8px;">${wiersze.map((w) => `<tr><td style="padding:7px 0;border-bottom:1px solid ${K.ivoryAlt};font-family:${SZERYF};font-size:16px;color:${K.tekst};">${w}</td></tr>`).join('')}</table>`
+    : akapit('<em>brak</em>', `font-size:15px;color:${K.brown};margin:0 0 8px;`);
+  const naglowek = (t) => `<p style="margin:22px 0 4px;font-family:${SZERYF};font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:${K.goldDark};font-weight:bold;">${esc(t)}</p>`;
+  const problemy = Object.entries(d.stan);
+  const html = szablon({
+    zajawka: `${d.dzis.length} rez. dziś (${osoby(d.osobDzis)}), do decyzji: ${d.doDecyzji.length}, nowe zapytania o imprezy: ${d.noweImprezy.length}`,
+    eyebrow: 'Raport poranny',
+    tytul: `Dzień dobry! ${dataSlownie(d.data)}`,
+    stopkaDlaGoscia: false,
+    tresc:
+      (problemy.length ? `<div style="border-left:3px solid #9B2C1A;background:#FBEDEA;padding:12px 14px;margin:0 0 16px;font-family:${SZERYF};font-size:16px;color:#7A1F12;"><strong>Problem z systemem:</strong><br>${problemy.map(([k, v]) => `${esc(OPIS_STANU[k] || k)}: ${esc(v.blad)}`).join('<br>')}<br>Daj znać administratorowi strony.</div>` : '') +
+      naglowek(`Rezerwacje na dziś (${d.dzis.length}, ${osoby(d.osobDzis)})`) +
+      lista(d.dzis.map((r) => `<strong>${esc(r.godzina)}</strong> · ${esc(osoby(r.osoby))} · ${esc(r.imie)} ${esc(r.nazwisko)}${r.uwagi ? ` · <em>${esc(r.uwagi)}</em>` : ''}`)) +
+      naglowek(`Czekają na decyzję (${d.doDecyzji.length})`) +
+      lista(d.doDecyzji.map((r) => `${esc(dataSlownie(r.data))}, ${esc(r.godzina)} · ${esc(osoby(r.osoby))} · ${esc(r.imie)} ${esc(r.nazwisko)}${r.poTerminie ? ' · <strong style="color:#9B2C1A;">termin minął</strong>' : ''}`)) +
+      naglowek(`Nowe zapytania o imprezy (${d.noweImprezy.length})`) +
+      lista(d.noweImprezy.map((z) => `${esc(dataSlownie(z.data))} · ${esc(opisRodzaju(z))} · ${esc(osoby(z.goscie))} · ${esc(z.imie)} ${esc(z.nazwisko)}`)) +
+      (d.imprezyTydzien.length ? naglowek(`Potwierdzone imprezy w tym tygodniu (${d.imprezyTydzien.length})`) + lista(d.imprezyTydzien.map((z) => `${esc(dataSlownie(z.data))}${z.godzina ? ', ' + esc(z.godzina) : ''} · ${esc(opisRodzaju(z))} · ${esc(osoby(z.goscie))}`)) : '') +
+      (d.cateringAktywne ? naglowek('Catering świąteczny') + akapit(`Nowe zamówienia od wczoraj: <strong>${d.cateringNowe}</strong> · w realizacji: <strong>${d.cateringAktywne}</strong> (${esc(zl(d.cateringSuma))})`, 'font-size:16px;') : '') +
+      `<div style="margin:24px 0 4px;">${przycisk(`${adresStrony}/panel/`, 'Otwórz panel')}</div>`
+  });
+  const text = tekstowa([
+    `Raport poranny - ${dataSlownie(d.data)}`, '',
+    ...(problemy.length ? ['PROBLEM Z SYSTEMEM:', ...problemy.map(([k, v]) => `${OPIS_STANU[k] || k}: ${v.blad}`), ''] : []),
+    `Rezerwacje na dziś (${d.dzis.length}, ${osoby(d.osobDzis)}):`, ...d.dzis.map((r) => `- ${r.godzina}, ${osoby(r.osoby)}, ${r.imie} ${r.nazwisko}`), '',
+    `Czekają na decyzję: ${d.doDecyzji.length}`, `Nowe zapytania o imprezy: ${d.noweImprezy.length}`,
+    d.cateringAktywne ? `Catering: nowe od wczoraj ${d.cateringNowe}, w realizacji ${d.cateringAktywne}` : null, '', `Panel: ${adresStrony}/panel/`
+  ]);
+  return {
+    temat: `${problemy.length ? 'UWAGA, problem z systemem · ' : ''}Dziś: ${d.dzis.length} rez. (${osoby(d.osobDzis)})${d.doDecyzji.length ? `, ${d.doDecyzji.length} do decyzji` : ''}${d.noweImprezy.length ? `, ${d.noweImprezy.length} zapyt. o imprezy` : ''} - ${krotkaData(d.data)}`,
+    html, text
+  };
+}

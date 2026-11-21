@@ -45,6 +45,8 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
   przed publikacją.
 
 ## Zrobione
+- 2026-11-21: raport poranny dla restauracji + kontrola wysyłki maili i godzin z Google,
+  komunikat o awarii w panelu.
 - 2026-11-21: szablony grafiku rezerwacji (tygodnia i dnia) w panelu; grafik celowo
   niezależny od godzin z Google. Data otwarcia w wizytówce (2022, z Pierogarnią Bożena)
   potwierdzona jako prawidłowa.

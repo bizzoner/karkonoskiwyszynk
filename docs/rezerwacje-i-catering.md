@@ -100,6 +100,19 @@ Panel: statusy Nowe / W kontakcie / Potwierdzone / Odrzucone. Słowniki opcji:
 `netlify/lib/imprezy.mjs` (serwer, maile) - lista w `imprezy/index.html` i `panel/index.html`
 musi mieć te same klucze. Dane osobowe usuwane 30 dni po terminie imprezy (archiwum anonimowe).
 
+## Raport poranny i stan systemu
+
+`raport-poranny` (codziennie 8:00 UTC = 9:00 zimą, 10:00 latem) sprawdza klucz Resend
+(pusty POST: 422 = OK, 401 = zły klucz) i pobieranie godzin z Google, po czym wysyła na
+`MAIL_RESTAURACJA` raport: rezerwacje na dziś, do decyzji, nowe zapytania o imprezy,
+potwierdzone imprezy w tygodniu, catering. Przy awarii także na `MAIL_ADMIN` (opcjonalny).
+
+Każda awaria wysyłki (401/403/5xx, brak połączenia) i pobierania godzin zapisuje się w
+Blobs `stan-systemu` (`zapiszStanSystemu`), a pierwsza udana operacja ją czyści. Panel
+pokazuje awarie czerwonym komunikatem na górze - gdy nie działa wysyłka maili, to jedyne
+miejsce, w którym obsługa zobaczy problem (21.11.2026 zły klucz Resend przez dobę
+nikt nie zauważył).
+
 ## Prośba o opinię po wizycie
 
 Formularz rezerwacji ma opcjonalną zgodę (`zgodaOpinia`). Funkcja `prosba-o-opinie`
