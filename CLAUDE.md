@@ -174,3 +174,8 @@ Pełny opis, zmienne środowiskowe i lista wdrożeniowa: `docs/rezerwacje-i-cate
   klientów poczty). Logo w mailach to `assets/img/logo-mail.png` (białe, PNG -
   poczta nie wyświetla SVG).
 - Lokalnie: `npm run dev` (bez Netlify CLI), maile do podglądu pod `/dev/maile`.
+
+## 10. SEO, wizytówka Google, AI
+
+Otwarte zadania, terminy kontroli i historia zmian: `docs/plan-seo-i-ai.md`.
+Zaglądaj tam na początku sesji dotyczącej SEO lub wizytówki i aktualizuj po zmianach.
