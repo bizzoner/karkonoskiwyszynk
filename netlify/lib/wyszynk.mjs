@@ -385,11 +385,30 @@ export async function zapiszStanSystemu(czesc, blad) {
     const m = await magazyn();
     const s = (await m.get('stan-systemu')) || {};
     if (!blad && !s[czesc]) return;
+    const nowy = blad && !s[czesc], poprzedni = s[czesc];
     const teraz = new Date().toISOString();
     if (blad) s[czesc] = { blad: String(blad).slice(0, 300), od: s[czesc]?.od || teraz, ostatnio: teraz };
     else delete s[czesc];
     await m.set('stan-systemu', s);
+    // Alarm do administratora: przy pojawieniu się problemu i po jego ustąpieniu.
+    if (nowy) await alarmAdmin(`Problem: ${OPIS_CZESCI[czesc] || czesc}`, `${OPIS_CZESCI[czesc] || czesc} nie działa.\n\nSzczegóły: ${s[czesc].blad}\nOd: ${teraz}\n\nPanel: ${ustawienia().adresStrony}/panel/`);
+    else if (!blad && poprzedni) await alarmAdmin(`Naprawione: ${OPIS_CZESCI[czesc] || czesc}`, `${OPIS_CZESCI[czesc] || czesc} znowu działa.\n\nProblem trwał od: ${poprzedni.od}\nOstatni błąd: ${poprzedni.blad}`);
   } catch (e) { console.error('stan-systemu', e.message); }
+}
+
+const OPIS_CZESCI = { mail: 'Wysyłka maili (Resend)', godziny: 'Pobieranie godzin z wizytówki Google' };
+let wysylamAlarm = false;
+// Gdy nie działa sama wysyłka, alarm też nie wyjdzie - wtedy zostaje komunikat w panelu.
+async function alarmAdmin(temat, tresc) {
+  const { mailAdmin } = ustawienia();
+  if (!mailAdmin || wysylamAlarm) return;
+  wysylamAlarm = true;
+  try {
+    const html = `<div style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#1C1409;white-space:pre-line;">${tresc.replace(/[&<>]/g, (z) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[z]))}</div>`;
+    await wyslijMail({ do: mailAdmin, temat: `[Wyszynk] ${temat}`, html, text: tresc });
+  } catch (e) {
+    console.error('alarm-admin: nie wysłano', e.message);
+  } finally { wysylamAlarm = false; }
 }
 export async function stanSystemu() {
   return (await (await magazyn()).get('stan-systemu')) || {};

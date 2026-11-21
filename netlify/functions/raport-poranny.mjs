@@ -38,7 +38,8 @@ export default async function handler() {
   const mail = mailRaportPoranny(d);
   try {
     await wyslijMail({ do: mailRestauracji, temat: mail.temat, html: mail.html, text: mail.text });
-    if (mailAdmin && Object.keys(d.stan).length) await wyslijMail({ do: mailAdmin, temat: '[Wyszynk] ' + mail.temat, html: mail.html, text: mail.text });
+    // Trwający problem: przypomnienie dla administratora codziennie z raportem.
+    if (mailAdmin && Object.keys(d.stan).length) await wyslijMail({ do: mailAdmin, temat: '[Wyszynk] Nadal problem · ' + mail.temat, html: mail.html, text: mail.text });
   } catch (e) {
     console.error('raport-poranny: nie wysłano', e.message);
   }
