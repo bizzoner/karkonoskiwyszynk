@@ -168,7 +168,8 @@ export function sprawdzGrafik(g) {
     buforDzisMin: DOMYSLNY_GRAFIK.buforDzisMin,
     dniDoPrzodu: Math.min(365, Math.max(7, Number(g.dniDoPrzodu) || 90)),
     tydzien: {},
-    wyjatki: {}
+    wyjatki: {},
+    szablon: String(g.szablon ?? '').replace(/\s+/g, ' ').trim().slice(0, 40)
   };
   for (let d = 0; d < 7; d++) {
     const w = (g.tydzien || {})[d] || {};
@@ -182,6 +183,51 @@ export function sprawdzGrafik(g) {
     wynik.wyjatki[data] = { typ: w.typ, ...(w.typ === 'godziny' ? { od: w.od, do: w.do } : {}), ...(w.notka ? { notka: String(w.notka).slice(0, 80) } : {}) };
   }
   return bledy.length ? bledy : wynik;
+}
+
+// ---------------------------------------------------------------------------
+// Szablony grafiku (panel → Grafik): tygodnie (Sezon, Zima...) i dni (Sylwester...)
+// Wczytanie szablonu tylko wypełnia formularz - obowiązuje dopiero „Zapisz grafik”.
+// ---------------------------------------------------------------------------
+const tydzienZ = (godz) => Object.fromEntries([0, 1, 2, 3, 4, 5, 6].map((d) => [d, godz[d] ? { otwarte: true, od: godz[d][0], do: godz[d][1] } : { otwarte: false, od: '12:00', do: '20:00' }]));
+export const DOMYSLNE_SZABLONY = {
+  tygodnie: [
+    { nazwa: 'Sezon', ostatniaPrzedZamknieciemMin: 60, tydzien: structuredClone(DOMYSLNY_GRAFIK.tydzien) },
+    { nazwa: 'Poza sezonem', ostatniaPrzedZamknieciemMin: 60, tydzien: tydzienZ({ 5: ['13:00', '20:00'], 6: ['13:00', '21:00'], 0: ['12:00', '18:00'] }) }
+  ],
+  dni: [
+    { nazwa: 'Impreza zamknięta', typ: 'zamkniete', notka: 'Impreza zamknięta' },
+    { nazwa: 'Brak miejsc', typ: 'pelne', notka: 'Brak miejsc' }
+  ]
+};
+
+export async function wczytajSzablony() {
+  return (await (await magazyn()).get('grafik-szablony')) || structuredClone(DOMYSLNE_SZABLONY);
+}
+
+export function sprawdzSzablony(s) {
+  const bledy = [];
+  const nazwa = (v) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, 40);
+  if (!s || !Array.isArray(s.tygodnie) || !Array.isArray(s.dni)) return ['Nieprawidłowe dane szablonów.'];
+  if (s.tygodnie.length > 20 || s.dni.length > 30) return ['Za dużo szablonów.'];
+  const tygodnie = [], dni = [], nazwyT = new Set(), nazwyD = new Set();
+  for (const t of s.tygodnie) {
+    const n = nazwa(t.nazwa);
+    if (!n || nazwyT.has(n.toLowerCase())) { bledy.push(`Szablon tygodnia bez nazwy lub z powtórzoną nazwą: „${n}”.`); continue; }
+    const g = sprawdzGrafik({ tydzien: t.tydzien, ostatniaPrzedZamknieciemMin: t.ostatniaPrzedZamknieciemMin });
+    if (Array.isArray(g)) { bledy.push(`Szablon „${n}”: ${g.join(' ')}`); continue; }
+    nazwyT.add(n.toLowerCase());
+    tygodnie.push({ nazwa: n, ostatniaPrzedZamknieciemMin: g.ostatniaPrzedZamknieciemMin, tydzien: g.tydzien });
+  }
+  for (const d of s.dni) {
+    const n = nazwa(d.nazwa);
+    if (!n || nazwyD.has(n.toLowerCase())) { bledy.push(`Szablon dnia bez nazwy lub z powtórzoną nazwą: „${n}”.`); continue; }
+    const g = sprawdzGrafik({ wyjatki: { '2000-01-01': d } });
+    if (Array.isArray(g)) { bledy.push(`Szablon dnia „${n}” ma nieprawidłowe godziny.`); continue; }
+    nazwyD.add(n.toLowerCase());
+    dni.push({ nazwa: n, ...g.wyjatki['2000-01-01'] });
+  }
+  return bledy.length ? bledy : { tygodnie, dni };
 }
 
 // Status dnia i wolne godziny - JEDYNE miejsce, gdzie liczymy dostępność.

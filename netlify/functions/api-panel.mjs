@@ -1,5 +1,5 @@
 // /api/panel/* - API panelu pracowników (logowanie wspólnym hasłem).
-import { zalogowany, poprawneHaslo, utworzSesje, usunSesje, przekroczonyLimit, wczytajGrafik, sprawdzGrafik, magazyn, cialoJson, json } from '../lib/wyszynk.mjs';
+import { zalogowany, poprawneHaslo, utworzSesje, usunSesje, przekroczonyLimit, wczytajGrafik, sprawdzGrafik, wczytajSzablony, sprawdzSzablony, magazyn, cialoJson, json } from '../lib/wyszynk.mjs';
 import { wszystkieRezerwacje, zdecyduj, ustawDzienPelny } from '../lib/rezerwacje.mjs';
 import { wszystkieZamowienia, zmienZamowienie } from '../lib/catering.mjs';
 import { daneStatystyk } from '../lib/statystyki.mjs';
@@ -42,6 +42,13 @@ export default async function handler(request) {
       if (Array.isArray(wynik)) return json({ blad: 'walidacja', komunikaty: wynik }, 422);
       await (await magazyn()).set('grafik', wynik);
       return json({ grafik: wynik });
+    }
+    if (trasa === 'szablony' && metoda === 'GET') return json({ szablony: await wczytajSzablony() });
+    if (trasa === 'szablony' && metoda === 'PUT') {
+      const wynik = sprawdzSzablony(await cialoJson(request, 60000));
+      if (Array.isArray(wynik)) return json({ blad: 'walidacja', komunikaty: wynik }, 422);
+      await (await magazyn()).set('grafik-szablony', wynik);
+      return json({ szablony: wynik });
     }
     if (trasa === 'pelny' && metoda === 'POST') {
       const b = await cialoJson(request);

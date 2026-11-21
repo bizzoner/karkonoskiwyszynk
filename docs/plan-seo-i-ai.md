@@ -13,9 +13,7 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
 
 ### Wizytówka Google i konta (robi właściciel / Krystian)
 - [ ] **Google Ads: „Nie można obciążyć Twojej formy płatności”** - reklamy
-  prawdopodobnie stoją (widoczne 21.11.2026).
-- [ ] **Data otwarcia w wizytówce: 1 lutego 2022.** Wyszynk działa od 2026
-  (CLAUDE.md §8). Jeśli 2022 to data Pierogarni Bożena - potwierdzić z właścicielem.
+  prawdopodobnie stoją (widoczne 21.11.2026). Marek zajmuje się płatnością (pon. 23.11).
 - [ ] Sprawdzić, czy w wizytówce pojawił się przycisk rezerwacji (link dodany
   21.11.2026, czekał na weryfikację Google). Jeśli brak do ~25.11 - szukać
   komunikatu o odrzuceniu.
@@ -24,8 +22,6 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
 - [ ] Wpis w wizytówce „Catering świąteczny” z przyciskiem „Zamów online”
   (sezonowo, listopad-grudzień).
 - [ ] Godziny świąteczne w wizytówce (Wigilia, Święta, Sylwester) - strona pobierze je sama.
-- [ ] **Grafik rezerwacji w panelu przyjmuje rezerwacje pn-czw, a wizytówka mówi
-  „zamknięte”** (21.11.2026). Ustalić z restauracją, które jest prawdziwe.
 - [ ] Odpowiadać na nowe opinie na bieżąco (wizytówka pokazuje licznik).
 
 ### Kontrola (za 1-2 tygodnie od 21.11.2026)
@@ -49,6 +45,9 @@ Plik jest w `docs/`, więc nie jest publiczny (netlify.toml zwraca 404).
   przed publikacją.
 
 ## Zrobione
+- 2026-11-21: szablony grafiku rezerwacji (tygodnia i dnia) w panelu; grafik celowo
+  niezależny od godzin z Google. Data otwarcia w wizytówce (2022, z Pierogarnią Bożena)
+  potwierdzona jako prawidłowa.
 - 2026-11-21: wersje językowe /en/, /de/, /cs/ (strona główna i historia) generowane
   `npm run jezyki`, hreflang, sitemap z alternatywami; zgodność z tłumaczeniem w
   przeglądarce sprawdzona element po elemencie (0 różnic).

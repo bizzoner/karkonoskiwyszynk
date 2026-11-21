@@ -125,6 +125,11 @@
   .wyjatki li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .5rem 0; border-bottom: 1px solid var(--ivory-dark); }
   .ustawienia { display: flex; gap: 1.2rem; flex-wrap: wrap; }
   .ustawienia label { display: flex; flex-direction: column; font-size: .9rem; font-weight: 700; color: var(--forest); }
+  .szablony { display: flex; gap: .6rem 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: .4rem; }
+  .szablony label { display: flex; flex-direction: column; font-size: .9rem; font-weight: 700; color: var(--forest); }
+  .szablony select, .szablony input { padding: .4rem; border: 1px solid var(--ivory-dark); border-bottom: 2px solid var(--gold); border-radius: var(--radius); background: #fff; min-height: 42px; min-width: 14rem; }
+  .szablony--zapis { margin-top: 1.2rem; padding-top: .9rem; border-top: 1px dashed var(--ivory-dark); }
+  .link-przycisk { background: none; border: none; padding: 0; color: var(--forest); font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
   .zapis { position: sticky; bottom: 0; background: var(--ivory); border-top: 1px solid var(--gold); padding: .8rem 0; display: flex; gap: 1rem; align-items: center; }
 
   /* Statystyki */
@@ -247,14 +252,21 @@
 
   <!-- GRAFIK -->
   <section id="widok-grafik" hidden>
-    <div class="ostrzezenie" id="g-niezgodnosc" hidden style="margin-bottom:1rem"></div>
     <div class="karta sekcja-grafiku">
       <label class="przelacznik"><input type="checkbox" id="g-wlaczone"> Rezerwacje online włączone</label>
       <p class="pusto" style="margin:.3rem 0 0">Wyłączone: formularz na stronie pokazuje tylko numer telefonu.</p>
     </div>
 
     <div class="karta sekcja-grafiku">
-      <h2>Tydzień (sezon)</h2>
+      <h2>Tydzień</h2>
+      <div class="szablony">
+        <label>Szablon
+          <select id="g-szablon"></select>
+        </label>
+        <button class="btn btn--jasny" type="button" id="g-wczytaj">Wczytaj do tabeli</button>
+        <span class="pusto" id="g-aktualny"></span>
+      </div>
+      <p class="pusto" style="margin:.2rem 0 .8rem">Wczytany szablon możesz poprawić w tabeli. Grafik zmienia się na stronie dopiero po „Zapisz grafik”.</p>
       <table class="tydzien" id="g-tydzien">
         <thead><tr><th>Dzień</th><th>Otwarte</th><th>Od</th><th>Do</th></tr></thead>
         <tbody></tbody>
@@ -267,12 +279,20 @@
           <input type="number" id="g-dni" min="7" max="365" step="1" style="width:7rem">
         </label>
       </div>
+      <div class="szablony szablony--zapis">
+        <label>Zapisz tabelę jako szablon
+          <input type="text" id="g-nowy-szablon" maxlength="40" placeholder="np. Zima, Ferie, Sezon letni">
+        </label>
+        <button class="btn btn--jasny" type="button" id="g-zapisz-szablon">Zapisz szablon</button>
+        <button class="btn btn--jasny" type="button" id="g-usun-szablon">Usuń wybrany szablon</button>
+      </div>
     </div>
 
     <div class="karta sekcja-grafiku">
       <h2>Wyjątki: konkretne dni</h2>
       <p class="pusto" style="margin-top:0">Święta, urlop, impreza zamknięta, inne godziny albo „brak miejsc” - wyjątek ma pierwszeństwo przed tygodniem.</p>
       <div class="wyjatek-form">
+        <label>Szablon dnia<select id="w-szablon"></select></label>
         <label>Dzień<input type="date" id="w-data"></label>
         <label>Rodzaj
           <select id="w-typ"><option value="zamkniete">Zamknięte</option><option value="pelne">Brak miejsc</option><option value="godziny">Inne godziny</option></select>
@@ -282,6 +302,7 @@
         <label>Notatka (dla Was)<input type="text" id="w-notka" maxlength="80" placeholder="np. Wigilia"></label>
         <button class="btn btn--jasny" type="button" id="w-dodaj">Dodaj</button>
       </div>
+      <p class="pusto" style="margin:.6rem 0 0">Szablon dnia (np. Sylwester, Wigilia) uzupełnia rodzaj, godziny i notatkę. <button class="link-przycisk" type="button" id="w-zapisz-szablon">Zapisz bieżące ustawienia jako szablon dnia</button> (nazwą będzie notatka) · <button class="link-przycisk" type="button" id="w-usun-szablon">usuń wybrany szablon dnia</button></p>
       <ul class="wyjatki" id="g-wyjatki"></ul>
     </div>
 
@@ -725,26 +746,8 @@
   }
 
   // ======================= GRAFIK =======================
-  // Porównanie z godzinami z wizytówki Google: rezerwacje w dni, gdy lokal jest zamknięty.
-  function sprawdzZgodnoscZGoogle() {
-    Promise.all([fetch('/api/grafik').then(function (r) { return r.json(); }), fetch('/api/godziny').then(function (r) { return r.ok ? r.json() : null; })])
-      .then(function (w) {
-        var terminy = w[0], g = w[1], box = $('g-niezgodnosc');
-        if (!g || !terminy.dni) { box.hidden = true; return; }
-        var konflikty = g.najblizsze.filter(function (d) {
-          var sloty = (terminy.dni[d.data] || {}).s || [];
-          if (!sloty.length) return false;
-          if (!d.godziny.length) return true;
-          return sloty.some(function (s) { return !d.godziny.some(function (p) { return s >= p.od && s < p.do; }); });
-        });
-        box.hidden = !konflikty.length;
-        box.textContent = konflikty.length ? 'UWAGA: grafik rezerwacji przyjmuje rezerwacje poza godzinami z wizytówki Google: ' +
-          konflikty.map(function (d) { return dataSlownie(d.data) + ' (Google: ' + (d.godziny.length ? d.godziny.map(function (p) { return p.od + '-' + p.do; }).join(', ') : 'zamknięte') + ')'; }).join('; ') +
-          '. Popraw grafik poniżej albo godziny w wizytówce.' : '';
-      }).catch(function () {});
-  }
   function wczytajGrafik() {
-    sprawdzZgodnoscZGoogle();
+    wczytajSzablony();
     api('grafik').then(function (w) { stan.grafik = w.grafik; rysujGrafik(); $('g-status').textContent = ''; })
       .catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się wczytać grafiku.', true); });
   }
@@ -766,8 +769,87 @@
       tbody.appendChild(tr);
     });
     rysujWyjatki();
+    if (szablony.tygodnie.length) rysujSzablony();
   }
   var OPIS_TYPU = { zamkniete: 'Zamknięte', pelne: 'Brak miejsc', godziny: 'Inne godziny' };
+
+  // ---------- Szablony grafiku ----------
+  var szablony = { tygodnie: [], dni: [] };
+  function wczytajSzablony() {
+    api('szablony').then(function (w) { szablony = w.szablony; rysujSzablony(); })
+      .catch(function (e) { if (e.message !== 'sesja') komunikat('Nie udało się wczytać szablonów grafiku.', true); });
+  }
+  function opcje(select, lista, pusta) {
+    var wybrana = select.value;
+    select.textContent = '';
+    select.appendChild(el('option', { value: '', text: pusta }));
+    lista.forEach(function (s) { select.appendChild(el('option', { value: s.nazwa, text: s.nazwa })); });
+    if (lista.some(function (s) { return s.nazwa === wybrana; })) select.value = wybrana;
+  }
+  function rysujSzablony() {
+    opcje($('g-szablon'), szablony.tygodnie, '- wybierz szablon -');
+    opcje($('w-szablon'), szablony.dni, '- bez szablonu -');
+    if (stan.grafik && stan.grafik.szablon && !$('g-szablon').value) $('g-szablon').value = stan.grafik.szablon;
+    $('g-aktualny').textContent = stan.grafik && stan.grafik.szablon ? 'Obecnie zapisany grafik: ' + stan.grafik.szablon : '';
+  }
+  function zapiszSzablony(nowe, komunikatOk) {
+    return api('szablony', { method: 'PUT', body: nowe })
+      .then(function (w) { szablony = w.szablony; rysujSzablony(); komunikat(komunikatOk); })
+      .catch(function (e) { if (e.message !== 'sesja') komunikat((e.dane && e.dane.komunikaty || ['Nie udało się zapisać szablonów.']).join(' '), true); });
+  }
+  function tydzienZTabeli() {
+    var t = {};
+    $('g-tydzien').querySelectorAll('tbody tr').forEach(function (tr) {
+      t[tr.dataset.dzien] = { otwarte: tr.querySelector('.t-otwarte').checked, od: tr.querySelector('.t-od').value, do: tr.querySelector('.t-do').value };
+    });
+    return t;
+  }
+  $('g-wczytaj').addEventListener('click', function () {
+    var s = szablony.tygodnie.filter(function (x) { return x.nazwa === $('g-szablon').value; })[0];
+    if (!s) { komunikat('Wybierz szablon z listy.', true); return; }
+    stan.grafik.tydzien = JSON.parse(JSON.stringify(s.tydzien));
+    stan.grafik.ostatniaPrzedZamknieciemMin = s.ostatniaPrzedZamknieciemMin;
+    stan.grafik.szablon = s.nazwa;
+    var wyjatki = stan.grafik.wyjatki;
+    rysujGrafik();
+    stan.grafik.wyjatki = wyjatki;
+    zmieniono();
+    komunikat('Wczytano szablon „' + s.nazwa + '”. Popraw godziny, jeśli trzeba, i kliknij „Zapisz grafik”.');
+  });
+  $('g-zapisz-szablon').addEventListener('click', function () {
+    var nazwa = $('g-nowy-szablon').value.trim();
+    if (!nazwa) { komunikat('Wpisz nazwę szablonu, np. Zima.', true); return; }
+    var nowy = { nazwa: nazwa, ostatniaPrzedZamknieciemMin: Number($('g-ostatnia').value), tydzien: tydzienZTabeli() };
+    var istnieje = szablony.tygodnie.some(function (s) { return s.nazwa.toLowerCase() === nazwa.toLowerCase(); });
+    var lista = szablony.tygodnie.filter(function (s) { return s.nazwa.toLowerCase() !== nazwa.toLowerCase(); }).concat([nowy]);
+    zapiszSzablony({ tygodnie: lista, dni: szablony.dni }, (istnieje ? 'Zaktualizowano' : 'Zapisano') + ' szablon „' + nazwa + '”.').then(function () { $('g-nowy-szablon').value = ''; $('g-szablon').value = nazwa; });
+  });
+  $('g-usun-szablon').addEventListener('click', function () {
+    var nazwa = $('g-szablon').value;
+    if (!nazwa) { komunikat('Wybierz z listy szablon do usunięcia.', true); return; }
+    zapiszSzablony({ tygodnie: szablony.tygodnie.filter(function (s) { return s.nazwa !== nazwa; }), dni: szablony.dni }, 'Usunięto szablon „' + nazwa + '”.');
+  });
+  $('w-szablon').addEventListener('change', function () {
+    var s = szablony.dni.filter(function (x) { return x.nazwa === $('w-szablon').value; })[0];
+    if (!s) return;
+    $('w-typ').value = s.typ;
+    if (s.typ === 'godziny') { $('w-od').value = s.od; $('w-do').value = s.do; }
+    $('w-notka').value = s.notka || s.nazwa;
+    $('w-typ').dispatchEvent(new Event('change'));
+  });
+  $('w-zapisz-szablon').addEventListener('click', function () {
+    var nazwa = $('w-notka').value.trim();
+    if (!nazwa) { komunikat('Wpisz notatkę (np. Sylwester) - będzie nazwą szablonu dnia.', true); return; }
+    var typ = $('w-typ').value, nowy = { nazwa: nazwa, typ: typ, notka: nazwa };
+    if (typ === 'godziny') { nowy.od = $('w-od').value; nowy.do = $('w-do').value; }
+    var lista = szablony.dni.filter(function (s) { return s.nazwa.toLowerCase() !== nazwa.toLowerCase(); }).concat([nowy]);
+    zapiszSzablony({ tygodnie: szablony.tygodnie, dni: lista }, 'Zapisano szablon dnia „' + nazwa + '”.').then(function () { $('w-szablon').value = nazwa; });
+  });
+  $('w-usun-szablon').addEventListener('click', function () {
+    var nazwa = $('w-szablon').value;
+    if (!nazwa) { komunikat('Wybierz z listy szablon dnia do usunięcia.', true); return; }
+    zapiszSzablony({ tygodnie: szablony.tygodnie, dni: szablony.dni.filter(function (s) { return s.nazwa !== nazwa; }) }, 'Usunięto szablon dnia „' + nazwa + '”.');
+  });
   function rysujWyjatki() {
     var ul = $('g-wyjatki');
     ul.textContent = '';
@@ -808,9 +890,17 @@
     g.wlaczone = $('g-wlaczone').checked;
     g.ostatniaPrzedZamknieciemMin = Number($('g-ostatnia').value);
     g.dniDoPrzodu = Number($('g-dni').value);
-    $('g-tydzien').querySelectorAll('tbody tr').forEach(function (tr) {
-      g.tydzien[tr.dataset.dzien] = { otwarte: tr.querySelector('.t-otwarte').checked, od: tr.querySelector('.t-od').value, do: tr.querySelector('.t-do').value };
-    });
+    g.tydzien = tydzienZTabeli();
+    // Nazwa szablonu przy grafiku: z dopiskiem, jeśli tabelę poprawiono ręcznie.
+    var bazowa = String(g.szablon || '').replace(/ \(zmieniony\)$/, '');
+    var wzor = szablony.tygodnie.filter(function (s) { return s.nazwa === bazowa; })[0];
+    if (wzor) {
+      var zgodny = [0, 1, 2, 3, 4, 5, 6].every(function (d) {
+        var a = wzor.tydzien[d], b = g.tydzien[d];
+        return a.otwarte === b.otwarte && (!a.otwarte || (a.od === b.od && a.do === b.do));
+      }) && wzor.ostatniaPrzedZamknieciemMin === g.ostatniaPrzedZamknieciemMin;
+      g.szablon = zgodny ? bazowa : bazowa + ' (zmieniony)';
+    }
     var btn = $('g-zapisz');
     btn.disabled = true;
     api('grafik', { method: 'PUT', body: g })

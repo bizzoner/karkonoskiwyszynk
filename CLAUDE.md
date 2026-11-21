@@ -190,8 +190,9 @@ ograniczony do Places API (New) - i `GOOGLE_PLACE_ID`). Z nich korzystają:
 `/api/godziny`, lista godzin i „Teraz otwarte” w kontakcie na stronie głównej, dane
 strukturalne (podmieniane skryptem) i `/llms.txt` (funkcja `netlify/functions/llms.mjs` -
 tam edytuj tekst dla AI; pliku statycznego nie ma). Statyczne godziny w HTML i
-słowniku to tylko zapas, gdy API nie odpowie. Grafik rezerwacji w panelu jest osobny -
-panel ostrzega, gdy przyjmuje rezerwacje poza godzinami z Google.
+słowniku to tylko zapas, gdy API nie odpowie. **Grafik rezerwacji w panelu jest celowo
+niezależny od godzin z Google** (restauracja bywa otwierana na imprezy) - nie porównujemy
+ich i nie ostrzegamy o różnicach.
 
 Otwarte zadania, terminy kontroli i historia zmian: `docs/plan-seo-i-ai.md`.
 Zaglądaj tam na początku sesji dotyczącej SEO lub wizytówki i aktualizuj po zmianach.

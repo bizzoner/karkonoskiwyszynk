@@ -40,6 +40,13 @@ działać (401) i rezerwacja przepadła niezauważona; klucz wymieniono 21.11.20
 
 ## Grafik (panel → Grafik)
 
+**Szablony** (Blobs `grafik-szablony`, `wczytajSzablony`/`sprawdzSzablony` w `wyszynk.mjs`):
+- tygodnia (np. Sezon, Poza sezonem, Zima) - „Wczytaj do tabeli” wypełnia tabelę, można
+  poprawić ręcznie; obowiązuje dopiero po „Zapisz grafik”. Nazwa wczytanego szablonu
+  zapisuje się w `grafik.szablon` (z dopiskiem „(zmieniony)” po ręcznej poprawce);
+- dnia (np. Sylwester, Wigilia, Impreza zamknięta) - uzupełniają formularz wyjątku.
+Domyślne (gdy brak zapisu): Sezon, Poza sezonem; Impreza zamknięta, Brak miejsc.
+
 - Główny wyłącznik rezerwacji online.
 - Szablon tygodnia: dla każdego dnia otwarte/zamknięte i godziny od-do.
 - Wyjątki na konkretne dni: **zamknięte**, **brak miejsc**, **inne godziny**.
