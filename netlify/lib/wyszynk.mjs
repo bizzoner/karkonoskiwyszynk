@@ -316,10 +316,12 @@ export const noweId = () => {
 };
 
 const COOKIE = 'wyszynk_panel';
+// Zmiana WERSJA_SESJI wylogowuje wszystkich (stare ciasteczka przestają pasować do podpisu).
+const WERSJA_SESJI = 'sesja2.';
 const SESJA_GODZ = 7 * 24; // 7 dni, przedłużane przy każdym otwarciu panelu
 export function utworzSesje() {
   const wygasa = Date.now() + SESJA_GODZ * 3600000;
-  const wartosc = `${wygasa}.${podpisz('sesja.' + wygasa)}`;
+  const wartosc = `${wygasa}.${podpisz(WERSJA_SESJI + wygasa)}`;
   return `${COOKIE}=${wartosc}; Path=/api/panel; HttpOnly;${secure()} SameSite=Strict; Max-Age=${SESJA_GODZ * 3600}`;
 }
 export const usunSesje = () => `${COOKIE}=; Path=/api/panel; HttpOnly;${secure()} SameSite=Strict; Max-Age=0`;
@@ -329,7 +331,7 @@ export function zalogowany(request) {
   const cookie = (request.headers.get('cookie') || '').split(/;\s*/).find((c) => c.startsWith(COOKIE + '='));
   if (!cookie) return false;
   const [wygasa, podpis] = cookie.slice(COOKIE.length + 1).split('.');
-  return Number(wygasa) > Date.now() && zgodnyPodpis('sesja.' + wygasa, podpis);
+  return Number(wygasa) > Date.now() && zgodnyPodpis(WERSJA_SESJI + wygasa, podpis);
 }
 export function poprawneHaslo(haslo) {
   const { panelHaslo } = ustawienia();
