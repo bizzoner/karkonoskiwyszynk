@@ -316,7 +316,7 @@ export const noweId = () => {
 };
 
 const COOKIE = 'wyszynk_panel';
-const SESJA_GODZ = 12;
+const SESJA_GODZ = 7 * 24; // 7 dni, przedłużane przy każdym otwarciu panelu
 export function utworzSesje() {
   const wygasa = Date.now() + SESJA_GODZ * 3600000;
   const wartosc = `${wygasa}.${podpisz('sesja.' + wygasa)}`;

@@ -236,10 +236,12 @@
   <div class="komunikat" id="komunikat" role="status" hidden></div>
 
   <!-- LOGOWANIE -->
-  <form class="karta logowanie" id="logowanie" hidden>
+  <form class="karta logowanie" id="logowanie" method="post" action="/panel/" hidden>
     <h1>Panel restauracji</h1>
+    <!-- Ukryty login: menedżer haseł (Chrome, Safari, iPhone) zapisuje hasło tylko z parą login + hasło. -->
+    <input type="text" name="username" autocomplete="username" value="Panel Wyszynk" readonly hidden>
     <label for="haslo">Hasło</label>
-    <input type="password" id="haslo" autocomplete="current-password" required>
+    <input type="password" id="haslo" name="password" autocomplete="current-password" required>
     <button class="btn btn--ciemny" type="submit">Zaloguj</button>
   </form>
 
@@ -448,7 +450,9 @@
     var btn = e.target.querySelector('button');
     btn.disabled = true;
     api('logowanie', { method: 'POST', body: { haslo: $('haslo').value } })
-      .then(function () { $('haslo').value = ''; komunikat(''); pokazPanel(); })
+      // Pole czyścimy dopiero po ukryciu formularza - przeglądarka uznaje wtedy logowanie
+      // za udane i proponuje zapisanie hasła.
+      .then(function () { komunikat(''); pokazPanel(); setTimeout(function () { $('haslo').value = ''; }, 1000); })
       .catch(function (err) { komunikat(err.status === 429 ? 'Za dużo prób. Spróbuj za kwadrans.' : 'Nieprawidłowe hasło.', true); })
       .then(function () { btn.disabled = false; });
   });

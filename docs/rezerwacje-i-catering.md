@@ -87,7 +87,7 @@ Domyślne (gdy brak zapisu): Sezon, Poza sezonem; Impreza zamknięta, Brak miejs
 
 ## Panel `/panel/`
 
-Wspólne hasło (`PANEL_HASLO`), sesja 12 h w ciasteczku HttpOnly/Secure/SameSite=Strict,
+Wspólne hasło (`PANEL_HASLO`), sesja 7 dni (przedłużana przy każdym otwarciu panelu) w ciasteczku HttpOnly/Secure/SameSite=Strict,
 limit 10 prób logowania na 15 min z jednego IP. Zmiany wymagają nagłówka `X-Panel` (CSRF).
 
 ## Imprezy okolicznościowe (konfigurator `/imprezy/`, panel → Imprezy)

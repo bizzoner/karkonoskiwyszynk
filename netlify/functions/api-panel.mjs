@@ -25,7 +25,7 @@ export default async function handler(request) {
 
     if (!zalogowany(request)) return json({ blad: 'sesja' }, 401);
 
-    if (trasa === 'sesja' && metoda === 'GET') return json({ ok: true });
+    if (trasa === 'sesja' && metoda === 'GET') return json({ ok: true }, 200, { 'Set-Cookie': utworzSesje() }); // przedłuż o kolejne 7 dni
     if (trasa === 'stan' && metoda === 'GET') return json({ stan: await stanSystemu() });
 
     if (trasa === 'rezerwacje' && metoda === 'GET') return json({ rezerwacje: await wszystkieRezerwacje() });
